@@ -101,7 +101,7 @@ MusicApplication::MusicApplication(QWidget *parent)
 
     readXMLConfigFromText();
 
-    QTimer::singleShot(MT_S, m_rightAreaWidget, SLOT(musicLoadSongIndexWidget()));
+    QTimer::singleShot(MT_MS, m_rightAreaWidget, SLOT(musicLoadSongIndexWidget()));
 }
 
 MusicApplication::~MusicApplication()
@@ -180,6 +180,9 @@ void MusicApplication::musicLoadCurrentSongLrc()
     QString prefix = MusicUtils::Core::lrcPrefix();
     QString path = QFile::exists(prefix + filename + LRC_FILE) ? (prefix + filename + LRC_FILE) : (prefix + filename + KRC_FILE);
     m_rightAreaWidget->loadCurrentSongLrc(filename, path);
+
+    //reset current song lrc index.
+    QTimer::singleShot(MT_S2MS, this, SLOT(resetCurrentSongLrcIndex()));
 }
 
 void MusicApplication::musicImportSongsSettingPath(const QStringList &items)
@@ -284,6 +287,11 @@ void MusicApplication::updateCurrentArtist()
 bool MusicApplication::isPlaying() const
 {
     return m_musicPlayer->isPlaying();
+}
+
+qint64 MusicApplication::duration() const
+{
+    return m_musicPlayer->duration();
 }
 
 MusicObject::PlayMode MusicApplication::getPlayMode() const
@@ -872,11 +880,6 @@ void MusicApplication::setLoveDeleteItemAt(const QString &path, bool current)
     setDeleteItemAt(QStringList() << path, false, current, MUSIC_LOVEST_LIST);
 }
 
-void MusicApplication::setDeleteItemAt(const QStringList &path, bool remove, bool current)
-{
-    setDeleteItemAt(path, remove, current, m_musicSongTreeWidget->currentIndex());
-}
-
 void MusicApplication::setDeleteItemAt(const QStringList &path, bool remove, bool current, int toolIndex)
 {
     if(path.isEmpty())
@@ -966,6 +969,16 @@ void MusicApplication::musicCurrentLrcUpdated()
         file.remove();
     }
     m_rightAreaWidget->musicCheckHasLrcAlready();
+}
+
+void MusicApplication::resetCurrentSongLrcIndex()
+{
+    int pos = m_musicPlayer->position();
+    if(pos != -1)
+    {
+        //Set lrc corrent to show
+        m_rightAreaWidget->setSongSpeedAndSlow(pos);
+    }
 }
 
 void MusicApplication::updateCurrentTime(qint64 pos)

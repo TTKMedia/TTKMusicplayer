@@ -33,7 +33,7 @@ MusicSoundEffectsItemWidget::MusicSoundEffectsItemWidget(QWidget *parent)
     funcLayout->setSpacing(0);
 
     m_settingButton = new QPushButton(func);
-    m_settingButton->setStyleSheet(MusicUIObject::MBackgroundStyle01 + MusicUIObject::MBackgroundStyle01);
+    m_settingButton->setStyleSheet(MusicUIObject::MPushButtonStyle01);
     m_settingButton->setCursor(QCursor(Qt::PointingHandCursor));
     m_settingButton->setFixedWidth(40);
     m_settingButton->setText(tr("Sets"));
@@ -41,7 +41,7 @@ MusicSoundEffectsItemWidget::MusicSoundEffectsItemWidget(QWidget *parent)
     connect(m_settingButton, SIGNAL(clicked()), SLOT(soundEffectValueChanged()));
 
     m_openButton = new QPushButton(func);
-    m_openButton->setStyleSheet(MusicUIObject::MBackgroundStyle01);
+    m_openButton->setStyleSheet(MusicUIObject::MPushButtonStyle01);
     m_openButton->setIcon(QIcon(":/tiny/btn_effect_on"));
     m_openButton->setToolTip(tr("On"));
     m_openButton->setCursor(QCursor(Qt::PointingHandCursor));
@@ -163,6 +163,7 @@ QString MusicSoundEffectsItemWidget::transformQStringFromEnum(Type type)
         case Stereo:    plugin = "Stereo"; break;
         case LADSPA:    plugin = "LADSPA"; break;
         case SoX:       plugin = "SoX"; break;
+        case SRC:       plugin = "SRC"; break;
         default:        plugin = "Unknow"; break;
     }
     return plugin;
@@ -218,6 +219,10 @@ MusicSoundEffectsWidget::MusicSoundEffectsWidget(QWidget *parent)
 
     m_ui->SOXWidget->setText("SoX");
     m_ui->SOXWidget->setType(MusicSoundEffectsItemWidget::SoX);
+
+    m_ui->SRCWidget->setText("SRC");
+    m_ui->SRCWidget->setType(MusicSoundEffectsItemWidget::SRC);
+
 #ifdef Q_OS_UNIX
     m_ui->LADSPAWidget->setText("LADSPA");
     m_ui->LADSPAWidget->setType(MusicSoundEffectsItemWidget::LADSPA);
@@ -286,6 +291,7 @@ void MusicSoundEffectsWidget::stateComboBoxChanged(int index)
         m_ui->CrossfadeWidget->setPluginEnable(true);
         m_ui->StereoWidget->setPluginEnable(true);
         m_ui->SOXWidget->setPluginEnable(true);
+        m_ui->SRCWidget->setPluginEnable(true);
 #ifdef Q_OS_UNIX
         m_ui->LADSPAWidget->setPluginEnable(true);
 #endif
@@ -296,6 +302,7 @@ void MusicSoundEffectsWidget::stateComboBoxChanged(int index)
         m_ui->CrossfadeWidget->setPluginEnable(false);
         m_ui->StereoWidget->setPluginEnable(false);
         m_ui->SOXWidget->setPluginEnable(false);
+        m_ui->SRCWidget->setPluginEnable(false);
 #ifdef Q_OS_UNIX
         m_ui->LADSPAWidget->setPluginEnable(false);
 #endif
@@ -321,6 +328,7 @@ void MusicSoundEffectsWidget::readSoundEffect()
     m_ui->CrossfadeWidget->setPluginEnable(M_SETTING_PTR->value(MusicSettingManager::EnhancedCrossfadeChoiced).toInt());
     m_ui->StereoWidget->setPluginEnable(M_SETTING_PTR->value(MusicSettingManager::EnhancedStereoChoiced).toInt());
     m_ui->SOXWidget->setPluginEnable(M_SETTING_PTR->value(MusicSettingManager::EnhancedSOXChoiced).toInt());
+    m_ui->SRCWidget->setPluginEnable(M_SETTING_PTR->value(MusicSettingManager::EnhancedSRCChoiced).toInt());
 #ifdef Q_OS_UNIX
     m_ui->LADSPAWidget->setPluginEnable(M_SETTING_PTR->value(MusicSettingManager::EnhancedLADSPAChoiced).toInt());
 #endif
@@ -332,6 +340,7 @@ void MusicSoundEffectsWidget::writeSoundEffect()
     M_SETTING_PTR->setValue(MusicSettingManager::EnhancedCrossfadeChoiced, m_ui->CrossfadeWidget->pluginEnable());
     M_SETTING_PTR->setValue(MusicSettingManager::EnhancedStereoChoiced, m_ui->StereoWidget->pluginEnable());
     M_SETTING_PTR->setValue(MusicSettingManager::EnhancedSOXChoiced, m_ui->SOXWidget->pluginEnable());
+    M_SETTING_PTR->setValue(MusicSettingManager::EnhancedSRCChoiced, m_ui->SRCWidget->pluginEnable());
 #ifdef Q_OS_UNIX
     M_SETTING_PTR->setValue(MusicSettingManager::EnhancedLADSPAChoiced, m_ui->LADSPAWidget->pluginEnable());
 #endif

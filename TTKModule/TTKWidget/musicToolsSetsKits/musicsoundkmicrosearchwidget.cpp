@@ -1,5 +1,5 @@
 #include "musicsoundkmicrosearchwidget.h"
-#include "musicdownloadquerykwthread.h"
+#include "musicdownloadquerykwmoviethread.h"
 #include "musicdownloadquerybdlearnthread.h"
 #include "musiclocalsongsearchedit.h"
 #include "musicgiflabelwidget.h"
@@ -50,7 +50,7 @@ void MusicSoundKMicroSearchTableWidget::startSearchQuery(const QString &text)
     m_loadingLabel->start();
     if(m_queryMv)
     {
-        MusicDownLoadQueryKWThread *d = new MusicDownLoadQueryKWThread(this);
+        MusicDownLoadQueryKWMovieThread *d = new MusicDownLoadQueryKWMovieThread(this);
         d->setQueryExtraMovie(false);
         connect(d, SIGNAL(downLoadDataChanged(QString)), SLOT(createFinishedItem()));
         setQueryInput( d );
@@ -78,17 +78,7 @@ void MusicSoundKMicroSearchTableWidget::musicDownloadLocal(int row)
     MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
     foreach(const MusicObject::MusicSongAttribute &attr, musicSongInfos[row].m_songAttrs)
     {
-        if(m_queryMv)
-        {
-            if(attr.m_format == "mkv")
-            {
-                emit mvURLChanged(m_queryMv, attr.m_url, QString());
-            }
-        }
-        else
-        {
-            emit mvURLChanged(m_queryMv, attr.m_url, musicSongInfos[row].m_lrcUrl);
-        }
+        emit mvURLChanged(m_queryMv, attr.m_url, m_queryMv ? QString() : musicSongInfos[row].m_lrcUrl);
     }
 }
 
@@ -108,13 +98,14 @@ void MusicSoundKMicroSearchTableWidget::createSearchedItems(const MusicSearchedI
     int count = rowCount();
     setRowCount(count + 1);
 
+    QHeaderView *headerview = horizontalHeader();
     QTableWidgetItem *item = new QTableWidgetItem;
     item->setData(MUSIC_CHECK_ROLE, false);
     setItem(count, 0, item);
 
                       item = new QTableWidgetItem;
-    item->setToolTip(songItem.m_artistname + " - " + songItem.m_songname);
-    item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, 275));
+    item->setToolTip(songItem.m_singerName + " - " + songItem.m_songName);
+    item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(1) - 15));
     item->setTextColor(QColor(100, 100, 100));
     item->setTextAlignment(Qt::AlignCenter);
     setItem(count, 1, item);

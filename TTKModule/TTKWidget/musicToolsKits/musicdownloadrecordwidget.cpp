@@ -186,14 +186,15 @@ void MusicDownloadRecordWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void MusicDownloadRecordWidget::createItem(int index, const MusicDownloadRecord &record, qint64 time)
 {
+    QHeaderView *headerview = horizontalHeader();
     QTableWidgetItem *item = new QTableWidgetItem;
     setItem(index, 0, item);
 
                       item = new QTableWidgetItem;
-    item->setText(MusicUtils::Widget::elidedText(font(), record.m_name, Qt::ElideRight, 158));
+    item->setToolTip( record.m_name );
+    item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(1) - 20));
     item->setTextColor(QColor(MusicUIObject::MColorStyle12_S));
     item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    item->setToolTip( record.m_name );
     setItem(index, 1, item);
 
                       item = new QTableWidgetItem;

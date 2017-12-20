@@ -20,12 +20,12 @@
  ================================================= */
 
 #include "musicdownloadkwinterface.h"
-#include "musicdownloadquerythreadabstract.h"
+#include "musicdownloadqueryplaylistthread.h"
 
 /*! @brief The class to kuwo query playlist download data from net.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicDownLoadQueryKWPlaylistThread : public MusicDownLoadQueryThreadAbstract,
+class MUSIC_NETWORK_EXPORT MusicDownLoadQueryKWPlaylistThread : public MusicDownLoadQueryPlaylistThread,
                                                                 private MusicDownLoadKWInterface
 {
     Q_OBJECT
@@ -51,13 +51,11 @@ public:
     /*!
      * Start to Search data.
      */
-    void startToSearch(const QString &playlist);
-
-Q_SIGNALS:
+    virtual void startToSearch(const QString &playlist) override;
     /*!
-     * Create the current playlist item.
+     * Get playlist info.
      */
-    void createPlaylistItems(const MusicPlaylistItem &item);
+    virtual void getPlaylistInfo(MusicPlaylistItem &item) override;
 
 public Q_SLOTS:
     /*!

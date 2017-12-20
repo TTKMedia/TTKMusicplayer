@@ -90,11 +90,12 @@ void MusicPlayedListPopWidget::remove(int index)
         return;
     }
 
-    m_playlist->removeMedia(index);
-    m_songLists.removeAt(index);
     m_playedListWidget->replacePlayWidgetRow();
     m_playedListWidget->removeRow(index);
     m_playedListWidget->setPlayRowIndex(-1);
+
+    m_playlist->removeMedia(index);
+    m_songLists.removeAt(index);
 
     updateSongsFileName();
 }
@@ -178,7 +179,7 @@ void MusicPlayedListPopWidget::setCurrentIndex(int toolIndex, const MusicSong &s
 void MusicPlayedListPopWidget::resizeWindow()
 {
 //    int h = M_SETTING_PTR->value(MusicSettingManager::WidgetSize).toSize().height();
-//    m_containWidget->setFixedSize(300, 500 + h - WINDOW_HEIGHT_MIN);
+//    m_containWidget->setFixedSize(320, 500 + h - WINDOW_HEIGHT_MIN);
 }
 
 void MusicPlayedListPopWidget::popupMenu()

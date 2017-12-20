@@ -81,6 +81,10 @@ public:
      */
     virtual void startSearchQuery(const QString &text) override;
     /*!
+     * Start search query by given id.
+     */
+    void startSearchSingleQuery(const QString &text);
+    /*!
      * Data download to local file.
      */
     virtual void musicDownloadLocal(int row) override;
@@ -194,6 +198,10 @@ public:
      */
     void startSearchQuery(const QString &name, bool all);
     /*!
+     * Start search query by given id.
+     */
+    void startSearchSingleQuery(const QString &name);
+    /*!
      * Research query by quality it changed.
      */
     void researchQueryByQuality(const QString &name, const QString &quality);
@@ -232,7 +240,7 @@ protected:
 
     QLabel *m_textLabel;
     QPushButton *m_playButton;
-    QList<QLabel*> m_resizeLabels;
+    QList<QWidget*> m_resizeLabels;
     MusicSongSearchOnlineTableWidget *m_searchTableWidget;
 
 };

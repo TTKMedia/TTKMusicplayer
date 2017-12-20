@@ -41,6 +41,10 @@ public:
     static QString getClassName();
 
     /*!
+     * Set network query input.
+     */
+    virtual void setQueryInput(MusicDownLoadQueryThreadAbstract *query);
+    /*!
      * Start search query by text.
      */
     virtual void startSearchQuery(const QString &text) override;
@@ -49,13 +53,13 @@ public:
      */
     virtual void musicDownloadLocal(int row) override;
     /*!
-     * Return the current song container.
-     */
-    const MusicObject::MusicSongInformations& getMusicSongInfos() const;
-    /*!
      * Download data from net and just play or not.
      */
     void downloadDataFrom(bool play);
+    /*!
+     * Download batch data from net.
+     */
+    void downloadBatchData();
     /*!
      * Resize window bound by widgte resize called.
      */
@@ -78,12 +82,22 @@ public Q_SLOTS:
      * Create searched items.
      */
     virtual void createSearchedItems(const MusicSearchedItem &songItem) override;
+    /*!
+     * Create the search finished item.
+     */
+    void createFinishedItem();
+    /*!
+     * Search menu type changed.
+     */
+    void searchChanged(QAction *action);
 
 protected:
     /*!
      * Override the widget event.
      */
     virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void contextMenuEvent(QContextMenuEvent *event) override;
+
     /*!
      * Add search music to play list by index.
      */
@@ -92,6 +106,8 @@ protected:
      * Download data from net and just play or not.
      */
     bool downloadDataFrom(const MusicObject::MusicSongInformation &downloadInfo, bool play);
+
+    MusicLabelDelegate *m_labelDelegate;
 
 };
 

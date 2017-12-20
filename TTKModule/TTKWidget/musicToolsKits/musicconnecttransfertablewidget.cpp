@@ -22,6 +22,8 @@ QString MusicConnectTransferTableWidget::getClassName()
 void MusicConnectTransferTableWidget::createAllItems(const MusicSongs &songs)
 {
     setRowCount(songs.count());
+    QHeaderView *headerview = horizontalHeader();
+
     for(int i=0; i<songs.count(); ++i)
     {
         const MusicSong song = songs[i];
@@ -30,14 +32,14 @@ void MusicConnectTransferTableWidget::createAllItems(const MusicSongs &songs)
         setItem(i, 0, item);
 
                           item = new QTableWidgetItem;
-        item->setText(MusicUtils::Widget::elidedText(font(), song.getMusicName(), Qt::ElideRight, 245));
         item->setToolTip(song.getMusicPath());
+        item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(1) - 20));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(i, 1, item);
 
                 item = new QTableWidgetItem;
-        item->setText(MusicUtils::Widget::elidedText(font(), song.getMusicTime(), Qt::ElideRight, 40));
         item->setToolTip(song.getMusicTime());
+        item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(2) - 5));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(i, 2, item);
     }

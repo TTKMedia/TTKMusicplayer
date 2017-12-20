@@ -19,13 +19,39 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
+#include "musicabstractxml.h"
 #include "musicdownloadqqinterface.h"
-#include "musicdownloadquerythreadabstract.h"
+#include "musicdownloadqueryartistthread.h"
+
+/*! @brief The class to qq query artist info xml data from net.
+ * @author Greedysky <greedysky@163.com>
+ */
+class MUSIC_CORE_EXPORT MusicQQArtistInfoConfigManager : public MusicAbstractXml
+{
+    Q_OBJECT
+public:
+    /*!
+     * Object contsructor.
+     */
+    explicit MusicQQArtistInfoConfigManager(QObject *parent = 0);
+
+    /*!
+     * Get class object name.
+     */
+    static QString getClassName();
+
+    /*!
+     * Read artist info datas into xml file.
+     */
+    void readArtistInfoConfig(MusicPlaylistItem *item);
+
+};
+
 
 /*! @brief The class to qq query artist download data from net.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicDownLoadQueryQQArtistThread : public MusicDownLoadQueryThreadAbstract,
+class MUSIC_NETWORK_EXPORT MusicDownLoadQueryQQArtistThread : public MusicDownLoadQueryArtistThread,
                                                               private MusicDownLoadQQInterface
 {
     Q_OBJECT
@@ -43,17 +69,19 @@ public:
     /*!
      * Start to Search data from name and type.
      */
-    virtual void startToSearch(QueryType type, const QString &artist) override;
-    /*!
-     * Start to Search data from name and type.
-     */
-    void startToSearch(const QString &artist);
+    virtual void startToSearch(const QString &artist) override;
 
 public Q_SLOTS:
     /*!
      * Download data from net finished.
      */
     virtual void downLoadFinished() override;
+
+protected:
+    /*!
+     * Get Download introduction data from net.
+     */
+    void getDownLoadIntro(MusicPlaylistItem *item);
 
 };
 

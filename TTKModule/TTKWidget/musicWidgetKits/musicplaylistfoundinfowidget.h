@@ -25,6 +25,7 @@
 class QPushButton;
 class QStackedWidget;
 class MusicPlaylistFoundTableWidget;
+class MusicPlaylistFoundCommentsWidget;
 
 /*! @brief The class of the playlist music found info widget.
  * @author Greedysky <greedysky@163.com>
@@ -51,6 +52,11 @@ public:
     virtual void resizeWindow();
 
     /*!
+     * Set current id to search founds.
+     */
+    virtual void setSongNameById(const QString &id) override;
+
+    /*!
      * Set music playlist item.
      */
     void setMusicPlaylistItem(const MusicPlaylistItem &item, QObject *obj);
@@ -61,48 +67,21 @@ public:
 
 public Q_SLOTS:
     /*!
+     * Set current container index.
+     */
+    void setCurrentIndex(int index);
+    /*!
      * Query all quality musics is finished.
      */
     void queryAllFinished();
-    /*!
-     * Query all quality musics is finished.
-     */
-    void downLoadFinished(const QByteArray &data);
-    /*!
-     * Play all button clicked now.
-     */
-    void playAllButtonClicked();
-    /*!
-     * Share button clicked now.
-     */
-    void shareButtonClicked();
-    /*!
-     * Play button clicked now.
-     */
-    void playButtonClicked();
-    /*!
-     * Download button clicked now.
-     */
-    void downloadButtonClicked();
-    /*!
-     * Add button clicked now.
-     */
-    void addButtonClicked();
 
 protected:
     /*!
-     * Init the first widget.
+     * Init the third widget.
      */
-    void initFirstWidget();
-    /*!
-     * Init the second widget.
-     */
-    void initSecondWidget();
+    void initThirdWidget();
 
-    QLabel *m_iconLabel, *m_infoLabel;
-    QStackedWidget *m_container;
-    QPushButton *m_songButton;
-    MusicPlaylistFoundTableWidget *m_playlistTableWidget;
+    MusicPlaylistFoundCommentsWidget *m_commentsWidget;
 
 };
 

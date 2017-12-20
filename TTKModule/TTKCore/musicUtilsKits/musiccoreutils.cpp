@@ -5,6 +5,7 @@
 #include <QUrl>
 #include <QTextCodec>
 #include <QSettings>
+#include <QProcess>
 #include <QDesktopServices>
 #ifdef Q_OS_WIN
 #include <Windows.h>
@@ -45,6 +46,11 @@ QString MusicUtils::Core::musicPrefix()
         }
     }
     return path;
+}
+
+QString MusicUtils::Core::fileSuffix(const QString &name)
+{
+    return name.right(name.length() - name.lastIndexOf(".") - 1);
 }
 
 quint64 MusicUtils::Core::dirSize(const QString &dirName)
@@ -120,6 +126,17 @@ QString MusicUtils::Core::getLanguageName(int index)
         case 2 : return lan.append("en.ln");
         default: return QString();
     }
+}
+
+bool MusicUtils::Core::openUrl(const QString &exe, const QString &path)
+{
+#ifdef Q_OS_WIN
+    HINSTANCE value = ShellExecuteA(0, exe.toLocal8Bit(), path.toLocal8Bit(), nullptr, nullptr, SW_SHOWNORMAL);
+    return (int)value >= 32;
+#else
+    Q_UNUSED(exe);
+    return QProcess::startDetached(path, QStringList());
+#endif
 }
 
 bool MusicUtils::Core::openUrl(const QString &path, bool local)

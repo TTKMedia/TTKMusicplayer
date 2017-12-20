@@ -4,7 +4,7 @@
 #include "qjson/parser.h"
 
 MusicDownLoadQueryXMToplistThread::MusicDownLoadQueryXMToplistThread(QObject *parent)
-    : MusicDownLoadQueryThreadAbstract(parent)
+    : MusicDownLoadQueryToplistThread(parent)
 {
     m_queryServer = "XiaMi";
 }
@@ -16,13 +16,18 @@ QString MusicDownLoadQueryXMToplistThread::getClassName()
 
 void MusicDownLoadQueryXMToplistThread::startToSearch(QueryType type, const QString &toplist)
 {
-    Q_UNUSED(type);
-    startToSearch(toplist);
+    if(type == MusicQuery)
+    {
+        startToSearch(toplist);
+    }
+    else
+    {
+        startToSearch(toplist.isEmpty() ? "xiami_daxia" : toplist);
+    }
 }
 
 void MusicDownLoadQueryXMToplistThread::startToSearch(const QString &toplist)
 {
-    Q_UNUSED(toplist);
     if(!m_manager)
     {
         return;
@@ -30,14 +35,14 @@ void MusicDownLoadQueryXMToplistThread::startToSearch(const QString &toplist)
 
     M_LOGGER_INFO(QString("%1 startToSearch").arg(getClassName()));
     deleteAll();
+    m_interrupt = true;
 
     QNetworkRequest request;
     if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
     makeTokenQueryUrl(&request,
-                      MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_DATA_URL, false),
+                      MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_DATA_URL, false).arg(toplist),
                       MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_URL, false));
     if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
 #ifndef QT_NO_SSL
     QSslConfiguration sslConfig = request.sslConfiguration();
     sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
@@ -59,13 +64,11 @@ void MusicDownLoadQueryXMToplistThread::downLoadFinished()
     M_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
     emit clearAllItems();      ///Clear origin items
     m_musicSongInfos.clear();  ///Empty the last search to songsInfo
+    m_interrupt = false;
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
         QByteArray bytes = m_reply->readAll();///Get all the data obtained by request
-        bytes = bytes.replace("xiami(", "");
-        bytes = bytes.replace("callback(", "");
-        bytes.chop(1);
 
         QJson::Parser parser;
         bool ok;
@@ -102,12 +105,13 @@ void MusicDownLoadQueryXMToplistThread::downLoadFinished()
                     musicInfo.m_songId = value["songId"].toString();
                     musicInfo.m_artistId = value["artistId"].toString();
                     musicInfo.m_albumId = value["albumId"].toString();
+                    musicInfo.m_albumName = value["albumName"].toString();
 
                     musicInfo.m_smallPicUrl = value["albumLogo"].toString();
 
-                    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
                     readFromMusicSongAttribute(&musicInfo, value["listenFiles"], m_searchQuality, m_queryAllRecords);
-                    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
 
                     if(musicInfo.m_songAttrs.isEmpty())
                     {
@@ -115,8 +119,9 @@ void MusicDownLoadQueryXMToplistThread::downLoadFinished()
                     }
 
                     MusicSearchedItem item;
-                    item.m_songname = musicInfo.m_songName;
-                    item.m_artistname = musicInfo.m_singerName;
+                    item.m_songName = musicInfo.m_songName;
+                    item.m_singerName = musicInfo.m_singerName;
+                    item.m_albumName = musicInfo.m_albumName;
                     item.m_time = musicInfo.m_timeLength;
                     item.m_type = mapQueryServerString();
                     emit createSearchedItems(item);

@@ -27,10 +27,20 @@
  */
 typedef struct MUSIC_NETWORK_EXPORT MusicSearchedItem
 {
-    QString m_songname;
-    QString m_artistname;
+    QString m_songName;
+    QString m_singerName;
+    QString m_albumName;
     QString m_time;
     QString m_type;
+
+    MusicSearchedItem()
+    {
+        m_songName = "-";
+        m_singerName = "-";
+        m_albumName = "-";
+        m_time = "-";
+        m_type = "-";
+    }
 }MusicSearchedItem;
 MUSIC_DECLARE_LISTS(MusicSearchedItem)
 
@@ -41,7 +51,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicPlaylistItem
 {
     QString m_id;
     QString m_name;
-    QString m_nickname;
+    QString m_nickName;
     QString m_coverUrl;
     QString m_playCount;
     QString m_description;
@@ -52,12 +62,17 @@ typedef struct MUSIC_NETWORK_EXPORT MusicPlaylistItem
     {
         m_id = "-";
         m_name = "-";
-        m_nickname = "-";
+        m_nickName = "-";
         m_coverUrl = "-";
         m_playCount = "-";
         m_description = "-";
         m_updateTime = "-";
         m_tags = "-";
+    }
+
+    bool isEmpty() const
+    {
+        return m_name == "-" && m_nickName == "-" && m_coverUrl == "-" && m_description == "-";
     }
 }MusicPlaylistItem;
 MUSIC_DECLARE_LISTS(MusicPlaylistItem)
@@ -94,6 +109,11 @@ public:
      * Subclass should implement this function.
      */
     virtual void startToSearch(QueryType type, const QString &text) = 0;
+    /*!
+     * Start to search single data from id.
+     * Subclass should implement this function.
+     */
+    virtual void startToSingleSearch(const QString &text);
 
     /*!
      * Set search data quality.
@@ -126,6 +146,10 @@ public:
     /*!
      * Return the current song query type.
      */
+    inline void setQueryType(QueryType type) { m_currentType = type;}
+    /*!
+     * Return the current song query type.
+     */
     inline QueryType getQueryType() const { return m_currentType;}
     /*!
      * Return the current song query server.
@@ -152,9 +176,25 @@ Q_SIGNALS:
 
 protected:
     /*!
+     * Find time string by attrs.
+     */
+    QString findTimeStringByAttrs(const MusicObject::MusicSongAttributes &attrs);
+    /*!
      * Map query server string.
      */
     QString mapQueryServerString() const;
+    /*!
+     * Find download file size.
+     */
+    bool findUrlFileSize(MusicObject::MusicSongAttribute *attr);
+    /*!
+     * Find download file size.
+     */
+    bool findUrlFileSize(MusicObject::MusicSongAttributes *attrs);
+    /*!
+     * Get download file size.
+     */
+    qint64 getUrlFileSize(const QString &url);
 
     MusicObject::MusicSongInformations m_musicSongInfos;
     QString m_searchText, m_searchQuality;

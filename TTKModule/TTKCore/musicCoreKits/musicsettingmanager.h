@@ -67,6 +67,7 @@ public:
         OtherSongFormat,                /*!< Other Song Format Parameter*/
         OtherSideByChoiced,             /*!< Other App Side By Mode Parameter*/
         OtherSideByInChoiced,           /*!< Other App Side By In Mode Parameter*/
+        OtherLrcKTVModeChoiced,         /*!< Other Lrc KTV Mode Mode Parameter*/
 
         ShowInlineLrcChoiced,           /*!< Show Inline Lrc Parameter*/
         LrcColorChoiced,                /*!< Lrc Color Parameter*/
@@ -103,6 +104,7 @@ public:
         EnhancedStereoChoiced,          /*!< Enhanced Stereo Parameter*/
         EnhancedLADSPAChoiced,          /*!< Enhanced LADSPA Parameter*/
         EnhancedSOXChoiced,             /*!< Enhanced SOX Parameter*/
+        EnhancedSRCChoiced,             /*!< Enhanced SRC Parameter*/
 
         TimerAutoIndexChoiced,          /*!< Timer Auto Index Parameter*/
         TimerAutoPlayChoiced,           /*!< Timer Auto Play Parameter*/

@@ -102,6 +102,10 @@ public:
      */
     bool isPlaying() const;
     /*!
+     * Get current player duration.
+     */
+    qint64 duration() const;
+    /*!
      * Get current play mode.
      */
     MusicObject::PlayMode getPlayMode() const;
@@ -269,16 +273,16 @@ public Q_SLOTS:
     /*!
      * Delete items from indexs.
      */
-    void setDeleteItemAt(const QStringList &path, bool remove, bool current);
-    /*!
-     * Delete items from indexs.
-     */
     void setDeleteItemAt(const QStringList &path, bool remove, bool current, int toolIndex);
     /////////////////////////////////////////////
     /*!
      * The current lrc should update, emit it.
      */
     void musicCurrentLrcUpdated();
+    /*!
+     * Reset current song lrc index.
+     */
+    void resetCurrentSongLrcIndex();
     /*!
      * Update current play time when user adjust the progress.
      */

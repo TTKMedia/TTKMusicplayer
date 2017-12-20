@@ -50,7 +50,7 @@ namespace MusicUIObject
             color:rgb(160, 99, 11);";
 
     const QString MColorStyle08 = " \
-            color:#80B7F1;";
+            color:#158FE1;";
 
     const QString MColorStyle09 = " \
             color:#666666;";
@@ -70,7 +70,11 @@ namespace MusicUIObject
 ///Background
 //////////////////////////////////////////////////////
     const QString MBackgroundStyle01 = " \
-            background-color:transparent;";
+            background-color:transparent;"
+#ifdef Q_OS_UNIX
+            + QString(" border-style:falt;")
+#endif
+            ;
 
     const QString MBackgroundStyle02 = " \
             background-color:black;";
@@ -109,7 +113,7 @@ namespace MusicUIObject
             background:rgba(255, 255, 255, 200);";
 
     const QString MBackgroundStyle14 = " \
-            background:#80B7F1;";
+            background:#158FE1;";
 
     const QString MBackgroundStyle15 = " \
             background:#BFBFBF;";
@@ -210,13 +214,17 @@ namespace MusicUIObject
 ///PushButton
 //////////////////////////////////////////////////////
     const QString MPushButtonStyle01 = " \
-            QPushButton{ background-color:transparent;}";
+            QPushButton{ background-color:transparent;  " +
+#ifdef Q_OS_UNIX
+            QString("border-style:falt;") +
+ #endif
+            QString("}");
 
     const QString MPushButtonStyle02 = MPushButtonStyle01 + " \
             QPushButton{ border-none;}";
-            
+
     const QString MPushButtonStyle03 = " \
-            QPushButton{ border-radius:3px; background-color:#80B7F1; color:white;}";
+            QPushButton{ border-radius:3px; background-color:#158FE1; color:white;}";
 
     const QString MPushButtonStyle04 = " \
             QPushButton{ border:1px solid #AAAAAA; background:#FFFFFF; color:#777777;} \
@@ -240,8 +248,7 @@ namespace MusicUIObject
     const QString MPushButtonStyle09 = MPushButtonStyle08 + " \
             QPushButton{ text-align:right;}";
 
-    const QString MPushButtonStyle10 = " \
-            QPushButton{ background:transparent;} \
+    const QString MPushButtonStyle10 = MPushButtonStyle01 + " \
             QPushButton::hover{ border:1px solid #000000;}";
 
     const QString MPushButtonStyle11 = " \
@@ -476,6 +483,13 @@ namespace MusicUIObject
             border-left-color:darkgray; border-left-style:solid;} \
             QComboBox::down-arrow{ image:url(:/usermanager/btn_down_arrow);}";
 
+    const QString MComboBoxStyle02 = " \
+            QComboBox{ border:none;} \
+            QComboBox::hover{ border:none;} \
+            QComboBox::drop-down{ subcontrol-origin:padding; \
+            subcontrol-position:top right; width:20px; border-left:none;} \
+            QComboBox::down-arrow{ image:url(:/usermanager/btn_down_arrow);}";
+
 
 ///TableWidget
 //////////////////////////////////////////////////////
@@ -490,6 +504,14 @@ namespace MusicUIObject
 
     const QString MTableWidgetStyle04 = " \
             QTableWidget{ background:rgba(0, 0, 0, 255);}";
+
+
+///TableWidget
+//////////////////////////////////////////////////////
+    const QString MTabWidgetStyle01 = " \
+        QTabWidget{ border:none;} \
+        QTabBar::tab{ height:30px; width:125px; background-color:#BFBFBF; color:white;} \
+        QTabBar::tab:selected{ background-color:#158FE1; color:white}";
 
 
 ///TextEdit

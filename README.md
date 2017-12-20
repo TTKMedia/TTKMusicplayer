@@ -1,7 +1,8 @@
 # TTKMusicPlayer
 ![QtCreator](https://img.shields.io/badge/Coded%20with-QtCreator%20IDE-blue.svg?style=flat-square)
-![License](https://img.shields.io/badge/license-GPL%20V3-yellowgreen.svg?style=flat-square)
 ![TTKMusicplayer](https://img.shields.io/badge/Greedysky-TTKMusicPlayer-green.svg?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2.6.3.0-blue.svg?style=flat-square)
+![License](https://img.shields.io/badge/License-GPL%20V3-yellowgreen.svg?style=flat-square)
 
 ![LOGO](https://github.com/Greedysky/Resource/blob/master/Screen/logo_pic.png?raw=true)
 
@@ -13,7 +14,7 @@ Usage
 Compiler tutorial I have written in the wiki.(See here <u>https://github.com/Greedysky/TTKMusicplayer/wiki</u> )**
 
 ### Attention: This software is only for learning and communication, the songs' and playlists' copyright belongs to each music platform.
-### 本项目代码不用于商用，仅限研究和学习使用，资源版权归个平台音乐所有。
+### 本项目代码不用于商用，仅限研究和学习使用，资源版权归个音乐平台所有。
  
 ## CI Status
  * Qt develop version be tested on Qt4.8.7 for windows-mingw 32bit
@@ -57,6 +58,8 @@ Executable Download URL: **<u>http://download.csdn.net/album/detail/3094</u>**
 
 Executable Download URL(extra): **<u>http://pan.baidu.com/s/1kVOHN0b</u>**
 
+Mobile branch : **<u>https://github.com/Greedysky/TTKMusicplayer/tree/mobile</u>**
+
 Skin Download URL: **<u>http://pan.baidu.com/s/1mh7AeG4</u>**
 
 KuGou Resource Download URL: **<u>https://github.com/Greedysky/KugouResource</u>**
@@ -82,7 +85,7 @@ TTKMusicPlayer can meet your most demands
  * ModPlug File(*.mod *.s3m *.xm *.it *.669 *.amf *.ams *.dbm *.dmf *.dsm *.far,mdl *.med *.mtm 
                 *.okt *.ptm *.stm *.ult *.umx *.mt2 *.psm *.mdz *.s3z *.xmz *.itz *.mdr *.s3r
                 *.xmr *.itr *.dgz *.s3gz *.xmgz *.itgz)
- * Playlist formats(ttklis, m3u, m3u8, pls, wpl, xspf)
+ * Playlist formats(ttklis, m3u, m3u8, pls, wpl, xspf, asx, kwl, kgl)
  * Junior fans interface. Interface cool, gorgeous pop. Maintaining a perfect performance under Vista and XP, refreshing
 Screenshots.
  * Search and high-speed downloads. Song search accuracy optimization, intelligent save bandwidth, you can disable the network function, 8 source download speed.
@@ -98,7 +101,7 @@ Screenshots.
  * Support converting different music formats, and can change the sound as like Tom Cat, also can enhance the sound.
  * Local music transferred to the cloud or mobile device.
  * Local music and the human voice humming recognition.
- * Music song, artist, album and playlist searcg supported.
+ * Music song, artist, album, playlistm, toplist and movie search supported.
  * Music song spectrum and test supported.
  
 
@@ -136,6 +139,9 @@ Screenshots
 
 ### Spectrum
 ![Magic Music](https://github.com/Greedysky/Resource/blob/master/Screen/11.jpg?raw=true)
+
+### Other Functions
+![Other Functions](https://github.com/Greedysky/Resource/blob/master/Screen/12.jpg?raw=true)
 
 Copyright
 -------

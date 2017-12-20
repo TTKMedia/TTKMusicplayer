@@ -21,6 +21,8 @@
 
 #include <QObject>
 
+#define MU_MAX          9999
+////////////////////////////////////////////////////
 #define MT_MS           1
 
 #define MT_S            1
@@ -88,6 +90,7 @@
 #define MB_96           96
 #define MB_128          128
 #define MB_192          192
+#define MB_250          250
 #define MB_320          320
 #define MB_500          500
 #define MB_750          750

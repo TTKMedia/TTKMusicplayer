@@ -20,12 +20,12 @@
  ================================================= */
 
 #include "musicdownloadqqinterface.h"
-#include "musicdownloadquerythreadabstract.h"
+#include "musicdownloadqueryplaylistthread.h"
 
 /*! @brief The class to qq query playlist download data from net.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicDownLoadQueryQQPlaylistThread : public MusicDownLoadQueryThreadAbstract,
+class MUSIC_NETWORK_EXPORT MusicDownLoadQueryQQPlaylistThread : public MusicDownLoadQueryPlaylistThread,
                                                                 private MusicDownLoadQQInterface
 {
     Q_OBJECT
@@ -51,13 +51,11 @@ public:
     /*!
      * Start to Search data.
      */
-    void startToSearch(const QString &playlist);
-
-Q_SIGNALS:
+    virtual void startToSearch(const QString &playlist) override;
     /*!
-     * Create the current playlist item.
+     * Get playlist info.
      */
-    void createPlaylistItems(const MusicPlaylistItem &item);
+    virtual void getPlaylistInfo(MusicPlaylistItem &item) override;
 
 public Q_SLOTS:
     /*!
@@ -68,6 +66,12 @@ public Q_SLOTS:
      * Download details data from net finished.
      */
     void getDetailsFinished();
+
+protected:
+    /*!
+     * Get more download details data.
+     */
+    void getMoreDetails(MusicPlaylistItem *item);
 
 };
 

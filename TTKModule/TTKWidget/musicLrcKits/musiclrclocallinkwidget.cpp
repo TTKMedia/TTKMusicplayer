@@ -13,8 +13,8 @@ MusicLrcLocalLinkTableWidget::MusicLrcLocalLinkTableWidget(QWidget *parent)
 {
     setColumnCount(2);
     QHeaderView *headerview = horizontalHeader();
-    headerview->resizeSection(0, 132);
-    headerview->resizeSection(1, 200);
+    headerview->resizeSection(0, 147);
+    headerview->resizeSection(1, 215);
 }
 
 QString MusicLrcLocalLinkTableWidget::getClassName()
@@ -38,17 +38,18 @@ void MusicLrcLocalLinkTableWidget::createAllItems(const MusicLocalDataItems &ite
 {
     int count = rowCount();
     setRowCount(count + items.count());
+    QHeaderView *headerview = horizontalHeader();
     for(int i=0; i<items.count(); ++i)
     {
         QTableWidgetItem *item = new QTableWidgetItem;
-        item->setText(MusicUtils::Widget::elidedText(font(), items[i].m_name, Qt::ElideRight, 128));
         item->setToolTip( items[i].m_name );
+        item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(0) - 20));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(count + i, 0, item);
 
                           item = new QTableWidgetItem;
-        item->setText(MusicUtils::Widget::elidedText(font(), items[i].m_path, Qt::ElideRight, 195));
         item->setToolTip( items[i].m_path );
+        item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(1) - 20));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(count + i, 1, item);
     }
@@ -114,6 +115,7 @@ QString MusicLrcLocalLinkWidget::getClassName()
 
 void MusicLrcLocalLinkWidget::setCurrentSongName(const QString &name)
 {
+    m_currentName = name;
     m_ui->titleEdit->setText(name);
     searchInLocalMLrc();
 }
@@ -176,15 +178,7 @@ void MusicLrcLocalLinkWidget::deleteFoundLrc()
         return;
     }
 
-    bool state = QFile::remove(m_ui->searchedTable->item(row, 1)->toolTip());
-    MusicMessageBox message;
-    message.setText(tr("Remove select lrc %1").arg(state ? tr("success") : tr("failed")));
-    message.exec();
-
-    if(state)
-    {
-        m_ui->searchedTable->removeRow(row);
-    }
+    m_ui->searchedTable->removeRow(row);
 }
 
 void MusicLrcLocalLinkWidget::confirmButtonClicked()
@@ -207,7 +201,11 @@ void MusicLrcLocalLinkWidget::confirmButtonClicked()
         close();
         return;
     }
-    QFile fileOut(path.left(path.lastIndexOf("/") + 1) + m_ui->titleEdit->text() + LRC_FILE);
+
+    QByteArray dataIn(fileIn.readAll());
+    fileIn.close();
+
+    QFile fileOut(QString("%1%2%3").arg(MusicUtils::Core::lrcPrefix()).arg(m_currentName).arg(LRC_FILE));
     if(!fileOut.open(QIODevice::WriteOnly))
     {
         M_LOGGER_ERROR("Lrc Output File Error!");
@@ -215,12 +213,12 @@ void MusicLrcLocalLinkWidget::confirmButtonClicked()
         close();
         return;
     }
-    fileOut.write(fileIn.readAll());
+
+    fileOut.write(dataIn);
     fileOut.flush();
     fileOut.close();
-    fileIn.close();
 
-    emit currentLrcChanged("Lrc");
+    emit currentLrcChanged("Download_Lrc");
     close();
 }
 

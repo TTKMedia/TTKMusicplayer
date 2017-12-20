@@ -48,11 +48,14 @@ public:
         kugouLiveWidget,        /*!< insert kugou live widget*/
         LrcWidget,              /*!< insert lrc display widget*/
         SearchWidget,           /*!< insert search display widget*/
+        SearchSingleWidget,     /*!< insert search single display widget*/
         SimilarWidget,          /*!< insert similar found widget*/
         AlbumWidget,            /*!< insert album found widget*/
         ArtistWidget,           /*!< insert artist found widget*/
         ToplistWidget,          /*!< insert toplist found widget*/
         PlaylistWidget,         /*!< insert playlist found widget*/
+        AdvancedSearchWidget,   /*!< insert advanced search widget*/
+        RecommendWidget,        /*!< insert recommend found widget*/
         IndentifyWidget,        /*!< insert indentify songs widget*/
         KuiSheWidget            /*!< insert kugou kuishe widget*/
     };
@@ -134,6 +137,18 @@ public:
      */
     void showSettingWidget() const;
     /*!
+     * Music artist similar function.
+     */
+    void musicArtistSimilar(const QString &id);
+    /*!
+     * Music artist albums function.
+     */
+    void musicArtistAlbums(const QString &id);
+    /*!
+     * Music artist mvs function.
+     */
+    void musicArtistMvs(const QString &id);
+    /*!
      * Resize window bound by widgte resize called.
      */
     void resizeWindow();
@@ -164,11 +179,23 @@ public Q_SLOTS:
     /*!
      * Music album function that by string.
      */
-    void musicAlbumFound(const QString &text);
+    void musicAlbumFound(const QString &text, const QString &id);
+    /*!
+     * Music artist similar function.
+     */
+    void musicArtistSimilarFound();
+    /*!
+     * Music artist albums function.
+     */
+    void musicArtistAlbumsFound();
+    /*!
+     * Music artist mvs function.
+     */
+    void musicArtistMvsFound();
     /*!
      * Music artist function that by string.
      */
-    void musicArtistFound(const QString &text);
+    void musicArtistFound(const QString &text, const QString &id);
     /*!
      * Music toplist function.
      */
@@ -176,7 +203,23 @@ public Q_SLOTS:
     /*!
      * Music playlist function.
      */
-    void musicPlaylistFound();
+    void musicPlaylistFound(const QString &id);
+    /*!
+     * Music recommend function.
+     */
+    void musicRecommendFound();
+    /*!
+     * Music advanced search function.
+     */
+    void musicAdvancedSearch();
+    /*!
+     * Music song research button searched by name.
+     */
+    void musicSongSearchedFound(const QString &text);
+    /*!
+     * Music song search by given id.
+     */
+    void musicSingleSearchedFound(const QString &id);
     /*!
      * Music load song index widget.
      */
@@ -198,17 +241,13 @@ public Q_SLOTS:
      */
     void setWindowLrcTypeChanged();
     /*!
-     * Music song research button searched by name.
-     */
-    void songResearchButtonSearched(const QString &name);
-    /*!
      * Research query by quality it changed.
      */
     void researchQueryByQuality(const QString &quality);
     /*!
      * Video button clicked by name to search.
      */
-    void musicVideoButtonSearched(const QString &name);
+    void musicVideoButtonSearched(const QString &name, const QString &id);
     /*!
      * Set video widget popop or not.
      */
@@ -243,6 +282,7 @@ public Q_SLOTS:
     void musicChangeDownloadCustumWidget();
 
 protected:
+    QString m_rawData;
     QWidget *m_stackedFuncWidget;
     Ui::MusicApplication *m_ui;
     MusicSettingWidget *m_settingWidget;

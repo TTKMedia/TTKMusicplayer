@@ -20,12 +20,12 @@
  ================================================= */
 
 #include "musicdownloadxminterface.h"
-#include "musicdownloadquerythreadabstract.h"
+#include "musicdownloadqueryartistthread.h"
 
 /*! @brief The class to xiami query artist download data from net.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicDownLoadQueryXMArtistThread : public MusicDownLoadQueryThreadAbstract,
+class MUSIC_NETWORK_EXPORT MusicDownLoadQueryXMArtistThread : public MusicDownLoadQueryArtistThread,
                                                               private MusicDownLoadXMInterface
 {
     Q_OBJECT
@@ -43,17 +43,19 @@ public:
     /*!
      * Start to Search data from name and type.
      */
-    virtual void startToSearch(QueryType type, const QString &artist) override;
-    /*!
-     * Start to Search data from name and type.
-     */
-    void startToSearch(const QString &artist);
+    virtual void startToSearch(const QString &artist) override;
 
 public Q_SLOTS:
     /*!
      * Download data from net finished.
      */
     virtual void downLoadFinished() override;
+
+protected:
+    /*!
+     * Get Download introduction data from net.
+     */
+    void getDownLoadIntro(MusicPlaylistItem *item);
 
 };
 

@@ -20,12 +20,12 @@
  ================================================= */
 
 #include "musicdownloadbdinterface.h"
-#include "musicdownloadquerythreadabstract.h"
+#include "musicdownloadqueryalbumthread.h"
 
 /*! @brief The class to baidu query album download data from net.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicDownLoadQueryBDAlbumThread : public MusicDownLoadQueryThreadAbstract,
+class MUSIC_NETWORK_EXPORT MusicDownLoadQueryBDAlbumThread : public MusicDownLoadQueryAlbumThread,
                                                              private MusicDownLoadBDInterface
 {
     Q_OBJECT
@@ -43,17 +43,21 @@ public:
     /*!
      * Start to Search data from name and type.
      */
-    virtual void startToSearch(QueryType type, const QString &album) override;
+    virtual void startToSearch(const QString &album) override;
     /*!
-     * Start to Search data from name and type.
+     * Start to search data by given id.
      */
-    void startToSearch(const QString &album);
+    virtual void startToSingleSearch(const QString &artist) override;
 
 public Q_SLOTS:
     /*!
      * Download data from net finished.
      */
     virtual void downLoadFinished() override;
+    /*!
+     * Download single data from net finished.
+     */
+    void singleDownLoadFinished();
 
 };
 

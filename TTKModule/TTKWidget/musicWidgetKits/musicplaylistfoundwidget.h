@@ -20,12 +20,9 @@
  ================================================= */
 
 #include "musicfoundabstractwidget.h"
-#include "musicqueryfoundtablewidget.h"
 #include "musiccategoryconfigmanager.h"
 
 class QGridLayout;
-class QPushButton;
-class QStackedWidget;
 class MusicPagingWidgetObject;
 class MusicPlaylistFoundInfoWidget;
 class MusicPlaylistFoundCategoryPopWidget;
@@ -102,6 +99,10 @@ public:
      * Set current name to search founds.
      */
     virtual void setSongName(const QString &name) override;
+    /*!
+     * Set current id to search founds.
+     */
+    virtual void setSongNameById(const QString &id) override;
 
     /*!
      * Resize window bound by widgte resize called.
@@ -112,7 +113,7 @@ public Q_SLOTS:
     /*!
      * Query all quality musics is finished.
      */
-    void queryAllFinished(const MusicPlaylistItem &item);
+    void createPlaylistItems(const MusicPlaylistItem &item);
     /*!
      * Current play list clicked.
      */
@@ -132,12 +133,10 @@ public Q_SLOTS:
 
 protected:
     bool m_firstInit, m_categoryChanged;
-    QStackedWidget *m_container;
     QGridLayout *m_gridLayout;
     MusicPagingWidgetObject *m_pagingWidgetObject;
     MusicPlaylistFoundInfoWidget *m_infoWidget;
     MusicPlaylistFoundCategoryPopWidget *m_categoryButton;
-    MusicDownLoadQueryThreadAbstract *m_downloadThread;
 
 };
 
