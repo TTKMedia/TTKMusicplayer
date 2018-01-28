@@ -30,11 +30,8 @@ void MusicWYDiscoverListThread::startToSearch()
                MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_N_URL, false),
                MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_NDT_URL, false).arg(19723756));
     if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfig = request.sslConfiguration();
-    sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    request.setSslConfiguration(sslConfig);
-#endif
+    setSslConfiguration(&request);
+
     m_reply = m_manager->post(request, parameter);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(replyError(QNetworkReply::NetworkError)));
@@ -53,7 +50,7 @@ void MusicWYDiscoverListThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll(); ///Get all the data obtained by request
+        QByteArray bytes = m_reply->readAll();
 
         QJson::Parser parser;
         bool ok;
@@ -87,17 +84,17 @@ void MusicWYDiscoverListThread::downLoadFinished()
                             continue;
                         }
                         QVariantMap artistMap = artistValue.toMap();
-                        m_topListInfo = artistMap["name"].toString();
+                        m_toplistInfo = artistMap["name"].toString();
                     }
 
-                    m_topListInfo += " - " + value["name"].toString();
+                    m_toplistInfo += " - " + value["name"].toString();
                     break;
                 }
             }
         }
     }
 
-    emit downLoadDataChanged(m_topListInfo);
+    emit downLoadDataChanged(m_toplistInfo);
     deleteAll();
     M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }

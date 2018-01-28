@@ -22,7 +22,7 @@ void MusicKWDiscoverListThread::startToSearch()
     }
 
     M_LOGGER_INFO(QString("%1 startToSearch").arg(getClassName()));
-    m_topListInfo.clear();
+    m_toplistInfo.clear();
     QUrl musicUrl = MusicUtils::Algorithm::mdII(KW_SONG_TOPLIST_URL, false).arg(93);
     deleteAll();
     m_interrupt = true;
@@ -31,11 +31,8 @@ void MusicKWDiscoverListThread::startToSearch()
     request.setUrl(musicUrl);
     request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(KW_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfig = request.sslConfiguration();
-    sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    request.setSslConfiguration(sslConfig);
-#endif
+    setSslConfiguration(&request);
+
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(replyError(QNetworkReply::NetworkError)));
@@ -80,14 +77,14 @@ void MusicKWDiscoverListThread::downLoadFinished()
                     }
 
                     QVariantMap value = var.toMap();
-                    m_topListInfo = QString("%1 - %2").arg(value["artist"].toString())
+                    m_toplistInfo = QString("%1 - %2").arg(value["artist"].toString())
                                                       .arg(value["songName"].toString());
                 }
             }
         }
     }
 
-    emit downLoadDataChanged(m_topListInfo);
+    emit downLoadDataChanged(m_toplistInfo);
     deleteAll();
-    M_LOGGER_INFO(QString("%1 searchTopListInfoFinished deleteAll").arg(getClassName()));
+    M_LOGGER_INFO(QString("%1 searchToplistInfoFinished deleteAll").arg(getClassName()));
 }

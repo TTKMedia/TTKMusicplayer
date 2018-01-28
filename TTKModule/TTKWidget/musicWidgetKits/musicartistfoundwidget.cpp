@@ -13,13 +13,13 @@
 
 #include <qmath.h>
 
-#define MIN_LABEL_SIZE  150
-#define MAX_LABEL_SIZE  200
+#define WIDTH_LABEL_SIZE   150
+#define HEIGHT_LABEL_SIZE  200
 
 MusicArtistAlbumsItemWidget::MusicArtistAlbumsItemWidget(QWidget *parent)
     : QLabel(parent)
 {
-    setFixedSize(MIN_LABEL_SIZE, MAX_LABEL_SIZE);
+    setFixedSize(WIDTH_LABEL_SIZE, HEIGHT_LABEL_SIZE);
 
     m_playButton = new QPushButton(this);
     m_playButton->setGeometry(110, 110, 30, 30);
@@ -32,14 +32,14 @@ MusicArtistAlbumsItemWidget::MusicArtistAlbumsItemWidget(QWidget *parent)
 #endif
 
     m_iconLabel = new QLabel(this);
-    m_iconLabel->setGeometry(0, 0, MIN_LABEL_SIZE, MIN_LABEL_SIZE);
+    m_iconLabel->setGeometry(0, 0, WIDTH_LABEL_SIZE, WIDTH_LABEL_SIZE);
 
     m_nameLabel = new QLabel(this);
-    m_nameLabel->setGeometry(0, 150, MIN_LABEL_SIZE, 25);
+    m_nameLabel->setGeometry(0, 150, WIDTH_LABEL_SIZE, 25);
     m_nameLabel->setText(" - ");
 
     m_updateLabel = new QLabel(this);
-    m_updateLabel->setGeometry(0, 175, MIN_LABEL_SIZE, 25);
+    m_updateLabel->setGeometry(0, 175, WIDTH_LABEL_SIZE, 25);
     m_updateLabel->setText(" - ");
 }
 
@@ -56,15 +56,15 @@ QString MusicArtistAlbumsItemWidget::getClassName()
     return staticMetaObject.className();
 }
 
-void MusicArtistAlbumsItemWidget::setMusicItem(const MusicPlaylistItem &item)
+void MusicArtistAlbumsItemWidget::setMusicItem(const MusicResultsItem &item)
 {
     m_itemData = item;
     m_nameLabel->setToolTip(item.m_name);
     m_nameLabel->setText(MusicUtils::Widget::elidedText(m_nameLabel->font(), m_nameLabel->toolTip(),
-                                                        Qt::ElideRight, MIN_LABEL_SIZE));
+                                                        Qt::ElideRight, WIDTH_LABEL_SIZE));
     m_updateLabel->setToolTip(item.m_updateTime);
     m_updateLabel->setText(MusicUtils::Widget::elidedText(m_updateLabel->font(), m_updateLabel->toolTip(),
-                                                          Qt::ElideRight, MIN_LABEL_SIZE));
+                                                          Qt::ElideRight, WIDTH_LABEL_SIZE));
 
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
     connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
@@ -80,7 +80,10 @@ void MusicArtistAlbumsItemWidget::downLoadFinished(const QByteArray &data)
     pix.loadFromData(data);
     if(!pix.isNull())
     {
-        m_iconLabel->setPixmap(pix.scaled(m_iconLabel->size()));
+        QPixmap cv(":/image/lb_album_cover");
+        pix = pix.scaled(m_iconLabel->size());
+        MusicUtils::Widget::fusionPixmap(pix, cv, QPoint(0, 0));
+        m_iconLabel->setPixmap(pix);
     }
     m_playButton->raise();
 }
@@ -108,7 +111,7 @@ MusicArtistMvsFoundWidget::MusicArtistMvsFoundWidget(QWidget *parent)
 
     m_shareType = MusicSongSharingWidget::Artist;
     m_downloadThread = M_DOWNLOAD_QUERY_PTR->getMovieThread(this);
-    connect(m_downloadThread, SIGNAL(createMovieInfoItem(MusicPlaylistItem)), SLOT(createArtistMvsItem(MusicPlaylistItem)));
+    connect(m_downloadThread, SIGNAL(createMovieInfoItem(MusicResultsItem)), SLOT(createArtistMvsItem(MusicResultsItem)));
 }
 
 MusicArtistMvsFoundWidget::~MusicArtistMvsFoundWidget()
@@ -142,7 +145,7 @@ void MusicArtistMvsFoundWidget::resizeWindow()
             m_gridLayout->removeWidget(m_resizeWidgets[i]);
         }
 
-        int lineNumber = width()/MAX_LABEL_SIZE;
+        int lineNumber = width()/HEIGHT_LABEL_SIZE;
         for(int i=0; i<m_resizeWidgets.count(); ++i)
         {
             m_gridLayout->addWidget(m_resizeWidgets[i], i/lineNumber, i%lineNumber, Qt::AlignCenter);
@@ -150,7 +153,7 @@ void MusicArtistMvsFoundWidget::resizeWindow()
     }
 }
 
-void MusicArtistMvsFoundWidget::createArtistMvsItem(const MusicPlaylistItem &item)
+void MusicArtistMvsFoundWidget::createArtistMvsItem(const MusicResultsItem &item)
 {
     if(!m_firstInit)
     {
@@ -165,7 +168,7 @@ void MusicArtistMvsFoundWidget::createArtistMvsItem(const MusicPlaylistItem &ite
     connect(label, SIGNAL(currentItemClicked(QString)), SLOT(currentItemClicked(QString)));
     label->setMusicItem(item);
 
-    int lineNumber = width()/MAX_LABEL_SIZE;
+    int lineNumber = width()/HEIGHT_LABEL_SIZE;
     m_gridLayout->addWidget(label, m_resizeWidgets.count()/lineNumber,
                                    m_resizeWidgets.count()%lineNumber, Qt::AlignCenter);
     m_resizeWidgets << label;
@@ -173,7 +176,7 @@ void MusicArtistMvsFoundWidget::createArtistMvsItem(const MusicPlaylistItem &ite
 
 void MusicArtistMvsFoundWidget::currentItemClicked(const QString &id)
 {
-    MusicRightAreaWidget::instance()->musicArtistMvs(id);
+    MusicRightAreaWidget::instance()->musicMovieSearch(id);
 }
 
 void MusicArtistMvsFoundWidget::buttonClicked(int index)
@@ -205,7 +208,7 @@ MusicArtistSimilarFoundWidget::MusicArtistSimilarFoundWidget(QWidget *parent)
 
     m_shareType = MusicSongSharingWidget::Artist;
     m_similarThread = M_DOWNLOAD_QUERY_PTR->getSimilarArtistThread(this);
-    connect(m_similarThread, SIGNAL(createSimilarItems(MusicPlaylistItem)), SLOT(createArtistSimilarItem(MusicPlaylistItem)));
+    connect(m_similarThread, SIGNAL(createSimilarItems(MusicResultsItem)), SLOT(createArtistSimilarItem(MusicResultsItem)));
 }
 
 MusicArtistSimilarFoundWidget::~MusicArtistSimilarFoundWidget()
@@ -239,7 +242,7 @@ void MusicArtistSimilarFoundWidget::resizeWindow()
             m_gridLayout->removeWidget(m_resizeWidgets[i]);
         }
 
-        int lineNumber = width()/MAX_LABEL_SIZE;
+        int lineNumber = width()/HEIGHT_LABEL_SIZE;
         for(int i=0; i<m_resizeWidgets.count(); ++i)
         {
             m_gridLayout->addWidget(m_resizeWidgets[i], i/lineNumber, i%lineNumber, Qt::AlignCenter);
@@ -247,13 +250,13 @@ void MusicArtistSimilarFoundWidget::resizeWindow()
     }
 }
 
-void MusicArtistSimilarFoundWidget::createArtistSimilarItem(const MusicPlaylistItem &item)
+void MusicArtistSimilarFoundWidget::createArtistSimilarItem(const MusicResultsItem &item)
 {
     MusicArtistAlbumsItemWidget *label = new MusicArtistAlbumsItemWidget(this);
     connect(label, SIGNAL(currentItemClicked(QString)), SLOT(currentItemClicked(QString)));
     label->setMusicItem(item);
 
-    int lineNumber = width()/MAX_LABEL_SIZE;
+    int lineNumber = width()/HEIGHT_LABEL_SIZE;
     m_gridLayout->addWidget(label, m_resizeWidgets.count()/lineNumber,
                                    m_resizeWidgets.count()%lineNumber, Qt::AlignCenter);
     m_resizeWidgets << label;
@@ -261,7 +264,7 @@ void MusicArtistSimilarFoundWidget::createArtistSimilarItem(const MusicPlaylistI
 
 void MusicArtistSimilarFoundWidget::currentItemClicked(const QString &id)
 {
-    MusicRightAreaWidget::instance()->musicArtistSimilar(id);
+    MusicRightAreaWidget::instance()->musicArtistSearch(id);
 }
 
 
@@ -279,7 +282,7 @@ MusicArtistAlbumsFoundWidget::MusicArtistAlbumsFoundWidget(QWidget *parent)
 
     m_shareType = MusicSongSharingWidget::Artist;
     m_downloadThread = M_DOWNLOAD_QUERY_PTR->getAlbumThread(this);
-    connect(m_downloadThread, SIGNAL(createAlbumInfoItem(MusicPlaylistItem)), SLOT(createArtistAlbumsItem(MusicPlaylistItem)));
+    connect(m_downloadThread, SIGNAL(createAlbumInfoItem(MusicResultsItem)), SLOT(createArtistAlbumsItem(MusicResultsItem)));
 }
 
 MusicArtistAlbumsFoundWidget::~MusicArtistAlbumsFoundWidget()
@@ -313,7 +316,7 @@ void MusicArtistAlbumsFoundWidget::resizeWindow()
             m_gridLayout->removeWidget(m_resizeWidgets[i]);
         }
 
-        int lineNumber = width()/MAX_LABEL_SIZE;
+        int lineNumber = width()/HEIGHT_LABEL_SIZE;
         for(int i=0; i<m_resizeWidgets.count(); ++i)
         {
             m_gridLayout->addWidget(m_resizeWidgets[i], i/lineNumber, i%lineNumber, Qt::AlignCenter);
@@ -321,13 +324,13 @@ void MusicArtistAlbumsFoundWidget::resizeWindow()
     }
 }
 
-void MusicArtistAlbumsFoundWidget::createArtistAlbumsItem(const MusicPlaylistItem &item)
+void MusicArtistAlbumsFoundWidget::createArtistAlbumsItem(const MusicResultsItem &item)
 {
     MusicArtistAlbumsItemWidget *label = new MusicArtistAlbumsItemWidget(this);
     connect(label, SIGNAL(currentItemClicked(QString)), SLOT(currentItemClicked(QString)));
     label->setMusicItem(item);
 
-    int lineNumber = width()/MAX_LABEL_SIZE;
+    int lineNumber = width()/HEIGHT_LABEL_SIZE;
     m_gridLayout->addWidget(label, m_resizeWidgets.count()/lineNumber,
                                    m_resizeWidgets.count()%lineNumber, Qt::AlignCenter);
     m_resizeWidgets << label;
@@ -335,7 +338,7 @@ void MusicArtistAlbumsFoundWidget::createArtistAlbumsItem(const MusicPlaylistIte
 
 void MusicArtistAlbumsFoundWidget::currentItemClicked(const QString &id)
 {
-    MusicRightAreaWidget::instance()->musicArtistAlbums(id);
+    MusicRightAreaWidget::instance()->musicAlbumSearch(id);
 }
 
 
@@ -407,7 +410,7 @@ void MusicArtistFoundWidget::setSongNameById(const QString &id)
     MusicDownLoadQueryThreadAbstract *v = M_DOWNLOAD_QUERY_PTR->getArtistThread(this);
     m_foundTableWidget->setQueryInput(v);
     m_foundTableWidget->startSearchQuery(id);
-    connect(v, SIGNAL(createArtistInfoItem(MusicPlaylistItem)), SLOT(createArtistInfoItem(MusicPlaylistItem)));
+    connect(v, SIGNAL(createArtistInfoItem(MusicResultsItem)), SLOT(createArtistInfoItem(MusicResultsItem)));
 }
 
 void MusicArtistFoundWidget::resizeWindow()
@@ -459,7 +462,7 @@ void MusicArtistFoundWidget::queryArtistFinished()
     }
 }
 
-void MusicArtistFoundWidget::createArtistInfoItem(const MusicPlaylistItem &item)
+void MusicArtistFoundWidget::createArtistInfoItem(const MusicResultsItem &item)
 {
     m_currentPlaylistItem = item;
 
@@ -563,8 +566,7 @@ void MusicArtistFoundWidget::createLabels()
 
     m_iconLabel = new QLabel(topFuncWidget);
     m_iconLabel->setPixmap(QPixmap(":/image/lb_warning").scaled(180, 180));
-    m_iconLabel->setFixedSize(180, 180);
-
+    m_iconLabel->setFixedSize(210, 180);
     ////////////////////////////////////////////////////////////////////////////
 
     QWidget *topLineWidget = new QWidget(topFuncWidget);

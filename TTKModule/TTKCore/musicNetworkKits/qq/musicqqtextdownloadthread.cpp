@@ -3,7 +3,7 @@
 #///QJson import
 #include "qjson/parser.h"
 
-#define D_URL   "YnZJaDZBVEFHSllTWlRualJFblR3U0NkYitRd1N1ZmNKaDZFQUdQVFRKND0="
+#define REFER_URL   "YnZJaDZBVEFHSllTWlRualJFblR3U0NkYitRd1N1ZmNKaDZFQUdQVFRKND0="
 
 MusicQQTextDownLoadThread::MusicQQTextDownLoadThread(const QString &url, const QString &save,
                                                      Download_Type type, QObject *parent)
@@ -30,15 +30,12 @@ void MusicQQTextDownLoadThread::startToDownload()
             request.setUrl(m_url);
             request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
             request.setRawHeader("Host", "lyric.music.qq.com");
-            request.setRawHeader("Referer", MusicUtils::Algorithm::mdII(D_URL, false).toUtf8());
+            request.setRawHeader("Referer", MusicUtils::Algorithm::mdII(REFER_URL, false).toUtf8());
 #ifndef QT_NO_SSL
             connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
                                SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
             M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
-
-            QSslConfiguration sslConfig = request.sslConfiguration();
-            sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-            request.setSslConfiguration(sslConfig);
+            setSslConfiguration(&request);
 #endif
             m_reply = m_manager->get(request);
             connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));

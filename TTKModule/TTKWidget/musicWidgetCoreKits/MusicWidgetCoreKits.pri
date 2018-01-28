@@ -28,7 +28,7 @@ HEADERS  += \
     $$PWD/musicfillitemtablewidget.h \
     $$PWD/musicquerytablewidget.h \
     $$PWD/musicqueryfoundtablewidget.h \
-    $$PWD/musicslowmovingtablewidget.h \
+    $$PWD/musicsmoothmovingtablewidget.h \
     $$PWD/musicitemdelegate.h \
     $$PWD/musiccolordialog.h \
     $$PWD/musicmarqueewidget.h \
@@ -37,6 +37,7 @@ HEADERS  += \
     $$PWD/musicprogresswidget.h \
     $$PWD/musicclickedlabel.h \
     $$PWD/musicclickedslider.h \
+    $$PWD/musicmovingclickedslider.h \
     $$PWD/musicmovinglabelslider.h \
     $$PWD/musictoastlabel.h \
     $$PWD/musicroundanimationlabel.h \
@@ -70,7 +71,7 @@ SOURCES += \
     $$PWD/musicfillitemtablewidget.cpp \
     $$PWD/musicquerytablewidget.cpp \
     $$PWD/musicqueryfoundtablewidget.cpp \
-    $$PWD/musicslowmovingtablewidget.cpp \
+    $$PWD/musicsmoothmovingtablewidget.cpp \
     $$PWD/musicitemdelegate.cpp \
     $$PWD/musiccolordialog.cpp \
     $$PWD/musicmarqueewidget.cpp \
@@ -79,6 +80,7 @@ SOURCES += \
     $$PWD/musicprogresswidget.cpp \
     $$PWD/musicclickedlabel.cpp \
     $$PWD/musicclickedslider.cpp \
+    $$PWD/musicmovingclickedslider.cpp \
     $$PWD/musicmovinglabelslider.cpp \
     $$PWD/musictoastlabel.cpp \
     $$PWD/musicroundanimationlabel.cpp \

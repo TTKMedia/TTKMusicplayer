@@ -52,12 +52,14 @@ public:
         SimilarWidget,          /*!< insert similar found widget*/
         AlbumWidget,            /*!< insert album found widget*/
         ArtistWidget,           /*!< insert artist found widget*/
+        ArtistCategoryWidget,   /*!< insert artist category found widget*/
         ToplistWidget,          /*!< insert toplist found widget*/
         PlaylistWidget,         /*!< insert playlist found widget*/
         AdvancedSearchWidget,   /*!< insert advanced search widget*/
         RecommendWidget,        /*!< insert recommend found widget*/
         IndentifyWidget,        /*!< insert indentify songs widget*/
-        KuiSheWidget            /*!< insert kugou kuishe widget*/
+        KuiSheWidget,           /*!< insert kugou kuishe widget*/
+        WebDJRadio              /*!< insert web dj radio widget*/
     };
 
     /*!
@@ -137,17 +139,17 @@ public:
      */
     void showSettingWidget() const;
     /*!
-     * Music artist similar function.
+     * Music artist search function.
      */
-    void musicArtistSimilar(const QString &id);
+    void musicArtistSearch(const QString &id);
     /*!
-     * Music artist albums function.
+     * Music album search function.
      */
-    void musicArtistAlbums(const QString &id);
+    void musicAlbumSearch(const QString &id);
     /*!
-     * Music artist mvs function.
+     * Music movie search function.
      */
-    void musicArtistMvs(const QString &id);
+    void musicMovieSearch(const QString &id);
     /*!
      * Resize window bound by widgte resize called.
      */
@@ -181,17 +183,21 @@ public Q_SLOTS:
      */
     void musicAlbumFound(const QString &text, const QString &id);
     /*!
-     * Music artist similar function.
+     * Music artist category function.
      */
-    void musicArtistSimilarFound();
+    void musicArtistCategoryFound();
     /*!
-     * Music artist albums function.
+     * Music artist search function.
      */
-    void musicArtistAlbumsFound();
+    void musicArtistSearchFound();
     /*!
-     * Music artist mvs function.
+     * Music album search function.
      */
-    void musicArtistMvsFound();
+    void musicAlbumSearchFound();
+    /*!
+     * Music movie search function.
+     */
+    void musicMovieSearchFound();
     /*!
      * Music artist function that by string.
      */

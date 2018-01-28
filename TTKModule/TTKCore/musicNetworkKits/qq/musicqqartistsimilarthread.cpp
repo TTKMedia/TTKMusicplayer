@@ -30,11 +30,8 @@ void MusicQQArtistSimilarThread::startToSearch(const QString &text)
     request.setUrl(musicUrl);
     request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(QQ_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfig = request.sslConfiguration();
-    sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    request.setSslConfiguration(sslConfig);
-#endif
+    setSslConfiguration(&request);
+
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(replyError(QNetworkReply::NetworkError)));
@@ -53,7 +50,7 @@ void MusicQQArtistSimilarThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll(); ///Get all the data obtained by request
+        QByteArray bytes = m_reply->readAll();
         bytes.replace("SingerSimCallback(", "");
         bytes.chop(1);
 
@@ -77,7 +74,7 @@ void MusicQQArtistSimilarThread::downLoadFinished()
                     }
 
                     value = var.toMap();
-                    MusicPlaylistItem info;
+                    MusicResultsItem info;
                     info.m_id = value["mid"].toString();
                     info.m_coverUrl = value["pic"].toString();
                     info.m_name = value["name"].toString();

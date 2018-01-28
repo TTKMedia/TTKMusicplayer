@@ -22,7 +22,7 @@ void MusicMGDiscoverListThread::startToSearch()
     }
 
     M_LOGGER_INFO(QString("%1 startToSearch").arg(getClassName()));
-    m_topListInfo.clear();
+    m_toplistInfo.clear();
     QUrl musicUrl = MusicUtils::Algorithm::mdII(MG_SONG_TOPLIST_URL, false).arg("365905/365918/469202/469231");
     deleteAll();
     m_interrupt = true;
@@ -31,11 +31,8 @@ void MusicMGDiscoverListThread::startToSearch()
     request.setUrl(musicUrl);
     request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(MG_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfig = request.sslConfiguration();
-    sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    request.setSslConfiguration(sslConfig);
-#endif
+    setSslConfiguration(&request);
+
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(replyError(QNetworkReply::NetworkError)));
@@ -79,7 +76,7 @@ void MusicMGDiscoverListThread::downLoadFinished()
                     }
 
                     value = var.toMap();
-                    m_topListInfo = QString("%1 - %2").arg(value["singer"].toString())
+                    m_toplistInfo = QString("%1 - %2").arg(value["singer"].toString())
                                                       .arg(value["title"].toString());
                     break;
                 }
@@ -87,7 +84,7 @@ void MusicMGDiscoverListThread::downLoadFinished()
         }
     }
 
-    emit downLoadDataChanged(m_topListInfo);
+    emit downLoadDataChanged(m_toplistInfo);
     deleteAll();
     M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
