@@ -50,7 +50,7 @@ MusicLrcAnalysis::State MusicLrcAnalysis::setLrcData(const QByteArray &data)
         }
     }
 
-    if (m_lrcContainer.isEmpty())
+    if(m_lrcContainer.isEmpty())
     {
         return LrcEmpty;
     }
@@ -80,7 +80,7 @@ MusicLrcAnalysis::State MusicLrcAnalysis::setLrcData(const QByteArray &data)
 
 MusicLrcAnalysis::State MusicLrcAnalysis::setLrcData(const MusicObject::MIntStringMap &data)
 {
-    if (data.isEmpty())
+    if(data.isEmpty())
     {
         return LrcEmpty;
     }
@@ -143,13 +143,17 @@ MusicLrcAnalysis::State MusicLrcAnalysis::transKrcFileToTime(const QString &krcF
 
     QString getAllText = QString(krc.getDecodeString());
     //The lyrics by line into the lyrics list
+#ifdef Q_OS_WIN
     foreach(const QString &oneLine, getAllText.split("\r\n"))
+#else
+    foreach(const QString &oneLine, getAllText.split("\n"))
+#endif
     {
         matchLrcLine(oneLine);
     }
 
     //If the lrcContainer is empty
-    if (m_lrcContainer.isEmpty())
+    if(m_lrcContainer.isEmpty())
     {
         return LrcEmpty;
     }

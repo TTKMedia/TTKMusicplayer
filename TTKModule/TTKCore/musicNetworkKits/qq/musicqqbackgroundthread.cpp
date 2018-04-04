@@ -14,8 +14,7 @@ MusicQQBackgroundThread::MusicQQBackgroundThread(const QString &name, const QStr
 {
     m_manager = new QNetworkAccessManager(this);
 #ifndef QT_NO_SSL
-    connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
-                       SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
+    connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
     M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
 #endif
 }
@@ -125,7 +124,7 @@ void MusicQQBackgroundThread::downLoadUrlFinished()
                 M_LOGGER_ERROR(url);
                 MusicDataDownloadThread *down = new MusicDataDownloadThread(url, QString("%1%2%3%4").arg(BACKGROUND_DIR_FULL)
                                         .arg(m_savePath).arg(m_counter++).arg(SKN_FILE),
-                                        MusicDownLoadThreadAbstract::Download_BigBG, this);
+                                        MusicDownLoadThreadAbstract::DownloadBigBG, this);
                 connect(down, SIGNAL(downLoadDataChanged(QString)), SLOT(downLoadFinished()));
                 down->startToDownload();
             }

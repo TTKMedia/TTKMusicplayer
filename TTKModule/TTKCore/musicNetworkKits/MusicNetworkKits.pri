@@ -17,7 +17,7 @@
 # =================================================
 
 INCLUDEPATH += $$PWD \
-               $$PWD/radio \
+               $$PWD/radio/fm \
                $$PWD/radio/dj \
                $$PWD/radio/mv \
                $$PWD/nr \
@@ -28,16 +28,15 @@ INCLUDEPATH += $$PWD \
                $$PWD/bd \
                $$PWD/qq \
                $$PWD/mg \
-               $$PWD/ws \
                $$PWD/yyt \
                $$PWD/ztl
 
 !contains(CONFIG, MUSIC_NO_MSVC_LINK_NEED){
 HEADERS  += \
-    $$PWD/radio/musicradiochannelthread.h \
-    $$PWD/radio/musicradioplaylistthread.h \
-    $$PWD/radio/musicradiosongsthread.h \
-    $$PWD/radio/musicradiothreadabstract.h \
+    $$PWD/radio/fm/musicradiochannelthread.h \
+    $$PWD/radio/fm/musicradioplaylistthread.h \
+    $$PWD/radio/fm/musicradiosongsthread.h \
+    $$PWD/radio/fm/musicradiothreadabstract.h \
     $$PWD/radio/dj/musicdjradiocategorythread.h \
     $$PWD/radio/dj/musicdjradioprogramthread.h \
     $$PWD/radio/dj/musicdjradioprogramcategorythread.h \
@@ -63,6 +62,7 @@ HEADERS  += \
     $$PWD/wy/musicwyartistsimilarthread.h \
     $$PWD/wy/musicwysongsuggestthread.h \
     $$PWD/wy/musicwytranslationthread.h \
+    $$PWD/wy/musicwyauthenticationthread.h \
     $$PWD/xm/musicdownloadxminterface.h \
     $$PWD/xm/musicdownloadqueryxmthread.h \
     $$PWD/xm/musicdownloadqueryxmalbumthread.h \
@@ -148,20 +148,6 @@ HEADERS  += \
     $$PWD/mg/musicmgtextdownloadthread.h \
     $$PWD/mg/musicmgsongsuggestthread.h \
     $$PWD/mg/musicmgartistsimilarthread.h \
-    $$PWD/ws/musicdownloadquerywsthread.h \
-    $$PWD/ws/musicdownloadwsinterface.h \
-    $$PWD/ws/musicdownloadquerywsartistthread.h \
-    $$PWD/ws/musicdownloadquerywsalbumthread.h \
-    $$PWD/ws/musicdownloadquerywstoplistthread.h \
-    $$PWD/ws/musicdownloadquerywsplaylistthread.h \
-    $$PWD/ws/musicdownloadquerywsmoviethread.h \
-    $$PWD/ws/musicdownloadquerywsrecommendthread.h \
-    $$PWD/ws/musicdownloadquerywsartistlistthread.h \
-    $$PWD/ws/musicwscommentsthread.h \
-    $$PWD/ws/musicwsdiscoverlistthread.h \
-    $$PWD/ws/musicwstextdownloadthread.h \
-    $$PWD/ws/musicwssongsuggestthread.h \
-    $$PWD/ws/musicwsartistsimilarthread.h \
     $$PWD/yyt/musicdownloadqueryyytthread.h \
     $$PWD/ztl/musicdownloadsourcethread.h \
     $$PWD/ztl/musicnetworkthread.h \
@@ -176,6 +162,7 @@ HEADERS  += \
     $$PWD/ztl/musicdownloadcounterpvthread.h \
     $$PWD/ztl/musicdownloadbackgroundremotethread.h \
     $$PWD/ztl/musictranslationthreadabstract.h \
+    $$PWD/ztl/musicauthenticationthread.h \
     $$PWD/musicnetworkabstract.h \
     $$PWD/musicdownloadthreadabstract.h \
     $$PWD/musicdownloadqueryfactory.h \
@@ -191,16 +178,17 @@ HEADERS  += \
     $$PWD/musicdownloadquerymoviethread.h \
     $$PWD/musicdownloadsongsuggestthread.h \
     $$PWD/musicdownloadsimilarthread.h \
-    $$PWD/musicdownloadqueryartistlistthread.h
+    $$PWD/musicdownloadqueryartistlistthread.h \
+    $$PWD/musicdownloadmanager.h
 
 }
 
 contains(CONFIG, MUSIC_BUILD_LIB){
 SOURCES += \
-    $$PWD/radio/musicradiochannelthread.cpp \
-    $$PWD/radio/musicradioplaylistthread.cpp \
-    $$PWD/radio/musicradiosongsthread.cpp \
-    $$PWD/radio/musicradiothreadabstract.cpp \
+    $$PWD/radio/fm/musicradiochannelthread.cpp \
+    $$PWD/radio/fm/musicradioplaylistthread.cpp \
+    $$PWD/radio/fm/musicradiosongsthread.cpp \
+    $$PWD/radio/fm/musicradiothreadabstract.cpp \
     $$PWD/radio/dj/musicdjradiocategorythread.cpp \
     $$PWD/radio/dj/musicdjradioprogramthread.cpp \
     $$PWD/radio/dj/musicdjradioprogramcategorythread.cpp \
@@ -226,6 +214,7 @@ SOURCES += \
     $$PWD/wy/musicwysongsuggestthread.cpp \
     $$PWD/wy/musicwyartistsimilarthread.cpp \
     $$PWD/wy/musicwytranslationthread.cpp \
+    $$PWD/wy/musicwyauthenticationthread.cpp \
     $$PWD/xm/musicdownloadxminterface.cpp \
     $$PWD/xm/musicdownloadqueryxmthread.cpp \
     $$PWD/xm/musicdownloadqueryxmalbumthread.cpp \
@@ -311,20 +300,6 @@ SOURCES += \
     $$PWD/mg/musicmgtextdownloadthread.cpp \
     $$PWD/mg/musicmgsongsuggestthread.cpp \
     $$PWD/mg/musicmgartistsimilarthread.cpp \
-    $$PWD/ws/musicdownloadquerywsthread.cpp \
-    $$PWD/ws/musicdownloadwsinterface.cpp \
-    $$PWD/ws/musicdownloadquerywsartistthread.cpp \
-    $$PWD/ws/musicdownloadquerywsalbumthread.cpp \
-    $$PWD/ws/musicdownloadquerywstoplistthread.cpp \
-    $$PWD/ws/musicdownloadquerywsplaylistthread.cpp \
-    $$PWD/ws/musicdownloadquerywsmoviethread.cpp \
-    $$PWD/ws/musicdownloadquerywsrecommendthread.cpp \
-    $$PWD/ws/musicdownloadquerywsartistlistthread.cpp \
-    $$PWD/ws/musicwscommentsthread.cpp \
-    $$PWD/ws/musicwsdiscoverlistthread.cpp \
-    $$PWD/ws/musicwstextdownloadthread.cpp \
-    $$PWD/ws/musicwssongsuggestthread.cpp \
-    $$PWD/ws/musicwsartistsimilarthread.cpp \
     $$PWD/yyt/musicdownloadqueryyytthread.cpp \
     $$PWD/ztl/musicdownloadsourcethread.cpp \
     $$PWD/ztl/musicnetworkthread.cpp \
@@ -339,6 +314,7 @@ SOURCES += \
     $$PWD/ztl/musicdownloadcounterpvthread.cpp \
     $$PWD/ztl/musicdownloadbackgroundremotethread.cpp \
     $$PWD/ztl/musictranslationthreadabstract.cpp \
+    $$PWD/ztl/musicauthenticationthread.cpp \
     $$PWD/musicnetworkabstract.cpp \
     $$PWD/musicdownloadthreadabstract.cpp \
     $$PWD/musicdownloadqueryfactory.cpp \
@@ -354,6 +330,7 @@ SOURCES += \
     $$PWD/musicdownloadquerymoviethread.cpp \
     $$PWD/musicdownloadsongsuggestthread.cpp \
     $$PWD/musicdownloadsimilarthread.cpp \
-    $$PWD/musicdownloadqueryartistlistthread.cpp
+    $$PWD/musicdownloadqueryartistlistthread.cpp \
+    $$PWD/musicdownloadmanager.cpp
 
 }

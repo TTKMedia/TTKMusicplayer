@@ -18,6 +18,7 @@
 #include "musicurlutils.h"
 #include "musiccoreutils.h"
 #include "musicalgorithmutils.h"
+#include "musicdownloadcounterpvthread.h"
 
 #include "qdevicewatcher.h"
 
@@ -54,6 +55,9 @@ MusicApplicationObject::MusicApplicationObject(QObject *parent)
     m_deviceWatcher->appendEventReceiver(this);
     m_deviceWatcher->start();
 
+    m_counterPVThread = new MusicDownloadCounterPVThread(this);
+    m_counterPVThread->startToDownload();
+
     musicToolSetsParameter();
 }
 
@@ -68,6 +72,7 @@ MusicApplicationObject::~MusicApplicationObject()
     delete m_deviceWatcher;
     delete m_mobileDeviceWidget;
     delete m_quitContainer;
+    delete m_counterPVThread;
 }
 
 QString MusicApplicationObject::getClassName()
@@ -350,22 +355,31 @@ void MusicApplicationObject::musicSetSoundEffect()
 
 void MusicApplicationObject::musicEffectChanged()
 {
-    int v = 0;
-    v = M_SETTING_PTR->value(MusicSettingManager::EnhancedBS2BChoiced).toInt();
-    if(v == 1) MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::BS2B, true);
+    if(M_SETTING_PTR->value(MusicSettingManager::EnhancedBS2BChoiced).toInt() == 1)
+    {
+        MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::BS2B, true);
+    }
 
-    v = M_SETTING_PTR->value(MusicSettingManager::EnhancedCrossfadeChoiced).toInt();
-    if(v == 1) MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::Crossfade, true);
+    if(M_SETTING_PTR->value(MusicSettingManager::EnhancedCrossfadeChoiced).toInt() == 1)
+    {
+        MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::Crossfade, true);
+    }
 
-    v = M_SETTING_PTR->value(MusicSettingManager::EnhancedStereoChoiced).toInt();
-    if(v == 1) MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::Stereo, true);
+    if(M_SETTING_PTR->value(MusicSettingManager::EnhancedStereoChoiced).toInt() == 1)
+    {
+        MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::Stereo, true);
+    }
 
-    v = M_SETTING_PTR->value(MusicSettingManager::EnhancedSOXChoiced).toInt();
-    if(v == 1) MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::SoX, true);
+    if(M_SETTING_PTR->value(MusicSettingManager::EnhancedSOXChoiced).toInt() == 1)
+    {
+        MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::SoX, true);
+    }
 
 #ifdef Q_OS_UNIX
-    v = M_SETTING_PTR->value(MusicSettingManager::EnhancedLADSPAChoiced).toInt();
-    if(v == 1) MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::LADSPA, true);
+    if(M_SETTING_PTR->value(MusicSettingManager::EnhancedLADSPAChoiced).toInt() == 1)
+    {
+        MusicSoundEffectsItemWidget::soundEffectChanged(MusicSoundEffectsItemWidget::LADSPA, true);
+    }
 #endif
 
 }
@@ -380,6 +394,7 @@ bool MusicApplicationObject::closeCurrentEqualizer()
         {
             return false;
         }
+
         emit enhancedMusicChanged(0);
     }
     return true;

@@ -101,7 +101,7 @@ void MusicRightAreaWidget::setupUi(Ui::MusicApplication* ui)
 
 void MusicRightAreaWidget::stopLrcMask() const
 {
-    if( checkSettingParameterValue() )
+    if(checkSettingParameterValue())
     {
        m_ui->musiclrccontainerforinline->stopLrcMask();
        m_musicLrcForDesktop->stopLrcMask();
@@ -114,7 +114,7 @@ void MusicRightAreaWidget::stopLrcMask() const
 
 void MusicRightAreaWidget::startTimerClock() const
 {
-    if( checkSettingParameterValue() )
+    if(checkSettingParameterValue())
     {
        m_ui->musiclrccontainerforinline->startTimerClock();
        m_musicLrcForDesktop->startTimerClock();
@@ -187,22 +187,30 @@ void MusicRightAreaWidget::updateCurrentLrc(qint64 current, qint64 total, bool p
 
 void MusicRightAreaWidget::loadCurrentSongLrc(const QString &name, const QString &path) const
 {
-    if( checkSettingParameterValue() )
+    if(checkSettingParameterValue())
     {
         m_ui->musiclrccontainerforinline->stopLrcMask();
         m_ui->musiclrccontainerforinline->setCurrentSongName( name );
+        bool state = m_ui->musiclrccontainerforinline->transLyricFileToTime(path);
+
         m_musicLrcForDesktop->stopLrcMask();
         m_musicLrcForDesktop->setCurrentSongName( name );
+        if(!state)
+        {
+            m_musicLrcForDesktop->updateCurrentLrc(tr("unFoundLrc"), QString(), 0);
+        }
+
         if(m_musicLrcForWallpaper)
         {
             m_musicLrcForWallpaper->stopLrcMask();
             m_musicLrcForWallpaper->setCurrentSongName( name );
+            m_musicLrcForWallpaper->start(true);
+            if(!state)
+            {
+                m_musicLrcForWallpaper->updateCurrentLrc(tr("unFoundLrc"));
+            }
         }
 
-        if(!m_ui->musiclrccontainerforinline->transLyricFileToTime( path ))
-        {
-            m_musicLrcForDesktop->updateCurrentLrc(tr("unFoundLrc"), QString(), 0);
-        }
     }
 }
 
@@ -824,8 +832,7 @@ void MusicRightAreaWidget::musicContainerForWallpaperClicked()
         m_musicLrcForWallpaper->setLrcAnalysisModel(m_ui->musiclrccontainerforinline->getLrcAnalysisModel());
         m_musicLrcForWallpaper->setSettingParameter();
         m_musicLrcForWallpaper->showFullScreen();
-        connect(m_ui->musiclrccontainerforinline, SIGNAL(linearGradientColorChanged()), m_musicLrcForWallpaper,
-                                                  SLOT(changeCurrentLrcColor()));
+        connect(m_ui->musiclrccontainerforinline, SIGNAL(linearGradientColorChanged()), m_musicLrcForWallpaper, SLOT(changeCurrentLrcColor()));
 
         MusicApplication::instance()->activateWindow();
         MusicApplication::instance()->showMinimized();

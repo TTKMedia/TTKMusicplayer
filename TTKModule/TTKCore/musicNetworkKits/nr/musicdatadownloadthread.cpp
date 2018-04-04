@@ -1,10 +1,10 @@
 #include "musicdatadownloadthread.h"
-#include "musicconnectionpool.h"
+#include "musicdownloadmanager.h"
 #include "musicnumberutils.h"
 #include "musictime.h"
 
 MusicDataDownloadThread::MusicDataDownloadThread(const QString &url, const QString &save,
-                                                 Download_Type type, QObject *parent)
+                                                 DownloadType type, QObject *parent)
     : MusicDownLoadThreadAbstract(url, save, type, parent)
 {
     m_createItemTime = -1;
@@ -19,14 +19,13 @@ QString MusicDataDownloadThread::getClassName()
 
 void MusicDataDownloadThread::startToDownload()
 {
-    if( m_file && (!m_file->exists() || m_file->size() < 4) )
+    if(m_file && (!m_file->exists() || m_file->size() < 4))
     {
-        if( m_file->open(QIODevice::WriteOnly) )
+        if(m_file->open(QIODevice::WriteOnly))
         {
             m_manager = new QNetworkAccessManager(this);
 #ifndef QT_NO_SSL
-            connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
-                               SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
+            connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
             M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
 #endif
             startRequest(m_url);
@@ -58,10 +57,10 @@ void MusicDataDownloadThread::startRequest(const QUrl &url)
     connect(m_reply, SIGNAL(readyRead()),this, SLOT(downLoadReadyRead()));
     connect(m_reply, SIGNAL(downloadProgress(qint64, qint64)), SLOT(downloadProgress(qint64, qint64)));
     /// only download music data can that show progress
-    if(m_downloadType == Download_Music && !m_redirection)
+    if(m_downloadType == DownloadMusic && !m_redirection)
     {
-        M_CONNECTION_PTR->connectMusicDownload(this);
         m_createItemTime = MusicTime::timeStamp();
+        M_DOWNLOAD_MANAGER_PTR->connectMusicDownload(MusicDownLoadPair(m_createItemTime, this));
         emit createDownloadItem(m_savePathName, m_createItemTime);
     }
 }
@@ -115,7 +114,7 @@ void MusicDataDownloadThread::downloadProgress(qint64 bytesReceived, qint64 byte
 {
     MusicDownLoadThreadAbstract::downloadProgress(bytesReceived, bytesTotal);
     /// only download music data or oather type can that show progress
-    if(m_downloadType == Download_Music || m_downloadType == Download_Other)
+    if(m_downloadType == DownloadMusic || m_downloadType == DownloadOther)
     {
         QString total = MusicUtils::Number::size2Label(bytesTotal);
         emit downloadProgressChanged(bytesTotal != 0 ? bytesReceived*100.0/bytesTotal : 0, total, m_createItemTime);

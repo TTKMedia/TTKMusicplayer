@@ -171,7 +171,7 @@ void MusicApplication::musicLoadCurrentSongLrc()
     //display current ArtTheme pic
     m_topAreaWidget->musicBgThemeDownloadFinished();
     //Loading the current song lrc
-    if( checkMusicListCurrentIndex() )
+    if(checkMusicListCurrentIndex())
     {
         return;
     }
@@ -183,6 +183,21 @@ void MusicApplication::musicLoadCurrentSongLrc()
 
     //reset current song lrc index.
     QTimer::singleShot(MT_S2MS, this, SLOT(resetCurrentSongLrcIndex()));
+}
+
+void MusicApplication::radioExecuteOuter(const QString &path)
+{
+    m_leftAreaWidget->radioExecuteOuter(path);
+}
+
+void MusicApplication::musicImportSongsSettingPathOuter(const QStringList &path, bool play)
+{
+    musicImportSongsSettingPath(path);
+
+    if(play)
+    {
+        musicPlayIndex(m_musicPlayList->mediaCount() - 1, 0);
+    }
 }
 
 void MusicApplication::musicImportSongsSettingPath(const QStringList &items)
@@ -199,7 +214,7 @@ void MusicApplication::musicImportSongsSettingPath(const QStringList &items)
     foreach(const QString &path, items)
     {
         suffix = QFileInfo(path).suffix();
-        if( !sfx.contains(suffix.toLower()) )
+        if(!sfx.contains(suffix.toLower()))
         {
             failedFiles << path;
             files.removeOne(path);
@@ -555,7 +570,7 @@ void MusicApplication::musicImportSongsOnlyDir()
         QStringList fileList;
         foreach(const QFileInfo &info, MusicUtils::Core::getFileListByDir(dialog.directory().absolutePath(), true))
         {
-            if( MusicFormats::supportFormatsString().contains(info.suffix().toLower()) )
+            if(MusicFormats::supportFormatsString().contains(info.suffix().toLower()))
             {
                fileList << info.absoluteFilePath();
             }
@@ -683,7 +698,7 @@ void MusicApplication::musicActionVolumeSub()
 {
     int currentVol = m_musicPlayer->volume();
     currentVol -= 15;
-    if( currentVol < 0)
+    if(currentVol < 0)
     {
         currentVol = 0;   //reset music volume
     }
@@ -694,7 +709,7 @@ void MusicApplication::musicActionVolumePlus()
 {
     int currentVol = m_musicPlayer->volume();
     currentVol += 15;
-    if( currentVol > 100)
+    if(currentVol > 100)
     {
         currentVol = 100;   //reset music volume
     }
@@ -769,11 +784,6 @@ void MusicApplication::musicWindowConciseChanged()
 void MusicApplication::musicEnhancedMusicChanged(int type)
 {
     m_musicPlayer->setMusicEnhanced(MStatic_cast(MusicPlayer::Enhanced, type));
-}
-
-void MusicApplication::musicImportPlay()
-{
-    musicPlayIndex(m_musicPlayList->mediaCount() - 1, 0);
 }
 
 void MusicApplication::musicCreateRightMenu()
@@ -933,7 +943,7 @@ void MusicApplication::setDeleteItemAt(const QStringList &path, bool remove, boo
         {
             oldIndex -= index.count();
         }
-        if( oldIndex == m_musicPlayList->mediaCount()) ///Play index error correction
+        if(oldIndex == m_musicPlayList->mediaCount()) ///Play index error correction
         {
             --oldIndex;
         }

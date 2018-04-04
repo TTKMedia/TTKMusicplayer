@@ -52,7 +52,7 @@ void MusicDownLoadQueryYYTThread::startToSearch(QueryType type, const QString &t
 
 void MusicDownLoadQueryYYTThread::downLoadFinished()
 {
-    if(m_reply == nullptr)
+    if(!m_reply)
     {
         deleteAll();
         return;
@@ -96,8 +96,8 @@ void MusicDownLoadQueryYYTThread::downLoadFinished()
                             continue;
                         }
 
-                        value = var.toMap();
-                        musicInfo.m_singerName = value["artistName"].toString();
+                        QVariantMap artMap = var.toMap();
+                        musicInfo.m_singerName = artMap["artistName"].toString();
                     }
 
                     if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
@@ -109,7 +109,7 @@ void MusicDownLoadQueryYYTThread::downLoadFinished()
                         continue;
                     }
 
-                    musicInfo.m_timeLength = findTimeStringByAttrs(musicInfo.m_songAttrs);
+                    musicInfo.m_timeLength = value["lasted"].toString();
                     MusicSearchedItem item;
                     item.m_songName = musicInfo.m_songName;
                     item.m_singerName = musicInfo.m_singerName;

@@ -21,8 +21,9 @@
 
 #include "musiclrccontainer.h"
 
-class MusicLayoutAnimationWidget;
+class MusicVLayoutAnimationWidget;
 class MusicDesktopWallpaperThread;
+class MusicTransitionAnimationLabel;
 
 /*! @brief The class of the wall paper lrc container.
  * @author Greedysky <greedysky@163.com>
@@ -63,12 +64,24 @@ public:
      * Update current lrc by given time.
      */
     void updateCurrentLrc(qint64 time);
+    /*!
+     * Update current lrc by given text.
+     */
+    void updateCurrentLrc(const QString &text);
+    /*!
+     * Strat now.
+     */
+    void start(bool immediate);
 
 public Q_SLOTS:
     /*!
      * Change current lrc linear color.
      */
     void changeCurrentLrcColor();
+    /*!
+     * Update background pixmap.
+     */
+    void updateBackground(const QPixmap &pix);
 
 private Q_SLOTS:
     /*!
@@ -87,8 +100,9 @@ protected:
     void setItemStyleSheet(int index, int size, int transparent);
 
     int m_animationFreshTime;
-    MusicLayoutAnimationWidget *m_layoutWidget;
+    MusicVLayoutAnimationWidget *m_layoutWidget;
     MusicDesktopWallpaperThread *m_wallThread;
+    MusicTransitionAnimationLabel *m_background;
 
 };
 

@@ -40,6 +40,11 @@ public:
     static bool outputThunderSkin(QPixmap &image, const QString &path);
 
     /*!
+     * Transfer file to normal data.
+     */
+    static bool outputData(const QString &path);
+
+    /*!
      * Transfer file to image data.
      */
     static bool outputSkin(MusicBackgroundImage *image, const QString &path);

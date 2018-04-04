@@ -29,7 +29,7 @@ void MusicXMDiscoverListThread::startToSearch()
     QNetworkRequest request;
     if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
     makeTokenQueryUrl(&request,
-                      MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_DATA_URL, false).arg("xiami_daxia"),
+                      MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_DATA_URL, false).arg(103),
                       MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_URL, false));
     if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
     setSslConfiguration(&request);
@@ -41,7 +41,7 @@ void MusicXMDiscoverListThread::startToSearch()
 
 void MusicXMDiscoverListThread::downLoadFinished()
 {
-    if(m_reply == nullptr)
+    if(!m_reply)
     {
         deleteAll();
         return;
@@ -64,7 +64,8 @@ void MusicXMDiscoverListThread::downLoadFinished()
             {
                 value = value["data"].toMap();
                 value = value["data"].toMap();
-                QVariantList datas = value["songs"].toList();
+                value = value["billboard"].toMap();
+                QVariantList datas = value["items"].toList();
                 int where = datas.count();
                 where = (where > 0) ? qrand()%where : 0;
 

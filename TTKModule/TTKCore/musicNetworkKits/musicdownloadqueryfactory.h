@@ -32,7 +32,7 @@ class MusicDownLoadQueryThreadAbstract;
 class MusicDownloadBackgroundThread;
 class MusicTranslationThreadAbstract;
 
-/*! @brief The class to produce the downlaod query class by type.
+/*! @brief The class to produce the download query class by type.
  * @author Greedysky <greedysky@163.com>
  */
 class MUSIC_NETWORK_EXPORT MusicDownLoadQueryFactory
@@ -109,13 +109,13 @@ public:
      * Get download small picture object by type.
      */
     MusicDownLoadThreadAbstract *getDownloadSmallPicThread(const QString &url, const QString &save,
-                                                           MusicDownLoadThreadAbstract::Download_Type type,
+                                                           MusicDownLoadThreadAbstract::DownloadType type,
                                                            QObject *parent = 0);
     /*!
      * Get download lrc object by type.
      */
     MusicDownLoadThreadAbstract *getDownloadLrcThread(const QString &url, const QString &save,
-                                                      MusicDownLoadThreadAbstract::Download_Type type,
+                                                      MusicDownLoadThreadAbstract::DownloadType type,
                                                       QObject *parent = 0);
     /*!
      * Get download big picture object by type.

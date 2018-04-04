@@ -3,7 +3,7 @@
 #include "qjson/parser.h"
 
 MusicMGTextDownLoadThread::MusicMGTextDownLoadThread(const QString &url, const QString &save,
-                                                     Download_Type type, QObject *parent)
+                                                     DownloadType type, QObject *parent)
     : MusicDownLoadThreadAbstract(url, save, type, parent)
 {
 
@@ -16,9 +16,9 @@ QString MusicMGTextDownLoadThread::getClassName()
 
 void MusicMGTextDownLoadThread::startToDownload()
 {
-    if( m_file && (!m_file->exists() || m_file->size() < 4) )
+    if(m_file && (!m_file->exists() || m_file->size() < 4))
     {
-        if( m_file->open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) )
+        if(m_file->open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text))
         {
             m_timer.start(MT_S2MS);
             m_manager = new QNetworkAccessManager(this);
@@ -26,8 +26,7 @@ void MusicMGTextDownLoadThread::startToDownload()
             QNetworkRequest request;
             request.setUrl(m_url);
 #ifndef QT_NO_SSL
-            connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)),
-                               SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
+            connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
             M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
             setSslConfiguration(&request);
 #endif

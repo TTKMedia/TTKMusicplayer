@@ -715,7 +715,7 @@ void MusicSongsSummariziedWidget::setDeleteItemAt(const MusicObject::MIntList &i
     {
         MusicSong song = item->m_songs.takeAt(index[i]);
         deleteFiles << song.getMusicPath();
-        if( cIndex != m_currentPlayToolIndex && cIndex == MUSIC_LOVEST_LIST )
+        if(cIndex != m_currentPlayToolIndex && cIndex == MUSIC_LOVEST_LIST)
         {
             int playIndex = m_songItems[m_currentPlayToolIndex].m_itemObject->getPlayRowIndex();
             MusicSongs songs = m_songItems[m_currentPlayToolIndex].m_songs;
@@ -1055,14 +1055,14 @@ void MusicSongsSummariziedWidget::resizeWindow()
 
 void MusicSongsSummariziedWidget::resetToolIndex()
 {
-    PairList pairs;
+    PlayedPairList pairs;
     foreach(const MusicSongItem &item, m_songItems)
     {
         int mappedIndex = foundMappingIndex(item.m_itemIndex);
         item.m_itemObject->setParentToolIndex(mappedIndex);
         if(item.m_itemIndex != mappedIndex)
         {
-            pairs << PairItem(item.m_itemIndex, mappedIndex);
+            pairs << PlayedPairItem(item.m_itemIndex, mappedIndex);
         }
     }
     MusicPlayedListPopWidget::instance()->resetToolIndex(pairs);

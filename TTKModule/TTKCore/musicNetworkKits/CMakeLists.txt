@@ -1,14 +1,17 @@
 cmake_minimum_required(VERSION 2.8.11)
 
 set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_HEADERS
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradiochannelthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradioplaylistthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradiosongsthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradiothreadabstract.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradiochannelthread.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradioplaylistthread.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradiosongsthread.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradiothreadabstract.h
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradiocategorythread.h
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradioprogramthread.h
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradioprogramcategorythread.h
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradiothreadabstract.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/mv/musicmvradiocategorythread.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/mv/musicmvradioprogramthread.h
+    ${MUSIC_CORE_NETWORK_DIR}/radio/mv/musicmvradiothreadabstract.h
     ${MUSIC_CORE_NETWORK_DIR}/nr/musicdatadownloadthread.h
     ${MUSIC_CORE_NETWORK_DIR}/nr/musictextdownloadthread.h
     ${MUSIC_CORE_NETWORK_DIR}/nr/musicdatatagdownloadthread.h
@@ -27,6 +30,7 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_HEADERS
     ${MUSIC_CORE_NETWORK_DIR}/wy/musicwyartistsimilarthread.h
     ${MUSIC_CORE_NETWORK_DIR}/wy/musicwysongsuggestthread.h
     ${MUSIC_CORE_NETWORK_DIR}/wy/musicwytranslationthread.h
+    ${MUSIC_CORE_NETWORK_DIR}/wy/musicwyauthenticationthread.h
     ${MUSIC_CORE_NETWORK_DIR}/xm/musicdownloadxminterface.h
     ${MUSIC_CORE_NETWORK_DIR}/xm/musicdownloadqueryxmthread.h
     ${MUSIC_CORE_NETWORK_DIR}/xm/musicdownloadqueryxmalbumthread.h
@@ -112,20 +116,6 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_HEADERS
     ${MUSIC_CORE_NETWORK_DIR}/mg/musicmgtextdownloadthread.h
     ${MUSIC_CORE_NETWORK_DIR}/mg/musicmgsongsuggestthread.h
     ${MUSIC_CORE_NETWORK_DIR}/mg/musicmgartistsimilarthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadwsinterface.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsartistthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsalbumthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywstoplistthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsplaylistthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsmoviethread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsrecommendthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsartistlistthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwscommentsthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwsdiscoverlistthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwstextdownloadthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwssongsuggestthread.h
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwsartistsimilarthread.h
     ${MUSIC_CORE_NETWORK_DIR}/yyt/musicdownloadqueryyytthread.h
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicdownloadsourcethread.h
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicnetworkthread.h
@@ -140,6 +130,7 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_HEADERS
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicdownloadcounterpvthread.h
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicdownloadbackgroundremotethread.h
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musictranslationthreadabstract.h
+    ${MUSIC_CORE_NETWORK_DIR}/ztl/musicauthenticationthread.h
     ${MUSIC_CORE_NETWORK_DIR}/musicnetworkabstract.h
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadthreadabstract.h
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadqueryfactory.h
@@ -156,17 +147,21 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_HEADERS
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadsongsuggestthread.h
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadsimilarthread.h
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadqueryartistlistthread.h
+    ${MUSIC_CORE_NETWORK_DIR}/musicdownloadmanager.h
 )
 
 set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_SOURCES
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradiochannelthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradioplaylistthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradiosongsthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/radio/musicradiothreadabstract.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradiochannelthread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradioplaylistthread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradiosongsthread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/fm/musicradiothreadabstract.cpp
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradiocategorythread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradioprogramthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradioprogramcategorythread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/radio/dj/musicdjradiothreadabstract.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/mv/musicmvradiocategorythread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/mv/musicmvradioprogramthread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/radio/mv/musicmvradiothreadabstract.cpp
     ${MUSIC_CORE_NETWORK_DIR}/nr/musicdatadownloadthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/nr/musictextdownloadthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/nr/musicdatatagdownloadthread.cpp
@@ -185,6 +180,7 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_SOURCES
     ${MUSIC_CORE_NETWORK_DIR}/wy/musicwysongsuggestthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/wy/musicwyartistsimilarthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/wy/musicwytranslationthread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/wy/musicwyauthenticationthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/xm/musicdownloadxminterface.cpp
     ${MUSIC_CORE_NETWORK_DIR}/xm/musicdownloadqueryxmthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/xm/musicdownloadqueryxmalbumthread.cpp
@@ -270,20 +266,6 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_SOURCES
     ${MUSIC_CORE_NETWORK_DIR}/mg/musicmgtextdownloadthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/mg/musicmgsongsuggestthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/mg/musicmgartistsimilarthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadwsinterface.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsartistthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsalbumthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywstoplistthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsplaylistthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsmoviethread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsrecommendthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicdownloadquerywsartistlistthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwscommentsthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwsdiscoverlistthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwstextdownloadthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwssongsuggestthread.cpp
-    ${MUSIC_CORE_NETWORK_DIR}/ws/musicwsartistsimilarthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/yyt/musicdownloadqueryyytthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicdownloadsourcethread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicnetworkthread.cpp
@@ -298,6 +280,7 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_SOURCES
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicdownloadcounterpvthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musicdownloadbackgroundremotethread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/ztl/musictranslationthreadabstract.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/ztl/musicauthenticationthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/musicnetworkabstract.cpp
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadthreadabstract.cpp
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadqueryfactory.cpp
@@ -314,4 +297,5 @@ set_property(GLOBAL PROPERTY MUSIC_CORE_NETWORK_KITS_SOURCES
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadsongsuggestthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadsimilarthread.cpp
     ${MUSIC_CORE_NETWORK_DIR}/musicdownloadqueryartistlistthread.cpp
+    ${MUSIC_CORE_NETWORK_DIR}/musicdownloadmanager.cpp
 )

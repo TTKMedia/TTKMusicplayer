@@ -57,7 +57,7 @@ QString MusicArtistAlbumsItemWidget::getClassName()
     return staticMetaObject.className();
 }
 
-void MusicArtistAlbumsItemWidget::setMusicItem(const MusicResultsItem &item)
+void MusicArtistAlbumsItemWidget::setMusicResultsItem(const MusicResultsItem &item)
 {
     m_itemData = item;
     m_nameLabel->setToolTip(item.m_name);
@@ -167,7 +167,7 @@ void MusicArtistMvsFoundWidget::createArtistMvsItem(const MusicResultsItem &item
 
     MusicArtistAlbumsItemWidget *label = new MusicArtistAlbumsItemWidget(this);
     connect(label, SIGNAL(currentItemClicked(QString)), SLOT(currentItemClicked(QString)));
-    label->setMusicItem(item);
+    label->setMusicResultsItem(item);
 
     int lineNumber = width()/LINE_SPACING_SIZE;
     m_gridLayout->addWidget(label, m_resizeWidgets.count()/lineNumber,
@@ -255,7 +255,7 @@ void MusicArtistSimilarFoundWidget::createArtistSimilarItem(const MusicResultsIt
 {
     MusicArtistAlbumsItemWidget *label = new MusicArtistAlbumsItemWidget(this);
     connect(label, SIGNAL(currentItemClicked(QString)), SLOT(currentItemClicked(QString)));
-    label->setMusicItem(item);
+    label->setMusicResultsItem(item);
 
     int lineNumber = width()/LINE_SPACING_SIZE;
     m_gridLayout->addWidget(label, m_resizeWidgets.count()/lineNumber,
@@ -329,7 +329,7 @@ void MusicArtistAlbumsFoundWidget::createArtistAlbumsItem(const MusicResultsItem
 {
     MusicArtistAlbumsItemWidget *label = new MusicArtistAlbumsItemWidget(this);
     connect(label, SIGNAL(currentItemClicked(QString)), SLOT(currentItemClicked(QString)));
-    label->setMusicItem(item);
+    label->setMusicResultsItem(item);
 
     int lineNumber = width()/LINE_SPACING_SIZE;
     m_gridLayout->addWidget(label, m_resizeWidgets.count()/lineNumber,
@@ -408,10 +408,10 @@ void MusicArtistFoundWidget::setSongName(const QString &name)
 void MusicArtistFoundWidget::setSongNameById(const QString &id)
 {
     MusicFoundAbstractWidget::setSongName(id);
-    MusicDownLoadQueryThreadAbstract *v = M_DOWNLOAD_QUERY_PTR->getArtistThread(this);
-    m_foundTableWidget->setQueryInput(v);
+    MusicDownLoadQueryThreadAbstract *d = M_DOWNLOAD_QUERY_PTR->getArtistThread(this);
+    m_foundTableWidget->setQueryInput(d);
     m_foundTableWidget->startSearchQuery(id);
-    connect(v, SIGNAL(createArtistInfoItem(MusicResultsItem)), SLOT(createArtistInfoItem(MusicResultsItem)));
+    connect(d, SIGNAL(createArtistInfoItem(MusicResultsItem)), SLOT(createArtistInfoItem(MusicResultsItem)));
 }
 
 void MusicArtistFoundWidget::resizeWindow()
@@ -452,13 +452,13 @@ void MusicArtistFoundWidget::queryAllFinished()
 
 void MusicArtistFoundWidget::queryArtistFinished()
 {
-    MusicDownLoadQueryThreadAbstract *query = m_foundTableWidget->getQueryInput();
-    if(!query)
+    MusicDownLoadQueryThreadAbstract *d = m_foundTableWidget->getQueryInput();
+    if(!d)
     {
         return;
     }
 
-    MusicObject::MusicSongInformations musicSongInfos(query->getMusicSongInfos());
+    MusicObject::MusicSongInformations musicSongInfos(d->getMusicSongInfos());
     if(musicSongInfos.isEmpty())
     {
         m_statusLabel->setPixmap(QPixmap(":/image/lb_noArtist"));

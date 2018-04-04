@@ -207,8 +207,8 @@ void MusicSettingWidget::initControllerParameter()
     M_SETTING_PTR->value(MusicSettingManager::DownloadCacheLimitChoiced).toInt() == 1 ?
                      m_ui->downloadCacheAutoRadioBox->click() : m_ui->downloadCacheManRadioBox->click();
 
-    MusicUtils::Widget::setComboboxText(m_ui->downloadLimitSpeedComboBox, M_SETTING_PTR->value(MusicSettingManager::DownloadDLoadLimitChoiced).toString());
-    MusicUtils::Widget::setComboboxText(m_ui->uploadLimitSpeedComboBox, M_SETTING_PTR->value(MusicSettingManager::DownloadULoadLimitChoiced).toString());
+    MusicUtils::Widget::setComboBoxText(m_ui->downloadLimitSpeedComboBox, M_SETTING_PTR->value(MusicSettingManager::DownloadDLoadLimitChoiced).toString());
+    MusicUtils::Widget::setComboBoxText(m_ui->uploadLimitSpeedComboBox, M_SETTING_PTR->value(MusicSettingManager::DownloadULoadLimitChoiced).toString());
     M_SETTING_PTR->value(MusicSettingManager::DownloadLimitChoiced).toInt() == 1 ?
                      m_ui->downloadFullRadioBox->click() : m_ui->downloadLimitRadioBox->click();
 
@@ -743,9 +743,6 @@ void MusicSettingWidget::initDownloadWidget()
     m_ui->downloadServerComboBox->addItem(QIcon(":/server/lb_kuwo"), tr("kuwoMusic"));
     m_ui->downloadServerComboBox->addItem(QIcon(":/server/lb_kugou"), tr("kugouMusic"));
     m_ui->downloadServerComboBox->addItem(QIcon(":/server/lb_migu"), tr("miguMusic"));
-    m_ui->downloadServerComboBox->addItem(QIcon(":/server/lb_5sing"), tr("5singMusic(yc)"));
-    m_ui->downloadServerComboBox->addItem(QIcon(":/server/lb_5sing"), tr("5singMusic(fc)"));
-    m_ui->downloadServerComboBox->addItem(QIcon(":/server/lb_5sing"), tr("5singMusic(bz)"));
 
     /////////////////////////////////////////////////////////////
     QButtonGroup *buttonGroup = new QButtonGroup(this);
@@ -858,7 +855,7 @@ void MusicSettingWidget::initInlineLrcWidget()
 
 void MusicSettingWidget::initSoundEffectWidget()
 {
-    m_ui->outputTypeComboBox->setItemDelegate(new QStyledItemDelegate(m_ui->downloadServerComboBox));
+    m_ui->outputTypeComboBox->setItemDelegate(new QStyledItemDelegate(m_ui->outputTypeComboBox));
     m_ui->outputTypeComboBox->setStyleSheet(MusicUIObject::MComboBoxStyle01 + MusicUIObject::MItemView01);
     m_ui->outputTypeComboBox->view()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
     foreach(const QAudioDeviceInfo &info, QAudioDeviceInfo::availableDevices(QAudio::AudioOutput))
@@ -936,7 +933,7 @@ void MusicSettingWidget::initNetworkWidget()
     m_ui->proxyUsernameEdit->setStyleSheet(MusicUIObject::MLineEditStyle01);
     m_ui->proxyAreaEdit->setStyleSheet(MusicUIObject::MLineEditStyle01);
 
-    m_ui->proxyTypeComboBox->setItemDelegate(new QStyledItemDelegate(m_ui->downloadServerComboBox));
+    m_ui->proxyTypeComboBox->setItemDelegate(new QStyledItemDelegate(m_ui->proxyTypeComboBox));
     m_ui->proxyTypeComboBox->setStyleSheet(MusicUIObject::MComboBoxStyle01 + MusicUIObject::MItemView01);
     m_ui->proxyTypeComboBox->view()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
 

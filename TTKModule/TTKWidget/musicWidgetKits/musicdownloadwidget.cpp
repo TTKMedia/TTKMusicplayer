@@ -147,6 +147,7 @@ MusicDownloadWidget::MusicDownloadWidget(QWidget *parent)
     m_downloadTotal = 0;
     m_querySingleInfo = false;
     m_downloadThread = M_DOWNLOAD_QUERY_PTR->getQueryThread(this);
+
     m_queryType = MusicDownLoadQueryThreadAbstract::MusicQuery;
     m_ui->loadingLabel->setType(MusicGifLabelWidget::Gif_Cicle_Blue);
 
@@ -256,8 +257,8 @@ MusicObject::MusicSongInformation MusicDownloadWidget::getMatchMusicSongInformat
         MusicObject::MusicSongInformation musicSongInfo;
         foreach(const MusicObject::MusicSongInformation &var, musicSongInfos)
         {
-            if( var.m_singerName.contains(artistName, Qt::CaseInsensitive) &&
-                var.m_songName.contains(songName, Qt::CaseInsensitive) )
+            if(var.m_singerName.contains(artistName, Qt::CaseInsensitive) &&
+               var.m_songName.contains(songName, Qt::CaseInsensitive))
             {
                 musicSongInfo = var;
                 break;
@@ -371,10 +372,7 @@ void MusicDownloadWidget::queryAllFinishedMovie(const MusicObject::MusicSongAttr
 
 void MusicDownloadWidget::resizeWindow()
 {
-    if(m_ui->loadingLabel->isRunning())
-    {
-        m_ui->loadingLabel->run(false);
-    }
+    m_ui->loadingLabel->run(false);
 
     int delta = m_ui->viewArea->rowCount();
     delta = ((delta == 0) ? 0 : (delta - 1)*ROW_HEIGHT) - 2*ROW_HEIGHT;
@@ -494,6 +492,7 @@ void MusicDownloadWidget::startToDownloadMusic(const MusicObject::MusicSongInfor
             record.m_name = musicSong;
             record.m_path = QFileInfo(downloadName).absoluteFilePath();
             record.m_size = musicAttr.m_size;
+            record.m_time = "-1";
             records << record;
             down.writeDownloadConfig( records );
             ////////////////////////////////////////////////
@@ -517,7 +516,7 @@ void MusicDownloadWidget::startToDownloadMusic(const MusicObject::MusicSongInfor
             ////////////////////////////////////////////////
             m_downloadTotal = 1;
             MusicDataTagDownloadThread *downSong = new MusicDataTagDownloadThread( musicAttr.m_url, downloadName,
-                                                                                   MusicDownLoadThreadAbstract::Download_Music, this);
+                                                                                   MusicDownLoadThreadAbstract::DownloadMusic, this);
             connect(downSong, SIGNAL(downLoadDataChanged(QString)), SLOT(dataDownloadFinished()));
             downSong->setTags(musicSongInfo.m_smallPicUrl, musicSongInfo.m_songName, musicSongInfo.m_singerName, musicSongInfo.m_albumName);
             downSong->startToDownload();
@@ -577,8 +576,8 @@ void MusicDownloadWidget::startToDownloadMovie(const MusicObject::MusicSongInfor
                     }
                 }
                 ////////////////////////////////////////////////
-                MusicDataDownloadThread* download = new MusicDataDownloadThread(urls[ul], downloadName,
-                                                                                MusicDownLoadThreadAbstract::Download_Video, this);
+                MusicDataDownloadThread *download = new MusicDataDownloadThread(urls[ul], downloadName,
+                                                                                MusicDownLoadThreadAbstract::DownloadVideo, this);
                 connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(dataDownloadFinished()));
                 download->startToDownload();
             }

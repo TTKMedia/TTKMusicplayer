@@ -1,6 +1,6 @@
 #include "musicdownloadthreadabstract.h"
 #include "musicsettingmanager.h"
-#include "musicconnectionpool.h"
+#include "musicdownloadmanager.h"
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -11,7 +11,7 @@
 #include <QSslError>
 
 MusicDownLoadThreadAbstract::MusicDownLoadThreadAbstract(const QString &url, const QString &save,
-                                                         Download_Type type, QObject *parent)
+                                                         DownloadType type, QObject *parent)
     : MusicNetworkAbstract(parent)
 {
     m_url = url;
@@ -26,14 +26,14 @@ MusicDownLoadThreadAbstract::MusicDownLoadThreadAbstract(const QString &url, con
     }
     m_file = new QFile(save, this);
 
-    M_CONNECTION_PTR->setNetworkMultiValue(this);
+    M_DOWNLOAD_MANAGER_PTR->connectNetworkMultiValue(this);
     m_timer.setInterval(MT_S2MS);
     connect(&m_timer, SIGNAL(timeout()), SLOT(updateDownloadSpeed()));
 }
 
 MusicDownLoadThreadAbstract::~MusicDownLoadThreadAbstract()
 {
-    M_CONNECTION_PTR->removeNetworkMultiValue(this);
+    M_DOWNLOAD_MANAGER_PTR->removeNetworkMultiValue(this);
 }
 
 QString MusicDownLoadThreadAbstract::getClassName()
@@ -100,12 +100,12 @@ QString MusicDownLoadThreadAbstract::transferData() const
 {
     switch(m_downloadType)
     {
-        case Download_Music: return "Download_Music";
-        case Download_Lrc:   return "Download_Lrc";
-        case Download_SmlBG: return "Download_SmlBG";
-        case Download_BigBG: return "Download_BigBG";
-        case Download_Video: return "Download_Video";
-        case Download_Other: return "Download_Other";
+        case DownloadMusic: return "DownloadMusic";
+        case DownloadLrc:   return "DownloadLrc";
+        case DownloadSmallBG: return "DownloadSmallBG";
+        case DownloadBigBG: return "DownloadBigBG";
+        case DownloadVideo: return "DownloadVideo";
+        case DownloadOther: return "DownloadOther";
         default: return QString();
     }
 }
