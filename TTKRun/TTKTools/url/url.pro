@@ -29,22 +29,20 @@ win32:msvc{
     QMAKE_CXXFLAGS += -std=c++11
 }
 
-TARGET = toolsskin
+TARGET = toolsurl
 TEMPLATE = app
 DEFINES += MUSIC_LIBRARY
 
 INCLUDEPATH += $$PWD/../../../ \
                $$PWD/../../../TTKModule/TTKCore/musicCoreKits \
-               $$PWD/../../../TTKModule/TTKCore/musicUtilsKits \
-               $$PWD/../../../TTKModule/TTKWidget/musicWidgetCoreKits \
+               $$PWD/../../../TTKModule/TTKCore/musicUtilsKits
 
-win32{
-    LIBS += -L../../../bin/$$TTKMusicPlayer -lTTKCore
-}
+win32:LIBS += -L../../../bin/$$TTKMusicPlayer -lTTKCore
+unix:LIBS += -L../../../lib/$$TTKMusicPlayer -lTTKCore -lqmmp -lTTKUi -lTTKExtras -lTTKWatcher -lzlib -lTTKZip
 
-SOURCES += mainskin.cpp\
-           toolsskin.cpp
+SOURCES += mainurl.cpp\
+           toolsurl.cpp
 
-HEADERS  += toolsskin.h
+HEADERS  += toolsurl.h
 
-FORMS   += toolsskin.ui
+FORMS   += toolsurl.ui

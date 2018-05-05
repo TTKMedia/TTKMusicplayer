@@ -16,11 +16,27 @@
 # * with this program; If not, see <http://www.gnu.org/licenses/>.
 # =================================================
 
-include(../../../TTKVersion.pri)
+QT       += core
+unix:VERSION += 1.0.0.0
+include(../../TTKVersion.pri)
 
-QT       += core gui
-equals(QT_MAJOR_VERSION, 5){
-QT       += widgets
+TEMPLATE = app
+CONFIG += console
+
+UI_DIR = ./.build/ui
+MOC_DIR = ./.build/moc
+OBJECTS_DIR = ./.build/obj
+RCC_DIR = ./.build/rcc
+
+DEFINES += MUSIC_LIBRARY
+
+win32{
+    TARGET = ../../../bin/$$TTKMusicPlayer/TTKConsole
+    LIBS += -L../../bin/$$TTKMusicPlayer -lTTKCore
+}
+unix{
+    TARGET = ../../lib/$$TTKMusicPlayer/TTKConsole
+    LIBS += -L../../lib/$$TTKMusicPlayer -lTTKCore -lqmmp -lTTKUi -lTTKExtras -lTTKWatcher -lzlib -lTTKZip
 }
 
 win32:msvc{
@@ -29,21 +45,20 @@ win32:msvc{
     QMAKE_CXXFLAGS += -std=c++11
 }
 
-TARGET = toolsurl
-TEMPLATE = app
-DEFINES += MUSIC_LIBRARY
+INCLUDEPATH += \
+    $$PWD/../ \
+    $$PWD/../../ \
+    $$PWD/../../TTKModule/TTKCore/musicCoreKits \
+    $$PWD/../../TTKModule/TTKCore/musicUtilsKits
 
-INCLUDEPATH += $$PWD/../../../ \
-               $$PWD/../../../TTKModule/TTKCore/musicCoreKits \
-               $$PWD/../../../TTKModule/TTKCore/musicUtilsKits
+SOURCES += \
+    musicconsolemain.cpp \
+    musicconsoleobject.cpp
+
+HEADERS += \
+    ../musicrunglobaldefine.h \
+    musicconsoleobject.h
 
 win32{
-    LIBS += -L../../../bin/$$TTKMusicPlayer -lTTKCore
+    RC_FILE = TTKConsole.rc
 }
-
-SOURCES += mainurl.cpp\
-           toolsurl.cpp
-
-HEADERS  += toolsurl.h
-
-FORMS   += toolsurl.ui

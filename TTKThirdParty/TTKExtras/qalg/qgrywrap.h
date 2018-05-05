@@ -1,5 +1,5 @@
-#ifndef MUSICMGTEXTDOWNLOADTHREAD_H
-#define MUSICMGTEXTDOWNLOADTHREAD_H
+#ifndef QGRYWRAP_H
+#define QGRYWRAP_H
 
 /* =================================================
  * This file is part of the TTK Music Player project
@@ -19,36 +19,23 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include "musicdownloadthreadabstract.h"
+#include "musicextrasglobaldefine.h"
 
-/*! @brief The class of downloading the type of migu txt.
+/*! @brief The namespace of the gry wrapper.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicMGTextDownLoadThread : public MusicDownLoadThreadAbstract
+class MUSIC_EXTRAS_EXPORT QGryWrap
 {
-    Q_OBJECT
 public:
     /*!
-     * Object contsructor provide download URL\ save local path and download type.
+     * Encrypt gry by input.
      */
-    MusicMGTextDownLoadThread(const QString &url, const QString &save,
-                              DownloadType type, QObject *parent = 0);
-
+    static QString encrypt(const QString &in);
     /*!
-     * Get class object name.
+     * Decrypt gry by input.
      */
-    static QString getClassName();
-    /*!
-     * Start to download data.
-     */
-    virtual void startToDownload() override;
-
-public Q_SLOTS:
-    /*!
-     * Download data from net finished.
-     */
-    virtual void downLoadFinished() override;
+    static QString decrypt(const QString &in);
 
 };
 
-#endif // MUSICMGTEXTDOWNLOADTHREAD_H
+#endif // QGRYWRAP_H
