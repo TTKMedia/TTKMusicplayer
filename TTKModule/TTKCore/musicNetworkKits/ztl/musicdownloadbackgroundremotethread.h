@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicSkinRemoteItem
     }
 
 }MusicSkinRemoteItem;
-MUSIC_DECLARE_LISTS(MusicSkinRemoteItem)
+TTK_DECLARE_LISTS(MusicSkinRemoteItem)
 
 /*! @brief The class of the remote skin item group.
  * @author Greedysky <greedysky@163.com>
@@ -59,7 +59,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicSkinRemoteGroup
     }
 
 }MusicSkinRemoteGroup;
-MUSIC_DECLARE_LISTS(MusicSkinRemoteGroup)
+TTK_DECLARE_LISTS(MusicSkinRemoteGroup)
 
 
 /*! @brief The class of the thunder skin XML Config Manager.
@@ -68,16 +68,12 @@ MUSIC_DECLARE_LISTS(MusicSkinRemoteGroup)
 class MUSIC_NETWORK_EXPORT MusicSkinThunderConfigManager : public MusicAbstractXml
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSkinThunderConfigManager)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSkinThunderConfigManager(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicSkinThunderConfigManager(QObject *parent = nullptr);
 
     /*!
      * Read datas into xml file.
@@ -93,16 +89,12 @@ public:
 class MUSIC_NETWORK_EXPORT MusicDownloadBackgroundRemoteThread : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadBackgroundRemoteThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadBackgroundRemoteThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDownloadBackgroundRemoteThread(QObject *parent = nullptr);
 
     /*!
      * Start to download data from net.
@@ -130,16 +122,12 @@ public Q_SLOTS:
 class MUSIC_NETWORK_EXPORT MusicDownloadBackgroundThunderThread : public MusicDownloadBackgroundRemoteThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadBackgroundThunderThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadBackgroundThunderThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDownloadBackgroundThunderThread(QObject *parent = nullptr);
 
     /*!
      * Start to download data from net.
@@ -161,16 +149,12 @@ public Q_SLOTS:
 class MUSIC_NETWORK_EXPORT MusicDownloadBackgroundBingThread : public MusicDownloadBackgroundRemoteThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadBackgroundBingThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadBackgroundBingThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDownloadBackgroundBingThread(QObject *parent = nullptr);
 
     /*!
      * Start to download data from net.

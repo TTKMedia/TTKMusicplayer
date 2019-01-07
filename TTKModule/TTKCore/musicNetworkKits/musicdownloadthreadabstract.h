@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,29 +31,15 @@
 class MUSIC_NETWORK_EXPORT MusicDownLoadThreadAbstract : public MusicNetworkAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownLoadThreadAbstract)
 public:
-    enum DownloadType
-    {
-        DownloadMusic,      /*!< type of dwonlaod music*/
-        DownloadLrc,        /*!< type of dwonlaod lrc*/
-        DownloadSmallBG,    /*!< type of dwonlaod small background*/
-        DownloadBigBG,      /*!< type of dwonlaod big background*/
-        DownloadVideo,      /*!< type of dwonlaod video*/
-        DownloadOther       /*!< type of dwonlaod other user mod*/
-    };
-
     /*!
      * Object contsructor provide download URL\ save local path and download type.
      */
-    MusicDownLoadThreadAbstract(const QString &url, const QString &save,
-                                DownloadType type, QObject *parent = 0);
+    MusicDownLoadThreadAbstract(const QString &url, const QString &save, MusicObject::DownloadType type, QObject *parent = nullptr);
 
     virtual ~MusicDownLoadThreadAbstract();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Release the network object.
      */
@@ -93,7 +79,7 @@ protected:
 
     QFile *m_file;
     QString m_url, m_savePathName;
-    DownloadType m_downloadType;
+    MusicObject::DownloadType m_downloadType;
     qint64 m_hasReceived, m_currentReceived, m_totalSize;
     QTimer m_timer;
 

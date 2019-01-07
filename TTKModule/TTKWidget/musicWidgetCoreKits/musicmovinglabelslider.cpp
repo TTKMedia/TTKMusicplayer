@@ -24,11 +24,6 @@ MusicMovingLabelSlider::~MusicMovingLabelSlider()
     delete m_textLabel;
 }
 
-QString MusicMovingLabelSlider::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicMovingLabelSlider::mousePressEvent(QMouseEvent *event)
 {
     MusicMovingClickedSlider::mousePressEvent(event);
@@ -42,9 +37,9 @@ void MusicMovingLabelSlider::mouseMoveEvent(QMouseEvent *event)
 {
     MusicMovingClickedSlider::mouseMoveEvent(event);
 
-    QPoint curPos = mapFromGlobal(QCursor::pos());
-    QPoint glbPos = mapToGlobal(QPoint(0, 0));
-    QSize sizePos = size();
+    const QPoint &curPos = mapFromGlobal(QCursor::pos());
+    const QPoint &glbPos = mapToGlobal(QPoint(0, 0));
+    const QSize &sizePos = size();
     QPoint changePos;
 
     if(m_orientation == Qt::Vertical)

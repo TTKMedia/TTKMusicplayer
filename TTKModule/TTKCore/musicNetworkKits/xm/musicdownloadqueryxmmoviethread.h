@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,16 +29,12 @@
 class MUSIC_CORE_EXPORT MusicXMMVInfoConfigManager : public MusicAbstractXml
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicXMMVInfoConfigManager)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicXMMVInfoConfigManager(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicXMMVInfoConfigManager(QObject *parent = nullptr);
 
     /*!
      * Read mv info datas into xml file.
@@ -55,16 +51,12 @@ class MUSIC_NETWORK_EXPORT MusicDownLoadQueryXMMovieThread : public MusicDownLoa
                                                              private MusicDownLoadXMInterface
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownLoadQueryXMMovieThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownLoadQueryXMMovieThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDownLoadQueryXMMovieThread(QObject *parent = nullptr);
 
     /*!
      * Start to search data from name and type.
@@ -101,8 +93,7 @@ protected:
     /*!
      * Read mv info attribute from query results.
      */
-    void readFromMusicMVAttribute(MusicObject::MusicSongInformation *info,
-                                  const QString &vid, const QString &uid);
+    void readFromMusicMVAttribute(MusicObject::MusicSongInformation *info, const QString &vid, const QString &uid);
 
 };
 

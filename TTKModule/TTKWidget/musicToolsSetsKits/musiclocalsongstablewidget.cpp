@@ -1,8 +1,9 @@
 #include "musiclocalsongstablewidget.h"
 #include "musicnumberutils.h"
 
-#define ROW_HEIGHT 60
-#define MUSIC_INFO_ROLE Qt::UserRole + 1000
+#define ROW_HEIGHT          60
+#define MUSIC_INFO_ROLE     Qt::UserRole + 1000
+
 Q_DECLARE_METATYPE(QFileInfoList)
 
 MusicLocalSongsTableWidget::MusicLocalSongsTableWidget(QWidget *parent)
@@ -27,11 +28,6 @@ MusicLocalSongsTableWidget::~MusicLocalSongsTableWidget()
 {
     clear();
     delete m_musicSongs;
-}
-
-QString MusicLocalSongsTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLocalSongsTableWidget::clear()
@@ -91,7 +87,7 @@ void MusicLocalSongsTableWidget::contextMenuEvent(QContextMenuEvent *event)
 
     createMoreMenu(&rightClickMenu);
 
-    bool empty = !m_musicSongs->isEmpty();
+    const bool empty = !m_musicSongs->isEmpty();
     rightClickMenu.addAction(tr("musicInfo..."), this, SLOT(musicFileInformation()))->setEnabled(empty);
     rightClickMenu.addAction(QIcon(":/contextMenu/btn_localFile"), tr("openFileDir"), this, SLOT(musicOpenFileDir()))->setEnabled(empty);
     rightClickMenu.addAction(QIcon(":/contextMenu/btn_ablum"), tr("ablum"), this, SLOT(musicAlbumFoundWidget()));
@@ -117,11 +113,6 @@ MusicLocalSongsInfoTableWidget::MusicLocalSongsInfoTableWidget(QWidget *parent)
     headerview->resizeSection(2, 120);
 
     connect(this, SIGNAL(cellDoubleClicked(int,int)), SLOT(listCellDoubleClicked(int,int)));
-}
-
-QString MusicLocalSongsInfoTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLocalSongsInfoTableWidget::clear()

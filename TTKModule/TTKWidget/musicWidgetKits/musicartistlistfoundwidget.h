@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,16 +33,12 @@ class MusicArtistListFoundCategoryPopWidget;
 class MUSIC_WIDGET_EXPORT MusicArtistListFoundItemWidget : public MusicClickedLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistListFoundItemWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistListFoundItemWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicArtistListFoundItemWidget(QWidget *parent = nullptr);
 
     /*!
      * Set music results item.
@@ -74,18 +70,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicArtistListFoundWidget : public MusicFoundAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistListFoundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistListFoundWidget(QWidget *parent = 0);
+    explicit MusicArtistListFoundWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistListFoundWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current name to search founds.

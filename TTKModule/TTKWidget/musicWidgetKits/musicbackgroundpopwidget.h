@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,14 @@ class MusicClickedSlider;
 class MUSIC_WIDGET_EXPORT MusicBackgroundPopWidget : public MusicToolMenuWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundPopWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundPopWidget(QWidget *parent = 0);
+    explicit MusicBackgroundPopWidget(QWidget *parent = nullptr);
 
     virtual ~MusicBackgroundPopWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set slider value.

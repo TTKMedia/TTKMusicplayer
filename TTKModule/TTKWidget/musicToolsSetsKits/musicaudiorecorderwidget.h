@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,24 +43,14 @@ class MusicAudioRecorderCore;
 class MUSIC_TOOLSET_EXPORT MusicAudioRecorderWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicAudioRecorderWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicAudioRecorderWidget(QWidget *parent = 0);
+    explicit MusicAudioRecorderWidget(QWidget *parent = nullptr);
 
     virtual ~MusicAudioRecorderWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
 
 public Q_SLOTS:
     /*!
@@ -105,10 +95,6 @@ public Q_SLOTS:
     void show();
 
 protected:
-    /*!
-     * Override the widget event.
-     */
-    virtual void closeEvent(QCloseEvent *event) override;
     /*!
      * Apply volume to sample.
      */

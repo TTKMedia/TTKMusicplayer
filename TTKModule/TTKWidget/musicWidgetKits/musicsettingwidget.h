@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,11 @@ class MusicSettingWidget;
  */
 typedef struct MUSIC_WIDGET_EXPORT MusicFunctionItem
 {
-    MusicFunctionItem() { }
+    MusicFunctionItem()
+    {
+
+    }
+
     MusicFunctionItem(const QString &icon, const QString &name)
     {
         m_icon = icon;
@@ -45,7 +49,7 @@ typedef struct MUSIC_WIDGET_EXPORT MusicFunctionItem
     QString m_icon;
     QString m_name;
 }MusicFunctionItem;
-MUSIC_DECLARE_LISTS(MusicFunctionItem)
+TTK_DECLARE_LISTS(MusicFunctionItem)
 
 /*! @brief The class of the list table widget.
  * @author Greedysky <greedysky@163.com>
@@ -53,16 +57,13 @@ MUSIC_DECLARE_LISTS(MusicFunctionItem)
 class MUSIC_WIDGET_EXPORT MusicFunctionTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicFunctionTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicFunctionTableWidget(QWidget *parent = 0);
+    explicit MusicFunctionTableWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Add table list items by index and icons and paths.
      */
@@ -96,6 +97,7 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicSettingWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSettingWidget)
 public:
     enum Type
     {
@@ -106,14 +108,9 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSettingWidget(QWidget *parent = 0);
+    explicit MusicSettingWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSettingWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Init controller parameter to widget.

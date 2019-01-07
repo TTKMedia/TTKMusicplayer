@@ -4,11 +4,11 @@
 #include "musicconnectionpool.h"
 #include "musicuiobject.h"
 #include "musicplayer.h"
+#include "musicwidgetheaders.h"
 ///qmmp incldue
 #include "effect.h"
 #include "effectfactory.h"
 ///
-#include <QBoxLayout>
 #include <QStyledItemDelegate>
 
 MusicSoundEffectsItemWidget::MusicSoundEffectsItemWidget(QWidget *parent)
@@ -76,11 +76,6 @@ MusicSoundEffectsItemWidget::~MusicSoundEffectsItemWidget()
     delete m_settingButton;
 }
 
-QString MusicSoundEffectsItemWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSoundEffectsItemWidget::setText(const QString &text)
 {
     m_textLabel->setText(" " + text);
@@ -104,7 +99,7 @@ bool MusicSoundEffectsItemWidget::pluginEnable() const
 
 void MusicSoundEffectsItemWidget::soundEffectChanged(Type type, bool enable)
 {
-    QString plugin( transformQStringFromEnum(type) );
+    const QString plugin( transformQStringFromEnum(type) );
     foreach(EffectFactory *factory, Effect::factories())
     {
         if(factory->properties().name.contains(plugin))
@@ -142,7 +137,7 @@ void MusicSoundEffectsItemWidget::soundEffectCheckBoxChanged(bool state)
 
 void MusicSoundEffectsItemWidget::soundEffectValueChanged()
 {
-    QString plugin( transformQStringFromEnum(m_type) );
+    const QString plugin( transformQStringFromEnum(m_type) );
     foreach(EffectFactory *factory, Effect::factories())
     {
         if(factory->properties().name.contains(plugin))
@@ -242,11 +237,6 @@ MusicSoundEffectsWidget::~MusicSoundEffectsWidget()
     delete m_ui;
 }
 
-QString MusicSoundEffectsWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSoundEffectsWidget::setParentConnect(QObject *object)
 {
     if(M_SETTING_PTR->value(MusicSettingManager::EqualizerEnableChoiced).toInt())
@@ -271,7 +261,7 @@ void MusicSoundEffectsWidget::equalizerButtonChanged(bool state)
 
 void MusicSoundEffectsWidget::equalizerButtonChanged()
 {
-    int state = !M_SETTING_PTR->value(MusicSettingManager::EqualizerEnableChoiced).toInt();
+    const int state = !M_SETTING_PTR->value(MusicSettingManager::EqualizerEnableChoiced).toInt();
     equalizerButtonChanged(state);
 
     M_SETTING_PTR->setValue(MusicSettingManager::EqualizerEnableChoiced, state);

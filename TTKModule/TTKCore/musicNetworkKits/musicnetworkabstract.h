@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@
 
 #include <QNetworkReply>
 #include <QSslConfiguration>
+#include "musicnetworkdefines.h"
 #include "musicalgorithmutils.h"
 
 /*! @brief The class of abstract downloading data.
@@ -29,26 +30,15 @@
 class MUSIC_NETWORK_EXPORT MusicNetworkAbstract : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicNetworkAbstract)
 public:
-    typedef enum StateCode
-    {
-        Init = 0xFFFFF00,   /*!< Network state init*/
-        Success = 0,        /*!< Network state success*/
-        Error = -1,         /*!< Network state error*/
-        UnKnow = 2,         /*!< Network state unknow*/
-    }StateCode;
-
     /*!
      * Object contsructor.
      */
-    explicit MusicNetworkAbstract(QObject *parent = 0);
+    explicit MusicNetworkAbstract(QObject *parent = nullptr);
 
     virtual ~MusicNetworkAbstract();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Release the network object.
      */
@@ -70,7 +60,7 @@ public:
     /*!
      * Get the current raw data.
      */
-    inline const QVariantMap& getRawData() const { return m_rawData; }
+    inline const QVariantMap &getRawData() const { return m_rawData; }
 
 Q_SIGNALS:
     /*!
@@ -110,7 +100,7 @@ protected:
     void setSslConfiguration(QNetworkRequest *request, QSslSocket::PeerVerifyMode m = QSslSocket::VerifyNone);
 
     QVariantMap m_rawData;
-    StateCode m_stateCode;
+    MusicObject::NetworkCode m_stateCode;
     volatile bool m_interrupt;
     QNetworkReply *m_reply;
     QNetworkAccessManager *m_manager;

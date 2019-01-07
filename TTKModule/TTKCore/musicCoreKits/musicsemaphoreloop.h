@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,14 @@
 class MUSIC_CORE_EXPORT MusicSemaphoreLoop : public QEventLoop
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSemaphoreLoop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSemaphoreLoop(QObject *parent = 0);
+    explicit MusicSemaphoreLoop(QObject *parent = nullptr);
 
     ~MusicSemaphoreLoop();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Event loop start.

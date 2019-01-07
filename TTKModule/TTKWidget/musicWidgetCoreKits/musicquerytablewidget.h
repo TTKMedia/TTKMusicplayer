@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,18 +33,14 @@ class MusicGifLabelWidget;
 class MUSIC_WIDGET_EXPORT MusicQueryTableWidget : public MusicFillItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicQueryTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicQueryTableWidget(QWidget *parent = 0);
+    explicit MusicQueryTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicQueryTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set network query input.
@@ -69,8 +65,7 @@ Q_SIGNALS:
     /*!
      * Add current network music to download to local.
      */
-    void muiscSongToPlayListChanged(const QString &name, const QString &time,
-                                    const QString &format, bool play);
+    void musicSongToPlayListChanged(const QString &name, const QString &time, const QString &format, bool play);
     /*!
      * Show download state type.
      */
@@ -110,18 +105,15 @@ class MusicLabelDelegate;
 class MUSIC_WIDGET_EXPORT MusicQueryItemTableWidget : public MusicQueryTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicQueryItemTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicQueryItemTableWidget(QWidget *parent = 0);
+    explicit MusicQueryItemTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicQueryItemTableWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start search query by text.
      */

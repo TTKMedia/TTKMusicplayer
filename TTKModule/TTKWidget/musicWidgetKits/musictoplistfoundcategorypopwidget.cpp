@@ -1,11 +1,9 @@
 #include "musictoplistfoundcategorypopwidget.h"
 #include "musicclickedlabel.h"
 #include "musicuiobject.h"
+#include "musicwidgetheaders.h"
 
-#include <QLabel>
-#include <QGridLayout>
 #include <QSignalMapper>
-#include <QScrollArea>
 
 #define ITEM_MAX_COLUMN     2
 #define ITEM_LABEL_WIDTH    20
@@ -14,11 +12,6 @@ MusicToplistFoundCategoryItem::MusicToplistFoundCategoryItem(QWidget *parent)
     : QWidget(parent)
 {
     setStyleSheet(QString());
-}
-
-QString MusicToplistFoundCategoryItem::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicToplistFoundCategoryItem::setCategory(const MusicResultsCategory &category)
@@ -71,11 +64,6 @@ MusicToplistFoundCategoryPopWidget::MusicToplistFoundCategoryPopWidget(QWidget *
     connect(this, SIGNAL(clicked()), SLOT(popupMenu()));
 }
 
-QString MusicToplistFoundCategoryPopWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicToplistFoundCategoryPopWidget::setCategory(const QString &server, QObject *obj)
 {
     MusicResultsCategorys categorys;
@@ -123,7 +111,7 @@ void MusicToplistFoundCategoryPopWidget::initWidget()
     setTranslucentBackground();
     setText(tr("All"));
 
-    QString style = MusicUIObject::MBorderStyle04 + MusicUIObject::MBackgroundStyle17;
+    const QString &style = MusicUIObject::MBorderStyle04 + MusicUIObject::MBackgroundStyle17;
     setObjectName("mianWidget");
     setStyleSheet(QString("#mianWidget{%1}").arg(style));
 

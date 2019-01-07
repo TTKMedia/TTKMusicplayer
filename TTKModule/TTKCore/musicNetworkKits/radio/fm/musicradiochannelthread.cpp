@@ -17,11 +17,6 @@ MusicRadioChannelThread::~MusicRadioChannelThread()
     deleteAll();
 }
 
-QString MusicRadioChannelThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRadioChannelThread::startToDownload(const QString &id)
 {
     Q_UNUSED(id);
@@ -42,7 +37,6 @@ void MusicRadioChannelThread::startToDownload(const QString &id)
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
     connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(replyError(QNetworkReply::NetworkError)));
-
 }
 
 void MusicRadioChannelThread::downLoadFinished()
@@ -55,24 +49,21 @@ void MusicRadioChannelThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
         m_channels.clear();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
-            QVariantList channels = value["channel_list"].toList();
+            const QVariantList &channels = value["channel_list"].toList();
 
             QFile arcFile(":/data/fmarclist");
             arcFile.open(QFile::ReadOnly);
-#ifdef Q_OS_WIN
-            QStringList arcs = QString(arcFile.readAll()).split("\r\n");
-#else
-            QStringList arcs = QString(arcFile.readAll()).split("\n");
-#endif
+
+            QStringList arcs = QString(arcFile.readAll()).remove("\r").split("\n");
             arcFile.close();
 
             while(channels.count() > arcs.count())

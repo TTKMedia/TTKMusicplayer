@@ -14,41 +14,36 @@ MusicSkinThunderConfigManager::MusicSkinThunderConfigManager(QObject *parent)
 
 }
 
-QString MusicSkinThunderConfigManager::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSkinThunderConfigManager::readSkinRemoteXMLConfig(MusicSkinRemoteGroups &items)
 {
-    QDomNodeList nodelist = m_document->elementsByTagName("group");
+    const QDomNodeList &nodelist = m_document->elementsByTagName("group");
     for(int i=0; i<nodelist.count(); ++i)
     {
         MusicSkinRemoteGroup group;
         QDomNode node = nodelist.at(i);
         group.m_group = node.toElement().attribute("name");
 
-        QDomNodeList grouplist = node.childNodes();
+        const QDomNodeList &grouplist = node.childNodes();
         for(int j=0; j<grouplist.count(); ++j)
         {
             node = grouplist.at(j);
 
             MusicSkinRemoteItem item;
-            QDomNodeList packagelist = node.childNodes();
+            const QDomNodeList &packagelist = node.childNodes();
             for(int k=0; k<packagelist.count(); ++k)
             {
-                QDomElement ele = packagelist.at(k).toElement();
-                if(ele.nodeName() == "name")
+                const QDomElement &element = packagelist.at(k).toElement();
+                if(element.nodeName() == "name")
                 {
-                    item.m_name = ele.text();
+                    item.m_name = element.text();
                 }
-                else if(ele.nodeName() == "popularity")
+                else if(element.nodeName() == "popularity")
                 {
-                    item.m_useCount = ele.text().toInt();
+                    item.m_useCount = element.text().toInt();
                 }
-                else if(ele.nodeName() == "file")
+                else if(element.nodeName() == "file")
                 {
-                    item.m_url = ele.text();
+                    item.m_url = element.text();
                 }
             }
 
@@ -73,22 +68,12 @@ MusicDownloadBackgroundRemoteThread::MusicDownloadBackgroundRemoteThread(QObject
 
 }
 
-QString MusicDownloadBackgroundRemoteThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 
 
 MusicDownloadBackgroundThunderThread::MusicDownloadBackgroundThunderThread(QObject *parent)
     : MusicDownloadBackgroundRemoteThread(parent)
 {
 
-}
-
-QString MusicDownloadBackgroundThunderThread::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDownloadBackgroundThunderThread::startToDownload()
@@ -119,11 +104,6 @@ MusicDownloadBackgroundBingThread::MusicDownloadBackgroundBingThread(QObject *pa
 
 }
 
-QString MusicDownloadBackgroundBingThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownloadBackgroundBingThread::startToDownload()
 {
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
@@ -137,7 +117,7 @@ void MusicDownloadBackgroundBingThread::downLoadDataFinished(const QByteArray &b
 
     QJson::Parser parser;
     bool ok;
-    QVariant data = parser.parse(bytes, &ok);
+    const QVariant &data = parser.parse(bytes, &ok);
     if(ok)
     {
         QVariantMap value = data.toMap();
@@ -145,7 +125,7 @@ void MusicDownloadBackgroundBingThread::downLoadDataFinished(const QByteArray &b
         {
             MusicSkinRemoteGroup group;
             group.m_group = MUSIC_DAILY_DIR;
-            QVariantList datas = value["images"].toList();
+            const QVariantList &datas = value["images"].toList();
             foreach(const QVariant &var, datas)
             {
                 if(var.isNull())

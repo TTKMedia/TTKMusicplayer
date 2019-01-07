@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,17 +36,15 @@ namespace Ui {
 class MUSIC_GUI_EXPORT MusicLeftAreaWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLeftAreaWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLeftAreaWidget(QWidget *parent = 0);
+    explicit MusicLeftAreaWidget(QWidget *parent = nullptr);
 
     ~MusicLeftAreaWidget();
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+
     /*!
      * Get class object instance.
      */
@@ -96,10 +94,6 @@ public Q_SLOTS:
      * To download music data from net finished.
      */
     void musicDownloadSongFinished();
-    /*!
-     * All files upload finsihed.
-     */
-    void cloudSharedSongUploadAllDone();
     /*!
      * Show full container or not.
      */

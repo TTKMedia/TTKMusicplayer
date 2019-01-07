@@ -1,6 +1,6 @@
 # =================================================
 # * This file is part of the TTK Music Player project
-# * Copyright (C) 2015 - 2018 Greedysky Studio
+# * Copyright (C) 2015 - 2019 Greedysky Studio
 #
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -37,10 +37,11 @@ HEADERS  += \
     $$PWD/musicwebmvradioinfowidget.h \
     $$PWD/musicwebradioview.h \
     $$PWD/musiccloudsharedsongwidget.h \
-    $$PWD/musiccloudfilemanagerdialog.h \
-    $$PWD/musiccloudtablewidget.h \
+    $$PWD/musiccloudmanagerwidget.h \
     $$PWD/musicdownloadrecordwidget.h \
-    $$PWD/musiccloudfileinformationwidget.h
+    $$PWD/musiccloudfileinformationwidget.h \
+    $$PWD/musiccloudtoolboxwidget.h \
+    $$PWD/musiccloudtablewidget.h
 
 }
 
@@ -63,9 +64,10 @@ SOURCES += \
     $$PWD/musicwebmvradioinfowidget.cpp \
     $$PWD/musicwebradioview.cpp \
     $$PWD/musiccloudsharedsongwidget.cpp \
-    $$PWD/musiccloudfilemanagerdialog.cpp \
-    $$PWD/musiccloudtablewidget.cpp \
+    $$PWD/musiccloudmanagerwidget.cpp \
     $$PWD/musicdownloadrecordwidget.cpp \
-    $$PWD/musiccloudfileinformationwidget.cpp
+    $$PWD/musiccloudfileinformationwidget.cpp \
+    $$PWD/musiccloudtoolboxwidget.cpp \
+    $$PWD/musiccloudtablewidget.cpp
 
 }

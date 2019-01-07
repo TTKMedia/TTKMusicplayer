@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,16 +28,12 @@
 class MUSIC_TOOL_EXPORT MusicWebMVRadioFoundCategoryItem : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebMVRadioFoundCategoryItem)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebMVRadioFoundCategoryItem(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicWebMVRadioFoundCategoryItem(QWidget *parent = nullptr);
 
     /*!
      * Set current category.
@@ -69,16 +65,13 @@ protected:
 class MUSIC_TOOL_EXPORT MusicWebMVRadioFoundCategoryPopWidget : public MusicToolMenuWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebMVRadioFoundCategoryPopWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebMVRadioFoundCategoryPopWidget(QWidget *parent = 0);
+    explicit MusicWebMVRadioFoundCategoryPopWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current category by input server.
      */

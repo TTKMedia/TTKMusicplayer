@@ -3,18 +3,13 @@
 #///QJson import
 #include "qjson/parser.h"
 
+#define HOST_URL    "ellnUHg0Um83L2x1U29LbWw1UjFtandwRHNIRUxPcnQ="
 #define REFER_URL   "YnZJaDZBVEFHSllTWlRualJFblR3U0NkYitRd1N1ZmNKaDZFQUdQVFRKND0="
 
-MusicQQTextDownLoadThread::MusicQQTextDownLoadThread(const QString &url, const QString &save,
-                                                     DownloadType type, QObject *parent)
+MusicQQTextDownLoadThread::MusicQQTextDownLoadThread(const QString &url, const QString &save, MusicObject::DownloadType  type, QObject *parent)
     : MusicDownLoadThreadAbstract(url, save, type, parent)
 {
 
-}
-
-QString MusicQQTextDownLoadThread::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicQQTextDownLoadThread::startToDownload()
@@ -29,7 +24,7 @@ void MusicQQTextDownLoadThread::startToDownload()
             QNetworkRequest request;
             request.setUrl(m_url);
             request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.setRawHeader("Host", "lyric.music.qq.com");
+            request.setRawHeader("Host", MusicUtils::Algorithm::mdII(HOST_URL, false).toUtf8());
             request.setRawHeader("Referer", MusicUtils::Algorithm::mdII(REFER_URL, false).toUtf8());
 #ifndef QT_NO_SSL
             connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
@@ -67,11 +62,11 @@ void MusicQQTextDownLoadThread::downLoadFinished()
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QByteArray lrcData;
-            QVariantMap value = data.toMap();
+            const QVariantMap &value = data.toMap();
             if(value.contains("retcode") && value["retcode"].toInt() == 0)
             {
                 lrcData = value["lyric"].toByteArray();

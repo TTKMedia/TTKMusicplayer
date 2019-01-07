@@ -12,11 +12,6 @@ MusicDJRadioProgramCategoryThread::MusicDJRadioProgramCategoryThread(QObject *pa
     m_queryServer = "WangYi";
 }
 
-QString MusicDJRadioProgramCategoryThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDJRadioProgramCategoryThread::startToSearch(QueryType type, const QString &category)
 {
     if(type == MusicQuery)
@@ -39,12 +34,12 @@ void MusicDJRadioProgramCategoryThread::startToPage(int offset)
 
     M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(offset));
     deleteAll();
+
+    const QUrl &musicUrl(MusicUtils::Algorithm::mdII(DJ_RADIO_LIST_URL, false).arg(m_searchText));
     m_pageTotal = 0;
     m_interrupt = true;
 
     QNetworkRequest request;
-    QUrl musicUrl(MusicUtils::Algorithm::mdII(DJ_RADIO_LIST_URL, false)
-                  .arg(m_searchText).arg(m_pageSize).arg(offset*m_pageSize));
     request.setUrl(musicUrl);
     setSslConfiguration(&request);
 
@@ -64,11 +59,11 @@ void MusicDJRadioProgramCategoryThread::startToSearch(const QString &category)
     m_interrupt = true;
 
     QNetworkRequest request;
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-    QByteArray parameter = makeTokenQueryUrl(&request,
-               MusicUtils::Algorithm::mdII(DJ_DETAIL_N_URL, false),
-               MusicUtils::Algorithm::mdII(DJ_DETAIL_NDT_URL, false).arg(category));
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
+    const QByteArray &parameter = makeTokenQueryUrl(&request,
+                      MusicUtils::Algorithm::mdII(DJ_DETAIL_N_URL, false),
+                      MusicUtils::Algorithm::mdII(DJ_DETAIL_NDT_URL, false).arg(category));
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
     setSslConfiguration(&request);
 
     QNetworkReply *reply = m_manager->post(request, parameter);
@@ -86,11 +81,11 @@ void MusicDJRadioProgramCategoryThread::getProgramInfo(MusicResultsItem &item)
     M_LOGGER_INFO(QString("%1 getProgramInfo %2").arg(getClassName()).arg(item.m_id));
 
     QNetworkRequest request;
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-    QByteArray parameter = makeTokenQueryUrl(&request,
-               MusicUtils::Algorithm::mdII(DJ_PROGRAM_INFO_N_URL, false),
-               MusicUtils::Algorithm::mdII(DJ_PROGRAM_INFO_NDT_URL, false).arg(item.m_id));
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
+    const QByteArray &parameter = makeTokenQueryUrl(&request,
+                      MusicUtils::Algorithm::mdII(DJ_PROGRAM_INFO_N_URL, false),
+                      MusicUtils::Algorithm::mdII(DJ_PROGRAM_INFO_NDT_URL, false).arg(item.m_id));
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
     setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
@@ -106,7 +101,7 @@ void MusicDJRadioProgramCategoryThread::getProgramInfo(MusicResultsItem &item)
 
     QJson::Parser parser;
     bool ok;
-    QVariant data = parser.parse(reply->readAll(), &ok);
+    const QVariant &data = parser.parse(reply->readAll(), &ok);
     if(ok)
     {
         QVariantMap value = data.toMap();
@@ -137,39 +132,39 @@ void MusicDJRadioProgramCategoryThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QString html(m_reply->readAll());
+        m_pageTotal = m_pageSize;
+        const QByteArray &bytes = m_reply->readAll();
 
-        QRegExp regx("<a.*class=\"zpgi\".*>(\\d+)</a>");
-        regx.setMinimal(true);
-        int pos = html.indexOf(regx);
-        while(pos != -1)
+        QJson::Parser parser;
+        bool ok;
+        const QVariant &data = parser.parse(bytes, &ok);
+        if(ok)
         {
-            if(m_interrupt) return;
+            QVariantMap value = data.toMap();
+            if(value["code"].toInt() == 200 && value.contains("djRadios"))
+            {
+                const QVariantList &datas = value["djRadios"].toList();
+                foreach(const QVariant &var, datas)
+                {
+                    if(var.isNull())
+                    {
+                        continue;
+                    }
 
-            m_pageTotal = regx.cap(1).toInt()*m_pageSize;
+                    value = var.toMap();
+                    MusicResultsItem info;
+                    info.m_id = QString::number(value["id"].toInt());
 
-            pos += regx.matchedLength();
-            pos = regx.indexIn(html, pos);
-        }
+                    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
+                    info.m_coverUrl = value["picUrl"].toString();
+                    info.m_name = value["name"].toString();
+                    value = value["dj"].toMap();
+                    info.m_nickName = value["nickname"].toString();
+                    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
 
-        regx.setPattern("<a href=\".?/djradio\\?id=(\\d+).*title.*</a>");
-        pos = html.indexOf(regx);
-
-        while(pos != -1)
-        {
-            if(m_interrupt) return;
-
-            MusicResultsItem info;
-            info.m_id = regx.cap(1);
-
-            if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-            getProgramInfo(info);
-            if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-
-            emit createProgramItem(info);
-
-            pos += regx.matchedLength();
-            pos = regx.indexIn(html, pos);
+                    emit createProgramItem(info);
+                }
+            }
         }
     }
 
@@ -189,11 +184,11 @@ void MusicDJRadioProgramCategoryThread::getDetailsFinished()
 
     if(reply && reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = reply->readAll();
+        const QByteArray &bytes = reply->readAll();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
@@ -201,7 +196,7 @@ void MusicDJRadioProgramCategoryThread::getDetailsFinished()
             {
                 bool categoryFlag = false;
                 ////////////////////////////////////////////////////////////
-                QVariantList datas = value["programs"].toList();
+                const QVariantList &datas = value["programs"].toList();
                 foreach(const QVariant &var, datas)
                 {
                     if(var.isNull())
@@ -214,17 +209,17 @@ void MusicDJRadioProgramCategoryThread::getDetailsFinished()
                     musicInfo.m_songName = MusicUtils::String::illegalCharactersReplaced(value["name"].toString());
                     musicInfo.m_timeLength = MusicTime::msecTime2LabelJustified(value["duration"].toInt());
 
-                    QVariantMap radioObject = value["radio"].toMap();
+                    const QVariantMap &radioObject = value["radio"].toMap();
                     musicInfo.m_smallPicUrl = radioObject["picUrl"].toString();
                     musicInfo.m_artistId = QString::number(radioObject["id"].toInt());
                     musicInfo.m_singerName = MusicUtils::String::illegalCharactersReplaced(radioObject["name"].toString());
 
-                    QVariantMap mainSongObject = value["mainSong"].toMap();
+                    const QVariantMap &mainSongObject = value["mainSong"].toMap();
                     musicInfo.m_songId = QString::number(mainSongObject["id"].toInt());
 
-                    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                     readFromMusicSongAttribute(&musicInfo, mainSongObject, m_searchQuality, true);
-                    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                     ////////////////////////////////////////////////////////////
                     if(!categoryFlag)
                     {

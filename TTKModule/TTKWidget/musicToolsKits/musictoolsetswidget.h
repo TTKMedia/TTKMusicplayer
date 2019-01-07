@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,19 +33,14 @@ class MusicToolSetsWidget;
 class MUSIC_TOOL_EXPORT MusicToolSetsWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicToolSetsWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicToolSetsWidget(QWidget *parent = 0);
+    explicit MusicToolSetsWidget(QWidget *parent = nullptr);
 
     virtual ~MusicToolSetsWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
 
 public Q_SLOTS:
     /*!
@@ -56,10 +51,6 @@ public Q_SLOTS:
      * Add tool sets list into list widget.
      */
     void addListWidgetItem();
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
     /*!
      * Override show function.
      */
@@ -76,7 +67,6 @@ protected:
     virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
     Ui::MusicToolSetsWidget *m_ui;
-    MusicObject::ToolsTypes m_toolsFlags;
 
 };
 

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 class MUSIC_NETWORK_EXPORT MusicTranslationThread : public MusicTranslationThreadAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicTranslationThread)
 public:
     enum TranslationType
     {
@@ -52,14 +53,10 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicTranslationThread(QObject *parent = 0);
+    explicit MusicTranslationThread(QObject *parent = nullptr);
 
     virtual ~MusicTranslationThread();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start to translation data.
      */

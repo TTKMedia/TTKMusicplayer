@@ -10,11 +10,6 @@ MusicDownLoadQueryBDToplistThread::MusicDownLoadQueryBDToplistThread(QObject *pa
     m_pageSize = 100;
 }
 
-QString MusicDownLoadQueryBDToplistThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownLoadQueryBDToplistThread::startToSearch(QueryType type, const QString &toplist)
 {
     if(type == MusicQuery)
@@ -35,8 +30,9 @@ void MusicDownLoadQueryBDToplistThread::startToSearch(const QString &toplist)
     }
 
     M_LOGGER_INFO(QString("%1 startToSearch").arg(getClassName()));
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_SONG_TOPLIST_URL, false).arg(toplist).arg(m_pageSize).arg(0);
     deleteAll();
+
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_SONG_TOPLIST_URL, false).arg(toplist).arg(m_pageSize).arg(0);
     m_interrupt = true;
 
     QNetworkRequest request;
@@ -65,17 +61,17 @@ void MusicDownLoadQueryBDToplistThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
             if(value["error_code"].toInt() == 22000 && value.contains("song_list"))
             {
-                QVariantMap topInfo = value["billboard"].toMap();
+                const QVariantMap &topInfo = value["billboard"].toMap();
                 MusicResultsItem info;
                 info.m_name = topInfo["name"].toString();
                 info.m_coverUrl = topInfo["pic_s192"].toString();
@@ -84,7 +80,7 @@ void MusicDownLoadQueryBDToplistThread::downLoadFinished()
                 info.m_updateTime = topInfo["update_date"].toString();
                 emit createToplistInfoItem(info);
                 ////////////////////////////////////////////////////////////
-                QVariantList datas = value["song_list"].toList();
+                const QVariantList &datas = value["song_list"].toList();
                 foreach(const QVariant &var, datas)
                 {
                     if(var.isNull())
@@ -105,9 +101,13 @@ void MusicDownLoadQueryBDToplistThread::downLoadFinished()
                     musicInfo.m_smallPicUrl = value["pic_small"].toString().replace("_90", "_500");
                     musicInfo.m_albumName = MusicUtils::String::illegalCharactersReplaced(value["album_title"].toString());
 
-                    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                    musicInfo.m_year = value["publishtime"].toString();
+                    musicInfo.m_discNumber = "1";
+                    musicInfo.m_trackNumber = value["album_no"].toString();
+
+                    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                     readFromMusicSongAttribute(&musicInfo, value["all_rate"].toString(), m_searchQuality, m_queryAllRecords);
-                    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
 
                     if(musicInfo.m_songAttrs.isEmpty())
                     {

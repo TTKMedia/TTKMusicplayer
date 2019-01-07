@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,18 +37,15 @@ class MusicAudioRecorderCore;
 class MUSIC_TOOLSET_EXPORT MusicSoundKMicroWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSoundKMicroWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSoundKMicroWidget(QWidget *parent = 0);
+    explicit MusicSoundKMicroWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSoundKMicroWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current button style.
      */
@@ -61,12 +58,6 @@ public:
      * Start seach KMicro.
      */
     void startSeachKMicro(const QString &name);
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
 
 public Q_SLOTS:
     /*!

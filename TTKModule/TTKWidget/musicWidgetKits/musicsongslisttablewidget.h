@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,18 +34,14 @@ class MusicRenameLineEditDelegate;
 class MUSIC_WIDGET_EXPORT MusicSongsListTableWidget : public MusicSongsListAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongsListTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongsListTableWidget(int index, QWidget *parent = 0);
+    explicit MusicSongsListTableWidget(int index, QWidget *parent = nullptr);
 
     virtual ~MusicSongsListTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Update songs file names in table.
@@ -58,7 +54,7 @@ public:
     /*!
      * Set current searched file indexs.
      */
-    void setMusicSongsSearchedFileName(MusicSongs *songs, const MusicObject::MIntList &fileIndexs);
+    void setMusicSongsSearchedFileName(MusicSongs *songs, const MIntList &fileIndexs);
 
     /*!
      * Select the current play row.
@@ -106,7 +102,7 @@ Q_SIGNALS:
     /*!
      * Delete items from indexs and check remove file or not.
      */
-    void deleteItemAt(const MusicObject::MIntList &index, bool fileRemove);
+    void deleteItemAt(const MIntList &index, bool fileRemove);
     /*!
      * Swap the current play index when user drag and drop.
      */

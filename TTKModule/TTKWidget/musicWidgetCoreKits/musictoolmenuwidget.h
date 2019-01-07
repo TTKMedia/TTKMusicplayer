@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,16 +29,12 @@
 class MUSIC_WIDGET_EXPORT MusicToolMenu : public QMenu
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicToolMenu)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicToolMenu(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicToolMenu(QWidget *parent = nullptr);
 
 Q_SIGNALS:
     /*!
@@ -62,18 +58,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicToolMenuWidget : public QToolButton
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicToolMenuWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicToolMenuWidget(QWidget *parent = 0);
+    explicit MusicToolMenuWidget(QWidget *parent = nullptr);
 
     ~MusicToolMenuWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set background translucent.

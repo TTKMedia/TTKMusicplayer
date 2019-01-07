@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include "musicnumberdefine.h"
 #include "musicglobaldefine.h"
 
-/*! @brief The class of the utils core object namespace.
+/*! @brief The namespace of the utils algorithm.
  * @author Greedysky <greedysky@163.com>
  */
 namespace MusicUtils
@@ -74,13 +74,13 @@ namespace MusicUtils
         MUSIC_UTILS_EXPORT QString getLanguageName(int index);
 
         /*!
-         * Music version check.
+         * App version check.
          */
-        MUSIC_UTILS_EXPORT bool musicVersionCheck(const QStringList &ol, const QStringList &dl, int depth);
+        MUSIC_UTILS_EXPORT bool appVersionCheck(const QStringList &ol, const QStringList &dl, int depth);
         /*!
-         * Music version check.
+         * App version check.
          */
-        MUSIC_UTILS_EXPORT bool musicVersionCheck(const QString &o, const QString &d);
+        MUSIC_UTILS_EXPORT bool appVersionCheck(const QString &o, const QString &d);
 
     }
 }

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,18 +30,14 @@ class MusicNetworkTestThread;
 class MUSIC_TOOLSET_EXPORT MusicNetworkConnectionItem : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicNetworkConnectionItem)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicNetworkConnectionItem(QWidget *parent = 0);
+    explicit MusicNetworkConnectionItem(QWidget *parent = nullptr);
 
     ~MusicNetworkConnectionItem();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set label text name.
@@ -90,25 +86,14 @@ class MusicNetworkConnectionTestWidget;
 class MUSIC_TOOLSET_EXPORT MusicNetworkConnectionTestWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicNetworkConnectionTestWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicNetworkConnectionTestWidget(QWidget *parent = 0);
+    explicit MusicNetworkConnectionTestWidget(QWidget *parent = nullptr);
 
     virtual ~MusicNetworkConnectionTestWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
 
 public Q_SLOTS:
     /*!
@@ -125,11 +110,6 @@ public Q_SLOTS:
     void testFinshed();
 
 protected:
-    /*!
-     * Override the widget event.
-     */
-    virtual void closeEvent(QCloseEvent *event) override;
-
     int m_countIndex;
     Ui::MusicNetworkConnectionTestWidget *m_ui;
     QList<MusicNetworkConnectionItem*> m_connectionItems;

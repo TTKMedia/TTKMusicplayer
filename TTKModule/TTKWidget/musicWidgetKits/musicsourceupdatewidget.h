@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,18 +36,14 @@ class MusicSourceUpdateWidget;
 class MUSIC_WIDGET_EXPORT MusicSourceUpdateNotifyWidget : public MusicAbstractMoveSingleWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSourceUpdateNotifyWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSourceUpdateNotifyWidget(QWidget *parent = 0);
+    explicit MusicSourceUpdateNotifyWidget(QWidget *parent = nullptr);
 
     ~MusicSourceUpdateNotifyWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Start update.
@@ -76,18 +72,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicSourceUpdateWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSourceUpdateWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSourceUpdateWidget(QWidget *parent = 0);
+    explicit MusicSourceUpdateWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSourceUpdateWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Start update.

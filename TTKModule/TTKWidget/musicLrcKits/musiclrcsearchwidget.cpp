@@ -38,23 +38,15 @@ MusicLrcSearchWidget::MusicLrcSearchWidget(QWidget *parent)
     connect(m_ui->lrcSearchDownload, SIGNAL(clicked()), SLOT(lrcSearchDownloadClicked()));
     connect(m_ui->topTitleCloseButton, SIGNAL(clicked()), SLOT(close()));
     connect(m_ui->closeButton, SIGNAL(clicked()), SLOT(close()));
-    connect(m_ui->label_checkBox, SIGNAL(clicked(bool)), m_ui->tableWidget,
-                                SLOT(setSelectedAllItems(bool)));
+    connect(m_ui->label_checkBox, SIGNAL(clicked(bool)), m_ui->tableWidget, SLOT(setSelectedAllItems(bool)));
     connect(m_ui->tableWidget, SIGNAL(resolvedSuccess()), SLOT(lrcSearchFinished()));
-    connect(m_ui->tableWidget, SIGNAL(lrcDownloadStateChanged(QString)),
-                             SLOT(lrcDownloadStateChanged(QString)));
-    connect(m_ui->tableWidget, SIGNAL(restartSearchQuery(QString)),
-                             SLOT(setCurrentSongName(QString)));
+    connect(m_ui->tableWidget, SIGNAL(lrcDownloadStateChanged(QString)), SLOT(lrcDownloadStateChanged(QString)));
+    connect(m_ui->tableWidget, SIGNAL(restartSearchQuery(QString)), SLOT(setCurrentSongName(QString)));
 }
 
 MusicLrcSearchWidget::~MusicLrcSearchWidget()
 {
     delete m_ui;
-}
-
-QString MusicLrcSearchWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLrcSearchWidget::setCurrentSongName(const QString &name) const
@@ -76,15 +68,14 @@ void MusicLrcSearchWidget::lrcSearchFinished() const
 void MusicLrcSearchWidget::lrcSearchButtonClicked() const
 {
     m_ui->stateLabel->setText(tr("lrc is searching now!"));
-    QString text = m_ui->songSearchEdit->text().trimmed();
+    const QString &text = m_ui->songSearchEdit->text().trimmed();
     m_ui->tableWidget->startSearchQuery( text );
-    m_ui->functionTopLabel->setText(tr("&nbsp;find <font color=#158FE1> %1 </font> result")
-                                  .arg(MusicUtils::Widget::elidedText(font(), text, Qt::ElideRight, 245)));
+    m_ui->functionTopLabel->setText(tr("&nbsp;find <font color=#158FE1> %1 </font> result").arg(MusicUtils::Widget::elidedText(font(), text, Qt::ElideRight, 245)));
 }
 
 void MusicLrcSearchWidget::lrcSearchDownloadClicked()
 {
-    MusicObject::MIntList list = m_ui->tableWidget->getSelectedItems();
+    MIntList list = m_ui->tableWidget->getSelectedItems();
     list.removeOne(m_ui->tableWidget->rowCount() - 1);
     if(list.isEmpty())
     {
@@ -94,7 +85,7 @@ void MusicLrcSearchWidget::lrcSearchDownloadClicked()
         return;
     }
 
-    foreach(int row, list)
+    foreach(const int row, list)
     {
         m_ui->tableWidget->musicDownloadLocal(row);
     }

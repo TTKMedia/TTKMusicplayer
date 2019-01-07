@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,9 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QLabel>
-#include <QPushButton>
 #include "musicobject.h"
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 
 class QMovie;
 class QStackedWidget;
@@ -37,18 +36,15 @@ class MusicIdentifySongsThread;
 class MUSIC_TOOLSET_EXPORT MusicIdentifySongsWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicIdentifySongsThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicIdentifySongsWidget(QWidget *parent = 0);
+    explicit MusicIdentifySongsWidget(QWidget *parent = nullptr);
 
     ~MusicIdentifySongsWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get query song id keys.
      */

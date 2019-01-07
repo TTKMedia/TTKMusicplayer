@@ -2,13 +2,9 @@
 #include "musicuiobject.h"
 #include "musicobject.h"
 #include "musicsongstoolitemrenamedwidget.h"
+#include "musicwidgetheaders.h"
 
-#include <QLabel>
 #include <QPainter>
-#include <QCheckBox>
-#include <QPushButton>
-#include <QRadioButton>
-#include <QProgressBar>
 
 MusicRadioButtonDelegate::MusicRadioButtonDelegate(QObject *parent)
     : QItemDelegate(parent)
@@ -25,32 +21,24 @@ MusicRadioButtonDelegate::~MusicRadioButtonDelegate()
     delete m_radioButton;
 }
 
-QString MusicRadioButtonDelegate::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRadioButtonDelegate::setStyleSheet(const QString &style)
 {
     m_radioButton->setStyleSheet(style);
 }
 
-QSize MusicRadioButtonDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                         const QModelIndex &) const
+QSize MusicRadioButtonDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QSize size = option.rect.size();
     size.setHeight(25);
     return size;
 }
 
-void MusicRadioButtonDelegate::paint(QPainter *painter,
-                                     const QStyleOptionViewItem &option,
-                                     const QModelIndex &index) const
+void MusicRadioButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QItemDelegate::paint(painter, option, index);
 
     painter->save();
-    int minSize = qMin(option.rect.width(), option.rect.height());
+    const int minSize = qMin(option.rect.width(), option.rect.height());
     m_radioButton->resize(minSize, minSize);
     m_radioButton->setChecked( index.data(MUSIC_CHECK_ROLE).toBool() );
     painter->translate((option.rect.width() - 16)/2, 0); // top left
@@ -74,32 +62,24 @@ MusicCheckBoxDelegate::~MusicCheckBoxDelegate()
     delete m_checkBox;
 }
 
-QString MusicCheckBoxDelegate::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicCheckBoxDelegate::setStyleSheet(const QString &style)
 {
     m_checkBox->setStyleSheet(style);
 }
 
-QSize MusicCheckBoxDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                      const QModelIndex &) const
+QSize MusicCheckBoxDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QSize size = option.rect.size();
     size.setHeight(25);
     return size;
 }
 
-void MusicCheckBoxDelegate::paint(QPainter *painter,
-                                  const QStyleOptionViewItem &option,
-                                  const QModelIndex &index) const
+void MusicCheckBoxDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QItemDelegate::paint(painter, option, index);
 
     painter->save();
-    int minSize = qMin(option.rect.width(), option.rect.height());
+    const int minSize = qMin(option.rect.width(), option.rect.height());
     m_checkBox->resize(minSize, minSize);
     m_checkBox->setChecked( index.data(MUSIC_CHECK_ROLE).toBool() );
     painter->translate((option.rect.width() - 16)/2, 0); // top left
@@ -119,17 +99,9 @@ MusicQueryTableDelegate::~MusicQueryTableDelegate()
 
 }
 
-QString MusicQueryTableDelegate::getClassName()
+void MusicQueryTableDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    return staticMetaObject.className();
-}
-
-void MusicQueryTableDelegate::paint(QPainter *painter,
-                                    const QStyleOptionViewItem &option,
-                                    const QModelIndex &index) const
-{
-    painter->fillRect(option.rect,
-                      MStatic_cast(Qt::GlobalColor, index.data(MUSIC_AUDIT_ROLE).toInt()));
+    painter->fillRect(option.rect, MStatic_cast(Qt::GlobalColor, index.data(MUSIC_AUDIT_ROLE).toInt()));
     MusicCheckBoxDelegate::paint(painter, option, index);
 }
 
@@ -147,27 +119,19 @@ MusicProgressBarDelegate::~MusicProgressBarDelegate()
     delete m_progress;
 }
 
-QString MusicProgressBarDelegate::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicProgressBarDelegate::setStyleSheet(const QString &style)
 {
     m_progress->setStyleSheet(style);
 }
 
-QSize MusicProgressBarDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                         const QModelIndex &) const
+QSize MusicProgressBarDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QSize size = option.rect.size();
     size.setHeight(25);
     return size;
 }
 
-void MusicProgressBarDelegate::paint(QPainter *painter,
-                                     const QStyleOptionViewItem &option,
-                                     const QModelIndex &index) const
+void MusicProgressBarDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QItemDelegate::paint(painter, option, index);
 
@@ -193,27 +157,19 @@ MusicLabelDelegate::~MusicLabelDelegate()
     delete m_label;
 }
 
-QString MusicLabelDelegate::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicLabelDelegate::setStyleSheet(const QString &style)
 {
     m_label->setStyleSheet(style);
 }
 
-QSize MusicLabelDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                   const QModelIndex &) const
+QSize MusicLabelDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QSize size = option.rect.size();
     size.setHeight(25);
     return size;
 }
 
-void MusicLabelDelegate::paint(QPainter *painter,
-                               const QStyleOptionViewItem &option,
-                               const QModelIndex &index) const
+void MusicLabelDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QItemDelegate::paint(painter, option, index);
 
@@ -232,9 +188,7 @@ MusicPushButtonDelegate::MusicPushButtonDelegate(QObject *parent)
 {
     m_pushButton  = new QPushButton;
     m_pushButton->setCursor(QCursor(Qt::PointingHandCursor));
-    m_pushButton->setStyleSheet(MusicUIObject::MBorderStyle04 + \
-                                MusicUIObject::MBorderStyle07 + \
-                                MusicUIObject::MBackgroundStyle17);
+    m_pushButton->setStyleSheet(MusicUIObject::MBorderStyle04 + MusicUIObject::MBorderStyle07 + MusicUIObject::MBackgroundStyle17);
 #ifdef Q_OS_UNIX
     m_pushButton->setFocusPolicy(Qt::NoFocus);
 #endif
@@ -245,27 +199,19 @@ MusicPushButtonDelegate::~MusicPushButtonDelegate()
     delete m_pushButton;
 }
 
-QString MusicPushButtonDelegate::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicPushButtonDelegate::setStyleSheet(const QString &style)
 {
     m_pushButton->setStyleSheet(style);
 }
 
-QSize MusicPushButtonDelegate::sizeHint(const QStyleOptionViewItem &option,
-                                        const QModelIndex &) const
+QSize MusicPushButtonDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QSize size = option.rect.size();
     size.setHeight(25);
     return size;
 }
 
-void MusicPushButtonDelegate::paint(QPainter *painter,
-                                    const QStyleOptionViewItem &option,
-                                    const QModelIndex &index) const
+void MusicPushButtonDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QItemDelegate::paint(painter, option, index);
 
@@ -285,14 +231,7 @@ MusicRenameLineEditDelegate::MusicRenameLineEditDelegate(QObject *parent)
 
 }
 
-QString MusicRenameLineEditDelegate::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-QWidget *MusicRenameLineEditDelegate::createEditor(QWidget *parent,
-                                                   const QStyleOptionViewItem &option,
-                                                   const QModelIndex &index) const
+QWidget *MusicRenameLineEditDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     Q_UNUSED(option);
 

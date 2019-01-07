@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,18 +28,15 @@
 class MUSIC_TOOLSET_EXPORT MusicSoundKMicroSearchTableWidget : public MusicQueryItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSoundKMicroSearchTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSoundKMicroSearchTableWidget(QWidget *parent = 0);
+    explicit MusicSoundKMicroSearchTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSoundKMicroSearchTableWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start search query by text.
      */
@@ -73,6 +70,10 @@ public Q_SLOTS:
      */
     virtual void itemDoubleClicked(int row, int column) override;
     /*!
+     * Table widget list cell enter.
+     */
+    virtual void listCellEntered(int row, int column) override;
+    /*!
      * Table widget list cell click.
      */
     virtual void listCellClicked(int row, int column) override;
@@ -100,18 +101,15 @@ class MusicLocalSongSearchEdit;
 class MUSIC_TOOLSET_EXPORT MusicSoundKMicroSearchWidget : public MusicAbstractMoveSingleWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSoundKMicroSearchWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSoundKMicroSearchWidget(QWidget *parent = 0);
+    explicit MusicSoundKMicroSearchWidget(QWidget *parent = nullptr);
 
     ~MusicSoundKMicroSearchWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Connect to parent.
      */

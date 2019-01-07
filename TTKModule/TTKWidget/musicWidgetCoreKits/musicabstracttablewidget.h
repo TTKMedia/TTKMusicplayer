@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,18 +33,15 @@
 class MUSIC_WIDGET_EXPORT MusicAbstractTableWidget : public QTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicAbstractTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicAbstractTableWidget(QWidget *parent = 0);
+    explicit MusicAbstractTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicAbstractTableWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Clear current items.
      */
@@ -66,6 +63,10 @@ protected:
      * Set selected item row color.
      */
     void setRowColor(int row, const QColor &color) const;
+    /*!
+     * Get multi index set.
+     */
+    MIntList getMultiIndexSet();
 
     QColor m_defaultBkColor;
     int m_previousColorRow;

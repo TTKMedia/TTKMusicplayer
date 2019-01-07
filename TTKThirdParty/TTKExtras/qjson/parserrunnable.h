@@ -21,7 +21,7 @@
 #ifndef PARSERRUNNABLE_H
 #define PARSERRUNNABLE_H
 
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 #include <QtCore/QObject>
@@ -39,9 +39,9 @@ namespace QJson {
   {
     Q_OBJECT
     public:
-      explicit ParserRunnable(QObject* parent = 0);
+      explicit ParserRunnable(QObject* parent = nullptr);
 
-      void setData( const QByteArray& data );
+      void setData( const QByteArray &data );
 
       void run();
 
@@ -52,11 +52,11 @@ namespace QJson {
       * @param ok if a parsing error occurs ok is set to false, otherwise it's set to true.
       * @param error_msg contains a string explaining the failure reason
       **/
-      void parsingFinished(const QVariant& json, bool ok, const QString& error_msg);
+      void parsingFinished(const QVariant &json, bool ok, const QString& error_msg);
 
     private:
       class ParserRunnablePrivate;
-      MUSIC_DECLARE_PRIVATE(ParserRunnable)
+      TTK_DECLARE_PRIVATE(ParserRunnable)
 
   };
 }

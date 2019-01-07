@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,12 +27,12 @@ const QString QQ_UA_URL_1           = "NW9YVlRXYnBnNlBFS3Ardi9VR295R0l2aW43U3JvR
 ///////////////////////////////////////////////////////////////////////////////
 const QString QQ_ALBUM_URL          = "THpHd1YyR3FTL3RCQ2pLMFVwSTlrTEc1WUszYXBKNWFqTHRSMXMrSzJIdUJURWx3REoyOWZ0dmRxRXpmSGdaTlRGMTltYmdmZlU4RkFMbWRuTVhtZ0VBWmRVM3A1eVgxVVgzcUZwYkloQzdSNWJSL3VjTGZTNTRBbWJWekRxZ1NXYkdBR1NocW40cm9wRVYrU1EweVN1MHZFeVliM09zUmQ5eHI1RzBUZjU4by9MZVAyZnh1dXR1QkJhdE8zQnk5SlFCcm1MZHVabTRSTkFJSGhmNEgyQVlCc1o3UjR0VGQ=";
 ///////////////////////////////////////////////////////////////////////////////
-const QString QQ_SONG_SEARCH_URL    = "SVhjL0RSZXRSOEFRc0sxaFlFb2Z4T3M0VUIwT1AxMy9LdnVRd0VBTlpqeHVNV2ZWTWF4eGJIN3R1dUY5cWI4Rlk4NTJPVVBIVzZ2TExZaWt4eU9Ic0Iwd1lMa0cybDJFbWlzb1JWSFIrZkw1QmFRSXlpYW1pRnJydXVveE4wM0dWQitINlZTZXkreExDZzdrSXErWkRuYlVKVzJRQ0t6U0xySGtnbjAyTG5zdUU2RUl4aVhjamI0bTQrdUVEcWd3QitLSzM3YmJhd0ZWVlJjdHE1bGtiVzNjZnNZT3NrR0lGbmRJcWNjRktoTGtlQXFZa2dKMHRtd2hvdS9wRWd5c1I1bUtEOGRLYVhRVHRaUnVhZ2dueGhjdWthbzVBZTBFaGlLRkliSVV4REZmbXh2Wjc3QzhVVmpMd2U1aFR4MXFoL0ZqdXF2dXhQOD0=";
+const QString QQ_SONG_SEARCH_URL    = "MjJ5MjdCbU1OUjdQWi90Ni9aUmJrVEJLN2lnazl3VEtMaWJwREoxWDJ3YVpKZWVHLzQ3Y0pXdWRDcDNpemw0a3dDditTQ0hrT3padGlOOG1VUXhkdFAzSkxYK1EzUlVzVGpzM25maHgxR0pmOGpKM3Z5dFROTEZGRitaaDJnbGtEWU0zOEJCWTB6cTBRT1FSMTVLMzhOWmJEdnV3ZHhOdW53VC9FcmFMMjRBWEFBNk1BY21vZmRQaEVtWHNYYmVVNWtjMFJRQk5XQUkwcjczUzlxa3AxZmY5d1V5Kzg2Szd5UzZFWnRBYTkrV1o1N1NWMU1iQVJ5dlBmUzFvWGgwT0hkOElNbmN3ZUxBdU5CRFlPdW92MEVhUEZ0eitYbDdzQTJCbG1xZ2xkNUtidHQzWmxVVlowMlVQMSt6VVR0dThLSmVBTnkrVEtqdnhJU2NCR3VuN3k4WW52b2E0c1ZHMUkvT3NtQ2pqcnh2OHF3T3J2Y21UZUlMbmlqWnozTnlINWs2QXo2QjhETWs9";
 const QString QQ_SONG_MINFO_URL     = "VTl3Ykp1cUk5TEFvY1JIc1E2aUFneXV4Y1VGRlVxVFM5ZTI2a283bExrNzk3WFl6ZEdneVdVN0JDeC9jUFRwVG9lTDBCVVphNWNlQTVXcnovV0lSZnZFOEZQcDFMdnNOdW1naitVdFJ4MFU9";
 const QString QQ_SONG_INFO_URL      = "SzhpeW5CUERDZTB3QzllNFJLMXFtUXU3YVdZYWJrQUFkN3ZiSmQvNWRselRJV2dITUJUVjRRTmlZdFV5aXpIaTBadDJFc1lkWnlnSDg1cUk5Nmh2b1Q2NjlzOVNLQVNnSTkxT0dRaXBsRE09";
 const QString QQ_SONG_LRC_URL       = "UkRvUTU1MHJGMmVDNDhRUWpXbnluVzViaVo0dGVKUHlxWHpnYzEvMnR2VU81WlJxYWpqY0ZEMC84anhRN3kwbm0vUGNxR20zZ1laUzg4Um5EOEdIL0FGS3pvK3VUMEgwMW1BaHFSYlA1OHJUSC9tQmpjUWVxTXk3RFo4PQ==";
 const QString QQ_SONG_PIC_URL       = "SjhCT2UxMEZ5TnZackt2N1ovbmVYQzlUbzNQeXMwMFNSaWE2eGxFR2tBTm9pckk2VWZ1OWN4QzBkVEtYYUIrc2UxKzVHRU1Gd0EzbkZuR0Y=";
-const QString QQ_SONG_128_URL       = "bmNTSUx0QWwrdE5uTHl6M1p6Kyt4cXdUWFJraXNCSUtuU1I1WTliTFhjMnlwTzkzYWcyenNSa3N4MGFuUWdMN0ZvTEZKeERHUy85QWRBK3hUWlpjZFh4ZUc4NXlGL1Ay";
+const QString QQ_SONG_128_URL       = "bDYxcFVCcjVNd2pHaFhrYVdHREtvdm4rbGZNWnVNN1Nob1ltOXhuczE0RlFLSXlGVWhKcUJJaXVxdjBKRFJMeWxheDFhaW4wV3NaMFJyZUNmM05EN2VSNzgrcWZuVWV6K2I2OGl3PT0=";
 const QString QQ_SONG_192_URL       = "cjZONVhBNXF0SnY3ekFROGh2U2o5WmJ2VFk3SGxnWkNPTm1qTEg3TmxZWllYUTVtMWdXMk4yUU9NTjZqWUtJWjZXL2oyeXdzbHFSVndFbW52TzhTaHloMko0QnU5dXJQb3NHdEpRPT0=";
 const QString QQ_SONG_320_URL       = "dWRDRWxuNG5YTlRQZUlKUlJmZlNDNFUzOFpidXYrVndtbjNWZVNQMDBzNXlGKzZmeTl3aDZ0Ni9KYStPR3VFZDYrRDdQSEx5dCt4MlIwekVQQTd3dTR6ejFUdnBKYWRPaFFrYnRRPT0=";
 const QString QQ_SONG_APE_URL       = "THBYOE1UN1lkcXg5eGNmOWhMVmpzVkVOMEQ0MUUrSTNjdVI4Q0VyU1FSOHFFbnNCZ29SL1ErK0xVSFkycHB0V0hNSEVMZUtZK2l4UGRWcHVzR05pNmxaRjdvL3FDemsxbVoxL1d3PT0=";
@@ -77,18 +77,15 @@ public:
     /*!
      * Read tags(size\bitrate\url) from query results.
      */
-    void readFromMusicSongAttribute(MusicObject::MusicSongInformation *info, const QVariantMap &key,
-                                    int bitrate);
+    void readFromMusicSongAttribute(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate);
     /*!
      * Read tags(size\bitrate\url) from query results.
      */
-    void readFromMusicSongAttribute(MusicObject::MusicSongInformation *info, const QVariantMap &key,
-                                    const QString &quality, bool all);
+    void readFromMusicSongAttribute(MusicObject::MusicSongInformation *info, const QVariantMap &key, const QString &quality, bool all);
     /*!
      * Read tags(size\bitrate\url) from query results.
      */
-    void readFromMusicSongAttributePlus(MusicObject::MusicSongInformation *info, const QVariantMap &key,
-                                        int bitrate);
+    void readFromMusicSongAttributePlus(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate);
     /*!
      * Read tags(size\bitrate\url) from query results.
      */

@@ -9,11 +9,6 @@ MusicLrcManagerForDesktop::MusicLrcManagerForDesktop(QWidget *parent)
     m_speedLevel = 50;
 }
 
-QString MusicLrcManagerForDesktop::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 
 
 MusicLrcManagerHorizontalDesktop::MusicLrcManagerHorizontalDesktop(QWidget *parent)
@@ -22,18 +17,13 @@ MusicLrcManagerHorizontalDesktop::MusicLrcManagerHorizontalDesktop(QWidget *pare
 
 }
 
-QString MusicLrcManagerHorizontalDesktop::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicLrcManagerHorizontalDesktop::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
     painter.setFont(m_font);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
-    int begin = (rect().height() - QFontMetrics(m_font).height())/2;
+    const int begin = (rect().height() - QFontMetrics(m_font).height())/2;
     m_linearGradient.setFinalStop(0, QFontMetrics(m_font).height());
     m_maskLinearGradient.setFinalStop(0, QFontMetrics(m_font).height());
 
@@ -68,11 +58,6 @@ MusicLrcManagerVerticalDesktop::MusicLrcManagerVerticalDesktop(QWidget *parent)
     : MusicLrcManagerForDesktop(parent)
 {
 
-}
-
-QString MusicLrcManagerVerticalDesktop::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLrcManagerVerticalDesktop::paintEvent(QPaintEvent *)

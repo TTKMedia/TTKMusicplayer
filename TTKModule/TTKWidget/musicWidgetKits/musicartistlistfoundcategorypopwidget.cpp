@@ -1,11 +1,9 @@
 #include "musicartistlistfoundcategorypopwidget.h"
 #include "musicclickedlabel.h"
 #include "musicuiobject.h"
+#include "musicwidgetheaders.h"
 
-#include <QLabel>
-#include <QGridLayout>
 #include <QSignalMapper>
-#include <QScrollArea>
 
 #define ITEM_MAX_COLUMN     2
 #define ITEM_LABEL_WIDTH    20
@@ -14,11 +12,6 @@ MusicArtistListFoundCategoryItem::MusicArtistListFoundCategoryItem(QWidget *pare
     : QWidget(parent)
 {
     setStyleSheet(QString());
-}
-
-QString MusicArtistListFoundCategoryItem::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicArtistListFoundCategoryItem::setCategory(const MusicResultsCategory &category)
@@ -69,11 +62,6 @@ MusicArtistListFoundCategoryPopWidget::MusicArtistListFoundCategoryPopWidget(QWi
 
     disconnect(this, SIGNAL(clicked()), this, SLOT(popupMenu()));
     connect(this, SIGNAL(clicked()), SLOT(popupMenu()));
-}
-
-QString MusicArtistListFoundCategoryPopWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicArtistListFoundCategoryPopWidget::setCategory(const QString &server, QObject *obj)

@@ -16,6 +16,7 @@ MusicSongCheckToolsWidget::MusicSongCheckToolsWidget(QWidget *parent)
     Q_UNUSED(qRegisterMetaType<MusicSongCheckToolsRenames>("MusicSongCheckToolsRenames"));
     Q_UNUSED(qRegisterMetaType<MusicSongCheckToolsDuplicates>("MusicSongCheckToolsDuplicates"));
     Q_UNUSED(qRegisterMetaType<MusicSongCheckToolsQualitys>("MusicSongCheckToolsQualitys"));
+
     m_ui->setupUi(this);
 
     m_ui->topTitleCloseButton->setIcon(QIcon(":/functions/btn_close_hover"));
@@ -46,11 +47,6 @@ MusicSongCheckToolsWidget::~MusicSongCheckToolsWidget()
     delete m_ui;
 }
 
-QString MusicSongCheckToolsWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongCheckToolsWidget::modifiedItemButtonClicked()
 {
     MusicSongItems songs;
@@ -58,12 +54,12 @@ void MusicSongCheckToolsWidget::modifiedItemButtonClicked()
 
     m_selectedItemIdFlag = true;
     MusicSongCheckToolsItemSelectedDialog dialog;
-    connect(&dialog, SIGNAL(itemListsChanged(MusicObject::MIntList)), SLOT(itemListsChanged(MusicObject::MIntList)));
+    connect(&dialog, SIGNAL(itemListsChanged(MIntList)), SLOT(itemListsChanged(MIntList)));
     dialog.createAllItems(&songs);
     dialog.exec();
 }
 
-void MusicSongCheckToolsWidget::itemListsChanged(const MusicObject::MIntList &items)
+void MusicSongCheckToolsWidget::itemListsChanged(const MIntList &items)
 {
     m_selectedItemIds = items;
     m_ui->itemLabel->setText(tr("Custom Lists"));
@@ -284,8 +280,7 @@ void MusicSongCheckToolsWidget::getSelectedSongItems()
         }
         else
         {
-            if(item.m_itemIndex != MUSIC_LOVEST_LIST && item.m_itemIndex != MUSIC_NETWORK_LIST &&
-               item.m_itemIndex != MUSIC_RECENT_LIST)
+            if(item.m_itemIndex != MUSIC_LOVEST_LIST && item.m_itemIndex != MUSIC_NETWORK_LIST && item.m_itemIndex != MUSIC_RECENT_LIST)
             {
                 m_localSongs << item.m_songs;
             }

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,21 +19,11 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
+#include "ttkprivate.h"
+#include "qndataitem.h"
 #include <QtNetwork/QNetworkReply>
-#include "musicprivate.h"
-#include "musicextrasglobaldefine.h"
 
 class QNSimpleListDataPrivate;
-
-typedef struct MUSIC_EXTRAS_EXPORT QNDataItem
-{
-    QString m_name;
-    QString m_hash;
-    QString m_mimeType;
-    int m_size;
-    qint64 m_putTime;
-}QNDataItem;
-MUSIC_DECLARE_LISTS(QNDataItem)
 
 /*! @brief The namespace of the qiniu simple list data.
  * @author Jemy Graw <jemygraw@gmail.com>
@@ -45,8 +35,7 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit QNSimpleListData(QNetworkAccessManager *networkManager,
-                              QObject *parent = 0);
+    explicit QNSimpleListData(QNetworkAccessManager *networkManager, QObject *parent = nullptr);
     /*!
      * List data to server.
      */
@@ -69,7 +58,7 @@ private Q_SLOTS:
     void handleError(QNetworkReply::NetworkError error);
 
 private:
-    MUSIC_DECLARE_PRIVATE(QNSimpleListData)
+    TTK_DECLARE_PRIVATE(QNSimpleListData)
 
 };
 

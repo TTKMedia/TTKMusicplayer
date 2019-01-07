@@ -2,9 +2,7 @@
 #include "musicwebmusicradiowidget.h"
 #include "musicuiobject.h"
 #include "musicrightareawidget.h"
-
-#include <QBoxLayout>
-#include <QPushButton>
+#include "musicwidgetheaders.h"
 
 MusicWebRadioView::MusicWebRadioView(QWidget *parent)
     : QWidget(parent)
@@ -57,11 +55,6 @@ MusicWebRadioView::~MusicWebRadioView()
     delete m_musicRadio;
 }
 
-QString MusicWebRadioView::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicWebRadioView::init(int index)
 {
     m_musicRadio->initListItems(index);
@@ -69,12 +62,12 @@ void MusicWebRadioView::init(int index)
 
 void MusicWebRadioView::openDJRadioWindow()
 {
-    MusicRightAreaWidget::instance()->musicFunctionClicked(MusicRightAreaWidget::WebDJRadio);
+    MusicRightAreaWidget::instance()->musicFunctionClicked(MusicRightAreaWidget::WebDJRadioWidget);
 }
 
 void MusicWebRadioView::openMVRadioWindow()
 {
-    MusicRightAreaWidget::instance()->musicFunctionClicked(MusicRightAreaWidget::WebMVRadio);
+    MusicRightAreaWidget::instance()->musicFunctionClicked(MusicRightAreaWidget::WebMVRadioWidget);
 }
 
 void MusicWebRadioView::contextMenuEvent(QContextMenuEvent *event)

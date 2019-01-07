@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,27 +31,22 @@ class MusicMessageBox;
 class MUSIC_WIDGET_EXPORT MusicMessageBox : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicMessageBox)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicMessageBox(QWidget *parent = 0);
+    explicit MusicMessageBox(QWidget *parent = nullptr);
     /*!
      * Object contsructor by context text.
      */
-    explicit MusicMessageBox(const QString &text, QWidget *parent = 0);
+    explicit MusicMessageBox(const QString &text, QWidget *parent = nullptr);
     /*!
      * Object contsructor by context text and title.
      */
-    MusicMessageBox(const QString &title, const QString &text,
-                    QWidget *parent = 0);
+    MusicMessageBox(const QString &title, const QString &text, QWidget *parent = nullptr);
 
     virtual ~MusicMessageBox();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set box title.

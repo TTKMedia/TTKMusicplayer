@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QDialog>
+#include "musicwidgetheaders.h"
 #include "musicabstractmovedialog.h"
 
 namespace Ui {
@@ -32,18 +32,15 @@ class MusicFileInformationWidget;
 class MUSIC_TOOLSET_EXPORT MusicFileInformationWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicFileInformationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicFileInformationWidget(QWidget *parent = 0);
+    explicit MusicFileInformationWidget(QWidget *parent = nullptr);
 
     virtual ~MusicFileInformationWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set music file song path name.
      */

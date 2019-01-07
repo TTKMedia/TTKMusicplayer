@@ -16,11 +16,6 @@ MusicWYTranslationThread::~MusicWYTranslationThread()
     deleteAll();
 }
 
-QString MusicWYTranslationThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicWYTranslationThread::startToDownload(const QString &data)
 {
     Q_UNUSED(data);
@@ -57,11 +52,11 @@ void MusicWYTranslationThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QWidget>
 #include "musicobject.h"
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 
 /*! @brief The class of the grab area widget.
  * @author Greedysky <greedysky@163.com>
@@ -29,22 +29,14 @@
 class MUSIC_WIDGET_EXPORT MusicGrabWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicGrabWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicGrabWidget(QWidget *parent = 0);
+    explicit MusicGrabWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
+    ~MusicGrabWidget();
 
 private Q_SLOTS:
     /*!
@@ -60,7 +52,6 @@ protected:
     /*!
      * Override the widget event.
      */
-    virtual void closeEvent(QCloseEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,18 +30,15 @@ class MusicWebMusicRadioWidget;
 class MUSIC_TOOL_EXPORT MusicWebRadioView : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebRadioView)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebRadioView(QWidget *parent = 0);
+    explicit MusicWebRadioView(QWidget *parent = nullptr);
 
     ~MusicWebRadioView();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * To init list items.
      */

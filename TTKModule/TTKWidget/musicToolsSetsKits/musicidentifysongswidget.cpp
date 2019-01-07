@@ -17,8 +17,6 @@
 
 #include <QMovie>
 #include <QShortcut>
-#include <QBoxLayout>
-#include <QStackedWidget>
 
 MusicIdentifySongsWidget::MusicIdentifySongsWidget(QWidget *parent)
     : QWidget(parent)
@@ -61,11 +59,6 @@ MusicIdentifySongsWidget::~MusicIdentifySongsWidget()
     delete m_detectedLabel;
     delete m_detectedMovie;
     delete m_mainWindow;
-}
-
-QString MusicIdentifySongsWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicIdentifySongsWidget::getKey()
@@ -185,12 +178,14 @@ void MusicIdentifySongsWidget::positionChanged(qint64 position)
 
     if(m_analysis->isEmpty())
     {
-        QString lrc = QString("<p style='font-weight:600;' align='center'>%1</p>").arg(tr("unFoundLrc"));
+        const QString &lrc = QString("<p style='font-weight:600;' align='center'>%1</p>").arg(tr("unFoundLrc"));
         m_lrcLabel->setText(lrc);
         return;
     }
-    int index = m_analysis->getCurrentIndex();
-    qint64 time = m_analysis->findTime(index);
+
+    const int index = m_analysis->getCurrentIndex();
+    const qint64 time = m_analysis->findTime(index);
+
     if(time < position*MT_S2MS && time != -1)
     {
         QString lrc;
@@ -208,7 +203,7 @@ void MusicIdentifySongsWidget::positionChanged(qint64 position)
             lrc += QString("</p>");
         }
         m_lrcLabel->setText(lrc);
-        m_analysis->setCurrentIndex(++index);
+        m_analysis->setCurrentIndex(index + 1);
     }
 }
 
@@ -270,7 +265,7 @@ void MusicIdentifySongsWidget::createDetectedSuccessedWidget()
         m_analysis->setLineMax(11);
         connect(m_mediaPlayer, SIGNAL(positionChanged(qint64)), SLOT(positionChanged(qint64)));
     }
-    MusicSongIdentify songIdentify(m_detectedThread->getIdentifySongs().first());
+    const MusicSongIdentify songIdentify(m_detectedThread->getIdentifySongs().first());
 
     QWidget *widget = new QWidget(m_mainWindow);
     widget->setStyleSheet(MusicUIObject::MColorStyle03 + MusicUIObject::MFontStyle05);
@@ -312,11 +307,10 @@ void MusicIdentifySongsWidget::createDetectedSuccessedWidget()
     iconLabel->setMinimumSize(280, 280);
     if(!m_currentSong.m_singerName.isEmpty())
     {
-        QString name = ART_DIR_FULL + m_currentSong.m_singerName + SKN_FILE;
+        const QString &name = ART_DIR_FULL + m_currentSong.m_singerName + SKN_FILE;
         if(!QFile::exists(name))
         {
-            MusicDataDownloadThread *download = new MusicDataDownloadThread(m_currentSong.m_smallPicUrl, name,
-                                                                            MusicDownLoadThreadAbstract::DownloadSmallBG, this);
+            MusicDataDownloadThread *download = new MusicDataDownloadThread(m_currentSong.m_smallPicUrl, name, MusicObject::DownloadSmallBG, this);
             connect(download, SIGNAL(downLoadDataChanged(QString)), &loop, SLOT(quit()));
             download->startToDownload();
             loop.exec();
@@ -372,11 +366,10 @@ void MusicIdentifySongsWidget::createDetectedSuccessedWidget()
 
     if(!m_currentSong.m_singerName.isEmpty())
     {
-        QString name = MusicUtils::Core::lrcPrefix() + m_currentSong.m_singerName + " - " + m_currentSong.m_songName + LRC_FILE;
+        const QString &name = MusicUtils::Core::lrcPrefix() + m_currentSong.m_singerName + " - " + m_currentSong.m_songName + LRC_FILE;
         if(!QFile::exists(name))
         {
-            MusicDownLoadThreadAbstract *d = M_DOWNLOAD_QUERY_PTR->getDownloadLrcThread(m_currentSong.m_lrcUrl, name,
-                                                                   MusicDownLoadThreadAbstract::DownloadLrc, this);
+            MusicDownLoadThreadAbstract *d = M_DOWNLOAD_QUERY_PTR->getDownloadLrcThread(m_currentSong.m_lrcUrl, name, MusicObject::DownloadLrc, this);
             connect(d, SIGNAL(downLoadDataChanged(QString)), &loop, SLOT(quit()));
             d->startToDownload();
             loop.exec();

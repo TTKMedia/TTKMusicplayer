@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  ================================================= */
 
 #include <QObject>
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 class QNPutRetPrivate;
@@ -60,7 +60,7 @@ public:
     void setKey(const QString &value);
 
 private:
-    MUSIC_DECLARE_PRIVATE(QNPutRet)
+    TTK_DECLARE_PRIVATE(QNPutRet)
 
 };
 

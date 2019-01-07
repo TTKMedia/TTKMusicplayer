@@ -24,18 +24,13 @@ MusicSongCheckToolsRenameTableWidget::MusicSongCheckToolsRenameTableWidget(QWidg
     setItemDelegateForColumn(3, new MusicPushButtonDelegate(this));
 }
 
-QString MusicSongCheckToolsRenameTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongCheckToolsRenameTableWidget::createAllItems(const MusicSongCheckToolsRenames &items)
 {
     setRowCount(items.count());
     QHeaderView *headerview = horizontalHeader();
     for(int i=0; i<items.count(); ++i)
     {
-        const MusicSongCheckToolsRename song = items[i];
+        const MusicSongCheckToolsRename &song = items[i];
         QTableWidgetItem *item = new QTableWidgetItem;
         item->setData(MUSIC_CHECK_ROLE, false);
         setItem(i, 0, item);
@@ -129,18 +124,13 @@ MusicSongCheckToolsDuplicateTableWidget::~MusicSongCheckToolsDuplicateTableWidge
     M_CONNECTION_PTR->removeValue(getClassName());
 }
 
-QString MusicSongCheckToolsDuplicateTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongCheckToolsDuplicateTableWidget::createAllItems(const MusicSongCheckToolsDuplicates &songs)
 {
     setRowCount(songs.count());
     QHeaderView *headerview = horizontalHeader();
     for(int i=0; i<songs.count(); ++i)
     {
-        const MusicSongCheckToolsDuplicate song = songs[i];
+        const MusicSongCheckToolsDuplicate &song = songs[i];
         QTableWidgetItem *item = new QTableWidgetItem;
         item->setData(MUSIC_CHECK_ROLE, false);
         setItem(i, 0, item);
@@ -152,7 +142,7 @@ void MusicSongCheckToolsDuplicateTableWidget::createAllItems(const MusicSongChec
         setItem(i, 1, item);
 
                 item = new QTableWidgetItem;
-        item->setText(song.m_song.getMusicTime());
+        item->setText(song.m_song.getMusicPlayTime());
         item->setTextAlignment(Qt::AlignCenter);
         setItem(i, 2, item);
 
@@ -213,10 +203,10 @@ void MusicSongCheckToolsDuplicateTableWidget::musicPlay()
         return;
     }
 
-    QTableWidgetItem *it = item(currentRow(), 5);
+    const QTableWidgetItem *it = item(currentRow(), 5);
     if(it)
     {
-        QString path = it->data(MUSIC_DATAS_ROLE).toString();
+        const QString &path = it->data(MUSIC_DATAS_ROLE).toString();
         emit addSongToPlay(QStringList( QFile::exists(path) ? path : QString() ));
     }
 }
@@ -266,18 +256,13 @@ MusicSongCheckToolsQualityTableWidget::~MusicSongCheckToolsQualityTableWidget()
     M_CONNECTION_PTR->removeValue(getClassName());
 }
 
-QString MusicSongCheckToolsQualityTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongCheckToolsQualityTableWidget::createAllItems(const MusicSongCheckToolsQualitys &songs)
 {
     setRowCount(songs.count());
     QHeaderView *headerview = horizontalHeader();
     for(int i=0; i<songs.count(); ++i)
     {
-        const MusicSongCheckToolsQuality song = songs[i];
+        const MusicSongCheckToolsQuality &song = songs[i];
         QTableWidgetItem *item = new QTableWidgetItem;
         item->setData(MUSIC_CHECK_ROLE, false);
         setItem(i, 0, item);
@@ -289,7 +274,7 @@ void MusicSongCheckToolsQualityTableWidget::createAllItems(const MusicSongCheckT
         setItem(i, 1, item);
 
                 item = new QTableWidgetItem;
-        item->setText(song.m_song.getMusicTime());
+        item->setText(song.m_song.getMusicPlayTime());
         item->setTextAlignment(Qt::AlignCenter);
         setItem(i, 2, item);
 
@@ -359,10 +344,10 @@ void MusicSongCheckToolsQualityTableWidget::musicPlay()
         return;
     }
 
-    QTableWidgetItem *it = item(currentRow(), 6);
+    const QTableWidgetItem *it = item(currentRow(), 6);
     if(it)
     {
-        QString path = it->data(MUSIC_DATAS_ROLE).toString();
+        const QString &path = it->data(MUSIC_DATAS_ROLE).toString();
         emit addSongToPlay(QStringList( QFile::exists(path) ? path : QString() ));
     }
 }

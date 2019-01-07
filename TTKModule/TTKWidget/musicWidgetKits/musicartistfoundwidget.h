@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,18 +27,14 @@
 class MUSIC_WIDGET_EXPORT MusicArtistAlbumsItemWidget : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistAlbumsItemWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistAlbumsItemWidget(QWidget *parent = 0);
+    explicit MusicArtistAlbumsItemWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistAlbumsItemWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set music results item.
@@ -76,18 +72,14 @@ class MusicPagingWidgetObject;
 class MUSIC_WIDGET_EXPORT MusicArtistMvsFoundWidget : public MusicFoundAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistMvsFoundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistMvsFoundWidget(QWidget *parent = 0);
+    explicit MusicArtistMvsFoundWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistMvsFoundWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current name to search founds.
@@ -131,18 +123,14 @@ class MusicDownLoadSimilarThread;
 class MUSIC_WIDGET_EXPORT MusicArtistSimilarFoundWidget : public MusicFoundAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistSimilarFoundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistSimilarFoundWidget(QWidget *parent = 0);
+    explicit MusicArtistSimilarFoundWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistSimilarFoundWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current name to search founds.
@@ -180,18 +168,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicArtistAlbumsFoundWidget : public MusicFoundAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistAlbumsFoundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistAlbumsFoundWidget(QWidget *parent = 0);
+    explicit MusicArtistAlbumsFoundWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistAlbumsFoundWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current name to search founds.
@@ -228,18 +212,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicArtistFoundTableWidget : public MusicQueryFoundTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistFoundTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistFoundTableWidget(QWidget *parent = 0);
+    explicit MusicArtistFoundTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistFoundTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set network query input.
@@ -255,18 +235,14 @@ public:
 class MUSIC_WIDGET_EXPORT MusicArtistFoundWidget : public MusicFoundAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicArtistFoundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicArtistFoundWidget(QWidget *parent = 0);
+    explicit MusicArtistFoundWidget(QWidget *parent = nullptr);
 
     virtual ~MusicArtistFoundWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current name to search founds.

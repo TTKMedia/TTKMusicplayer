@@ -100,11 +100,6 @@ MusicRemoteWidgetForStrip::~MusicRemoteWidgetForStrip()
 //    delete m_bottomWidget;
 }
 
-QString MusicRemoteWidgetForStrip::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRemoteWidgetForStrip::setLabelText(const QString &value)
 {
     m_songNameLabel->setText(MusicUtils::Widget::elidedText(font(), value, Qt::ElideRight, 350));
@@ -115,8 +110,7 @@ void MusicRemoteWidgetForStrip::windowStateChanged()
     bool f = m_windowStateButton->styleSheet().contains("collapse");
     setFixedHeight(f ? 50 : 80);
     m_bottomWidget->setVisible(!f);
-    m_windowStateButton->setStyleSheet(f  ? MusicUIObject::MKGTinyBtnExpand :
-                                            MusicUIObject::MKGTinyBtnCollapse);
+    m_windowStateButton->setStyleSheet(f ? MusicUIObject::MKGTinyBtnExpand : MusicUIObject::MKGTinyBtnCollapse);
     m_windowStateButton->setToolTip(f ? tr("Expand") : tr("Collapse"));
 }
 

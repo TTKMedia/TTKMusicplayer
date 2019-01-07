@@ -10,23 +10,18 @@ MusicDJRadioProgramThread::MusicDJRadioProgramThread(QObject *parent)
 
 }
 
-QString MusicDJRadioProgramThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-void MusicDJRadioProgramThread::startToDownload(Program::Type type)
+void MusicDJRadioProgramThread::startToDownload(MusicObject::Program type)
 {
     deleteAll();
     m_interrupt = true;
 
     QNetworkRequest request;
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-    QByteArray parameter = makeTokenQueryUrl(&request, type == Program::Recommed ?
-               MusicUtils::Algorithm::mdII(DJ_RECOMMEND_N_URL, false):
-               MusicUtils::Algorithm::mdII(DJ_HOT_N_URL, false),
-               MusicUtils::Algorithm::mdII(DJ_HOT_NDT_URL, false));
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
+    const QByteArray &parameter = makeTokenQueryUrl(&request, type == MusicObject::Recommed ?
+                      MusicUtils::Algorithm::mdII(DJ_RECOMMEND_N_URL, false):
+                      MusicUtils::Algorithm::mdII(DJ_HOT_N_URL, false),
+                      MusicUtils::Algorithm::mdII(DJ_HOT_NDT_URL, false));
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
     setSslConfiguration(&request);
 
     m_reply = m_manager->post(request, parameter);
@@ -47,17 +42,17 @@ void MusicDJRadioProgramThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
             if(value["code"].toInt() == 200 && value.contains("djRadios"))
             {
-                QVariantList datas = value["djRadios"].toList();
+                const QVariantList &datas = value["djRadios"].toList();
                 foreach(const QVariant &var, datas)
                 {
                     if(m_interrupt) return;

@@ -3,16 +3,10 @@
 #///QJson import
 #include "qjson/parser.h"
 
-MusicXMTextDownLoadThread::MusicXMTextDownLoadThread(const QString &url, const QString &save,
-                                                     DownloadType type, QObject *parent)
+MusicXMTextDownLoadThread::MusicXMTextDownLoadThread(const QString &url, const QString &save, MusicObject::DownloadType  type, QObject *parent)
     : MusicDownLoadThreadAbstract(url, save, type, parent)
 {
 
-}
-
-QString MusicXMTextDownLoadThread::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicXMTextDownLoadThread::startToDownload()
@@ -59,7 +53,7 @@ void MusicXMTextDownLoadThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
         if(!bytes.isEmpty())
         {
             if(m_lrcType == "lrc")

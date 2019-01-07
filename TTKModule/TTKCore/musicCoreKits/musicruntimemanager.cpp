@@ -9,16 +9,6 @@
 #include <QFont>
 #include <QApplication>
 
-MusicRunTimeManager::MusicRunTimeManager()
-{
-
-}
-
-QString MusicRunTimeManager::getClassName()
-{
-    return "MusicRunTimeManager";
-}
-
 void MusicRunTimeManager::run() const
 {
     M_LOGGER_INFO("MusicApplication Begin");
@@ -57,6 +47,6 @@ void MusicRunTimeManager::run() const
 
 QString MusicRunTimeManager::translator() const
 {
-    int index = M_SETTING_PTR->value(MusicSettingManager::CurrentLanIndexChoiced).toInt();
+    const int index = M_SETTING_PTR->value(MusicSettingManager::CurrentLanIndexChoiced).toInt();
     return MusicUtils::Core::getLanguageName(index);
 }

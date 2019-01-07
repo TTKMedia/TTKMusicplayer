@@ -27,11 +27,6 @@ MusicTimerAutoObject::~MusicTimerAutoObject()
     m_timer.stop();
 }
 
-QString MusicTimerAutoObject::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicTimerAutoObject::runTimerAutoConfig()
 {
     m_timer.start(MT_S2MS);
@@ -61,7 +56,7 @@ void MusicTimerAutoObject::runTimerAutoConfig()
 void MusicTimerAutoObject::timeout()
 {
     int hour = 0, minute = 0;
-    QStringList l = QTime::currentTime().toString(Qt::ISODate).split(':');
+    const QStringList &l = QTime::currentTime().toString(Qt::ISODate).split(':');
     if(l.count() != 3)
     {
         return;

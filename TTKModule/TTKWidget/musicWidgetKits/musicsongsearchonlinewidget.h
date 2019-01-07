@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ typedef struct MUSIC_WIDGET_EXPORT MusicDownloadData
     }
 
 }MusicDownloadData;
-MUSIC_DECLARE_LISTS(MusicDownloadData)
+TTK_DECLARE_LISTS(MusicDownloadData)
 
 class QLabel;
 class QPushButton;
@@ -56,21 +56,17 @@ class MusicCoreMPlayer;
 /*! @brief The class of the song search online table widget.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_WIDGET_EXPORT MusicSongSearchOnlineTableWidget : public MusicQueryItemTableWidget
+class MUSIC_WIDGET_EXPORT MusicSongSearchTableWidget : public MusicQueryItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongSearchTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongSearchOnlineTableWidget(QWidget *parent = 0);
+    explicit MusicSongSearchTableWidget(QWidget *parent = nullptr);
 
-    virtual ~MusicSongSearchOnlineTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    virtual ~MusicSongSearchTableWidget();
 
     /*!
      * Set wheather query all quality of records.
@@ -181,18 +177,15 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicSongSearchOnlineWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongSearchOnlineWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongSearchOnlineWidget(QWidget *parent = 0);
+    explicit MusicSongSearchOnlineWidget(QWidget *parent = nullptr);
 
     ~MusicSongSearchOnlineWidget();
 
-    /*!
-    * Get class object name.
-    */
-    static QString getClassName();
     /*!
      * Start search query by text.
      */
@@ -245,7 +238,7 @@ protected:
     QLabel *m_textLabel;
     QPushButton *m_playButton;
     QList<QWidget*> m_resizeLabels;
-    MusicSongSearchOnlineTableWidget *m_searchTableWidget;
+    MusicSongSearchTableWidget *m_searchTableWidget;
 
 };
 

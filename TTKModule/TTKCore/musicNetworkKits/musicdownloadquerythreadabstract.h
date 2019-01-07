@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicSearchedItem
         m_type = "-";
     }
 }MusicSearchedItem;
-MUSIC_DECLARE_LISTS(MusicSearchedItem)
+TTK_DECLARE_LISTS(MusicSearchedItem)
 
 /*! @brief The class of the search song results data item.
  * @author Greedysky <greedysky@163.com>
@@ -76,7 +76,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicResultsItem
         return m_name == "-" && m_nickName == "-" && m_coverUrl == "-" && m_description == "-";
     }
 }MusicResultsItem;
-MUSIC_DECLARE_LISTS(MusicResultsItem)
+TTK_DECLARE_LISTS(MusicResultsItem)
 
 /*! @brief The class to abstract query download data from net.
  * @author Greedysky <greedysky@163.com>
@@ -84,6 +84,7 @@ MUSIC_DECLARE_LISTS(MusicResultsItem)
 class MUSIC_NETWORK_EXPORT MusicDownLoadQueryThreadAbstract : public MusicDownLoadPagingThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownLoadQueryThreadAbstract)
 public:
     enum QueryType
     {
@@ -96,14 +97,9 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownLoadQueryThreadAbstract(QObject *parent = 0);
+    explicit MusicDownLoadQueryThreadAbstract(QObject *parent = nullptr);
 
     virtual ~MusicDownLoadQueryThreadAbstract();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Start to search data from name and type.

@@ -45,7 +45,7 @@
 
 using namespace QJson;
 
-class Serializer::SerializerPrivate : public MusicPrivate<Serializer>
+class Serializer::SerializerPrivate : public TTKPrivate<Serializer>
 {
   public:
     SerializerPrivate() :
@@ -63,13 +63,13 @@ class Serializer::SerializerPrivate : public MusicPrivate<Serializer>
 
     static QByteArray buildIndent(int spaces);
     static QByteArray escapeString( const QString& str );
-    static QByteArray join( const QList<QByteArray>& list, const QByteArray& sep );
+    static QByteArray join( const QList<QByteArray>& list, const QByteArray &sep );
     static QByteArray join( const QList<QByteArray>& list, char sep );
 };
 
-QByteArray Serializer::SerializerPrivate::join( const QList<QByteArray>& list, const QByteArray& sep ) {
+QByteArray Serializer::SerializerPrivate::join( const QList<QByteArray>& list, const QByteArray &sep ) {
   QByteArray res;
-  Q_FOREACH( const QByteArray& i, list ) {
+  Q_FOREACH( const QByteArray &i, list ) {
     if ( !res.isEmpty() )
       res += sep;
     res += i;
@@ -79,7 +79,7 @@ QByteArray Serializer::SerializerPrivate::join( const QList<QByteArray>& list, c
 
 QByteArray Serializer::SerializerPrivate::join( const QList<QByteArray>& list, char sep ) {
   QByteArray res;
-  Q_FOREACH( const QByteArray& i, list ) {
+  Q_FOREACH( const QByteArray &i, list ) {
     if ( !res.isEmpty() )
       res += sep;
     res += i;
@@ -97,7 +97,7 @@ QByteArray Serializer::SerializerPrivate::serialize( const QVariant &v, bool *ok
   } else if (( type == QVariant::List ) || ( type == QVariant::StringList )) { // an array or a stringlist?
     const QVariantList list = v.toList();
     QList<QByteArray> values;
-    Q_FOREACH( const QVariant& var, list )
+    Q_FOREACH( const QVariant &var, list )
     {
       QByteArray serializedValue;
 
@@ -391,13 +391,13 @@ QByteArray Serializer::SerializerPrivate::escapeString( const QString& str )
 
 Serializer::Serializer()
 {
-  MUSIC_INIT_PRIVATE;
+  TTK_INIT_PRIVATE;
 }
 
-void Serializer::serialize( const QVariant& v, QIODevice* io, bool* ok)
+void Serializer::serialize( const QVariant &v, QIODevice* io, bool* ok)
 {
   Q_ASSERT( io );
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
 
   *ok = true;
 
@@ -432,7 +432,7 @@ QByteArray Serializer::serialize( const QVariant &v)
 
 QByteArray Serializer::serialize( const QVariant &v, bool *ok)
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   bool _ok = true;
   d->errorMessage.clear();
 
@@ -447,36 +447,36 @@ QByteArray Serializer::serialize( const QVariant &v, bool *ok)
 
 void QJson::Serializer::allowSpecialNumbers(bool allow)
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   d->specialNumbersAllowed = allow;
 }
 
 bool QJson::Serializer::specialNumbersAllowed() const
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   return d->specialNumbersAllowed;
 }
 
 void QJson::Serializer::setIndentMode(IndentMode mode)
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   d->indentMode = mode;
 }
 
 void QJson::Serializer::setDoublePrecision(int precision)
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   d->doublePrecision = precision;
 }
 
 IndentMode QJson::Serializer::indentMode() const
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   return d->indentMode;
 }
 
 QString QJson::Serializer::errorMessage() const
 {
-  MUSIC_D(Serializer);
+  TTK_D(Serializer);
   return d->errorMessage;
 }

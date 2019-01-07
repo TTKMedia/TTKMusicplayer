@@ -13,7 +13,7 @@
 #include "musiclrclocallinkwidget.h"
 #include "musicsongslistplaywidget.h"
 #include "musicvideoqualitypopwidget.h"
-#include "musicvideotablewidget.h"
+#include "musicvideosearchtablewidget.h"
 #include "musicdownloadmgmtwidget.h"
 #include "musicconnecttransferwidget.h"
 #include "musicsoundeffectswidget.h"
@@ -21,23 +21,19 @@
 #include "musicsongchecktoolstablewidget.h"
 #include "musicqueryfoundtablewidget.h"
 #include "musicdownloadabstracttablewidget.h"
+#include "musiccloudtablewidget.h"
+#include "musiccloudmanagerwidget.h"
 #endif
 
 MusicConnectionPool::MusicConnectionPool()
-    : QObject(nullptr)
 {
 
-}
-
-QString MusicConnectionPool::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicConnectionPool::poolConnect(const QString &from, const QString &to)
 {
-    QObject *first = m_para.value(from);
-    QObject *second = m_para.value(to);
+    const QObject *first = m_parameter.value(from);
+    const QObject *second = m_parameter.value(to);
     if(first == nullptr || second == nullptr)
     {
         return;
@@ -62,7 +58,7 @@ void MusicConnectionPool::poolConnect(const QString &from, const QString &to)
     }
     else if(from == MusicEqualizerDialog::getClassName() && to == MusicPlayer::getClassName())
     {
-        QObject::connect(first, SIGNAL(setEqEffect(MusicObject::MIntList)), second, SLOT(setEqEffect(MusicObject::MIntList)));
+        QObject::connect(first, SIGNAL(setEqEffect(MIntList)), second, SLOT(setEqEffect(MIntList)));
         QObject::connect(first, SIGNAL(setEnaleEffect(bool)), second, SLOT(setEnaleEffect(bool)));
     }
     else if(from == MusicEqualizerDialog::getClassName() && to == MusicSoundEffectsWidget::getClassName())
@@ -74,20 +70,20 @@ void MusicConnectionPool::poolConnect(const QString &from, const QString &to)
         QObject::connect(first, SIGNAL(volumeChanged(int)), second, SLOT(setSoundEffectVolume(int)));
         QObject::connect(first, SIGNAL(setEqInformation()), second, SLOT(setEqInformation()));
     }
-    else if(from == MusicSongSearchOnlineTableWidget::getClassName() && to == MusicDownloadStatusObject::getClassName())
+    else if(from == MusicSongSearchTableWidget::getClassName() && to == MusicDownloadStatusObject::getClassName())
     {
         QObject::connect(first, SIGNAL(showDownLoadInfoFor(MusicObject::DownLoadMode)), second, SLOT(showDownLoadInfoFor(MusicObject::DownLoadMode)));
     }
-    else if((from == MusicSongSearchOnlineTableWidget::getClassName() && to == MusicSongsSummariziedWidget::getClassName()) ||
+    else if((from == MusicSongSearchTableWidget::getClassName() && to == MusicSongsSummariziedWidget::getClassName()) ||
             (from == MusicQueryFoundTableWidget::getClassName() && to == MusicSongsSummariziedWidget::getClassName()))
     {
-        QObject::connect(first, SIGNAL(muiscSongToPlayListChanged(QString,QString,QString,bool)), second, SLOT(addNetMusicSongToList(QString,QString,QString,bool)));
+        QObject::connect(first, SIGNAL(musicSongToPlayListChanged(QString,QString,QString,bool)), second, SLOT(addNetMusicSongToList(QString,QString,QString,bool)));
     }
     else if(from == MusicLrcLocalLinkWidget::getClassName() && to == MusicDownloadStatusObject::getClassName())
     {
         QObject::connect(first, SIGNAL(currentLrcChanged(QString)), second, SLOT(showDownLoadInfoFinished(QString)));
     }
-    else if(from == MusicVideoQualityPopWidget::getClassName() && to == MusicVideoTableWidget::getClassName())
+    else if(from == MusicVideoQualityPopWidget::getClassName() && to == MusicVideoSearchTableWidget::getClassName())
     {
         QObject::connect(first, SIGNAL(getMusicMvInfo(MusicObject::MusicSongAttributes&)), second, SLOT(getMusicMvInfo(MusicObject::MusicSongAttributes&)));
     }
@@ -95,6 +91,11 @@ void MusicConnectionPool::poolConnect(const QString &from, const QString &to)
             (from == MusicSongCheckToolsWidget::getClassName() && to == MusicSongsSummariziedWidget::getClassName()))
     {
         QObject::connect(first, SIGNAL(getMusicLists(MusicSongItems&)), second, SLOT(getMusicLists(MusicSongItems&)));
+    }
+    else if((from == MusicCloudManagerTableWidget::getClassName() && to == MusicCloudUploadTableWidget::getClassName()))
+    {
+        QObject::connect(first, SIGNAL(uploadFileError(MusicCloudDataItem)), second, SLOT(uploadFileError(MusicCloudDataItem)));
+        QObject::connect(second, SIGNAL(reuploadFilesToServer(QStringList)), first, SLOT(reuploadFilesToServer(QStringList)));
     }
 #endif
 }
@@ -106,12 +107,12 @@ void MusicConnectionPool::poolConnect(const QObject *from, const QObject *to)
 
 void MusicConnectionPool::removeValue(const QString &name)
 {
-    m_para.take(name);
+    m_parameter.take(name);
 }
 
 void MusicConnectionPool::removeValue(const QObject *object)
 {
-    QMapIterator<QString, QObject*> i(m_para);
+    QMapIterator<QString, QObject*> i(m_parameter);
     while(i.hasNext())
     {
         i.next();

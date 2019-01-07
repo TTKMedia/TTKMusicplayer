@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@
 
 #include <QWidget>
 #include <QSystemTrayIcon>
-#include "musicobject.h"
 #include "musicglobaldefine.h"
 
 class MusicSystemTrayMenu;
@@ -37,18 +36,15 @@ namespace Ui {
 class MUSIC_GUI_EXPORT MusicBottomAreaWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBottomAreaWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBottomAreaWidget(QWidget *parent = 0);
+    explicit MusicBottomAreaWidget(QWidget *parent = nullptr);
 
     ~MusicBottomAreaWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get class object instance.
      */

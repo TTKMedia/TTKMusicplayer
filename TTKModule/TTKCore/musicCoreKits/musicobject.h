@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,6 +120,7 @@
 #define MUSICPATH               "music.lis"
 #define NORMALDOWNPATH          "musicdown.ttk"
 #define CLOUDDOWNPATH           "musiccloud.ttk"
+#define CLOUDUPPATH             "musiccloudp.ttk"
 #define MUSICSEARCH             "musichistory.ttk"
 #define DARABASEPATH            "musicuser.dll"
 #define USERPATH                "musicuser.ttk"
@@ -151,6 +152,7 @@
 #define MUSICPATH_FULL          APPDATA_DIR_FULL + MUSICPATH
 #define NORMALDOWNPATH_FULL     APPDATA_DIR_FULL + NORMALDOWNPATH
 #define CLOUDDOWNPATH_FULL      APPDATA_DIR_FULL + CLOUDDOWNPATH
+#define CLOUDUPPATH_FULL        APPDATA_DIR_FULL + CLOUDUPPATH
 #define MUSICSEARCH_FULL        APPDATA_DIR_FULL + MUSICSEARCH
 #define DARABASEPATH_FULL       APPDATA_DIR_FULL + DARABASEPATH
 #define USERPATH_FULL           APPDATA_DIR_FULL + USERPATH
@@ -179,14 +181,7 @@
 #define WINDOW_WIDTH_MIN        1000
 #define WINDOW_HEIGHT_MIN       690
 ///////////////////////////////////////
-#define DEFAULT_INDEX_LEVEL0    -1
-#define DEFAULT_INDEX_LEVEL1    -999
-#define DEFAULT_INDEX_LEVEL2    -888
-#define DEFAULT_INDEX_LEVEL3    -777
-#define DEFAULT_INDEX_LEVEL4    -666
-#define DEFAULT_INDEX_LEVEL5    -555
-///////////////////////////////////////
-#define STRING_SPLITER          "*|||*"
+#define COVER_URL_NULL          "null"
 ///////////////////////////////////////
 
 
@@ -201,7 +196,7 @@ namespace MusicObject
     typedef struct MusicSongAttribute
     {
         int m_bitrate;
-        bool m_multiParts;
+        bool m_multiPart;
         QString m_format;
         QString m_url;
         QString m_size;
@@ -210,7 +205,7 @@ namespace MusicObject
         MusicSongAttribute()
         {
             m_bitrate = -1;
-            m_multiParts = false;
+            m_multiPart = false;
         }
 
         bool operator< (const MusicSongAttribute &other) const
@@ -223,7 +218,7 @@ namespace MusicObject
             return m_bitrate == other.m_bitrate || m_url == other.m_url;
         }
     }MusicSongAttribute;
-    MUSIC_DECLARE_LISTS(MusicSongAttribute)
+    TTK_DECLARE_LISTS(MusicSongAttribute)
 
     ///////////////////////////////////////
 
@@ -242,8 +237,11 @@ namespace MusicObject
         QString m_albumName;
         QString m_songName;
         QString m_timeLength;
+        QString m_year;
+        QString m_discNumber;
+        QString m_trackNumber;
     }MusicSongInformation;
-    MUSIC_DECLARE_LISTS(MusicSongInformation)
+    TTK_DECLARE_LISTS(MusicSongInformation)
     ///////////////////////////////////////
 
     enum PlayState
@@ -281,26 +279,6 @@ namespace MusicObject
         FT_FixedPitch =     0x00020,   /*!< font fixedPitch*/
         FT_Kerningt =       0x00040    /*!< font kerningt*/
     };
-
-    enum ToolsType
-    {
-        TT_LocalManager =   0x00001,   /*!< Local Manager*/
-        TT_AudioRecord =    0x00002,   /*!< Audio Record*/
-        TT_RingTone =       0x00004,   /*!< Ring Tone*/
-        TT_Timer =          0x00008,   /*!< Timer*/
-        TT_Transform =      0x00010,   /*!< Transform*/
-        TT_Spectrum =       0x00020,   /*!< Spectrum*/
-        TT_Wallpaper =      0x00040,   /*!< Wallpaper*/
-        TT_Mobile =         0x00080,   /*!< Mobile*/
-        TT_ConnectionTest = 0x00100,   /*!< Connection Test*/
-        TT_SoundGain =      0x00200,   /*!< Sound Gain*/
-        TT_Identify =       0x00400,   /*!< Identify*/
-        TT_SoundTouch =     0x00800,   /*!< Sound Touch*/
-        TT_GrabWindow =     0x01000,   /*!< Grab Window*/
-        TT_SoundKMicro =    0x02000,   /*!< Sound KMicro*/
-        TT_WebRadio =       0x04000    /*!< Web Radio*/
-    };
-    MUSIC_DECLARE_FLAGS(ToolsTypes, ToolsType)
 
     /*!
      * Get application dir.

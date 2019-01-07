@@ -1,8 +1,8 @@
 #include "musicpagingwidgetobject.h"
 #include "musicclickedlabel.h"
 #include "musicuiobject.h"
+#include "musicwidgetheaders.h"
 
-#include <QBoxLayout>
 #include <QSignalMapper>
 #include <QFontMetrics>
 
@@ -21,11 +21,6 @@ MusicPagingWidgetObject::~MusicPagingWidgetObject()
     delete m_pagingWidget;
 }
 
-QString MusicPagingWidgetObject::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 QWidget* MusicPagingWidgetObject::getCreatePagingWidget()
 {
     return m_pagingWidget;
@@ -42,8 +37,7 @@ QWidget* MusicPagingWidgetObject::createPagingWidget(QWidget *parent, int total)
     {
         m_pagingItems << (new MusicClickedLabel(QString::number(i), m_pagingWidget));
     }
-    m_pagingItems << (new MusicClickedLabel(tr("pre"), m_pagingWidget))
-                  << (new MusicClickedLabel(tr("next"), m_pagingWidget));
+    m_pagingItems << (new MusicClickedLabel(tr("pre"), m_pagingWidget)) << (new MusicClickedLabel(tr("next"), m_pagingWidget));
 
     QSignalMapper *group = new QSignalMapper(m_pagingWidget);
     connect(group, SIGNAL(mapped(int)), SIGNAL(mapped(int)));
@@ -182,7 +176,7 @@ void MusicPagingWidgetObject::paging(int index, int total)
                 page += PAGE_SIZE;
                 MusicClickedLabel *w = m_pagingItems[PAGE_SIZE + 1];
                 int boundary = total - page + 1;
-                boundary = boundary < PAGE_SIZE ? boundary : PAGE_SIZE;
+                    boundary = boundary < PAGE_SIZE ? boundary : PAGE_SIZE;
 
                 for(int i=0; i<boundary; ++i)
                 {

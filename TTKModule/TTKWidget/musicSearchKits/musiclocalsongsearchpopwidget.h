@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,15 @@ class QPushButton;
 class MUSIC_SEARCH_EXPORT MusicLocalSongSearchPopTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLocalSongSearchPopTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLocalSongSearchPopTableWidget(QWidget *parent = 0);
+    explicit MusicLocalSongSearchPopTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicLocalSongSearchPopTableWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Clear All Items.
      */
@@ -71,18 +68,15 @@ public Q_SLOTS:
 class MUSIC_SEARCH_EXPORT MusicLocalSongSearchPopWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLocalSongSearchPopWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLocalSongSearchPopWidget(QWidget *parent = 0);
+    explicit MusicLocalSongSearchPopWidget(QWidget *parent = nullptr);
 
     ~MusicLocalSongSearchPopWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Create popup search history table items.
      */

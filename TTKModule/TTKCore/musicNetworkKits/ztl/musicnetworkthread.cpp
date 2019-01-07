@@ -21,11 +21,6 @@ MusicNetworkThread::~MusicNetworkThread()
     m_timer.stop();
 }
 
-QString MusicNetworkThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicNetworkThread::start()
 {
     M_LOGGER_INFO("Load NetworkThread");
@@ -41,8 +36,8 @@ void MusicNetworkThread::networkStateChanged()
 {
     QtConcurrent::run([&]
     {
-        bool block = M_SETTING_PTR->value(MusicSettingManager::CloseNetWorkChoiced).toBool();
-        QHostInfo info = QHostInfo::fromName(NETWORK_REQUEST_ADDRESS);
+        const bool block = M_SETTING_PTR->value(MusicSettingManager::CloseNetWorkChoiced).toBool();
+        const QHostInfo &info = QHostInfo::fromName(NETWORK_REQUEST_ADDRESS);
         m_networkState = !info.addresses().isEmpty();
         m_networkState = block ? false : m_networkState;
         emit networkConnectionStateChanged(m_networkState);

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,18 +32,15 @@ const QString COOKIE_URL = "cWpxdUI0YmIyNDdOcWp6TWZvMy9hYkdNN25UYVdpdStSUEV6Q3Zp
 class MUSIC_NETWORK_EXPORT MusicDownloadCounterPVThread : public MusicNetworkAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadCounterPVThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadCounterPVThread(QObject *parent = 0);
+    explicit MusicDownloadCounterPVThread(QObject *parent = nullptr);
 
     virtual ~MusicDownloadCounterPVThread();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start to download counter pv from net.
      */

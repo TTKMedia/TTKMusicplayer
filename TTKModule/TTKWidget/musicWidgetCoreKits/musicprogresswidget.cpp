@@ -3,11 +3,9 @@
 #include "musicbackgroundconfigmanager.h"
 #include "musicextractwrap.h"
 #include "musicuiobject.h"
+#include "musicwidgetheaders.h"
 
 #include <QPainter>
-#include <QLabel>
-#include <QToolButton>
-#include <QProgressBar>
 
 #define WIDTH  4
 #define HEIGHT 4
@@ -32,11 +30,6 @@ MusicProgressWidget::~MusicProgressWidget()
     delete m_background;
     delete m_textLabel;
     delete m_progressBar;
-}
-
-QString MusicProgressWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicProgressWidget::initWidget()
@@ -88,26 +81,22 @@ void MusicProgressWidget::paintEvent(QPaintEvent *event)
     painter.drawPixmap(0, height() - HEIGHT, WIDTH, HEIGHT, QPixmap(":/shadow/lb_left_bottom"));
     painter.drawPixmap(width() - WIDTH, height() - HEIGHT, WIDTH, HEIGHT, QPixmap(":/shadow/lb_right_bottom"));
 
-    painter.drawPixmap(0, WIDTH, HEIGHT, height() - 2*WIDTH,
-                       QPixmap(":/shadow/lb_left").scaled(WIDTH, height() - 2*HEIGHT));
-    painter.drawPixmap(width() - WIDTH, WIDTH, HEIGHT, height() - 2*HEIGHT,
-                       QPixmap(":/shadow/lb_right").scaled(WIDTH, height() - 2*HEIGHT));
-    painter.drawPixmap(HEIGHT, 0, width() - 2*WIDTH, HEIGHT,
-                       QPixmap(":/shadow/lb_top").scaled(width() - 2*WIDTH, HEIGHT));
-    painter.drawPixmap(WIDTH, height() - HEIGHT, width() - 2*WIDTH, HEIGHT,
-                       QPixmap(":/shadow/lb_bottom").scaled(width() - 2*WIDTH, HEIGHT));
+    painter.drawPixmap(0, WIDTH, HEIGHT, height() - 2*WIDTH, QPixmap(":/shadow/lb_left").scaled(WIDTH, height() - 2*HEIGHT));
+    painter.drawPixmap(width() - WIDTH, WIDTH, HEIGHT, height() - 2*HEIGHT, QPixmap(":/shadow/lb_right").scaled(WIDTH, height() - 2*HEIGHT));
+    painter.drawPixmap(HEIGHT, 0, width() - 2*WIDTH, HEIGHT, QPixmap(":/shadow/lb_top").scaled(width() - 2*WIDTH, HEIGHT));
+    painter.drawPixmap(WIDTH, height() - HEIGHT, width() - 2*WIDTH, HEIGHT, QPixmap(":/shadow/lb_bottom").scaled(width() - 2*WIDTH, HEIGHT));
 }
 
 void MusicProgressWidget::show()
 {
     MusicBackgroundImage image;
-    if(MusicExtractWrap::outputSkin(&image, M_BACKGROUND_PTR->getMBackground()))
+    if(MusicExtractWrap::outputSkin(&image, M_BACKGROUND_PTR->getBackgroundUrl()))
     {
         m_background->setPixmap(image.m_pix.scaled(size()));
     }
     else
     {
-        m_background->setPixmap(QPixmap(M_BACKGROUND_PTR->getMBackground()).scaled(size()));
+        m_background->setPixmap(QPixmap(M_BACKGROUND_PTR->getBackgroundUrl()).scaled(size()));
     }
     QProgressDialog::show();
 }

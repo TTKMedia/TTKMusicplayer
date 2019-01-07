@@ -2,16 +2,10 @@
 #///QJson import
 #include "qjson/parser.h"
 
-MusicWYTextDownLoadThread::MusicWYTextDownLoadThread(const QString &url, const QString &save,
-                                                     DownloadType type, QObject *parent)
+MusicWYTextDownLoadThread::MusicWYTextDownLoadThread(const QString &url, const QString &save, MusicObject::DownloadType type, QObject *parent)
     : MusicDownLoadThreadAbstract(url, save, type, parent)
 {
 
-}
-
-QString MusicWYTextDownLoadThread::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicWYTextDownLoadThread::startToDownload()
@@ -56,10 +50,10 @@ void MusicWYTextDownLoadThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
@@ -68,7 +62,7 @@ void MusicWYTextDownLoadThread::downLoadFinished()
                 value = value["lrc"].toMap();
                 if(!value.isEmpty())
                 {
-                    QString data = value["lyric"].toString();
+                    const QString &data = value["lyric"].toString();
                     QTextStream outstream(m_file);
                     outstream.setCodec("utf-8");
                     outstream << data.toUtf8() << endl;

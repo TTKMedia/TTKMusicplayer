@@ -15,8 +15,6 @@
 
 #include <QBoxLayout>
 
-#define DOWNLOAD_URL    "YXhxRk5PeWpscVNYbEZKMmEwbUExdkMxcm9QN1ZybTlZYTcwVmN1aUdTNEJoMFRiM3V5cnE2S3VDbG89"
-
 MusicSourceUpdateNotifyWidget::MusicSourceUpdateNotifyWidget(QWidget *parent)
     : MusicAbstractMoveSingleWidget(true, parent)
 {
@@ -29,7 +27,7 @@ MusicSourceUpdateNotifyWidget::MusicSourceUpdateNotifyWidget(QWidget *parent)
     setStyleSheet(MusicUIObject::MBackgroundStyle17);
     blockMoveOption(true);
 
-    QSize windowSize = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
+    const QSize &windowSize = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
     setGeometry(windowSize.width() - 240, windowSize.height() - 150, 220, 100);
 
     QVBoxLayout *vlayout = new QVBoxLayout(m_container);
@@ -69,11 +67,6 @@ MusicSourceUpdateNotifyWidget::~MusicSourceUpdateNotifyWidget()
     delete m_textLabel;
 }
 
-QString MusicSourceUpdateNotifyWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSourceUpdateNotifyWidget::start()
 {
     MusicSourceUpdateThread *download = new MusicSourceUpdateThread(this);
@@ -89,10 +82,10 @@ void MusicSourceUpdateNotifyWidget::updateSourceClicked()
 
 void MusicSourceUpdateNotifyWidget::downLoadFinished(const QVariant &data)
 {
-    QVariantMap value = data.toMap();
-    QString versionStr = value["version"].toString();
+    const QVariantMap &value = data.toMap();
+    const QString &versionStr = value["version"].toString();
 
-    if(MusicUtils::Core::musicVersionCheck(TTKMUSIC_VERSION_STR, versionStr))
+    if(MusicUtils::Core::appVersionCheck(TTKMUSIC_VERSION_STR, versionStr))
     {
         show();
         m_textLabel->setText(tr("New Version Found") + "\r\n" + versionStr);
@@ -129,11 +122,6 @@ MusicSourceUpdateWidget::~MusicSourceUpdateWidget()
     delete m_ui;
 }
 
-QString MusicSourceUpdateWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSourceUpdateWidget::start()
 {
     MusicSourceUpdateThread *download = new MusicSourceUpdateThread(this);
@@ -145,9 +133,10 @@ void MusicSourceUpdateWidget::upgradeButtonClicked()
 {
 #ifdef Q_OS_WIN
     m_ui->stackedWidget->setCurrentIndex(SOURCE_UPDATE_INDEX_1);
-    QString localDwonload = "v" + m_newVersionStr + EXE_FILE;
-    MusicDataDownloadThread *download = new MusicDataDownloadThread(QString("%1%2").arg(MusicUtils::Algorithm::mdII(DOWNLOAD_URL, false)).arg(localDwonload),
-                                                                    UPDATE_DIR_FULL + localDwonload, MusicDownLoadThreadAbstract::DownloadOther, this);
+    const QString &localDwonload = "v" + m_newVersionStr + EXE_FILE;
+    const QString &buketUrl = M_SETTING_PTR->value(MusicSettingManager::QiNiuDataConfigChoiced).toString();
+    MusicDataDownloadThread *download = new MusicDataDownloadThread(QString("%1%2").arg(MusicUtils::Algorithm::mdII(buketUrl, false)).arg(localDwonload),
+                                                                    UPDATE_DIR_FULL + localDwonload, MusicObject::DownloadOther, this);
     connect(download, SIGNAL(downloadProgressChanged(float,QString,qint64)), SLOT(downloadProgressChanged(float,QString)));
     connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(downloadProgressFinished()));
     connect(download, SIGNAL(downloadSpeedLabelChanged(QString,qint64)), SLOT(downloadSpeedLabelChanged(QString,qint64)));
@@ -166,11 +155,11 @@ void MusicSourceUpdateWidget::upgradeFailedClicked()
 
 void MusicSourceUpdateWidget::downLoadFinished(const QVariant &data)
 {
-    QVariantMap value = data.toMap();
+    const QVariantMap &value = data.toMap();
     m_newVersionStr = value["version"].toString();
 
     QString text;
-    if(MusicUtils::Core::musicVersionCheck(TTKMUSIC_VERSION_STR, m_newVersionStr))
+    if(MusicUtils::Core::appVersionCheck(TTKMUSIC_VERSION_STR, m_newVersionStr))
     {
         text.append(m_newVersionStr);
         text.append("\r\n");
@@ -201,7 +190,8 @@ void MusicSourceUpdateWidget::downloadProgressChanged(float percent, const QStri
 
 void MusicSourceUpdateWidget::downloadProgressFinished()
 {
-    QString localDwonload = "v" + m_newVersionStr + EXE_FILE;
+    const QString &localDwonload = "v" + m_newVersionStr + EXE_FILE;
+
     MusicMessageBox message(this);
     message.setText(tr("Download Finish, Install Or Not"));
     if(message.exec())

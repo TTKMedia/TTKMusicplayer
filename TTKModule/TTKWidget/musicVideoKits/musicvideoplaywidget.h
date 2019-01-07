@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,14 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include "musicvideotablewidget.h"
 #include "musicabstractmovewidget.h"
+#include "musicvideosearchtablewidget.h"
 
 class QLabel;
 class QPushButton;
 class QToolButton;
 class QStackedWidget;
+class QParallelAnimationGroup;
 class MusicVideoView;
 class MusicVideoFloatWidget;
 class MusicLocalSongSearchEdit;
@@ -36,18 +37,14 @@ class MusicLocalSongSearchEdit;
 class MUSIC_VIDEO_EXPORT MusicVideoPlayWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVideoPlayWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicVideoPlayWidget(QWidget *parent = 0);
+    explicit MusicVideoPlayWidget(QWidget *parent = nullptr);
 
     ~MusicVideoPlayWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set the window is popup or not.
@@ -98,10 +95,6 @@ public Q_SLOTS:
      */
     void searchButtonClicked();
     /*!
-     * Window top state changed.
-     */
-    void windowTopStateChanged();
-    /*!
      * Video research button searched by name.
      */
     void videoResearchButtonSearched(const QString &name);
@@ -139,26 +132,40 @@ public Q_SLOTS:
      */
     void shareButtonClicked();
 
+private Q_SLOTS:
+    /*!
+     * Leave Timeout.
+     */
+    void leaveTimeout();
+
 protected:
     /*!
      * Override the widget event.
      */
     virtual void resizeEvent(QResizeEvent *event) override;
+    virtual void enterEvent(QEvent *event) override;
+    virtual void leaveEvent(QEvent *event) override;
     virtual void contextMenuEvent(QContextMenuEvent *event) override;
     /*!
      * Set current title text(song name).
      */
     void setTitleText(const QString &text);
+    /*!
+     * Start to turn on animation.
+     */
+    void start(int topst, int topend, int ctrlst, int ctrlend);
 
-    bool m_windowPopup;
+    QTimer *m_leaverTimer;
+    QParallelAnimationGroup *m_leaverAnimation;
+
     QWidget *m_topWidget;
     QLabel *m_textLabel;
     QToolButton *m_backButton;
-    QPushButton *m_searchButton, *m_closeButton, *m_winTopButton;
+    QPushButton *m_searchButton, *m_closeButton;
     QStackedWidget *m_stackedWidget;
     MusicVideoItem m_videoItem;
     MusicVideoView *m_videoView;
-    MusicVideoTableWidget *m_videoTable;
+    MusicVideoSearchTableWidget *m_videoTable;
     MusicLocalSongSearchEdit *m_searchEdit;
     MusicVideoFloatWidget *m_videoFloatWidget;
 

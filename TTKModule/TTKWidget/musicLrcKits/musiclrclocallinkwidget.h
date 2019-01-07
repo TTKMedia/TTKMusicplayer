@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ typedef struct MUSIC_LRC_EXPORT MusicLocalDataItem
     QString m_name;
     QString m_path;
 }MusicLocalDataItem;
-MUSIC_DECLARE_LISTS(MusicLocalDataItem)
+TTK_DECLARE_LISTS(MusicLocalDataItem)
 
 /*! @brief The class of the local lrc link table widget.
  * @author Greedysky <greedysky@163.com>
@@ -38,16 +38,12 @@ MUSIC_DECLARE_LISTS(MusicLocalDataItem)
 class MUSIC_LRC_EXPORT MusicLrcLocalLinkTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcLocalLinkTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcLocalLinkTableWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcLocalLinkTableWidget(QWidget *parent = nullptr);
 
     /*!
      * Check if current item has in.
@@ -77,18 +73,15 @@ class MusicLrcLocalLinkWidget;
 class MUSIC_LRC_EXPORT MusicLrcLocalLinkWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcLocalLinkWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcLocalLinkWidget(QWidget *parent = 0);
+    explicit MusicLrcLocalLinkWidget(QWidget *parent = nullptr);
 
     virtual ~MusicLrcLocalLinkWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current song name.
      */

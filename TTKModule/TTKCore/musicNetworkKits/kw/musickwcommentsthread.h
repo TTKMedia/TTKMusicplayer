@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,16 +27,12 @@
 class MUSIC_NETWORK_EXPORT MusicKWSongCommentsThread : public MusicDownLoadCommentsThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicKWSongCommentsThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicKWSongCommentsThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicKWSongCommentsThread(QObject *parent = nullptr);
 
     /*!
      * Start to Search data from name.
@@ -62,16 +58,12 @@ public Q_SLOTS:
 class MUSIC_NETWORK_EXPORT MusicKWPlaylistCommentsThread : public MusicDownLoadCommentsThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicKWPlaylistCommentsThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicKWPlaylistCommentsThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicKWPlaylistCommentsThread(QObject *parent = nullptr);
 
     /*!
      * Start to Search data from name.

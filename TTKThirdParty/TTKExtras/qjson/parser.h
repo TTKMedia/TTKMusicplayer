@@ -21,7 +21,7 @@
 #ifndef QJSON_PARSER_H
 #define QJSON_PARSER_H
 
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 QT_BEGIN_NAMESPACE
@@ -60,7 +60,7 @@ namespace QJson {
       * @sa errorString
       * @sa errorLine
       */
-      QVariant parse(const QByteArray& jsonData, bool* ok = 0);
+      QVariant parse(const QByteArray &jsonData, bool* ok = 0);
 
       /**
       * This method returns the error message
@@ -91,7 +91,7 @@ namespace QJson {
       bool specialNumbersAllowed() const;
 
     private:
-      MUSIC_DECLARE_PRIVATE(Parser)
+      TTK_DECLARE_PRIVATE(Parser)
 
   };
 }

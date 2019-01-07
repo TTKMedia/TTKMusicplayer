@@ -24,7 +24,8 @@ MusicRemoteWidgetForRipples::MusicRemoteWidgetForRipples(QWidget *parent)
     QVBoxLayout *mhbox = new QVBoxLayout(m_mainWidget);
     mhbox->setContentsMargins(5, 0, 5, 0);
     mhbox->setSpacing(0);
-    QList<Visual *> *vs = Visual::visuals();
+
+    const QList<Visual *> *vs = Visual::visuals();
     if(!vs->isEmpty() && vs->last())
     {
         mhbox->addWidget(vs->last());
@@ -58,11 +59,6 @@ MusicRemoteWidgetForRipples::~MusicRemoteWidgetForRipples()
     delete m_songNameLabel;
 }
 
-QString MusicRemoteWidgetForRipples::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRemoteWidgetForRipples::setLabelText(const QString &value)
 {
     m_songNameLabel->setText(MusicUtils::Widget::elidedText(font(), value, Qt::ElideRight, 350));
@@ -72,7 +68,7 @@ void MusicRemoteWidgetForRipples::enablePlugin(bool enable)
 {
     foreach(VisualFactory *v, Visual::factories())
     {
-        if(v->properties().shortName.contains("ripples"))
+        if(v->properties().shortName.contains("outerripples"))
         {
             Visual::setEnabled(v, enable);
             break;

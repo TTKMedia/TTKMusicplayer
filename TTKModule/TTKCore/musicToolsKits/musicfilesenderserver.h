@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,18 +35,15 @@
 class MUSIC_TOOL_EXPORT MusicFileSenderServer : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicFileSenderServer)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicFileSenderServer(QObject *parent = 0);
+    explicit MusicFileSenderServer(QObject *parent = nullptr);
 
     ~MusicFileSenderServer();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start to transfer file.
      */

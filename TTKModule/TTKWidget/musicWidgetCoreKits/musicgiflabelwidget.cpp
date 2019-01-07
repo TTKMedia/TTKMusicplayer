@@ -1,8 +1,8 @@
 #include "musicgiflabelwidget.h"
+#include "musicwidgetheaders.h"
 
 #include <QTimer>
 #include <QPainter>
-#include <QBoxLayout>
 
 #define GIF_BALLON_WHITE        35
 #define GIF_CICLE_BLUE          58
@@ -39,11 +39,6 @@ MusicGifLabelWidget::MusicGifLabelWidget(Type type, QWidget *parent)
 MusicGifLabelWidget::~MusicGifLabelWidget()
 {
     delete m_timer;
-}
-
-QString MusicGifLabelWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicGifLabelWidget::setType(Type type)
@@ -273,11 +268,6 @@ MusicGifLabelMaskWidget::MusicGifLabelMaskWidget(QWidget *parent)
 MusicGifLabelMaskWidget::~MusicGifLabelMaskWidget()
 {
     delete m_gifLabel;
-}
-
-QString MusicGifLabelMaskWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicGifLabelMaskWidget::setType(MusicGifLabelWidget::Type type)

@@ -11,11 +11,6 @@ MusicMarqueeWidget::MusicMarqueeWidget(QWidget *parent)
     m_effectOnResize = false;
 }
 
-QString MusicMarqueeWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicMarqueeWidget::setText(const QString &newText)
 {
     int w = 0;
@@ -26,7 +21,7 @@ void MusicMarqueeWidget::setText(const QString &newText)
     }
 
     int length = fontMetrics().width( newText );
-    length = (length >= width()) ? (45 + w) : (25 + w);
+        length = (length >= width()) ? (45 + w) : (25 + w);
     m_myText = newText.leftJustified(length, ' ');
 
     update();
@@ -47,16 +42,16 @@ void MusicMarqueeWidget::paintEvent(QPaintEvent *event)
     f.setBold(false);
     painter.setFont(f);
 
-    int textWidth = fontMetrics().width(m_myText);
+    const int textWidth = fontMetrics().width(m_myText);
     if(textWidth < 1)
     {
         return;
     }
+
     int x = -m_offset;
     while(x < width())
     {
-        painter.drawText(x, 0, textWidth, height(),
-                         Qt::AlignLeft | Qt::AlignVCenter, m_myText);
+        painter.drawText(x, 0, textWidth, height(), Qt::AlignLeft | Qt::AlignVCenter, m_myText);
         x += textWidth;
     }
     painter.end();

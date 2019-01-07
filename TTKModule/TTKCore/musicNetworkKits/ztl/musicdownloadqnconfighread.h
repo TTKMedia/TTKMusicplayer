@@ -1,9 +1,9 @@
-#ifndef MUSICRUNOBJECT_H
-#define MUSICRUNOBJECT_H
+#ifndef MUSICDOWNLOADQNCONFIGHREAD_H
+#define MUSICDOWNLOADQNCONFIGHREAD_H
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,42 +19,36 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QDebug>
-#include "musicprivate.h"
-#include "musicrunglobaldefine.h"
+#include "musicnetworkabstract.h"
 
-class MusicRunObjectPrivate;
+const QString CONFIG_QURTY_URL  = "MDN2ZTFCbndoYkFzK2pQN2wzNVVKYWpwVTd2bXdKWjk0MmhLSjRuUFpROHpzWUhLcENKK2doUmVoa2NqMWFSaGdiaUwyTG5mL2tmelJSakJnT2dmcWJQYjRPTVR0SWROMGZWMkRkaEJtbWhFQ1loRFFSd3VReXl6bXFZPQ==";
 
-/*! @brief The class of the music run object.
+/*! @brief The class of get qiniu config.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_RUN_EXPORT MusicRunObject : public QObject
+class MUSIC_NETWORK_EXPORT MusicDownloadQNConfighread : public MusicNetworkAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadQNConfighread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicRunObject(QObject *parent = 0);
+    explicit MusicDownloadQNConfighread(QObject *parent = nullptr);
+
+    virtual ~MusicDownloadQNConfighread();
 
     /*!
-     * Check current setting file's validation.
+     * Start to download counter pv from net.
      */
-    void checkValid();
-    /*!
-     * To run main window.
-     */
-    void run(int argc, char **argv);
+    void startToDownload();
 
-private Q_SLOTS:
+public Q_SLOTS:
     /*!
-     * Run finished.
+     * Download data from net finished.
      */
-    void finished(int code);
-
-private:
-    MUSIC_DECLARE_PRIVATE(MusicRunObject)
+    virtual void downLoadFinished();
 
 };
 
-#endif // MUSICRUNOBJECT_H
+#endif // MUSICDOWNLOADQNCONFIGHREAD_H

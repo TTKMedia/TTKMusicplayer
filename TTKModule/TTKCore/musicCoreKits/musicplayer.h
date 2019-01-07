@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@ class MusicPlayedlist;
 class MUSIC_CORE_EXPORT MusicPlayer : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicPlayer)
 public:
     enum Enhanced
     {
@@ -49,14 +50,9 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicPlayer(QObject *parent = 0);
+    explicit MusicPlayer(QObject *parent = nullptr);
 
     ~MusicPlayer();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Get current player is playing or not.
@@ -161,7 +157,7 @@ public Q_SLOTS:
     /*!
      * Set current equalizer effect.
      */
-    void setEqEffect(const MusicObject::MIntList &hz);
+    void setEqEffect(const MIntList &hz);
     /*!
      * Set enable to set current equalizer effect.
      */

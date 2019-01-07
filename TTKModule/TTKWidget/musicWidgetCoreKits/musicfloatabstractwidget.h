@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,15 @@
 class MUSIC_WIDGET_EXPORT MusicFloatAbstractWidget : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicFloatAbstractWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicFloatAbstractWidget(QWidget *parent = 0);
+    explicit MusicFloatAbstractWidget(QWidget *parent = nullptr);
 
     virtual ~MusicFloatAbstractWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set block animation state or not.
      */

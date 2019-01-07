@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,27 +29,24 @@ class QPushButton;
 class MUSIC_VIDEO_EXPORT MusicVideoFloatWidget : public MusicFloatAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVideoFloatWidget)
 public:
     enum Type
     {
         SearchType,     /*!< search text type*/
         FreshType,      /*!< fresh text type*/
         FullscreenType, /*!< fullscreen text type*/
-        DownloadType,   /*!< download text type*/
+        DownloadType ,  /*!< download text type*/
         ShareType       /*!< share text type*/
     };
 
     /*!
      * Object contsructor.
      */
-    explicit MusicVideoFloatWidget(QWidget *parent = 0);
+    explicit MusicVideoFloatWidget(QWidget *parent = nullptr);
 
     virtual ~MusicVideoFloatWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Resize window bound by given width and height.
      */

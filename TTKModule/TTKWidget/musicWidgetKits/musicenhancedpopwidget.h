@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,18 +30,14 @@ class QPropertyAnimation;
 class MUSIC_WIDGET_EXPORT MusicEnhancedToolButton : public QToolButton
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicEnhancedToolButton)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicEnhancedToolButton(QWidget *parent = 0);
+    explicit MusicEnhancedToolButton(QWidget *parent = nullptr);
 
     virtual ~MusicEnhancedToolButton();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set object style sheet.
@@ -80,18 +76,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicEnhancedPopWidget : public MusicToolMenuWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicEnhancedPopWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicEnhancedPopWidget(QWidget *parent = 0);
+    explicit MusicEnhancedPopWidget(QWidget *parent = nullptr);
 
     virtual ~MusicEnhancedPopWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 Q_SIGNALS:
     /*!

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,18 +32,15 @@ class MusicDownloadResetWidget;
 class MUSIC_WIDGET_EXPORT MusicDownloadResetWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadResetWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadResetWidget(QWidget *parent = 0);
+    explicit MusicDownloadResetWidget(QWidget *parent = nullptr);
 
     ~MusicDownloadResetWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current name to search and download musics.
      */
@@ -88,16 +85,13 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicDownloadMgmtWidget : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadMgmtWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadMgmtWidget(QObject *parent = 0);
+    explicit MusicDownloadMgmtWidget(QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current name to search and download musics.
      */

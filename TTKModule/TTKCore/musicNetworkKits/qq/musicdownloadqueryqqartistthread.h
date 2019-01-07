@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,16 +29,12 @@
 class MUSIC_CORE_EXPORT MusicQQArtistInfoConfigManager : public MusicAbstractXml
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicQQArtistInfoConfigManager)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicQQArtistInfoConfigManager(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicQQArtistInfoConfigManager(QObject *parent = nullptr);
 
     /*!
      * Read artist info datas into xml file.
@@ -55,16 +51,12 @@ class MUSIC_NETWORK_EXPORT MusicDownLoadQueryQQArtistThread : public MusicDownLo
                                                               private MusicDownLoadQQInterface
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownLoadQueryQQArtistThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownLoadQueryQQArtistThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDownLoadQueryQQArtistThread(QObject *parent = nullptr);
 
     /*!
      * Start to Search data from name and type.

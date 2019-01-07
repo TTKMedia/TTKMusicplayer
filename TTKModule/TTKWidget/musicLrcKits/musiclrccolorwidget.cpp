@@ -50,11 +50,6 @@ MusicLrcColorWidget::~MusicLrcColorWidget()
     delete m_ui;
 }
 
-QString MusicLrcColorWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicLrcColorWidget::setColors(const QList<QColor> &colors)
 {
     foreach(const QColor &color, colors)
@@ -80,7 +75,7 @@ void MusicLrcColorWidget::addButtonClicked()
     MusicColorDialog getColor(this);
     if(getColor.exec())
     {
-        QColor color = getColor.color();
+        const QColor &color = getColor.color();
         QListWidgetItem *it = new QListWidgetItem(m_ui->listWidget);
         it->setBackgroundColor(color);
         m_ui->listWidget->addItem(it);
@@ -89,7 +84,7 @@ void MusicLrcColorWidget::addButtonClicked()
 
 void MusicLrcColorWidget::deleteButtonClicked()
 {
-    int index = m_ui->listWidget->currentRow();
+    const int index = m_ui->listWidget->currentRow();
     if(index >= 0)
     {
         delete m_ui->listWidget->takeItem(index);
@@ -101,7 +96,7 @@ void MusicLrcColorWidget::modifyButtonClicked()
     MusicColorDialog getColor(this);
     if(getColor.exec())
     {
-        QColor color = getColor.color();
+        const QColor &color = getColor.color();
         QListWidgetItem *it = m_ui->listWidget->currentItem();
         if(it)
         {

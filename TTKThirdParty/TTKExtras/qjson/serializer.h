@@ -21,7 +21,7 @@
 #ifndef QJSON_SERIALIZER_H
 #define QJSON_SERIALIZER_H
 
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 QT_BEGIN_NAMESPACE
@@ -161,7 +161,7 @@ namespace QJson {
       * @param out Input output device
       * @param ok if a conversion error occurs, *ok is set to false; otherwise *ok is set to true
       */
-    void serialize( const QVariant& variant, QIODevice* out, bool* ok);
+    void serialize( const QVariant &variant, QIODevice* out, bool* ok);
 
     /**
       * This is a method provided for convenience. It turns the passed in in-memory
@@ -174,7 +174,7 @@ namespace QJson {
       *
       * \deprecated This method is going to be removed with the next major release of QJson.
       */
-    QByteArray serialize( const QVariant& variant);
+    QByteArray serialize( const QVariant &variant);
 
     /**
       * This is a method provided for convenience. It turns the passed in in-memory
@@ -186,7 +186,7 @@ namespace QJson {
       * parser.
       * @param ok if a conversion error occurs, *ok is set to false; otherwise *ok is set to true
       */
-    QByteArray serialize( const QVariant& variant, bool *ok);
+    QByteArray serialize( const QVariant &variant, bool *ok);
 
     /**
      * Allow or disallow writing of NaN and/or Infinity (as an extension to QJson)
@@ -222,7 +222,7 @@ namespace QJson {
 
   private:
     class SerializerPrivate;
-    MUSIC_DECLARE_PRIVATE(Serializer)
+    TTK_DECLARE_PRIVATE(Serializer)
 
   };
 }

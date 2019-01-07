@@ -21,7 +21,7 @@
 #ifndef SERIALIZERRUNNABLE_H
 #define SERIALIZERRUNNABLE_H
 
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 #include <QtCore/QObject>
@@ -41,14 +41,14 @@ namespace QJson {
   {
     Q_OBJECT
     public:
-      explicit SerializerRunnable(QObject* parent = 0);
+      explicit SerializerRunnable(QObject* parent = nullptr);
 
       /**
        * Sets the json object to serialize.
        *
        * @param json QVariant containing the json representation to be serialized
        */
-      void setJsonObject( const QVariant& json );
+      void setJsonObject( const QVariant &json );
 
       /* reimp */ void run();
 
@@ -59,11 +59,11 @@ namespace QJson {
       * @param ok if a serialization error occurs ok is set to false, otherwise it's set to true.
       * @param error_msg contains a string explaining the failure reason
       **/
-      void parsingFinished(const QByteArray& serialized, bool ok, const QString& error_msg);
+      void parsingFinished(const QByteArray &serialized, bool ok, const QString& error_msg);
 
     private:
       class SerializerRunnablePrivate;
-      MUSIC_DECLARE_PRIVATE(SerializerRunnable)
+      TTK_DECLARE_PRIVATE(SerializerRunnable)
 
   };
 }

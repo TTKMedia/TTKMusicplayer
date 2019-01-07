@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  ================================================= */
 
 #include <QTime>
-#include <QMenu>
+#include "musicwidgetheaders.h"
 #include "musicabstractmovedialog.h"
 #include "musicdatabaseobject.h"
 
@@ -36,18 +36,15 @@ class MusicUserManagerDialog;
 class MUSIC_USER_EXPORT MusicUserManagerDialog : public QDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicUserManagerDialog)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicUserManagerDialog(QWidget *parent = 0);
+    explicit MusicUserManagerDialog(QWidget *parent = nullptr);
 
     ~MusicUserManagerDialog();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current user's uid.
      */

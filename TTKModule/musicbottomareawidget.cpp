@@ -27,11 +27,6 @@ MusicBottomAreaWidget::~MusicBottomAreaWidget()
     delete m_musicWindowExtras;
 }
 
-QString MusicBottomAreaWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 MusicBottomAreaWidget *MusicBottomAreaWidget::instance()
 {
     return m_instance;
@@ -76,8 +71,7 @@ void MusicBottomAreaWidget::createSystemTrayIcon()
 
     m_systemTray->setContextMenu(m_systemTrayMenu);
     m_systemTray->show();
-    connect(m_systemTray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-                          SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    connect(m_systemTray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 }
 
 void MusicBottomAreaWidget::setDestopLrcVisible(bool status) const
@@ -123,7 +117,7 @@ void MusicBottomAreaWidget::setRange(int min, int max) const
 
 void MusicBottomAreaWidget::setWindowConcise()
 {
-    bool con = m_musicWindowExtras->isDisableBlurBehindWindow();
+    const bool con = m_musicWindowExtras->isDisableBlurBehindWindow();
     M_SETTING_PTR->setValue(MusicSettingManager::WindowConciseChoiced, con);
 
     m_ui->topRightWidget->setVisible(!con);
@@ -175,7 +169,7 @@ void MusicBottomAreaWidget::setWindowConcise()
     }
     else
     {
-        QSize size = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
+        const QSize &size = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
         MusicApplication *app = MusicApplication::instance();
         app->setMinimumSize(WINDOW_WIDTH_MIN, WINDOW_HEIGHT_MIN);
         app->setMaximumSize(size.width(), size.height());
@@ -206,7 +200,7 @@ void MusicBottomAreaWidget::setWindowConcise()
 void MusicBottomAreaWidget::resizeWindow()
 {
     int h = M_SETTING_PTR->value(MusicSettingManager::WidgetSize).toSize().height() - 155;
-    h = h - m_ui->lrcDisplayAllButton->height() - 40;
+        h = h - m_ui->lrcDisplayAllButton->height() - 40;
     m_ui->lrcDisplayAllButton->move(m_ui->lrcDisplayAllButton->x(), h/2);
 }
 

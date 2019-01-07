@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,14 @@ class QProcess;
 class MUSIC_TOOLSET_EXPORT MusicNetworkSpeedTestThread : public QThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicNetworkSpeedTestThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicNetworkSpeedTestThread(QObject *parent = 0);
+    explicit MusicNetworkSpeedTestThread(QObject *parent = nullptr);
 
     ~MusicNetworkSpeedTestThread();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Stop and quit current thread.

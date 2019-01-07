@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,18 +35,14 @@ class MusicDesktopWallpaperWidget;
 class MUSIC_TOOLSET_EXPORT MusicDesktopWallpaperItem : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDesktopWallpaperItem)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDesktopWallpaperItem(QWidget *parent = 0);
+    explicit MusicDesktopWallpaperItem(QWidget *parent = nullptr);
 
     ~MusicDesktopWallpaperItem();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 public Q_SLOTS:
     /*!
@@ -66,24 +62,14 @@ protected:
 class MUSIC_TOOLSET_EXPORT MusicDesktopWallpaperWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDesktopWallpaperWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDesktopWallpaperWidget(QWidget *parent = 0);
+    explicit MusicDesktopWallpaperWidget(QWidget *parent = nullptr);
 
     ~MusicDesktopWallpaperWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
 
 public Q_SLOTS:
     /*!
@@ -124,10 +110,6 @@ public Q_SLOTS:
     void show();
 
 protected:
-    /*!
-     * Override the widget event.
-     */
-    virtual void closeEvent(QCloseEvent *event) override;
     /*!
      * Create all widget style in layout.
      */

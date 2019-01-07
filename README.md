@@ -1,6 +1,6 @@
 # TTKMusicPlayer
 ![TTKMusicplayer](https://img.shields.io/badge/Greedysky-TTKMusicPlayer-green.svg?style=flat-square)
-![Version](https://img.shields.io/badge/Version-2.6.8.0-blue.svg?style=flat-square)
+![Version](https://img.shields.io/badge/Version-2.7.0.0-blue.svg?style=flat-square)
 ![License](https://img.shields.io/badge/License-GPL%20V3-yellowgreen.svg?style=flat-square)
 
 ![LOGO](https://github.com/Greedysky/Resource/blob/master/Screen/logo_pic.png?raw=true)
@@ -24,9 +24,9 @@ Compiler tutorial I have written in the wiki.(See here <u>https://github.com/Gre
  
 | Platform | Qt & Compiler       | Status                                                                                      |
 | :---:    | :---:               | :---:                                                                                       |
-| Linux    | 4.8.7 GCC & 5.x GCC    | ![Linux](https://img.shields.io/wercker/ci/wercker/docs.svg)                            |
-| Windows  | 4.8.7 GCC & 5.x GCC       | ![Windows](https://img.shields.io/wercker/ci/wercker/docs.svg) |
-| Windows  | 5.x MSVC       | ![Windows](https://img.shields.io/wercker/ci/wercker/docs.svg) |
+| Linux    | 4.8.7 GCC & 5.x GCC    | ![Linux](https://img.shields.io/teamcity/codebetter/bt428.svg)                            |
+| Windows  | 4.8.7 GCC & 5.x GCC       | ![Windows](https://img.shields.io/teamcity/codebetter/bt428.svg) |
+| Windows  | 5.x MSVC       | ![Windows](https://img.shields.io/teamcity/codebetter/bt428.svg) |
 | OS X     | 5.x Clang     | ![OSX](https://img.shields.io/badge/build-unknown-lightgrey.svg?style=flat-square)                           |
  
 # For Developers
@@ -145,7 +145,7 @@ Screenshots
 Copyright
 -------
  * This file is part of the TTK Music Player project.
- * Copyright (c) 2015 - 2018 Greedysky Studio.
+ * Copyright (c) 2015 - 2019 Greedysky Studio.
  * Mail: greedysky@163.com.
  
 How To Contribute

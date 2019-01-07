@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,18 +28,14 @@
 class MUSIC_WIDGET_EXPORT MusicVolumeGainTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVolumeGainTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicVolumeGainTableWidget(QWidget *parent = 0);
+    explicit MusicVolumeGainTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicVolumeGainTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 public Q_SLOTS:
     /*!
@@ -60,24 +56,14 @@ class QProcess;
 class MUSIC_TOOLSET_EXPORT MusicVolumeGainWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVolumeGainWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicVolumeGainWidget(QWidget *parent = 0);
+    explicit MusicVolumeGainWidget(QWidget *parent = nullptr);
 
     virtual ~MusicVolumeGainWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
 
 public Q_SLOTS:
     /*!
@@ -124,10 +110,6 @@ private Q_SLOTS:
     void applyOutput();
 
 protected:
-    /*!
-     * Override the widget event.
-     */
-    virtual void closeEvent(QCloseEvent *event) override;
     /*!
      * Create table item finished.
      */

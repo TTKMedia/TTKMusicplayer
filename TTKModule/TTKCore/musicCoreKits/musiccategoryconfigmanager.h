@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ typedef struct MUSIC_CORE_EXPORT MusicResultsCategoryItem
         m_name = name;
     }
 }MusicResultsCategoryItem;
-MUSIC_DECLARE_LISTS(MusicResultsCategoryItem)
+TTK_DECLARE_LISTS(MusicResultsCategoryItem)
 
 
 /*! @brief The class of the results category core.
@@ -51,7 +51,7 @@ typedef struct MUSIC_CORE_EXPORT MusicResultsCategory
     QString m_category;
     MusicResultsCategoryItems m_items;
 }MusicResultsCategory;
-MUSIC_DECLARE_LISTS(MusicResultsCategory)
+TTK_DECLARE_LISTS(MusicResultsCategory)
 
 
 /*! @brief The class of the category Config Manager.
@@ -60,6 +60,7 @@ MUSIC_DECLARE_LISTS(MusicResultsCategory)
 class MUSIC_CORE_EXPORT MusicCategoryConfigManager : public MusicAbstractXml
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicCategoryConfigManager)
 public:
     enum Type
     {
@@ -71,12 +72,8 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicCategoryConfigManager(QObject *parent = 0);
+    explicit MusicCategoryConfigManager(QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Read user datas from xml file by given name.
      */

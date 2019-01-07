@@ -8,11 +8,6 @@ MusicColorPreviewLabel::MusicColorPreviewLabel(QWidget *parent)
     m_linearGradient.setStart(0, 0);
 }
 
-QString MusicColorPreviewLabel::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicColorPreviewLabel::setLinearGradient(const QList<QColor> &colors)
 {
     QLinearGradient linearGradient;
@@ -28,7 +23,7 @@ void MusicColorPreviewLabel::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
-    int h = height() - 4*2;
+    const int h = height() - 4*2;
     m_linearGradient.setFinalStop(0, height());
 
     painter.setFont(font());
@@ -55,11 +50,6 @@ MusicPreviewLabel::MusicPreviewLabel(QWidget *parent)
     m_transparent = 255;
     m_linearGradient.setStart(0, 0);
     m_maskLinearGradient.setStart(0, 0);
-}
-
-QString MusicPreviewLabel::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicPreviewLabel::setLinearGradient(const MusicPreviewLabelItem &item)
@@ -95,8 +85,8 @@ void MusicPreviewLabel::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
-    int h = QFontMetrics(m_font).height();
-    int begin = (rect().height() - h)/2;
+    const int h = QFontMetrics(m_font).height();
+    const int begin = (rect().height() - h)/2;
     m_linearGradient.setFinalStop(0, h + begin);
     m_maskLinearGradient.setFinalStop(0, h + begin);
 

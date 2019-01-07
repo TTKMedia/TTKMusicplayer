@@ -11,8 +11,7 @@
 #endif
 #include <QSslError>
 
-MusicDownLoadThreadAbstract::MusicDownLoadThreadAbstract(const QString &url, const QString &save,
-                                                         DownloadType type, QObject *parent)
+MusicDownLoadThreadAbstract::MusicDownLoadThreadAbstract(const QString &url, const QString &save, MusicObject::DownloadType type, QObject *parent)
     : MusicNetworkAbstract(parent)
 {
     m_url = url;
@@ -35,11 +34,6 @@ MusicDownLoadThreadAbstract::MusicDownLoadThreadAbstract(const QString &url, con
 MusicDownLoadThreadAbstract::~MusicDownLoadThreadAbstract()
 {
     M_DOWNLOAD_MANAGER_PTR->removeNetworkMultiValue(this);
-}
-
-QString MusicDownLoadThreadAbstract::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDownLoadThreadAbstract::deleteAll()
@@ -82,7 +76,7 @@ void MusicDownLoadThreadAbstract::updateDownloadSpeed()
     ///limit speed
     if(M_SETTING_PTR->value(MusicSettingManager::DownloadLimitChoiced).toInt() == 0)
     {
-        int limitValue = M_SETTING_PTR->value(MusicSettingManager::DownloadDLoadLimitChoiced).toInt();
+        const int limitValue = M_SETTING_PTR->value(MusicSettingManager::DownloadDLoadLimitChoiced).toInt();
         if(limitValue != 0 && delta > limitValue*MH_KB)
         {
 #if defined Q_OS_WIN && defined MUSIC_GREATER_NEW
@@ -101,12 +95,12 @@ QString MusicDownLoadThreadAbstract::transferData() const
 {
     switch(m_downloadType)
     {
-        case DownloadMusic: return "DownloadMusic";
-        case DownloadLrc:   return "DownloadLrc";
-        case DownloadSmallBG: return "DownloadSmallBG";
-        case DownloadBigBG: return "DownloadBigBG";
-        case DownloadVideo: return "DownloadVideo";
-        case DownloadOther: return "DownloadOther";
+        case MusicObject::DownloadMusic: return "DownloadMusic";
+        case MusicObject::DownloadLrc:   return "DownloadLrc";
+        case MusicObject::DownloadSmallBG: return "DownloadSmallBG";
+        case MusicObject::DownloadBigBG: return "DownloadBigBG";
+        case MusicObject::DownloadVideo: return "DownloadVideo";
+        case MusicObject::DownloadOther: return "DownloadOther";
         default: return QString();
     }
 }

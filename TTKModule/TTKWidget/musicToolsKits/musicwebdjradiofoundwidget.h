@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,14 @@ class MusicWebDJRadioInfoWidget;
 class MUSIC_TOOL_EXPORT MusicWebDJRadioFoundItemWidget : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioFoundItemWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioFoundItemWidget(QWidget *parent = 0);
+    explicit MusicWebDJRadioFoundItemWidget(QWidget *parent = nullptr);
 
     virtual ~MusicWebDJRadioFoundItemWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set music results item.
@@ -80,18 +76,14 @@ protected:
 class MUSIC_TOOL_EXPORT MusicWebDJRadioFoundWidget : public MusicFoundAbstractWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioFoundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioFoundWidget(QWidget *parent = 0);
+    explicit MusicWebDJRadioFoundWidget(QWidget *parent = nullptr);
 
     virtual ~MusicWebDJRadioFoundWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current name to search founds.

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  ================================================= */
 
 #include <QtNetwork/QNetworkRequest>
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 class QNMacPrivate;
@@ -51,14 +51,14 @@ public:
     /*!
      * Qiniu to sign request.
      */
-    QString signRequest(const QUrl &reqestUrl, const QByteArray &bodyData = 0) const;
+    QString signRequest(const QUrl &reqestUrl, const QByteArray &bodyData = QByteArray()) const;
     /*!
      * Qiniu to sign request.
      */
-    QString signRequest(const QNetworkRequest &request, const QByteArray &bodyData = 0) const;
+    QString signRequest(const QNetworkRequest &request, const QByteArray &bodyData = QByteArray()) const;
 
 private:
-    MUSIC_DECLARE_PRIVATE(QNMac)
+    TTK_DECLARE_PRIVATE(QNMac)
 
 };
 

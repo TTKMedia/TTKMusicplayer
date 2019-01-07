@@ -11,10 +11,9 @@
 #include "musicleftareawidget.h"
 #include "musictinyuiobject.h"
 #include "musicsplititemclickedlabel.h"
+#include "musicwidgetheaders.h"
 
-#include <QMenu>
 #include <QTimer>
-#include <QPushButton>
 
 MusicSongsListPlayWidget::MusicSongsListPlayWidget(int index, QWidget *parent)
     : QWidget(parent), m_renameLine(nullptr)
@@ -118,11 +117,6 @@ MusicSongsListPlayWidget::~MusicSongsListPlayWidget()
     delete m_moreButton;
 }
 
-QString MusicSongsListPlayWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongsListPlayWidget::insertTimerLabel(const QString &time, const QString &total)
 {
     if(m_totalTimeLabel.contains("00:00"))
@@ -139,9 +133,8 @@ void MusicSongsListPlayWidget::updateCurrentArtist()
         return;
     }
 
-    QString name = m_songNameLabel->toolTip().trimmed();
-    if(!showArtPicture(MusicUtils::String::artistName(name)) &&
-       !showArtPicture(MusicUtils::String::songName(name)))
+    const QString &name = m_songNameLabel->toolTip().trimmed();
+    if(!showArtPicture(MusicUtils::String::artistName(name)) && !showArtPicture(MusicUtils::String::songName(name)))
     {
         m_artPictureLabel->setPixmap(QPixmap(":/image/lb_defaultArt").scaled(60, 60));
     }
@@ -181,9 +174,10 @@ bool MusicSongsListPlayWidget::showArtPicture(const QString &name) const
 void MusicSongsListPlayWidget::setParameter(const QString &name, const QString &path)
 {
     MusicSongTag tag;
-    bool state = tag.read(path);
+    const bool state = tag.read(path);
     m_songNameLabel->setText(MusicUtils::Widget::elidedText(font(), name, Qt::ElideRight, 198));
     m_songNameLabel->setToolTip(name);
+
     if(state)
     {
         m_totalTimeLabel = "/" + tag.getLengthString();
@@ -205,8 +199,7 @@ void MusicSongsListPlayWidget::setParameter(const QString &name, const QString &
         }
     }
 
-    if(!showArtPicture(MusicUtils::String::artistName(name)) &&
-       !showArtPicture(MusicUtils::String::songName(name)))
+    if(!showArtPicture(MusicUtils::String::artistName(name)) && !showArtPicture(MusicUtils::String::songName(name)))
     {
         m_artPictureLabel->setPixmap(QPixmap(":/image/lb_defaultArt").scaled(60, 60));
     }
@@ -236,7 +229,7 @@ void MusicSongsListPlayWidget::setChangItemName(const QString &name)
 
 void MusicSongsListPlayWidget::currentLoveStateClicked()
 {
-    bool state = MusicApplication::instance()->musicLovestContains();
+    const bool state = MusicApplication::instance()->musicLovestContains();
     m_loveButton->setStyleSheet(state ? MusicUIObject::MKGTinyBtnLove : MusicUIObject::MKGTinyBtnUnLove);
 }
 

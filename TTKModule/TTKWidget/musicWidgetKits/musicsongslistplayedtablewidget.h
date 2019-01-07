@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,14 @@ class MusicSongsListPlayedWidget;
 class MUSIC_WIDGET_EXPORT MusicSongsListPlayedTableWidget : public MusicSongsListAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongsListPlayedTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongsListPlayedTableWidget(QWidget *parent = 0);
+    explicit MusicSongsListPlayedTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSongsListPlayedTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Clear play later state.

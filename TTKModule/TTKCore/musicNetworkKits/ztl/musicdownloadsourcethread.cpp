@@ -11,11 +11,6 @@ MusicDownloadSourceThread::~MusicDownloadSourceThread()
     deleteAll();
 }
 
-QString MusicDownloadSourceThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownloadSourceThread::startToDownload(const QString &url)
 {
     m_manager = new QNetworkAccessManager(this);
@@ -38,7 +33,7 @@ void MusicDownloadSourceThread::downLoadFinished()
     {
         if(m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).isValid())
         {
-            QString newUrl = m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
+            const QString &newUrl = m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute).toString();
             deleteAll();
             startToDownload(newUrl); ///redirection target url
         }

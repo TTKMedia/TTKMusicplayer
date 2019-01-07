@@ -2,12 +2,6 @@
 #include "musicfunctionuiobject.h"
 #include "musicuiobject.h"
 
-#include <QTextEdit>
-#include <QBoxLayout>
-#include <QPushButton>
-#include <QScrollArea>
-#include <QScrollBar>
-
 MusicLrcTranslatedWidget::MusicLrcTranslatedWidget(QWidget *parent)
     : QLabel(parent)
 {
@@ -25,9 +19,9 @@ MusicLrcTranslatedWidget::MusicLrcTranslatedWidget(QWidget *parent)
 
     m_titleName = new QLabel(topWidget);
     m_titleName->setAlignment(Qt::AlignCenter);
-    m_titleName->setStyleSheet(MusicUIObject::MColorStyle03 + MusicUIObject::MFontStyle05 +
-                               MusicUIObject::MFontStyle01);
+    m_titleName->setStyleSheet(MusicUIObject::MColorStyle03 + MusicUIObject::MFontStyle05 + MusicUIObject::MFontStyle01);
     topWidgetLayout->addWidget(m_titleName);
+
     QPushButton *closeButton = new QPushButton(this);
     closeButton->setFixedSize(14, 14);
     closeButton->setStyleSheet(MusicUIObject::MKGBtnPClose);
@@ -53,8 +47,8 @@ MusicLrcTranslatedWidget::MusicLrcTranslatedWidget(QWidget *parent)
     scrollArea->setWidget(m_plainText);
 
     m_plainText->setObjectName("contentsWidget");
-    m_plainText->setStyleSheet(QString("#contentsWidget{%1%2%3}").arg(MusicUIObject::MBackgroundStyle01)
-                               .arg(MusicUIObject::MColorStyle06).arg(MusicUIObject::MFontStyle03));
+    m_plainText->setStyleSheet(QString("#contentsWidget{%1%2%3}").arg(MusicUIObject::MBackgroundStyle01).arg(MusicUIObject::MColorStyle06).arg(MusicUIObject::MFontStyle03));
+
     QWidget *view = scrollArea->viewport();
     view->setObjectName("viewport");
     view->setStyleSheet(QString("#viewport{%1}").arg(MusicUIObject::MBackgroundStyle01));
@@ -68,11 +62,6 @@ MusicLrcTranslatedWidget::~MusicLrcTranslatedWidget()
 {
     delete m_titleName;
     delete m_plainText;
-}
-
-QString MusicLrcTranslatedWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLrcTranslatedWidget::setPlainText(const QString &name, const QString &text)

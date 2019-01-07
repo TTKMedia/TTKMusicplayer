@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  ================================================= */
 
 #include <QtNetwork/QNetworkReply>
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicextrasglobaldefine.h"
 
 class QNSimpleUploadDataPrivate;
@@ -35,14 +35,12 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit QNSimpleUploadData(QNetworkAccessManager *networkManager,
-                                QObject *parent = 0);
+    explicit QNSimpleUploadData(QNetworkAccessManager *networkManager, QObject *parent = nullptr);
 
     /*!
      * Get uplaod data to server request.
      */
-    void uploadDataToServer(const QByteArray &data, const QString &bucket,
-                            const QString &key, const QString &name);
+    void uploadDataToServer(const QString &time, const QByteArray &data, const QString &bucket, const QString &key, const QString &name);
     /*!
      * Get download url request.
      */
@@ -52,7 +50,11 @@ Q_SIGNALS:
     /*!
      * Uplaod file finshed.
      */
-    void uploadFileFinished(const QString &name);
+    void uploadFileFinished(const QString &time);
+    /*!
+     * Show upload progress.
+     */
+    void uploadProgressChanged(const QString &time, qint64 bytesSent, qint64 bytesTotal);
 
 private Q_SLOTS:
     /*!
@@ -63,9 +65,13 @@ private Q_SLOTS:
      * Get handle error.
      */
     void handleError(QNetworkReply::NetworkError error);
+    /*!
+     * Show upload progress.
+     */
+    void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
 
 private:
-    MUSIC_DECLARE_PRIVATE(QNSimpleUploadData)
+    TTK_DECLARE_PRIVATE(QNSimpleUploadData)
 
 };
 

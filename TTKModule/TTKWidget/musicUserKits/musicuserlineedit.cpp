@@ -16,11 +16,6 @@ MusicUserLineEdit::MusicUserLineEdit(QWidget *parent)
     m_statusLabel = nullptr;
 }
 
-QString MusicUserLineEdit::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicUserLineEdit::focusInEvent(QFocusEvent *event)
 {
     QLineEdit::focusInEvent(event);
@@ -53,12 +48,23 @@ void MusicUserLineEdit::labelCheck(bool check)
 {
     if(check)
     {
-        if(m_tipsLabel) m_tipsLabel->hide();
-        if(m_statusLabel) m_statusLabel->show();
+        if(m_tipsLabel)
+        {
+            m_tipsLabel->hide();
+        }
+
+        if(m_statusLabel)
+        {
+            m_statusLabel->show();
+        }
     }
     else
     {
-        if(m_statusLabel) m_statusLabel->hide();
+        if(m_statusLabel)
+        {
+            m_statusLabel->hide();
+        }
+
         if(m_tipsLabel)
         {
             m_tipsLabel->show();
@@ -69,7 +75,7 @@ void MusicUserLineEdit::labelCheck(bool check)
 
 void MusicUserLineEdit::showLabel(int s, int e)
 {
-    int textLength = text().length();
+    const int textLength = text().length();
     labelCheck(m_strContains = (s <= textLength && textLength <= e));
 }
 
@@ -110,16 +116,11 @@ void MusicUserLineEdit::checkPwdStrength()
     onlyChar = text().contains(QRegExp("[a-zA-z]"));
     onlySp = text().contains(QRegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~@#]"));
 
-    if(( onlyNum && !onlyChar && !onlySp) ||
-       (!onlyNum &&  onlyChar && !onlySp) ||
-       (!onlyNum && !onlyChar &&  onlySp) ||
-       (!onlyNum && !onlyChar && !onlySp))
+    if((onlyNum && !onlyChar && !onlySp) || (!onlyNum &&  onlyChar && !onlySp) || (!onlyNum && !onlyChar &&  onlySp) || (!onlyNum && !onlyChar && !onlySp))
     {
         emit checkPwdStrength(0);
     }
-    else if(( onlyNum &&  onlyChar && !onlySp) ||
-            ( onlyNum && !onlyChar &&  onlySp) ||
-            (!onlyNum &&  onlyChar &&  onlySp))
+    else if((onlyNum &&  onlyChar && !onlySp) || (onlyNum && !onlyChar &&  onlySp) || (!onlyNum &&  onlyChar &&  onlySp))
     {
         emit checkPwdStrength(1);
     }

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicDownloadQueueData
     QString m_url;        ///*download url*/
     QString m_savePath;   ///*save local path*/
 }MusicDownloadQueueData;
-MUSIC_DECLARE_LISTS(MusicDownloadQueueData)
+TTK_DECLARE_LISTS(MusicDownloadQueueData)
 
 /*! @brief The class to download data from cache queue.
  * @author Greedysky <greedysky@163.com>
@@ -37,29 +37,25 @@ MUSIC_DECLARE_LISTS(MusicDownloadQueueData)
 class MUSIC_NETWORK_EXPORT MusicDownloadQueueCache : public MusicDownLoadThreadAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadQueueCache)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadQueueCache(DownloadType type, QObject *parent = 0);
+    explicit MusicDownloadQueueCache(MusicObject::DownloadType  type, QObject *parent = nullptr);
 
     /*!
      * Object contsructor.
      */
     MusicDownloadQueueCache(const MusicDownloadQueueData &data,
-                            DownloadType type, QObject *parent = 0);
+                            MusicObject::DownloadType  type, QObject *parent = nullptr);
     /*!
      * Object contsructor.
      */
     MusicDownloadQueueCache(const MusicDownloadQueueDatas &datas,
-                            DownloadType type, QObject *parent = 0);
+                            MusicObject::DownloadType  type, QObject *parent = nullptr);
 
     ~MusicDownloadQueueCache();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Add image download url and save path to download queue.

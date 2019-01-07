@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QGraphicsView>
+#include <QAbstractScrollArea>
 #include "musicglobaldefine.h"
 #include "musicvideocontrolwidget.h"
 
@@ -32,17 +32,13 @@ class MusicBarrageWidget;
 class MUSIC_VIDEO_EXPORT MusicViewWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicViewWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicViewWidget(QWidget *parent = 0);
+    explicit MusicViewWidget(QWidget *parent = nullptr);
     ~MusicViewWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 Q_SIGNALS:
     /*!
@@ -63,31 +59,29 @@ protected:
      * Override the widget event.
      */
     virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent *event) override;
     virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
     virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
     QTimer *m_clickedTimer;
-
+    bool m_leftPressed;
 };
 
 /*! @brief The class of the video view widget.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_VIDEO_EXPORT MusicVideoView : public QGraphicsView
+class MUSIC_VIDEO_EXPORT MusicVideoView : public QAbstractScrollArea
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVideoView)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicVideoView(QWidget *parent = 0);
+    explicit MusicVideoView(QWidget *parent = nullptr);
 
     ~MusicVideoView();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set video play data.
      */
@@ -96,6 +90,10 @@ public:
      * Resize widget size or not.
      */
     void resizeWindow(int width, int height);
+    /*!
+     * Get control bar widget.
+     */
+    MusicVideoControlWidget *controlBarWidget() const { return m_videoControl; }
 
 public Q_SLOTS:
     /*!

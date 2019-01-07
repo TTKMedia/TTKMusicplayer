@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,18 +36,14 @@ class MusicSongCheckToolsQualityCore;
 class MUSIC_TOOLSET_EXPORT MusicSongCheckToolsWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongCheckToolsWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongCheckToolsWidget(QWidget *parent = 0);
+    explicit MusicSongCheckToolsWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSongCheckToolsWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 Q_SIGNALS:
     /*!
@@ -63,7 +59,7 @@ public Q_SLOTS:
     /*!
      * Item lists changed.
      */
-    void itemListsChanged(const MusicObject::MIntList &items);
+    void itemListsChanged(const MIntList &items);
     /*!
      * Rename button clicked.
      */
@@ -143,7 +139,7 @@ protected:
 
     MusicSongs m_localSongs;
     bool m_selectedItemIdFlag;
-    MusicObject::MIntList m_selectedItemIds;
+    MIntList m_selectedItemIds;
     MusicSongCheckToolsRenameCore *m_renameCore;
     MusicSongCheckToolsDuplicateCore *m_duplicateCore;
     MusicSongCheckToolsQualityCore *m_qualityCore;

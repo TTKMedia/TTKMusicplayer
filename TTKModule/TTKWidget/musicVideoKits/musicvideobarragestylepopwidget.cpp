@@ -1,10 +1,8 @@
 #include "musicvideobarragestylepopwidget.h"
 #include "musicvideouiobject.h"
 #include "musicuiobject.h"
+#include "musicwidgetheaders.h"
 
-#include <QLabel>
-#include <QBoxLayout>
-#include <QPushButton>
 #include <QButtonGroup>
 
 MusicVideoBarrageStylePopWidget::MusicVideoBarrageStylePopWidget(QWidget *parent)
@@ -19,11 +17,6 @@ MusicVideoBarrageStylePopWidget::~MusicVideoBarrageStylePopWidget()
 {
     delete m_sizeGroup;
     delete m_colorGroup;
-}
-
-QString MusicVideoBarrageStylePopWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 int MusicVideoBarrageStylePopWidget::getBarrageSize() const

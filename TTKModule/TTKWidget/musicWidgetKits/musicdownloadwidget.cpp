@@ -8,9 +8,7 @@
 #include "musicmessagebox.h"
 #include "musicdownloadqueryfactory.h"
 #include "musicstringutils.h"
-
-#include <QLabel>
-#include <QFileDialog>
+#include "musicwidgetheaders.h"
 
 Q_DECLARE_METATYPE(MusicDownloadTableItemRole)
 
@@ -31,11 +29,6 @@ MusicDownloadTableItem::~MusicDownloadTableItem()
     delete m_information;
     delete m_icon;
     delete m_text;
-}
-
-QString MusicDownloadTableItem::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDownloadTableItem::setIcon(const QString &name)
@@ -69,11 +62,6 @@ MusicDownloadTableWidget::~MusicDownloadTableWidget()
     clearAllItems();
 }
 
-QString MusicDownloadTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownloadTableWidget::clearAllItems()
 {
     qDeleteAll(m_items);
@@ -84,7 +72,7 @@ void MusicDownloadTableWidget::clearAllItems()
 
 void MusicDownloadTableWidget::createItem(const MusicObject::MusicSongAttribute &attr, const QString &type, const QString &icon)
 {
-    int index = rowCount();
+    const int index = rowCount();
     setRowCount(index + 1);
     setRowHeight(index, ROW_HEIGHT);
     QTableWidgetItem *it = new QTableWidgetItem;
@@ -103,7 +91,7 @@ void MusicDownloadTableWidget::createItem(const MusicObject::MusicSongAttribute 
 
 MusicDownloadTableItemRole MusicDownloadTableWidget::getCurrentItemRole() const
 {
-   int row = currentRow();
+   const int row = currentRow();
    if(row == -1)
    {
        return MusicDownloadTableItemRole();
@@ -163,11 +151,6 @@ MusicDownloadWidget::~MusicDownloadWidget()
     delete m_downloadThread;
 }
 
-QString MusicDownloadWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownloadWidget::initWidget()
 {
     m_ui->loadingLabel->run(true);
@@ -209,8 +192,7 @@ void MusicDownloadWidget::setSongName(const MusicObject::MusicSongInformation &i
     m_querySingleInfo = true;
 
     initWidget();
-    m_ui->downloadName->setText(MusicUtils::Widget::elidedText(font(),
-                                QString("%1 - %2").arg(info.m_singerName).arg(info.m_songName), Qt::ElideRight, 200));
+    m_ui->downloadName->setText(MusicUtils::Widget::elidedText(font(), QString("%1 - %2").arg(info.m_singerName).arg(info.m_songName), Qt::ElideRight, 200));
 
     if(type == MusicDownLoadQueryThreadAbstract::MusicQuery)
     {
@@ -248,17 +230,17 @@ void MusicDownloadWidget::queryAllFinished()
 
 MusicObject::MusicSongInformation MusicDownloadWidget::getMatchMusicSongInformation()
 {
-    MusicObject::MusicSongInformations musicSongInfos(m_downloadThread->getMusicSongInfos());
+    const MusicObject::MusicSongInformations musicSongInfos(m_downloadThread->getMusicSongInfos());
     if(!musicSongInfos.isEmpty())
     {
-        QString filename = m_downloadThread->getSearchedText();
-        QString artistName = MusicUtils::String::artistName(filename);
-        QString songName = MusicUtils::String::songName(filename);
+        const QString &filename = m_downloadThread->getSearchedText();
+        const QString &artistName = MusicUtils::String::artistName(filename);
+        const QString &songName = MusicUtils::String::songName(filename);
+
         MusicObject::MusicSongInformation musicSongInfo;
         foreach(const MusicObject::MusicSongInformation &var, musicSongInfos)
         {
-            if(var.m_singerName.contains(artistName, Qt::CaseInsensitive) &&
-               var.m_songName.contains(songName, Qt::CaseInsensitive))
+            if(var.m_singerName.contains(artistName, Qt::CaseInsensitive) && var.m_songName.contains(songName, Qt::CaseInsensitive))
             {
                 musicSongInfo = var;
                 break;
@@ -272,7 +254,7 @@ MusicObject::MusicSongInformation MusicDownloadWidget::getMatchMusicSongInformat
 
 void MusicDownloadWidget::queryAllFinishedMusic()
 {
-    MusicObject::MusicSongInformation musicSongInfo(getMatchMusicSongInformation());
+    const MusicObject::MusicSongInformation musicSongInfo(getMatchMusicSongInformation());
     if(!musicSongInfo.m_songName.isEmpty() || !musicSongInfo.m_singerName.isEmpty())
     {
         queryAllFinishedMusic(musicSongInfo.m_songAttrs);
@@ -324,7 +306,7 @@ void MusicDownloadWidget::queryAllFinishedMusic(const MusicObject::MusicSongAttr
 
 void MusicDownloadWidget::queryAllFinishedMovie()
 {
-    MusicObject::MusicSongInformation musicSongInfo(getMatchMusicSongInformation());
+    const MusicObject::MusicSongInformation musicSongInfo(getMatchMusicSongInformation());
     if(!musicSongInfo.m_songName.isEmpty() || !musicSongInfo.m_singerName.isEmpty())
     {
         queryAllFinishedMovie(musicSongInfo.m_songAttrs);
@@ -375,7 +357,7 @@ void MusicDownloadWidget::resizeWindow()
     m_ui->loadingLabel->run(false);
 
     int delta = m_ui->viewArea->rowCount();
-    delta = ((delta == 0) ? 0 : (delta - 1)*ROW_HEIGHT) - 2*ROW_HEIGHT;
+        delta = ((delta == 0) ? 0 : (delta - 1)*ROW_HEIGHT) - 2*ROW_HEIGHT;
 
     setFixedHeightWidget(this, delta);
     setFixedHeightWidget(m_ui->backgroundMask, delta);
@@ -409,8 +391,8 @@ void MusicDownloadWidget::downloadDirSelected()
     dialog.setViewMode(QFileDialog::Detail);
     if(dialog.exec())
     {
-        QString path;
-        if(!(path = dialog.directory().absolutePath()).isEmpty())
+        const QString path = dialog.directory().absolutePath();
+        if(!path.isEmpty())
         {
             if(m_queryType == MusicDownLoadQueryThreadAbstract::MusicQuery)
             {
@@ -456,7 +438,7 @@ void MusicDownloadWidget::dataDownloadFinished()
 
 void MusicDownloadWidget::startToDownloadMusic()
 {
-    MusicObject::MusicSongInformation musicSongInfo(getMatchMusicSongInformation());
+    const MusicObject::MusicSongInformation musicSongInfo(getMatchMusicSongInformation());
     if(!musicSongInfo.m_songName.isEmpty() || !musicSongInfo.m_singerName.isEmpty())
     {
         startToDownloadMusic(musicSongInfo);
@@ -465,8 +447,8 @@ void MusicDownloadWidget::startToDownloadMusic()
 
 void MusicDownloadWidget::startToDownloadMusic(const MusicObject::MusicSongInformation &musicSongInfo)
 {
-    MusicDownloadTableItemRole role = m_ui->viewArea->getCurrentItemRole();
-    MusicObject::MusicSongAttributes musicAttrs = musicSongInfo.m_songAttrs;
+    const MusicDownloadTableItemRole &role = m_ui->viewArea->getCurrentItemRole();
+    const MusicObject::MusicSongAttributes &musicAttrs = musicSongInfo.m_songAttrs;
     foreach(const MusicObject::MusicSongAttribute &musicAttr, musicAttrs)
     {
         if(role.isEqual(MusicDownloadTableItemRole(musicAttr.m_bitrate, musicAttr.m_format, musicAttr.m_size)))
@@ -477,27 +459,26 @@ void MusicDownloadWidget::startToDownloadMusic(const MusicObject::MusicSongInfor
             }
 
             QString musicSong = musicSongInfo.m_singerName + " - " + musicSongInfo.m_songName;
-            QString downloadPrefix = m_ui->downloadPathEdit->text().isEmpty() ? MUSIC_DIR_FULL : m_ui->downloadPathEdit->text();
+            const QString &downloadPrefix = m_ui->downloadPathEdit->text().isEmpty() ? MUSIC_DIR_FULL : m_ui->downloadPathEdit->text();
             QString downloadName = QString("%1%2.%3").arg(downloadPrefix).arg(musicSong).arg(musicAttr.m_format);
             ////////////////////////////////////////////////
-            MusicDownloadRecords records;
-            MusicDownloadRecordConfigManager down(MusicDownloadRecordConfigManager::Normal, this);
+            MusicSongs records;
+            MusicDownloadRecordConfigManager down(MusicObject::RecordNormalDownload, this);
             if(!down.readDownloadXMLConfig())
             {
                 return;
             }
 
             down.readDownloadConfig( records );
-            MusicDownloadRecord record;
-            record.m_name = musicSong;
-            record.m_path = QFileInfo(downloadName).absoluteFilePath();
-            record.m_size = musicAttr.m_size;
-            record.m_time = "-1";
+            MusicSong record;
+            record.setMusicName(musicSong);
+            record.setMusicPath(QFileInfo(downloadName).absoluteFilePath());
+            record.setMusicSizeStr(musicAttr.m_size);
+            record.setMusicAddTimeStr("-1");
             records << record;
             down.writeDownloadConfig( records );
             ////////////////////////////////////////////////
-            QFile file(downloadName);
-            if(file.exists())
+            if(QFile::exists(downloadName))
             {
                 for(int i=1; i<99; ++i)
                 {
@@ -515,10 +496,18 @@ void MusicDownloadWidget::startToDownloadMusic(const MusicObject::MusicSongInfor
             }
             ////////////////////////////////////////////////
             m_downloadTotal = 1;
-            MusicDataTagDownloadThread *downSong = new MusicDataTagDownloadThread( musicAttr.m_url, downloadName,
-                                                                                   MusicDownLoadThreadAbstract::DownloadMusic, this);
+            MusicDataTagDownloadThread *downSong = new MusicDataTagDownloadThread(musicAttr.m_url, downloadName, MusicObject::DownloadMusic, this);
+            downSong->setRecordType(MusicObject::RecordNormalDownload);
             connect(downSong, SIGNAL(downLoadDataChanged(QString)), SLOT(dataDownloadFinished()));
-            downSong->setTags(musicSongInfo.m_smallPicUrl, musicSongInfo.m_songName, musicSongInfo.m_singerName, musicSongInfo.m_albumName);
+
+            MusicSongTag tag;
+            tag.setComment(musicSongInfo.m_smallPicUrl);
+            tag.setTitle(musicSongInfo.m_songName);
+            tag.setArtist(musicSongInfo.m_singerName);
+            tag.setAlbum(musicSongInfo.m_albumName);
+            tag.setTrackNum(musicSongInfo.m_trackNumber);
+            tag.setYear(musicSongInfo.m_year);
+            downSong->setSongTag(tag);
             downSong->startToDownload();
             break;
         }
@@ -536,8 +525,8 @@ void MusicDownloadWidget::startToDownloadMovie()
 
 void MusicDownloadWidget::startToDownloadMovie(const MusicObject::MusicSongInformation &musicSongInfo)
 {
-    MusicDownloadTableItemRole role = m_ui->viewArea->getCurrentItemRole();
-    MusicObject::MusicSongAttributes musicAttrs = musicSongInfo.m_songAttrs;
+    const MusicDownloadTableItemRole &role = m_ui->viewArea->getCurrentItemRole();
+    const MusicObject::MusicSongAttributes &musicAttrs = musicSongInfo.m_songAttrs;
     foreach(const MusicObject::MusicSongAttribute &musicAttr, musicAttrs)
     {
         if(role.isEqual(MusicDownloadTableItemRole(musicAttr.m_bitrate, musicAttr.m_format, musicAttr.m_size)))
@@ -548,17 +537,16 @@ void MusicDownloadWidget::startToDownloadMovie(const MusicObject::MusicSongInfor
             }
 
             QString musicSong = musicSongInfo.m_singerName + " - " + musicSongInfo.m_songName;
-            QString downloadPrefix = m_ui->downloadPathEdit->text().isEmpty() ? MOVIE_DIR_FULL : m_ui->downloadPathEdit->text();
+            const QString &downloadPrefix = m_ui->downloadPathEdit->text().isEmpty() ? MOVIE_DIR_FULL : m_ui->downloadPathEdit->text();
             ////////////////////////////////////////////////
-            QStringList urls = musicAttr.m_multiParts ? musicAttr.m_url.split(STRING_SPLITER) : QStringList(musicAttr.m_url);
+            const QStringList &urls = musicAttr.m_multiPart ? musicAttr.m_url.split(TTK_STR_SPLITER) : QStringList(musicAttr.m_url);
             m_downloadTotal = urls.count();
             for(int ul=0; ul<m_downloadTotal; ++ul)
             {
                 ////////////////////////////////////////////////
                 QString downloadName = (urls.count() == 1) ? QString("%1%2.%3").arg(downloadPrefix).arg(musicSong).arg(musicAttr.m_format)
-                                            : QString("%1%2.part%3.%4").arg(downloadPrefix).arg(musicSong).arg(ul+1).arg(musicAttr.m_format);
-                QFile file(downloadName);
-                if(file.exists())
+                                                           : QString("%1%2.part%3.%4").arg(downloadPrefix).arg(musicSong).arg(ul+1).arg(musicAttr.m_format);
+                if(QFile::exists(downloadName))
                 {
                     for(int i=1; i<99; ++i)
                     {
@@ -572,12 +560,11 @@ void MusicDownloadWidget::startToDownloadMovie(const MusicObject::MusicSongInfor
                         }
                         musicSong += QString("(%1)").arg(i);
                         downloadName = (urls.count() == 1) ? QString("%1%2.%3").arg(downloadPrefix).arg(musicSong).arg(musicAttr.m_format)
-                                          : QString("%1%2.part%3.%4").arg(downloadPrefix).arg(musicSong).arg(ul+1).arg(musicAttr.m_format);
+                                                           : QString("%1%2.part%3.%4").arg(downloadPrefix).arg(musicSong).arg(ul+1).arg(musicAttr.m_format);
                     }
                 }
                 ////////////////////////////////////////////////
-                MusicDataDownloadThread *download = new MusicDataDownloadThread(urls[ul], downloadName,
-                                                                                MusicDownLoadThreadAbstract::DownloadVideo, this);
+                MusicDataDownloadThread *download = new MusicDataDownloadThread(urls[ul], downloadName, MusicObject::DownloadVideo, this);
                 connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(dataDownloadFinished()));
                 download->startToDownload();
             }

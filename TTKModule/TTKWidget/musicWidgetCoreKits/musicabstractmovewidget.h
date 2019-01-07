@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,22 +29,19 @@
 class MUSIC_WIDGET_EXPORT MusicAbstractMoveWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicAbstractMoveWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicAbstractMoveWidget(QWidget *parent = 0);
+    explicit MusicAbstractMoveWidget(QWidget *parent = nullptr);
     /*!
      * Object contsructor.
      */
-    explicit MusicAbstractMoveWidget(bool transparent, QWidget *parent = 0);
+    explicit MusicAbstractMoveWidget(bool transparent, QWidget *parent = nullptr);
 
     virtual ~MusicAbstractMoveWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set or not draw window bound shadow.
      */
@@ -91,22 +88,18 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicAbstractMoveSingleWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicAbstractMoveSingleWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicAbstractMoveSingleWidget(QWidget *parent = 0);
+    explicit MusicAbstractMoveSingleWidget(QWidget *parent = nullptr);
     /*!
      * Object contsructor.
      */
-    explicit MusicAbstractMoveSingleWidget(bool transparent, QWidget *parent = 0);
+    explicit MusicAbstractMoveSingleWidget(bool transparent, QWidget *parent = nullptr);
 
     virtual ~MusicAbstractMoveSingleWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 protected:
     QWidget *m_container;

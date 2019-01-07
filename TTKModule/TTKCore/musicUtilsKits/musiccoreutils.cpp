@@ -54,8 +54,8 @@ quint64 MusicUtils::Core::dirSize(const QString &dirName)
     if(QFileInfo(dirName).isDir())
     {
         QDir dir(dirName);
-        QFileInfoList list = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::Hidden |
-                                               QDir::NoSymLinks | QDir::NoDotAndDotDot);
+        const QFileInfoList &list = dir.entryInfoList(QDir::Files | QDir::Dirs |  QDir::Hidden |
+                                                      QDir::NoSymLinks | QDir::NoDotAndDotDot);
         foreach(const QFileInfo &fileInfo, list)
         {
             if(fileInfo.isDir())
@@ -78,7 +78,7 @@ void MusicUtils::Core::checkCacheSize(quint64 cacheSize, bool disabled, const QS
         quint64 size = dirSize( path );
         if(size > cacheSize)
         {
-            QFileInfoList fileList = QDir(path).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+            const QFileInfoList &fileList = QDir(path).entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
             foreach(const QFileInfo &fileInfo, fileList)
             {
                 size -= fileInfo.size();
@@ -108,7 +108,7 @@ QFileInfoList MusicUtils::Core::getFileListByDir(const QString &dpath, const QSt
     QFileInfoList fileList = dir.entryInfoList(filter, QDir::Files | QDir::Hidden | QDir::NoSymLinks);
     if(recursively)
     {
-        QFileInfoList folderList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
+        const QFileInfoList& folderList = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot);
         foreach(const QFileInfo &fileInfo, folderList)
         {
             fileList.append( getFileListByDir(fileInfo.absoluteFilePath(), filter, recursively) );
@@ -127,7 +127,7 @@ bool MusicUtils::Core::removeRecursively(const QString &dir)
     }
 
     bool success = true;
-    const QString dirPath = dr.path();
+    const QString &dirPath = dr.path();
     // not empty -- we must empty it first
     QDirIterator di(dirPath, QDir::AllEntries | QDir::Hidden | QDir::System | QDir::NoDotAndDotDot);
     while(di.hasNext())
@@ -181,7 +181,7 @@ QString MusicUtils::Core::getLanguageName(int index)
     }
 }
 
-bool MusicUtils::Core::musicVersionCheck(const QStringList &ol, const QStringList &dl, int depth)
+bool MusicUtils::Core::appVersionCheck(const QStringList &ol, const QStringList &dl, int depth)
 {
     if(depth >= ol.count())
     {
@@ -192,7 +192,7 @@ bool MusicUtils::Core::musicVersionCheck(const QStringList &ol, const QStringLis
     {
         if(dl[depth].toInt() == ol[depth].toInt())
         {
-            return musicVersionCheck(ol, dl, depth + 1);
+            return appVersionCheck(ol, dl, depth + 1);
         }
         else
         {
@@ -205,15 +205,15 @@ bool MusicUtils::Core::musicVersionCheck(const QStringList &ol, const QStringLis
     }
 }
 
-bool MusicUtils::Core::musicVersionCheck(const QString &o, const QString &d)
+bool MusicUtils::Core::appVersionCheck(const QString &o, const QString &d)
 {
-    QStringList ol = o.split(".");
-    QStringList dl = d.split(".");
+    const QStringList &ol = o.split(".");
+    const QStringList &dl = d.split(".");
 
     if(ol.isEmpty() || dl.isEmpty() || ol.count() != dl.count())
     {
         return false;
     }
 
-    return musicVersionCheck(ol, dl, 0);
+    return appVersionCheck(ol, dl, 0);
 }

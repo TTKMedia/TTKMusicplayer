@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,9 +19,9 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QLabel>
 #include "musicobject.h"
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 #include "musicbarragerecordconfigmanager.h"
 
 class QPushButton;
@@ -37,18 +37,15 @@ class MusicLocalSongSearchEdit;
 class MUSIC_VIDEO_EXPORT MusicVideoControlWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVideoControlWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicVideoControlWidget(QWidget *parent = 0);
+    explicit MusicVideoControlWidget(QWidget *parent = nullptr);
 
     ~MusicVideoControlWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current video play value.
      */

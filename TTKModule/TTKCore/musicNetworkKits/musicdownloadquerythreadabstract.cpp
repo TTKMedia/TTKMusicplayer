@@ -17,11 +17,6 @@ MusicDownLoadQueryThreadAbstract::~MusicDownLoadQueryThreadAbstract()
     deleteAll();
 }
 
-QString MusicDownLoadQueryThreadAbstract::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownLoadQueryThreadAbstract::startToSingleSearch(const QString &text)
 {
     Q_UNUSED(text);
@@ -29,7 +24,7 @@ void MusicDownLoadQueryThreadAbstract::startToSingleSearch(const QString &text)
 
 QString MusicDownLoadQueryThreadAbstract::mapQueryServerString() const
 {
-    QString v = tr("Current Used Server Is %1");
+    const QString &v = tr("Current Used Server Is %1");
     if(m_queryServer.contains("Baidu"))
         return v.arg(tr("BD"));
     else if(m_queryServer.contains("Kugou"))
@@ -63,12 +58,12 @@ QString MusicDownLoadQueryThreadAbstract::findTimeStringByAttrs(const MusicObjec
 
 bool MusicDownLoadQueryThreadAbstract::findUrlFileSize(MusicObject::MusicSongAttribute *attr)
 {
-    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return false;
+    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return false;
     if(attr->m_size.isEmpty() || attr->m_size == "-")
     {
         attr->m_size = MusicUtils::Number::size2Label(getUrlFileSize(attr->m_url));
     }
-    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return false;
+    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return false;
 
     return true;
 }
@@ -107,7 +102,7 @@ qint64 MusicDownLoadQueryThreadAbstract::getUrlFileSize(const QString &url)
     }
 
     size = reply->header(QNetworkRequest::ContentLengthHeader).toLongLong();
-    QVariant redirection = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    const QVariant &redirection = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
     if(!redirection.isNull())
     {
         size = getUrlFileSize(redirection.toString());

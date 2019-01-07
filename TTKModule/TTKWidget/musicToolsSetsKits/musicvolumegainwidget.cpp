@@ -4,9 +4,10 @@
 #include "musicuiobject.h"
 #include "musicsemaphoreloop.h"
 #include "musiccoreutils.h"
+#include "musicwidgetheaders.h"
+#include "musicsinglemanager.h"
 
 #include <QProcess>
-#include <QFileDialog>
 
 #define GAIN_DEFAULT 89
 #define GAIN_TRACKDB "Recommended \"Track\" dB change:"
@@ -27,11 +28,6 @@ MusicVolumeGainTableWidget::MusicVolumeGainTableWidget(QWidget *parent)
 MusicVolumeGainTableWidget::~MusicVolumeGainTableWidget()
 {
 
-}
-
-QString MusicVolumeGainTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicVolumeGainTableWidget::listCellClicked(int row, int column)
@@ -111,19 +107,9 @@ MusicVolumeGainWidget::MusicVolumeGainWidget(QWidget *parent)
 
 MusicVolumeGainWidget::~MusicVolumeGainWidget()
 {
+    M_SINGLE_MANAGER_PTR->removeObject(getClassName());
     delete m_process;
     delete m_ui;
-}
-
-QString MusicVolumeGainWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-void MusicVolumeGainWidget::closeEvent(QCloseEvent *event)
-{
-    MusicAbstractMoveWidget::closeEvent(event);
-    emit resetFlag(MusicObject::TT_SoundGain);
 }
 
 void MusicVolumeGainWidget::createItemFinished(const QString &track, const QString &album)
@@ -133,7 +119,7 @@ void MusicVolumeGainWidget::createItemFinished(const QString &track, const QStri
         return;
     }
 
-    int row = m_ui->tableWidget->rowCount();
+    const int row = m_ui->tableWidget->rowCount();
     m_ui->tableWidget->setRowCount(row + 1);
     QHeaderView *headerview = m_ui->tableWidget->horizontalHeader();
 
@@ -183,7 +169,7 @@ void MusicVolumeGainWidget::addFileButtonClicked()
     if(dialog.exec())
     {
         setControlEnable(false);
-        int orcount = m_paths.count();
+        const int orcount = m_paths.count();
         foreach(const QString &path, dialog.selectedFiles())
         {
             if(!m_paths.contains(path))
@@ -230,7 +216,7 @@ void MusicVolumeGainWidget::addFilesButtonClicked()
 
 void MusicVolumeGainWidget::rmFileButtonClicked()
 {
-    int row = m_ui->tableWidget->currentRow();
+    const int row = m_ui->tableWidget->currentRow();
     if(row < 0)
     {
         MusicMessageBox message;
@@ -272,8 +258,7 @@ void MusicVolumeGainWidget::applyButtonClicked()
     {
         MusicSemaphoreLoop loop(this);
         connect(m_process, SIGNAL(finished(int)), &loop, SLOT(quit()));
-        m_process->start(MAKE_GAIN_FULL, QStringList() << "-g" <<
-                         m_ui->tableWidget->item(i, 2)->text() << m_paths[i]);
+        m_process->start(MAKE_GAIN_FULL, QStringList() << "-g" << m_ui->tableWidget->item(i, 2)->text() << m_paths[i]);
         m_ui->progressBarAll->setValue(i + 1);
         loop.exec();
     }
@@ -290,7 +275,7 @@ void MusicVolumeGainWidget::applyButtonClicked()
 
 void MusicVolumeGainWidget::volumeLineTextChanged(const QString &text)
 {
-    double d = text.toDouble();
+    const double d = text.toDouble();
     for(int i=0; i<m_ui->tableWidget->rowCount(); ++i)
     {
         QString v = m_ui->tableWidget->item(i, 1)->text();

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,15 @@
 class MUSIC_WIDGET_EXPORT MusicRoundAnimationLabel : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicRoundAnimationLabel)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicRoundAnimationLabel(QWidget *parent = 0);
+    explicit MusicRoundAnimationLabel(QWidget *parent = nullptr);
 
     ~MusicRoundAnimationLabel();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set rotating widget background pixmap.
      */

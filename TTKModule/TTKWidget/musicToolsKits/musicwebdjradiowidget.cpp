@@ -4,9 +4,7 @@
 #include "musicwebdjradiofoundwidget.h"
 #include "musicdownloadsourcethread.h"
 #include "musicsettingmanager.h"
-
-#include <QScrollBar>
-#include <QBoxLayout>
+#include "musicwidgetheaders.h"
 
 #define ROW_HEIGHT 40
 
@@ -35,19 +33,14 @@ MusicWebDJRadioProgramTableWidget::~MusicWebDJRadioProgramTableWidget()
     delete m_programThread;
 }
 
-QString MusicWebDJRadioProgramTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-void MusicWebDJRadioProgramTableWidget::init(Program::Type type)
+void MusicWebDJRadioProgramTableWidget::init(MusicObject::Program type)
 {
     m_programThread->startToDownload(type);
 }
 
 void MusicWebDJRadioProgramTableWidget::resizeWindow()
 {
-    int width = M_SETTING_PTR->value(MusicSettingManager::WidgetSize).toSize().width();
+    const int width = M_SETTING_PTR->value(MusicSettingManager::WidgetSize).toSize().width();
     QHeaderView *headerview = horizontalHeader();
     headerview->resizeSection(2, width - WINDOW_WIDTH_MIN + 315);
 
@@ -91,7 +84,7 @@ void MusicWebDJRadioProgramTableWidget::listCellClicked(int row, int column)
 
 void MusicWebDJRadioProgramTableWidget::createProgramItem(const MusicResultsItem &data)
 {
-    int index = rowCount();
+    const int index = rowCount();
     setRowCount(index + 1);
     setRowHeight(index, ROW_HEIGHT);
 
@@ -127,7 +120,7 @@ void MusicWebDJRadioProgramTableWidget::createProgramItem(const MusicResultsItem
 
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
     connect(download, SIGNAL(downLoadExtDataChanged(QByteArray,QVariantMap)), SLOT(downLoadFinished(QByteArray,QVariantMap)));
-    if(!data.m_coverUrl.isEmpty() && data.m_coverUrl != "null")
+    if(!data.m_coverUrl.isEmpty() && data.m_coverUrl != COVER_URL_NULL)
     {
         QVariantMap map;
         map["id"] = index;
@@ -149,7 +142,7 @@ void MusicWebDJRadioProgramTableWidget::downLoadFinished(const QByteArray &data,
 
 
 
-MusicWebDJRadioProgramWidget::MusicWebDJRadioProgramWidget(Program::Type type, QWidget *parent)
+MusicWebDJRadioProgramWidget::MusicWebDJRadioProgramWidget(MusicObject::Program type, QWidget *parent)
     : QWidget(parent), m_type(type)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
@@ -162,7 +155,7 @@ MusicWebDJRadioProgramWidget::MusicWebDJRadioProgramWidget(Program::Type type, Q
     topLayout->setContentsMargins(10, 20, 10, 0);
     top->setLayout(topLayout);
 
-    QLabel *label = new QLabel(type == Program::Recommed ? tr("Recommend") : tr("Program"), this);
+    QLabel *label = new QLabel(type == MusicObject::Recommed ? tr("Recommend") : tr("Program"), this);
     QFont font = label->font();
     font.setPixelSize(20);
     font.setBold(true);
@@ -190,11 +183,6 @@ MusicWebDJRadioProgramWidget::MusicWebDJRadioProgramWidget(Program::Type type, Q
 MusicWebDJRadioProgramWidget::~MusicWebDJRadioProgramWidget()
 {
     delete m_tableWidget;
-}
-
-QString MusicWebDJRadioProgramWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicWebDJRadioProgramWidget::init()
@@ -228,11 +216,6 @@ MusicWebDJRadioWidget::~MusicWebDJRadioWidget()
     delete m_programWidget;
     delete m_categoryWidget;
     delete m_foundWidget;
-}
-
-QString MusicWebDJRadioWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicWebDJRadioWidget::init()
@@ -271,7 +254,7 @@ void MusicWebDJRadioWidget::backToMainMenu()
 void MusicWebDJRadioWidget::createRecommendWidget()
 {
     delete m_recommendWidget;
-    m_recommendWidget = new MusicWebDJRadioProgramWidget(Program::Recommed, this);
+    m_recommendWidget = new MusicWebDJRadioProgramWidget(MusicObject::Recommed, this);
     m_recommendWidget->init();
     addWidget(m_recommendWidget);
     setCurrentWidget(m_recommendWidget);
@@ -280,7 +263,7 @@ void MusicWebDJRadioWidget::createRecommendWidget()
 void MusicWebDJRadioWidget::createProgramWidget()
 {
     delete m_programWidget;
-    m_programWidget = new MusicWebDJRadioProgramWidget(Program::Rank, this);
+    m_programWidget = new MusicWebDJRadioProgramWidget(MusicObject::Rank, this);
     m_programWidget->init();
     addWidget(m_programWidget);
     setCurrentWidget(m_programWidget);

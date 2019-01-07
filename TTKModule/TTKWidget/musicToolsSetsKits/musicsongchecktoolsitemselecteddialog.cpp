@@ -2,8 +2,7 @@
 #include "ui_musicsongchecktoolsitemselecteddialog.h"
 #include "musicitemdelegate.h"
 #include "musicuiobject.h"
-
-#include <QScrollBar>
+#include "musicwidgetheaders.h"
 
 MusicSongCheckToolsItemSelectedTableWidget::MusicSongCheckToolsItemSelectedTableWidget(QWidget *parent)
     : MusicFillItemTableWidget(parent)
@@ -24,11 +23,6 @@ MusicSongCheckToolsItemSelectedTableWidget::MusicSongCheckToolsItemSelectedTable
 #endif
 }
 
-QString MusicSongCheckToolsItemSelectedTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongCheckToolsItemSelectedTableWidget::createAllItems(MusicSongItems *items)
 {
     if(items->count() >= 4)
@@ -42,7 +36,7 @@ void MusicSongCheckToolsItemSelectedTableWidget::createAllItems(MusicSongItems *
     QHeaderView *headerview = horizontalHeader();
     for(int i=0; i<items->count(); ++i)
     {
-        const MusicSongItem song = (*items)[i];
+        const MusicSongItem &song = (*items)[i];
         QTableWidgetItem *item = new QTableWidgetItem;
         item->setData(MUSIC_CHECK_ROLE, false);
         item->setData(MUSIC_DATAS_ROLE, song.m_itemIndex);
@@ -56,12 +50,12 @@ void MusicSongCheckToolsItemSelectedTableWidget::createAllItems(MusicSongItems *
     }
 }
 
-MusicObject::MIntList MusicSongCheckToolsItemSelectedTableWidget::getSelectedItems() const
+MIntList MusicSongCheckToolsItemSelectedTableWidget::getSelectedItems() const
 {
-    MusicObject::MIntList list;
+    MIntList list;
     for(int i=0; i<rowCount(); ++i)
     {
-        QTableWidgetItem *it = item(i, 0);
+        const QTableWidgetItem *it = item(i, 0);
         if(it && it->data(MUSIC_CHECK_ROLE) == true)
         {
             list << it->data(MUSIC_DATAS_ROLE).toInt();
@@ -116,11 +110,6 @@ MusicSongCheckToolsItemSelectedDialog::MusicSongCheckToolsItemSelectedDialog(QWi
 MusicSongCheckToolsItemSelectedDialog::~MusicSongCheckToolsItemSelectedDialog()
 {
     delete m_ui;
-}
-
-QString MusicSongCheckToolsItemSelectedDialog::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicSongCheckToolsItemSelectedDialog::createAllItems(MusicSongItems *items)

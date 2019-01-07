@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,16 +37,12 @@ typedef QList< std::pair<int, int> > PlayedPairList;
 class MUSIC_WIDGET_EXPORT MusicPlayedListTopContainerWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicPlayedListTopContainerWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicPlayedListTopContainerWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicPlayedListTopContainerWidget(QWidget *parent = nullptr);
 
 protected:
     /*!
@@ -63,18 +59,15 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicPlayedListPopWidget : public MusicToolMenuWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicPlayedListPopWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicPlayedListPopWidget(QWidget *parent = 0);
+    explicit MusicPlayedListPopWidget(QWidget *parent = nullptr);
 
     virtual ~MusicPlayedListPopWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get class object instance.
      */

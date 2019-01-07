@@ -9,9 +9,7 @@ MusicBarrageAnimation::MusicBarrageAnimation(QObject *parent)
     init();
 }
 
-MusicBarrageAnimation::MusicBarrageAnimation(QObject *target,
-                                             const QByteArray &propertyName,
-                                             QObject *parent)
+MusicBarrageAnimation::MusicBarrageAnimation(QObject *target, const QByteArray &propertyName, QObject *parent)
     : QPropertyAnimation(target, propertyName, parent)
 {
     init();
@@ -24,15 +22,10 @@ void MusicBarrageAnimation::animationFinished()
     start();
 }
 
-QString MusicBarrageAnimation::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicBarrageAnimation::setSize(const QSize &size)
 {
     m_parentSize = size;
-    int randHeight = qrand()%size.height();
+    const int randHeight = qrand()%size.height();
     setStartValue(QPoint(0, randHeight));
     setEndValue(QPoint(size.width(), randHeight));
 }
@@ -59,11 +52,6 @@ MusicBarrageWidget::~MusicBarrageWidget()
 {
     writeBarrage();
     deleteItems();
-}
-
-QString MusicBarrageWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicBarrageWidget::start()

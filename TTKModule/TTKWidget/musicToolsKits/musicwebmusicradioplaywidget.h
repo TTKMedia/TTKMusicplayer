@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,18 +38,14 @@ class MusicWebMusicRadioPlayWidget;
 class MUSIC_TOOL_EXPORT MusicWebMusicRadioPlayWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebMusicRadioPlayWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebMusicRadioPlayWidget(QWidget *parent = 0);
+    explicit MusicWebMusicRadioPlayWidget(QWidget *parent = nullptr);
 
     virtual ~MusicWebMusicRadioPlayWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set network cookie.
@@ -61,6 +57,10 @@ public:
     void updateRadioList(const QString &category);
 
 public Q_SLOTS:
+    /*!
+     * Media aution play error.
+     */
+    void mediaAutionPlayError(int code);
     /*!
      * Set radio to play.
      */
@@ -127,7 +127,6 @@ protected:
     Ui::MusicWebMusicRadioPlayWidget *m_ui;
     int m_currentPlayListIndex;
     bool m_isPlaying;
-    QTimer m_autoNextTimer;
     MusicLrcAnalysis *m_analysis;
     MusicCoreMPlayer *m_mediaPlayer;
     MusicRadioPlayListThread *m_playListThread;

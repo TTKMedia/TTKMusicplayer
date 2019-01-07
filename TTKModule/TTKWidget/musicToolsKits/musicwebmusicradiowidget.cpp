@@ -6,9 +6,8 @@
 #include "musicdownloadsourcethread.h"
 #include "musicregeditmanager.h"
 #include "musicotherdefine.h"
+#include "musicwidgetheaders.h"
 
-#include <QMenu>
-#include <QScrollBar>
 #ifdef MUSIC_GREATER_NEW
 #include <QStandardPaths>
 #else
@@ -45,11 +44,6 @@ MusicWebMusicRadioWidget::~MusicWebMusicRadioWidget()
     delete m_cookJar;
     delete m_musicRadio;
     delete m_getChannelThread;
-}
-
-QString MusicWebMusicRadioWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicWebMusicRadioWidget::initListItems(int index)
@@ -95,7 +89,7 @@ void MusicWebMusicRadioWidget::listCellClicked(int row, int column)
 
     if(column == 3)
     {
-        listCellDoubleClicked(row, DEFAULT_INDEX_LEVEL0);
+        listCellDoubleClicked(row, DEFAULT_LEVEL_LOWER);
     }
 }
 
@@ -108,7 +102,7 @@ void MusicWebMusicRadioWidget::listCellDoubleClicked(int row, int column)
         return;
     }
 
-    MusicRadioChannelInfos channels = m_getChannelThread->getMusicChannel();
+    const MusicRadioChannelInfos &channels = m_getChannelThread->getMusicChannel();
     if(m_musicRadio == nullptr)
     {
         m_musicRadio = new MusicWebMusicRadioPlayWidget(this);
@@ -124,10 +118,10 @@ void MusicWebMusicRadioWidget::listCellDoubleClicked(int row, int column)
 
 void MusicWebMusicRadioWidget::addListWidgetItem()
 {
-    MusicRadioChannelInfos channels = m_getChannelThread->getMusicChannel();
+    const MusicRadioChannelInfos &channels = m_getChannelThread->getMusicChannel();
     foreach(const MusicRadioChannelInfo &channel, channels)
     {
-        int index = rowCount();
+        const int index = rowCount();
         setRowCount(index + 1);
         setRowHeight(index, 60);
 
@@ -135,8 +129,7 @@ void MusicWebMusicRadioWidget::addListWidgetItem()
         setItem(index, 0, item);
 
                           item = new QTableWidgetItem;
-        item->setIcon(MusicUtils::Widget::pixmapToRound(QPixmap(":/image/lb_defaultArt"),
-                                                        QPixmap(":/usermanager/lb_mask_50"), iconSize()));
+        item->setIcon(MusicUtils::Widget::pixmapToRound(QPixmap(":/image/lb_defaultArt"), QPixmap(":/usermanager/lb_mask_50"), iconSize()));
         setItem(index, 1, item);
 
                           item = new QTableWidgetItem;
@@ -153,7 +146,7 @@ void MusicWebMusicRadioWidget::addListWidgetItem()
 
         MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
         connect(download, SIGNAL(downLoadExtDataChanged(QByteArray,QVariantMap)), SLOT(downLoadFinished(QByteArray,QVariantMap)));
-        if(!channel.m_coverUrl.isEmpty() && channel.m_coverUrl != "null")
+        if(!channel.m_coverUrl.isEmpty() && channel.m_coverUrl != COVER_URL_NULL)
         {
             QVariantMap map;
             map["id"] = index;
@@ -166,7 +159,7 @@ void MusicWebMusicRadioWidget::addListWidgetItem()
     if(m_outerIndex != -1)
     {
         selectRow(m_outerIndex);
-        listCellDoubleClicked(m_outerIndex, DEFAULT_INDEX_LEVEL0);
+        listCellDoubleClicked(m_outerIndex, DEFAULT_LEVEL_LOWER);
     }
 }
 
@@ -183,16 +176,16 @@ void MusicWebMusicRadioWidget::downLoadFinished(const QByteArray &data, const QV
 
 void MusicWebMusicRadioWidget::musicPlayClicked()
 {
-    int row = currentRow();
+    const int row = currentRow();
     if(row >= 0)
     {
-        listCellDoubleClicked(row, DEFAULT_INDEX_LEVEL0);
+        listCellDoubleClicked(row, DEFAULT_LEVEL_LOWER);
     }
 }
 
 void MusicWebMusicRadioWidget::sendToDesktopLink()
 {
-    int row = currentRow();
+    const int row = currentRow();
     if(row < 0)
     {
         return;
@@ -213,11 +206,9 @@ void MusicWebMusicRadioWidget::sendToDesktopLink()
 
     MusicRegeditManager reg;
 #ifdef Q_OS_WIN
-    reg.setFileLink(MAIN_DIR_FULL + APPEXE, desktop + "/" + fileName + ".lnk", QString(),
-                    QString("%1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), tr("TTK Radio Link"));
+    reg.setFileLink(MAIN_DIR_FULL + APPEXE, desktop + "/" + fileName + ".lnk", QString(), QString("%1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), tr("TTK Radio Link"));
 #else
-    reg.setFileLink(QString(" %1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), desktop, MAIN_DIR_FULL + APPNAME,
-                    MusicObject::getAppDir(), fileName);
+    reg.setFileLink(QString(" %1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), desktop, MAIN_DIR_FULL + APPNAME, MusicObject::getAppDir(), fileName);
 #endif
 }
 

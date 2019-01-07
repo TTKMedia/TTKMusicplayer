@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,6 +38,7 @@ namespace Ui {
 class MUSIC_GUI_EXPORT MusicRightAreaWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicRightAreaWidget)
 public:
     enum MusicFunction
     {
@@ -59,21 +60,18 @@ public:
         RecommendWidget,        /*!< insert recommend found widget*/
         IndentifyWidget,        /*!< insert indentify songs widget*/
         KuiSheWidget,           /*!< insert kugou kuishe widget*/
-        WebDJRadio,             /*!< insert web dj radio widget*/
-        WebMVRadio              /*!< insert web mv radio widget*/
+        WebDJRadioWidget,       /*!< insert web dj radio widget*/
+        WebMVRadioWidget,       /*!< insert web mv radio widget*/
+        CloudManagerWidget      /*!< insert cloud manager widget*/
     };
 
     /*!
      * Object contsructor.
      */
-    explicit MusicRightAreaWidget(QWidget *parent = 0);
+    explicit MusicRightAreaWidget(QWidget *parent = nullptr);
 
     ~MusicRightAreaWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get class object instance.
      */
@@ -175,6 +173,10 @@ public Q_SLOTS:
      * Music function button clicked.
      */
     void musicFunctionClicked(int index);
+    /*!
+     * Music function button clicked by extra widget.
+     */
+    void musicFunctionClicked(int index, QWidget *widget);
     /*!
      * Music song comments widget.
      */
@@ -297,8 +299,13 @@ public Q_SLOTS:
     void musicChangeDownloadCustumWidget();
 
 protected:
+    /*!
+     * Music function parameter init.
+     */
+    void musicFunctionParameterInit(MusicFunction func);
+
     QVariant m_rawData;
-    QWidget *m_stackedFuncWidget;
+    QWidget *m_stackedFuncWidget, *m_stackedAutoWidget;
     Ui::MusicApplication *m_ui;
     MusicSettingWidget *m_settingWidget;
     MusicVideoPlayWidget *m_videoPlayerWidget;

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,25 +30,26 @@ class MusicProgressBarDelegate;
 class MUSIC_WIDGET_EXPORT MusicDownloadAbstractTableWidget : public MusicSongsListAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadAbstractTableWidget)
 public:
-    explicit MusicDownloadAbstractTableWidget(QWidget *parent = 0);
+    explicit MusicDownloadAbstractTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicDownloadAbstractTableWidget();
 
     /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-    /*!
      * Read all config from file and insert items.
      */
-    void musicSongsFileName();
+    virtual void updateSongsFileName(const MusicSongs &songs) override;
 
 Q_SIGNALS:
     /*!
      * Add current selected song to play lists.
      */
     void addSongToPlay(const QStringList &list);
+    /*!
+     * Update item title.
+     */
+    void updateItemTitle(int index);
 
 public Q_SLOTS:
     /*!
@@ -77,15 +78,17 @@ public Q_SLOTS:
     void createDownloadItem(const QString &name, qint64 time);
 
 protected:
+    /*!
+     * Override the widget event.
+     */
     virtual void contextMenuEvent(QContextMenuEvent *event) override;
     /*!
      * Create item by index and name and size and time.
      */
-    virtual void createItem(int index, const MusicDownloadRecord &record) = 0;
+    virtual void createItem(int index, const MusicSong &record) = 0;
 
     MusicProgressBarDelegate *m_delegate;
-    MusicDownloadRecords m_musicRecords;
-    MusicDownloadRecordConfigManager::Type m_type;
+    MusicObject::RecordType m_type;
 
 };
 

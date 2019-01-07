@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ typedef struct MUSIC_CORE_EXPORT MusicPlayedItem
         return m_toolIndex == other.m_toolIndex && m_path == other.m_path;
     }
 }MusicPlayedItem;
-MUSIC_DECLARE_LISTS(MusicPlayedItem)
+TTK_DECLARE_LISTS(MusicPlayedItem)
 
 
 /*! @brief The class of the music playedlist.
@@ -60,13 +60,9 @@ MUSIC_DECLARE_LISTS(MusicPlayedItem)
 class MUSIC_CORE_EXPORT MusicPlayedlist : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicPlayedlist)
 public:
-    explicit MusicPlayedlist(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicPlayedlist(QObject *parent = nullptr);
 
     /*!
      * Get current play mode.
@@ -189,7 +185,7 @@ public Q_SLOTS:
     /*!
      * Set current play index.
      */
-    void setCurrentIndex(int index = DEFAULT_INDEX_LEVEL1);
+    void setCurrentIndex(int index = DEFAULT_LEVEL_NORMAL);
     /*!
      * Set current play index.
      */

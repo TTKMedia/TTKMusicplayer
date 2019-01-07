@@ -1,6 +1,7 @@
 #include "musicwebradioobject.h"
 #include "musicdatadownloadthread.h"
 #include "musicextractwrap.h"
+#include "musicsinglemanager.h"
 
 #include <QProcess>
 #ifdef MUSIC_GREATER_NEW
@@ -16,22 +17,12 @@
 MusicWebRadioObject::MusicWebRadioObject(QObject *parent)
     : QObject(parent)
 {
-    Q_UNUSED(qRegisterMetaType<MusicObject::ToolsType>("MusicObject::ToolsType"));
-}
-
-QString MusicWebRadioObject::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-void MusicWebRadioObject::raise()
-{
 
 }
 
-void MusicWebRadioObject::show()
+void MusicWebRadioObject::start()
 {
-    QString fileName = PLUGINS_DIR_FULL + MusicUtils::Algorithm::mdII(DOWNLOAD_NAME, false);
+    const QString &fileName = PLUGINS_DIR_FULL + MusicUtils::Algorithm::mdII(DOWNLOAD_NAME, false);
     if(QFile::exists(fileName))
     {
         dataDownloadFinished();
@@ -40,7 +31,7 @@ void MusicWebRadioObject::show()
     {
         MusicDataDownloadThread *download = new MusicDataDownloadThread(MusicUtils::Algorithm::mdII(DOWNLOAD_URL, false),
                                                 PLUGINS_DIR_FULL + MusicUtils::Algorithm::mdII(DOWNLOAD_NAME, false),
-                                                MusicDownLoadThreadAbstract::DownloadOther, this);
+                                                MusicObject::DownloadOther, this);
         connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(dataDownloadFinished()));
         download->startToDownload();
     }
@@ -48,16 +39,16 @@ void MusicWebRadioObject::show()
 
 void MusicWebRadioObject::dataDownloadFinished()
 {
-    QString fileName = PLUGINS_DIR_FULL + MusicUtils::Algorithm::mdII(DOWNLOAD_NAME, false);
+    const QString &fileName = PLUGINS_DIR_FULL + MusicUtils::Algorithm::mdII(DOWNLOAD_NAME, false);
     if(MusicExtractWrap::outputData(fileName))
     {
         QFile::remove(fileName);
         QtConcurrent::run([&]
         {
-            int code = QProcess::execute(QString("%1radio/%2").arg(PLUGINS_DIR_FULL).arg(MusicUtils::Algorithm::mdII(RADIO_NAME, false)));
+            const int code = QProcess::execute(QString("%1radio/%2").arg(PLUGINS_DIR_FULL).arg(MusicUtils::Algorithm::mdII(RADIO_NAME, false)));
             if(code != -2 && code != -1)
             {
-                emit resetFlag(MusicObject::TT_WebRadio);
+                M_SINGLE_MANAGER_PTR->removeObject(getClassName());
             }
         });
     }

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,14 @@ class MusicPagingWidgetObject;
 class MUSIC_LRC_EXPORT MusicCommentsItem : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicCommentsItem)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicCommentsItem(QWidget *parent = 0);
+    explicit MusicCommentsItem(QWidget *parent = nullptr);
 
     ~MusicCommentsItem();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Create the current song comment.
@@ -68,18 +64,14 @@ protected:
 class MUSIC_LRC_EXPORT MusicCommentsWidget : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicCommentsWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicCommentsWidget(QWidget *parent = 0);
+    explicit MusicCommentsWidget(QWidget *parent = nullptr);
 
     ~MusicCommentsWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Init widget.

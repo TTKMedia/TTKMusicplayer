@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ typedef struct MUSIC_TOOLSET_EXPORT MusicSpectrum
     QString m_name;
     QWidget *m_obj;
 }MusicSpectrum;
-MUSIC_DECLARE_LISTS(MusicSpectrum)
+TTK_DECLARE_LISTS(MusicSpectrum)
 
 /*! @brief The class of the music spectrum widget all.
  * @author Greedysky <greedysky@163.com>
@@ -45,24 +45,14 @@ MUSIC_DECLARE_LISTS(MusicSpectrum)
 class MUSIC_TOOLSET_EXPORT MusicSpectrumWidget : public MusicAbstractMoveWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSpectrumWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSpectrumWidget(QWidget *parent = 0);
+    explicit MusicSpectrumWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSpectrumWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
 
 public Q_SLOTS:
     /*!
@@ -96,17 +86,13 @@ public Q_SLOTS:
 
 protected:
     /*!
-     * Override the widget event.
-     */
-    virtual void closeEvent(QCloseEvent *event) override;
-    /*!
      * New spectrum widget.
      */
     void newSpectrumWidget(QCheckBox *box, const QString &name, QLayout *layout);
     /*!
      * New spek widget.
      */
-    void newSpekWidget(QCheckBox *box, const QString &name, QLayout *layout);
+    void newSpekWidget(QCheckBox *box, const QString &name, QLayout *layout, const QString &url = QString());
     /*!
      * Adjust widget layout.
      */
@@ -120,9 +106,9 @@ protected:
      */
     int findSpectrumWidget(const QString &name);
     /*!
-     * FSpek state button clicked.
+     * Show message box widget.
      */
-    void fspekStateChanged();
+    void showMessageBoxWidget(QCheckBox *box);
 
     MusicSpectrums m_types;
     Ui::MusicSpectrumWidget *m_ui;

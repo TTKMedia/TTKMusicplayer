@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,18 +30,14 @@ class QPropertyAnimation;
 class MUSIC_WIDGET_EXPORT MusicTransitionAnimationLabel : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicTransitionAnimationLabel)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicTransitionAnimationLabel(QWidget *parent = 0);
+    explicit MusicTransitionAnimationLabel(QWidget *parent = nullptr);
 
     ~MusicTransitionAnimationLabel();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set no animation to start.

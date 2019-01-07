@@ -9,11 +9,6 @@ MusicXMDiscoverListThread::MusicXMDiscoverListThread(QObject *parent)
 
 }
 
-QString MusicXMDiscoverListThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicXMDiscoverListThread::startToSearch()
 {
     if(!m_manager)
@@ -24,14 +19,15 @@ void MusicXMDiscoverListThread::startToSearch()
     M_LOGGER_INFO(QString("%1 startToSearch").arg(getClassName()));
     m_toplistInfo.clear();
     deleteAll();
+
     m_interrupt = true;
 
     QNetworkRequest request;
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
     makeTokenQueryUrl(&request,
                       MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_DATA_URL, false).arg(103),
                       MusicUtils::Algorithm::mdII(XM_SONG_TOPLIST_URL, false));
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
     setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
@@ -52,11 +48,11 @@ void MusicXMDiscoverListThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();///Get all the data obtained by request
+        const QByteArray &bytes = m_reply->readAll();///Get all the data obtained by request
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
@@ -65,7 +61,7 @@ void MusicXMDiscoverListThread::downLoadFinished()
                 value = value["data"].toMap();
                 value = value["data"].toMap();
                 value = value["billboard"].toMap();
-                QVariantList datas = value["items"].toList();
+                const QVariantList &datas = value["items"].toList();
                 int where = datas.count();
                 where = (where > 0) ? qrand()%where : 0;
 
@@ -80,8 +76,7 @@ void MusicXMDiscoverListThread::downLoadFinished()
                     }
 
                     value = var.toMap();
-                    m_toplistInfo = QString("%1 - %2").arg(value["artistName"].toString())
-                                                    .arg(value["songName"].toString());
+                    m_toplistInfo = QString("%1 - %2").arg(value["artistName"].toString()).arg(value["songName"].toString());
                     break;
                 }
             }

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
  */
 class MUSIC_CORE_EXPORT MusicTime
 {
+    TTK_DECLARE_MODULE(MusicTime)
 public:
     enum Type
     {
@@ -52,10 +53,6 @@ public:
      */
     MusicTime(int day, int hour, int min, int sec, int msec);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current day and hour and min and sec and msec.
      */
@@ -140,7 +137,7 @@ public:
     /*!
      * Transform time to string time format.
      */
-    QString toString(const QString &format);
+    QString toString(const QString &format) const;
 //    h	the hour without a leading zero (0 to 23 or 1 to 12 if AM/PM display)
 //    hh	the hour with a leading zero (00 to 23 or 01 to 12 if AM/PM display)
 //    H	the hour without a leading zero (0 to 23, even with AM/PM display)

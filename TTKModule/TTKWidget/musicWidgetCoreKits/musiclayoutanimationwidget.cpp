@@ -1,7 +1,7 @@
 #include "musiclayoutanimationwidget.h"
+#include "musicwidgetheaders.h"
 
 #include <QPainter>
-#include <QBoxLayout>
 #include <QPropertyAnimation>
 
 MusicLayoutAnimationWidget::MusicLayoutAnimationWidget(QWidget *parent)
@@ -34,11 +34,6 @@ MusicLayoutAnimationWidget::~MusicLayoutAnimationWidget()
     delete m_widgetLayout;
     delete m_mainWidget;
     delete m_animation;
-}
-
-QString MusicLayoutAnimationWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLayoutAnimationWidget::start()
@@ -106,11 +101,6 @@ MusicVLayoutAnimationWidget::MusicVLayoutAnimationWidget(QWidget *parent)
     m_mainWidget->setLayout(m_widgetLayout);
 }
 
-QString MusicVLayoutAnimationWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicVLayoutAnimationWidget::start()
 {
     if(m_isAnimating)
@@ -153,11 +143,6 @@ MusicHLayoutAnimationWidget::MusicHLayoutAnimationWidget(QWidget *parent)
     m_widgetLayout->setContentsMargins(0, 0, 0, 0);
     m_widgetLayout->setSpacing(0);
     m_mainWidget->setLayout(m_widgetLayout);
-}
-
-QString MusicHLayoutAnimationWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicHLayoutAnimationWidget::start()

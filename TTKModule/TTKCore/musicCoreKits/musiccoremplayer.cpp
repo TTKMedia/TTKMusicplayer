@@ -31,11 +31,6 @@ MusicCoreMPlayer::~MusicCoreMPlayer()
     delete m_process;
 }
 
-QString MusicCoreMPlayer::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicCoreMPlayer::setMedia(Category type, const QString &data, int winId)
 {
     m_timer.stop();
@@ -269,6 +264,6 @@ void MusicCoreMPlayer::checkTimerout()
     if(m_process && m_process->state() == QProcess::NotRunning)
     {
         m_checkTimer.stop();
-        emit finished(DEFAULT_INDEX_LEVEL1);
+        emit finished(DEFAULT_LEVEL_NORMAL);
     }
 }

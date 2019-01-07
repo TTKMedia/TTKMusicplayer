@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ typedef struct MUSIC_NETWORK_EXPORT MusicSongIdentify
     QString m_singerName;
     QString m_songName;
 }MusicSongIdentify;
-MUSIC_DECLARE_LISTS(MusicSongIdentify)
+TTK_DECLARE_LISTS(MusicSongIdentify)
 
 /*! @brief The class of the song identify query thread.
  * @author Greedysky <greedysky@163.com>
@@ -38,16 +38,12 @@ MUSIC_DECLARE_LISTS(MusicSongIdentify)
 class MUSIC_NETWORK_EXPORT MusicIdentifySongsThread : public MusicNetworkAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicIdentifySongsThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicIdentifySongsThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicIdentifySongsThread(QObject *parent = nullptr);
 
     /*!
      * Release the network object.

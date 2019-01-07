@@ -8,14 +8,11 @@
 #include "musicclickedlabel.h"
 #include "musicsemaphoreloop.h"
 #include "musicpagingwidgetobject.h"
+#include "musicwidgetheaders.h"
 
 #include <qmath.h>
-#include <QBoxLayout>
-#include <QPushButton>
 #include <QTextEdit>
 #include <QDateTime>
-#include <QScrollBar>
-#include <QScrollArea>
 
 MusicCommentsItem::MusicCommentsItem(QWidget *parent)
     : QWidget(parent)
@@ -119,11 +116,6 @@ MusicCommentsItem::~MusicCommentsItem()
     delete m_starLabel;
 }
 
-QString MusicCommentsItem::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicCommentsItem::createSearchedItem(const MusicResultsItem &comments)
 {
     m_userName->setText(comments.m_nickName + ":");
@@ -169,11 +161,6 @@ MusicCommentsWidget::~MusicCommentsWidget()
     delete m_pagingWidgetObject;
     delete m_messageComments;
     delete m_commentsThread;
-}
-
-QString MusicCommentsWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicCommentsWidget::initWidget(bool isPain)
@@ -226,8 +213,7 @@ void MusicCommentsWidget::initWidget(bool isPain)
     m_messageEdit = new QTextEdit(messageBox);
     m_messageEdit->setFixedHeight(75);
     m_messageEdit->verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
-    m_messageEdit->setStyleSheet(MusicUIObject::MBorderStyle02 + MusicUIObject::MBackgroundStyle01 +
-                                 MusicUIObject::MColorStyle04);
+    m_messageEdit->setStyleSheet(MusicUIObject::MBorderStyle02 + MusicUIObject::MBackgroundStyle01 + MusicUIObject::MColorStyle04);
     m_messageEdit->viewport()->setStyleSheet(MusicUIObject::MBackgroundStyle01 + MusicUIObject::MColorStyle04);
     messageBox->setAttribute(Qt::WA_TranslucentBackground, true);
     m_commentsLabel = new QLabel(contentsWidget);
@@ -322,6 +308,7 @@ void MusicCommentsWidget::createSearchedItem(const MusicResultsItem &comments)
     MusicCommentsItem *item = new MusicCommentsItem(m_messageComments);
     item->createSearchedItem(comments);
     m_commentsItems << item;
+
     QVBoxLayout *layout = MStatic_cast(QVBoxLayout*, m_messageComments->layout());
     layout->insertWidget(layout->count() - 1, item);
 
@@ -334,7 +321,8 @@ void MusicCommentsWidget::createSearchedItem(const MusicResultsItem &comments)
 void MusicCommentsWidget::buttonClicked(int index)
 {
     deleteCommentsItems();
-    int total = ceil(m_commentsThread->getPageTotal()*1.0/m_commentsThread->getPageSize());
+
+    const int total = ceil(m_commentsThread->getPageTotal()*1.0/m_commentsThread->getPageSize());
     m_pagingWidgetObject->paging(index, total);
     m_commentsThread->startToPage(m_pagingWidgetObject->currentIndex() - 1);
 }
@@ -395,7 +383,8 @@ void MusicCommentsWidget::createPagingWidget()
 {
     m_pagingWidgetObject = new MusicPagingWidgetObject(this);
     connect(m_pagingWidgetObject, SIGNAL(mapped(int)), SLOT(buttonClicked(int)));
-    int total = ceil(m_commentsThread->getPageTotal()*1.0/m_commentsThread->getPageSize());
+
+    const int total = ceil(m_commentsThread->getPageTotal()*1.0/m_commentsThread->getPageSize());
     QWidget *w = m_pagingWidgetObject->createPagingWidget(m_messageComments, total);
     m_messageComments->layout()->addWidget(w);
 }

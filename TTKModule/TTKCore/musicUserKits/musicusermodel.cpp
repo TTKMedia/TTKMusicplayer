@@ -12,13 +12,7 @@ MusicUserModel::MusicUserModel(QObject *parent,QSqlDatabase db)
     setEditStrategy(QSqlTableModel::OnManualSubmit);
 }
 
-QString MusicUserModel::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-bool MusicUserModel::addUser(const MusicUserUIDItem &uid, const QString &pwd,
-                             const QString &mail, bool pwdMask)
+bool MusicUserModel::addUser(const MusicUserUIDItem &uid, const QString &pwd, const QString &mail, bool pwdMask)
 {
     if(!databaseSelectedFilter(uid))
     {
@@ -83,11 +77,9 @@ bool MusicUserModel::addUser(const MusicUserInfoRecord &info)
     }
 }
 
-bool MusicUserModel::updateUser(const MusicUserUIDItem &uid, const QString &pwd,
-                                const QString &mail, const QString &name,
-                                const QString &time, bool pwdMask)
+bool MusicUserModel::updateUser(const MusicUserUIDItem &uid, const QString &pwd, const QString &mail, const QString &name, const QString &time, bool pwdMask)
 {
-    MusicObject::MStriantMap map;
+    MStriantMap map;
     map["USERNAME"] = name;
     map["PASSWD"] = pwd.isEmpty() ? QString() : (pwdMask ? pwd : userPasswordEncryption(pwd));
     map["EMAIL"] = mail;
@@ -95,12 +87,9 @@ bool MusicUserModel::updateUser(const MusicUserUIDItem &uid, const QString &pwd,
     return updateRecordData(uid, map);
 }
 
-bool MusicUserModel::updateUser(const MusicUserUIDItem &uid, const QString &name,
-                                const QString &sex, const QString &birth,
-                                const QString &city, const QString &country,
-                                const QString &sign)
+bool MusicUserModel::updateUser(const MusicUserUIDItem &uid, const QString &name, const QString &sex, const QString &birth, const QString &city, const QString &country, const QString &sign)
 {
-    MusicObject::MStriantMap map;
+    MStriantMap map;
     map["USERNAME"] = name;
     map["SEX"] = sex;
     map["BIRTHDAY"] = birth;
@@ -112,21 +101,21 @@ bool MusicUserModel::updateUser(const MusicUserUIDItem &uid, const QString &name
 
 bool MusicUserModel::updateUser(const MusicUserInfoRecord &info)
 {
-    MusicObject::MStriantMap map;
+    MStriantMap map;
     map["USERNAME"] = info.m_nickName;
     return updateRecordData(info.m_item, map);
 }
 
 bool MusicUserModel::updateUserIcon(const MusicUserUIDItem &uid, const QString &icon)
 {
-    MusicObject::MStriantMap map;
+    MStriantMap map;
     map["ICON"] = icon;
     return updateRecordData(uid, map);
 }
 
 bool MusicUserModel::updateUserPwd(const MusicUserUIDItem &uid, const QString &pwd, bool pwdMask)
 {
-    MusicObject::MStriantMap map;
+    MStriantMap map;
     map["PASSWD"] = pwd.isEmpty() ? QString() : (pwdMask ? pwd : userPasswordEncryption(pwd));
     return updateRecordData(uid, map);
 }
@@ -218,17 +207,17 @@ QString MusicUserModel::getRecordData(const MusicUserUIDItem &uid, const QString
     return record(0).value(field).toString();
 }
 
-bool MusicUserModel::updateRecordData(const MusicUserUIDItem &uid, const MusicObject::MStriantMap &data)
+bool MusicUserModel::updateRecordData(const MusicUserUIDItem &uid, const MStriantMap &data)
 {
     if(databaseSelectedFilter(uid))
     {
         return false;
     }
 
-    QStringList keys = data.keys();
+    const QStringList &keys = data.keys();
     foreach(const QString &key, keys)
     {
-        QString var = data[key].toString();
+        const QString &var = data[key].toString();
         if(!var.isEmpty())
         {
             setData(index(0, fieldIndex(key)), var);

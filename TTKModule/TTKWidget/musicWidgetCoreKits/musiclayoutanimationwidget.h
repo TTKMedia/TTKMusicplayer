@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,14 @@ class QPropertyAnimation;
 class MUSIC_WIDGET_EXPORT MusicLayoutAnimationWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLayoutAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLayoutAnimationWidget(QWidget *parent = 0);
+    explicit MusicLayoutAnimationWidget(QWidget *parent = nullptr);
 
     ~MusicLayoutAnimationWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Start to anmiation.
@@ -64,7 +60,7 @@ public:
     /*!
      * Add widget to container.
      */
-    void addWidget(QWidget *widget, int stretch = 0, Qt::Alignment alignment = 0);
+    void addWidget(QWidget *widget, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
     /*!
      * Remove widget to container.
      */
@@ -96,16 +92,12 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicVLayoutAnimationWidget : public MusicLayoutAnimationWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicVLayoutAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicVLayoutAnimationWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicVLayoutAnimationWidget(QWidget *parent = nullptr);
 
     /*!
      * Start to anmiation.
@@ -127,16 +119,12 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicHLayoutAnimationWidget : public MusicLayoutAnimationWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicHLayoutAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicHLayoutAnimationWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicHLayoutAnimationWidget(QWidget *parent = nullptr);
 
     /*!
      * Start to anmiation.

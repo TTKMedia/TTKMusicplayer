@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,16 +28,12 @@
 class MUSIC_WIDGET_EXPORT MusicMoveButton : public QPushButton
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicMoveButton)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicMoveButton(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicMoveButton(QWidget *parent = nullptr);
 
 Q_SIGNALS:
     /*!
@@ -69,18 +65,15 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicCutSliderWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicCutSliderWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicCutSliderWidget(QWidget *parent = 0);
+    explicit MusicCutSliderWidget(QWidget *parent = nullptr);
 
     ~MusicCutSliderWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current position.
      */

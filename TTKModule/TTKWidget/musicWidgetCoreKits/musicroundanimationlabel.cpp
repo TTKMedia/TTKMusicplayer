@@ -17,11 +17,6 @@ MusicRoundAnimationLabel::~MusicRoundAnimationLabel()
     stop();
 }
 
-QString MusicRoundAnimationLabel::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRoundAnimationLabel::setPixmap(const QPixmap &pix)
 {
     m_pixmap = pix;
@@ -47,10 +42,10 @@ void MusicRoundAnimationLabel::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
     QPainter painter(this);
 
-    QSize self = size();
-    QRect rotatedRect(-self.width()/2, -self.height()/2, self.width(), self.height());
-    int cx = self.width() / 2;
-    int cy = self.height() / 2;
+    const QSize &self = size();
+    const QRect rotatedRect(-self.width()/2, -self.height()/2, self.width(), self.height());
+    const int cx = self.width() / 2;
+    const int cy = self.height() / 2;
 
     if(++m_rotateAngle >= MA_360)
     {

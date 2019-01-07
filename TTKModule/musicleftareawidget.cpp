@@ -40,11 +40,6 @@ MusicLeftAreaWidget::~MusicLeftAreaWidget()
     delete m_stackedWidget;
 }
 
-QString MusicLeftAreaWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 MusicLeftAreaWidget *MusicLeftAreaWidget::instance()
 {
     return m_instance;
@@ -64,10 +59,8 @@ void MusicLeftAreaWidget::setupUi(Ui::MusicApplication* ui)
     connect(ui->musicSound, SIGNAL(musicVolumeChanged(int)), MusicApplication::instance(), SLOT(musicVolumeChanged(int)));
     connect(ui->musicBestLove, SIGNAL(clicked()), MusicApplication::instance(), SLOT(musicAddSongToLovestListAt()));
     connect(ui->musicDownload, SIGNAL(clicked()), this, SLOT(musicDownloadSongToLocal()));
-    connect(ui->musicEnhancedButton, SIGNAL(enhancedMusicChanged(int)), MusicApplication::instance(),
-                                     SLOT(musicEnhancedMusicChanged(int)));
-    connect(ui->musicEnhancedButton, SIGNAL(enhancedMusicChanged(int)), ui->musicTimeWidget,
-                                     SLOT(setSliderStyleByType(int)));
+    connect(ui->musicEnhancedButton, SIGNAL(enhancedMusicChanged(int)), MusicApplication::instance(), SLOT(musicEnhancedMusicChanged(int)));
+    connect(ui->musicEnhancedButton, SIGNAL(enhancedMusicChanged(int)), ui->musicTimeWidget, SLOT(setSliderStyleByType(int)));
     connect(ui->functionAnimationWidget, SIGNAL(buttonClicked(int)), SLOT(switchToSelectedItemStyle(int)));
 
     ui->musicPrevious->setStyleSheet(MusicUIObject::MKGBtnPrevious);
@@ -172,7 +165,7 @@ void MusicLeftAreaWidget::musicStackedRadioWidgetChanged()
 
     delete m_stackedWidget;
     MusicWebRadioView *w = new MusicWebRadioView(this);
-    w->init(DEFAULT_INDEX_LEVEL0);
+    w->init(DEFAULT_LEVEL_LOWER);
     m_stackedWidget = w;
 
     m_ui->songsContainer->insertWidget(1, m_stackedWidget);
@@ -189,7 +182,7 @@ void MusicLeftAreaWidget::musicStackedMyDownWidgetChanged()
     m_currentIndex = 4;
 
     delete m_stackedWidget;
-    m_stackedWidget = new MusicDownloadRecordWidget(this);
+    m_stackedWidget = new MusicDownloadToolBoxWidget(this);
     m_ui->songsContainer->insertWidget(1, m_stackedWidget);
     m_ui->songsContainer->setIndex(0, 0);
     m_ui->songsContainer->start(1);
@@ -226,30 +219,10 @@ void MusicLeftAreaWidget::musicStackedCloudWidgetChanged()
     {
         m_cloudSharedSongWidget = new MusicCloudSharedSongWidget(this);
         m_ui->songsContainer->addWidget(m_cloudSharedSongWidget);
-        m_cloudSharedSongWidget->getKey();
     }
+    m_cloudSharedSongWidget->showMainWindow();
     m_ui->songsContainer->setIndex(0, 0);
     m_ui->songsContainer->start(1);
-}
-
-void MusicLeftAreaWidget::cloudSharedSongUploadAllDone()
-{
-    if(m_currentIndex == 1)
-    {
-        return;
-    }
-
-    switch(m_currentIndex)
-    {
-        case 0: musicStackedSongListWidgetChanged(); break;
-        case 2: musicStackedRadioWidgetChanged(); break;
-        case 3: musicStackedMobileWidgetChanged(); break;
-        case 4: musicStackedMyDownWidgetChanged(); break;
-        default: break;
-    }
-
-    delete m_cloudSharedSongWidget;
-    m_cloudSharedSongWidget = nullptr;
 }
 
 void MusicLeftAreaWidget::lrcWidgetShowFullScreen()

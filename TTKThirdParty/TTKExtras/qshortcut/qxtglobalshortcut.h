@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,8 +35,8 @@ class MUSIC_EXTRAS_EXPORT QxtGlobalShortcut : public QObject
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled)
     Q_PROPERTY(QKeySequence shortcut READ shortcut WRITE setShortcut)
 public:
-    explicit QxtGlobalShortcut(QObject* parent = 0);
-    explicit QxtGlobalShortcut(const QKeySequence& shortcut, QObject* parent = 0);
+    explicit QxtGlobalShortcut(QObject* parent = nullptr);
+    explicit QxtGlobalShortcut(const QKeySequence& shortcut, QObject* parent = nullptr);
 
     virtual ~QxtGlobalShortcut();
 

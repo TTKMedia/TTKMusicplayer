@@ -3,11 +3,6 @@
 
 #include <QStringList>
 
-QString MusicHotKeyManager::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicHotKeyManager::connectParentObject(QObject *object)
 {
     for(int i=0; i<8; ++i)
@@ -29,7 +24,7 @@ void MusicHotKeyManager::connectParentObject(QObject *object)
 
 void MusicHotKeyManager::setDefaultKey()
 {
-    QStringList keys(getDefaultKeys());
+    const QStringList &keys = getDefaultKeys();
     for(int i=0; i<m_hotkeys.count(); ++i)
     {
         setHotKey(i, keys[i]);
@@ -120,8 +115,8 @@ void MusicHotKeyManager::enabledAll(bool enabled)
 
 QString MusicHotKeyManager::toString(int key, int modifiers)
 {
-    QString strModList[] = { "Ctrl", "Shift", "Alt"};
-    quint32 modList[] = { Qt::ControlModifier, Qt::ShiftModifier, Qt::AltModifier};
+    const QString strModList[] = { "Ctrl", "Shift", "Alt"};
+    const quint32 modList[] = { Qt::ControlModifier, Qt::ShiftModifier, Qt::AltModifier};
 
     QString keyStr;
     for(int j=0; j<3; j++)

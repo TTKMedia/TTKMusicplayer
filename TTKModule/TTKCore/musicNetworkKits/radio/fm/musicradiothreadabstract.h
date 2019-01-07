@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +23,9 @@
 #include "musicstringutils.h"
 #include "musicnetworkabstract.h"
 
-const QString RADIO_CHANNEL_URL  = "bkNHdDVjMFdFMllITEJKTXBSSEsyNXhHWGJ2d0RjdUtJV0hwVk0yMzVUNy9wOTBxSXBkWFQ2MDBlcmtVcHoxeg==";
-const QString RADIO_PLAYLIST_URL = "RzAwMGlXbFVFTC9NY29YUUo5ZlR3VjNMZmpicFkybkpZVGRtL2FIMDhaeGpmbmN3Q0h5QmhQRCtnVm5xTkRENVN4TTQ0WS9QT0Nvc1haUEY=";
-const QString RADIO_SONG_URL     = "Z1pzMFpFZytLQnAzaG95SHR4SkYwOUk0Z3BBTm1wVkZYTUczK1hwT0REM0tXd0hueGVFeVpVMVRmdXhVbDMrMm9KRzBleGRmMnZIN3RCWmpwOU9YWUcrQlgvMG4yWHJC";
+const QString RADIO_CHANNEL_URL  = "Mlh6UmtFUnVBNUVhcE5xSGkzaXArYXBHOEw5TlNrUDcwQTV4UEs1QXRib085YThhYkVaam9nR2U2WmRvamU2NA==";
+const QString RADIO_PLAYLIST_URL = "NlVIR2JEMVQvcGFqYWxQcTdpREJPQWhCUWRSejFXNlQ5RnkvTU1rQmtnTFF0b3M3QkhyYzRldzNSY3JTOXkxZENDUGdVZkhwbjVBaC83UDY=";
+const QString RADIO_SONG_URL     = "T2JMRFREMFM2aG9hTzFPaENXV1RhTW5YS2UwT3hiYmdnRlUwNDRLdjNxVlV3SmJnN3JqWUU4aHhYeURlWWcrTlhYTHJmZU1yMVcxNE5IZVdsQWJCMTNVcjNhWEszU1hN";
 const QString RADIO_LRC_URL      = "NmdYZm9tYkZjdHJOc1ZNNjIxSFdsc0NZc0xWa1RsM0dhMCtSaTdveGZPaz0=";
 
 /*! @brief The class of music radio thread base.
@@ -34,18 +34,15 @@ const QString RADIO_LRC_URL      = "NmdYZm9tYkZjdHJOc1ZNNjIxSFdsc0NZc0xWa1RsM0dh
 class MUSIC_NETWORK_EXPORT MusicRadioThreadAbstract : public MusicNetworkAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicRadioThreadAbstract)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicRadioThreadAbstract(QObject *parent = 0, QNetworkCookieJar *cookie = 0);
+    explicit MusicRadioThreadAbstract(QObject *parent = nullptr, QNetworkCookieJar *cookie = nullptr);
 
     virtual ~MusicRadioThreadAbstract();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start to download data.
      * Subclass should implement this function.

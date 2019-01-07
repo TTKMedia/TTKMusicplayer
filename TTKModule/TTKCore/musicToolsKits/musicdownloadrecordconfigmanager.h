@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,18 +20,7 @@
  ================================================= */
 
 #include "musicabstractxml.h"
-
-/*! @brief The class of the local download record item.
- * @author Greedysky <greedysky@163.com>
- */
-typedef struct MUSIC_TOOL_EXPORT MusicDownloadRecord
-{
-    QString m_name;
-    QString m_path;
-    QString m_size;
-    QString m_time;
-}MusicDownloadRecord;
-MUSIC_DECLARE_LISTS(MusicDownloadRecord)
+#include "musicnetworkdefines.h"
 
 /*! @brief The class of the download record manager.
  * @author Greedysky <greedysky@163.com>
@@ -39,30 +28,21 @@ MUSIC_DECLARE_LISTS(MusicDownloadRecord)
 class MUSIC_TOOL_EXPORT MusicDownloadRecordConfigManager : public MusicAbstractXml
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadRecordConfigManager)
 public:
-    enum Type
-    {
-        Normal,         /*!< Local File Config*/
-        Cloud           /*!< Cloud File Config*/
-    };
-
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadRecordConfigManager(Type type, QObject *parent = 0);
+    explicit MusicDownloadRecordConfigManager(MusicObject::RecordType type, QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set config type.
      */
-    inline void setType(Type type) { m_type = type; }
+    inline void setType(MusicObject::RecordType type) { m_type = type; }
     /*!
      * Get config type.
      */
-    inline Type getType() const { return m_type; }
+    inline MusicObject::RecordType getType() const { return m_type; }
     /*!
      * Read history download datas from xml file by given name.
      */
@@ -70,11 +50,11 @@ public:
     /*!
      * Write history download datas into xml file.
      */
-    void writeDownloadConfig(const MusicDownloadRecords &records);
+    void writeDownloadConfig(const MusicSongs &records);
     /*!
      * Read history download datas into xml file.
      */
-    void readDownloadConfig(MusicDownloadRecords &records);
+    void readDownloadConfig(MusicSongs &records);
 
 protected:
     /*!
@@ -82,7 +62,7 @@ protected:
      */
     QString mappingFilePathFromEnum() const;
 
-    Type m_type;
+    MusicObject::RecordType m_type;
 
 };
 

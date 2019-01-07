@@ -17,9 +17,7 @@ MusicAbstractTableWidget::MusicAbstractTableWidget(QWidget *parent)
     verticalHeader()->setVisible(false);
 
     setMouseTracking(true);  //Open the capture mouse function
-    setStyleSheet(MusicUIObject::MTableWidgetStyle01 + \
-                  MusicUIObject::MScrollBarStyle01 + \
-                  MusicUIObject::MLineEditStyle01 );
+    setStyleSheet(MusicUIObject::MTableWidgetStyle01 + MusicUIObject::MScrollBarStyle01 + MusicUIObject::MLineEditStyle01);
 
     QFont f = font();
     f.setBold(false);
@@ -45,11 +43,6 @@ MusicAbstractTableWidget::MusicAbstractTableWidget(QWidget *parent)
 MusicAbstractTableWidget::~MusicAbstractTableWidget()
 {
 
-}
-
-QString MusicAbstractTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicAbstractTableWidget::clear()
@@ -83,4 +76,18 @@ void MusicAbstractTableWidget::setRowColor(int row, const QColor &color) const
             it->setBackgroundColor(color);
         }
     }
+}
+
+MIntList MusicAbstractTableWidget::getMultiIndexSet()
+{
+    MIntSet rows;
+    foreach(const QModelIndex& index, selectedIndexes())
+    {
+        rows.insert(index.row());
+    }
+
+    MIntList rowsList = rows.toList();
+    qSort(rowsList);
+
+    return rowsList;
 }

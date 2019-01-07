@@ -18,6 +18,7 @@ MusicRemoteWidgetForSquare::MusicRemoteWidgetForSquare(QWidget *parent)
         grid->setColumnStretch(j, 1);
     }
     m_mainWidget->setFixedSize(70, 70);
+
     grid->addWidget(m_PlayButton, 0, 1, Qt::AlignCenter);
     grid->addWidget(m_PreSongButton, 1, 0, Qt::AlignCenter);
     grid->addWidget(m_NextSongButton, 1, 2, Qt::AlignCenter);
@@ -48,11 +49,6 @@ MusicRemoteWidgetForSquare::~MusicRemoteWidgetForSquare()
     {
         delete m_effect[i];
     }
-}
-
-QString MusicRemoteWidgetForSquare::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicRemoteWidgetForSquare::enterEvent(QEvent *event)

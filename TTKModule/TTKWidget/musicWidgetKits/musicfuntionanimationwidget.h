@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,16 +31,13 @@ class QPropertyAnimation;
 class MUSIC_WIDGET_EXPORT MusicBackgroundWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundWidget(QWidget *parent = 0);
+    explicit MusicBackgroundWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set background transparent.
      */
@@ -63,16 +60,12 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicLineBackgroundWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLineBackgroundWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLineBackgroundWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLineBackgroundWidget(QWidget *parent = nullptr);
 
     /*!
      * Set backgrgound transparent.
@@ -96,18 +89,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicBaseAnimationWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBaseAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBaseAnimationWidget(QWidget *parent = 0);
+    explicit MusicBaseAnimationWidget(QWidget *parent = nullptr);
 
     ~MusicBaseAnimationWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 Q_SIGNALS:
     /*!
@@ -153,16 +142,12 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicFuntionAnimationWidget : public MusicBaseAnimationWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicFuntionAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicFuntionAnimationWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicFuntionAnimationWidget(QWidget *parent = nullptr);
 
 public Q_SLOTS:
     /*!
@@ -185,16 +170,13 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicOptionAnimationWidget : public MusicBaseAnimationWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicOptionAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicOptionAnimationWidget(QWidget *parent = 0);
+    explicit MusicOptionAnimationWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Function button style clear.
      */
@@ -225,16 +207,12 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicSkinAnimationWidget : public MusicBaseAnimationWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSkinAnimationWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSkinAnimationWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicSkinAnimationWidget(QWidget *parent = nullptr);
 
 public Q_SLOTS:
     /*!

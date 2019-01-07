@@ -107,11 +107,6 @@ MusicRemoteWidget::~MusicRemoteWidget()
     delete m_mainWidget;
 }
 
-QString MusicRemoteWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRemoteWidget::showPlayStatus(bool status) const
 {
     m_PlayButton->setStyleSheet(status ? MusicUIObject::MKGTinyBtnPlay : MusicUIObject::MKGTinyBtnPause);
@@ -222,6 +217,6 @@ void MusicRemoteWidget::contextMenuEvent(QContextMenuEvent *event)
 
 void MusicRemoteWidget::adjustPostion(QWidget *w)
 {
-    QSize windowSize = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
+    const QSize &windowSize = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
     w->move( windowSize.width() - w->width() - 150, w->height() + 70);
 }

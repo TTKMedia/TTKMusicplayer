@@ -1,5 +1,4 @@
 #include "musicsongslistplayedtablewidget.h"
-#include "musicfileinformationwidget.h"
 #include "musicsongsharingwidget.h"
 #include "musicconnecttransferwidget.h"
 #include "musicsongslistplayedwidget.h"
@@ -38,11 +37,6 @@ MusicSongsListPlayedTableWidget::~MusicSongsListPlayedTableWidget()
     delete m_musicSongsPlayWidget;
 }
 
-QString MusicSongsListPlayedTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicSongsListPlayedTableWidget::clearPlayLaterState()
 {
     for(int i=0; i<rowCount(); ++i)
@@ -71,8 +65,9 @@ void MusicSongsListPlayedTableWidget::setPlayLaterState(int row)
 
 void MusicSongsListPlayedTableWidget::updateSongsFileName(const MusicSongs &songs)
 {
-    int count = rowCount();
+    const int count = rowCount();
     setRowCount(songs.count());
+
     QHeaderView *headerview = horizontalHeader();
     for(int i=count; i<songs.count(); i++)
     {
@@ -91,7 +86,7 @@ void MusicSongsListPlayedTableWidget::updateSongsFileName(const MusicSongs &song
                           item = new QTableWidgetItem;
         setItem(i, 3, item);
 
-                          item = new QTableWidgetItem(songs[i].getMusicTime());
+                          item = new QTableWidgetItem(songs[i].getMusicPlayTime());
         item->setTextColor(QColor(MusicUIObject::MColorStyle12_S));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(i, 4, item);
@@ -133,7 +128,7 @@ void MusicSongsListPlayedTableWidget::selectRow(int index)
         delete takeItem(index, i);
     }
 
-    QString name = !m_musicSongs->isEmpty() ? m_musicSongs->at(index).getMusicName() : QString();
+    const QString &name = !m_musicSongs->isEmpty() ? m_musicSongs->at(index).getMusicName() : QString();
 
     m_musicSongsPlayWidget = new MusicSongsListPlayedWidget(index, this);
     m_musicSongsPlayWidget->setParameter(name);
@@ -162,7 +157,7 @@ void MusicSongsListPlayedTableWidget::replacePlayWidgetRow()
         return;
     }
 
-    QString name = !m_musicSongs->isEmpty() ? m_musicSongs->at(m_playRowIndex).getMusicName() : QString();
+    const QString &name = !m_musicSongs->isEmpty() ? m_musicSongs->at(m_playRowIndex).getMusicName() : QString();
 
     removeCellWidget(m_playRowIndex, 0);
     delete takeItem(m_playRowIndex, 0);
@@ -182,7 +177,7 @@ void MusicSongsListPlayedTableWidget::replacePlayWidgetRow()
     setItem(m_playRowIndex, 2, new QTableWidgetItem);
     setItem(m_playRowIndex, 3, new QTableWidgetItem);
 
-    item = new QTableWidgetItem( (*m_musicSongs)[m_playRowIndex].getMusicTime() );
+    item = new QTableWidgetItem( (*m_musicSongs)[m_playRowIndex].getMusicPlayTime() );
     item->setTextColor(QColor(MusicUIObject::MColorStyle12_S));
     item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     setItem(m_playRowIndex, 4, item);
@@ -212,7 +207,7 @@ void MusicSongsListPlayedTableWidget::listCellEntered(int row, int column)
     if(it)
     {
         it->setIcon(QIcon());
-        it->setText((*m_musicSongs)[m_previousColorRow].getMusicTime());
+        it->setText((*m_musicSongs)[m_previousColorRow].getMusicPlayTime());
     }
 
     ///draw new table item state
@@ -271,7 +266,7 @@ void MusicSongsListPlayedTableWidget::listCellClicked(int row, int column)
 
 void MusicSongsListPlayedTableWidget::setDeleteItemAt()
 {
-    int index = currentRow();
+    const int index = currentRow();
     if(rowCount() == 0 || index < 0)
     {
         return;
@@ -304,7 +299,7 @@ void MusicSongsListPlayedTableWidget::contextMenuEvent(QContextMenuEvent *event)
 
     createMoreMenu(&rightClickMenu);
 
-    bool empty = true;
+    const bool empty = true;
     rightClickMenu.addAction(tr("musicInfo..."), this, SLOT(musicFileInformation()))->setEnabled(empty);
     rightClickMenu.addAction(QIcon(":/contextMenu/btn_localFile"), tr("openFileDir"), this, SLOT(musicOpenFileDir()))->setEnabled(empty);
     rightClickMenu.addAction(QIcon(":/contextMenu/btn_ablum"), tr("ablum"), this, SLOT(musicAlbumFoundWidget()));

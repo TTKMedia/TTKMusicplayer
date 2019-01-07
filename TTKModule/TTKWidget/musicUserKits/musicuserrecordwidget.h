@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,18 +35,15 @@ class MusicUserModel;
 class MUSIC_USER_EXPORT MusicUserRecordWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicUserRecordWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicUserRecordWidget(QWidget *parent = 0);
+    explicit MusicUserRecordWidget(QWidget *parent = nullptr);
 
     ~MusicUserRecordWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Avatar pixmap render.
      */

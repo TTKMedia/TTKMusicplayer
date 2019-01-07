@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,18 +32,15 @@ class MusicBackgroundPaletteWidget;
 class MUSIC_WIDGET_EXPORT MusicBackgroundPalette : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundPalette)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundPalette(QWidget *parent = 0);
+    explicit MusicBackgroundPalette(QWidget *parent = nullptr);
 
     ~MusicBackgroundPalette();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current label background by color.
      */
@@ -81,18 +78,15 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicBackgroundPaletteWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundPaletteWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundPaletteWidget(QWidget *parent = 0);
+    explicit MusicBackgroundPaletteWidget(QWidget *parent = nullptr);
 
     ~MusicBackgroundPaletteWidget();
 
-    /*!
-    * Get class object name.
-    */
-    static QString getClassName();
     /*!
      * Update this bg when user change the current bg.
      */

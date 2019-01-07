@@ -9,11 +9,6 @@ MusicPlaylist::MusicPlaylist(QObject *parent)
     m_playbackMode = MusicObject::PM_PlayOrder;
 }
 
-QString MusicPlaylist::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 MusicObject::PlayMode MusicPlaylist::playbackMode() const
 {
     return m_playbackMode;
@@ -138,7 +133,7 @@ bool MusicPlaylist::removeMedia(int start, int end)
 
 void MusicPlaylist::setCurrentIndex(int index)
 {
-    if(index == DEFAULT_INDEX_LEVEL1)
+    if(index == DEFAULT_LEVEL_NORMAL)
     {
         switch(m_playbackMode)
         {

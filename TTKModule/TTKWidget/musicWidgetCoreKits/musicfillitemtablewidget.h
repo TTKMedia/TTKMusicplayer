@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,23 +29,19 @@ class MusicQueryTableDelegate;
 class MUSIC_WIDGET_EXPORT MusicFillItemTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicFillItemTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicFillItemTableWidget(QWidget *parent = 0);
+    explicit MusicFillItemTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicFillItemTableWidget();
 
     /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-    /*!
      * Get selected items.
      */
-    MusicObject::MIntList getSelectedItems() const;
+    MIntList getSelectedItems() const;
 
 public Q_SLOTS:
     /*!

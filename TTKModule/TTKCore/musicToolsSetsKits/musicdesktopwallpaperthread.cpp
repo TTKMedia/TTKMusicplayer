@@ -27,11 +27,6 @@ MusicDesktopWallpaperThread::~MusicDesktopWallpaperThread()
     delete m_timer;
 }
 
-QString MusicDesktopWallpaperThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDesktopWallpaperThread::setInterval(int msec)
 {
     m_timer->setInterval(msec);
@@ -110,7 +105,7 @@ void MusicDesktopWallpaperThread::timeout()
     else
     {
         MusicBackgroundImage image;
-        MusicExtractWrap::outputSkin(&image, M_BACKGROUND_PTR->getMBackground());
+        MusicExtractWrap::outputSkin(&image, M_BACKGROUND_PTR->getBackgroundUrl());
 
         emit updateBackground(image.m_pix);
     }

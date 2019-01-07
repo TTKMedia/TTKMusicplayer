@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,18 +28,15 @@
 class MUSIC_NETWORK_EXPORT MusicRadioPlayListThread : public MusicRadioThreadAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicRadioPlayListThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicRadioPlayListThread(QObject *parent = 0, QNetworkCookieJar *cookie = 0);
+    explicit MusicRadioPlayListThread(QObject *parent = nullptr, QNetworkCookieJar *cookie = nullptr);
 
     virtual ~MusicRadioPlayListThread();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start to download data.
      */
@@ -47,7 +44,7 @@ public:
     /*!
      * Get music playlist.
      */
-    inline const QStringList& getMusicPlayList() const { return m_playList; }
+    inline const QStringList &getMusicPlayList() const { return m_playList; }
 
 public Q_SLOTS:
     /*!

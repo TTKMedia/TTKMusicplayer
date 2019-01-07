@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@ class MusicTranslationThreadAbstract;
 class MUSIC_LRC_EXPORT MusicLrcAnalysis : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcAnalysis)
 public:
     enum State
     {
@@ -63,14 +64,9 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcAnalysis(QObject *parent = 0);
+    explicit MusicLrcAnalysis(QObject *parent = nullptr);
 
     ~MusicLrcAnalysis();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current line maximum value.
@@ -92,7 +88,7 @@ public:
     /*!
      * Set lrc container data from other raw data.
      */
-    State setLrcData(const MusicObject::MIntStringMap &data);
+    State setLrcData(const MIntStringMap &data);
     /*!
      * Analysis lrc file to map return the state.
      */
@@ -151,8 +147,7 @@ public:
     /*!
      * Get current lrc and next lrc in container by current time.
      */
-    bool findText(qint64 current, qint64 total,
-                  QString &pre, QString &last, qint64 &interval) const;
+    bool findText(qint64 current, qint64 total, QString &pre, QString &last, qint64 &interval) const;
     /*!
      * Get current time by index.
      */
@@ -185,23 +180,19 @@ protected:
     /*!
      * Lrc analysis by match lrc line two[xx.(:)xx].
      */
-    void matchLrcLine(const QString &oneLine, const QString &cap,
-                      const QString &first, const QString &second);
+    void matchLrcLine(const QString &oneLine, const QString &cap, const QString &first, const QString &second);
     /*!
      * Lrc analysis by match lrc line three[xx.xx.x(xx)]\[xx:xx:x(xx)].
      */
-    void matchLrcLine(const QString &oneLine, QString cap,
-                      const QString &splite);
+    void matchLrcLine(const QString &oneLine, QString cap, const QString &splite);
     /*!
      * Lrc analysis by match lrc line three[xx.(:)xx.(:)x(xx)].
      */
-    void matchLrcLine(const QString &oneLine, const QString &cap,
-                      const QString &first, const QString &second,
-                      const QString &third);
+    void matchLrcLine(const QString &oneLine, const QString &cap, const QString &first, const QString &second, const QString &third);
 
     int m_lineMax, m_currentLrcIndex;
     QString m_currentLrcFileName;
-    MusicObject::MIntStringMap m_lrcContainer;
+    MIntStringMap m_lrcContainer;
     QStringList m_currentShowLrcContainer;
     MusicTranslationThreadAbstract *m_translationThread;
 

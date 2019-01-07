@@ -3,16 +3,10 @@
 #///QJson import
 #include "qjson/parser.h"
 
-MusicKWTextDownLoadThread::MusicKWTextDownLoadThread(const QString &url, const QString &save,
-                                                     DownloadType type, QObject *parent)
+MusicKWTextDownLoadThread::MusicKWTextDownLoadThread(const QString &url, const QString &save, MusicObject::DownloadType  type, QObject *parent)
     : MusicDownLoadThreadAbstract(url, save, type, parent)
 {
 
-}
-
-QString MusicKWTextDownLoadThread::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicKWTextDownLoadThread::startToDownload()
@@ -59,14 +53,14 @@ void MusicKWTextDownLoadThread::downLoadFinished()
         QByteArray bytes = m_reply->readAll();
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes.replace("lrclist", "'lrclist'").replace("'", "\""), &ok);
+        const QVariant &data = parser.parse(bytes.replace("lrclist", "'lrclist'").replace("'", "\""), &ok);
         if(ok)
         {
             QByteArray lrcData;
             QVariantMap value = data.toMap();
             if(value.contains("lrclist"))
             {
-                QVariantList datas = value["lrclist"].toList();
+                const QVariantList &datas = value["lrclist"].toList();
                 foreach(const QVariant &var, datas)
                 {
                     value = var.toMap();
@@ -74,6 +68,7 @@ void MusicKWTextDownLoadThread::downLoadFinished()
                            .append(value["text"].toByteArray()).append("\n");
                 }
             }
+
             QTextStream outstream(m_file);
             outstream.setCodec("utf-8");
             outstream << lrcData << endl;

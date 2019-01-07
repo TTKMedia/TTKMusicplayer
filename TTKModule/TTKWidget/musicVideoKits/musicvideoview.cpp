@@ -5,7 +5,6 @@
 #include "musicnumberdefine.h"
 #include "musicuiobject.h"
 
-#include <QMenu>
 #include <QMouseEvent>
 
 MusicViewWidget::MusicViewWidget(QWidget *parent)
@@ -13,6 +12,8 @@ MusicViewWidget::MusicViewWidget(QWidget *parent)
 {
     m_clickedTimer = new QTimer(this);
     m_clickedTimer->setSingleShot(true);
+    m_leftPressed = false;
+
     connect(m_clickedTimer, SIGNAL(timeout()), SIGNAL(setClick()));
 }
 
@@ -21,17 +22,26 @@ MusicViewWidget::~MusicViewWidget()
     delete m_clickedTimer;
 }
 
-QString MusicViewWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicViewWidget::mousePressEvent(QMouseEvent *event)
 {
     QWidget::mousePressEvent(event);
+    m_leftPressed = false;
     if(event->button() == Qt::LeftButton)
     {
+        m_leftPressed = true;
         m_clickedTimer->start(300*MT_MS);
+    }
+}
+
+void MusicViewWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    QWidget::mousePressEvent(event);
+    if(m_leftPressed)
+    {
+        if(m_clickedTimer->isActive())
+        {
+            m_clickedTimer->stop();
+        }
     }
 }
 
@@ -54,10 +64,11 @@ void MusicViewWidget::contextMenuEvent(QContextMenuEvent *event)
     QWidget::contextMenuEvent(event);
     QMenu menu(this);
     menu.setStyleSheet(MusicUIObject::MMenuStyle02);
+
     bool playing;
     emit mediaIsPlaying(playing);
-    menu.addAction(tr("videoPlay"), parent(), SLOT(play()))
-            ->setText(playing ? tr("videoPause") : tr("videoPlay"));
+
+    menu.addAction(tr("videoPlay"), parent(), SLOT(play()))->setText(playing ? tr("videoPause") : tr("videoPlay"));
     menu.addAction(tr("videoStop"), parent(), SLOT(stop()));
     menu.exec(QCursor::pos());
 }
@@ -65,7 +76,7 @@ void MusicViewWidget::contextMenuEvent(QContextMenuEvent *event)
 
 
 MusicVideoView::MusicVideoView(QWidget *parent)
-    : QGraphicsView(parent)
+    : QAbstractScrollArea(parent)
 {
     setObjectName("MusicVideoView");
     setStyleSheet(QString("#MusicVideoView{%1}").arg(MusicUIObject::MBackgroundStyle02));
@@ -98,11 +109,6 @@ MusicVideoView::~MusicVideoView()
     delete m_mediaPlayer;
     delete m_videoControl;
     delete m_videoWidget;
-}
-
-QString MusicVideoView::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicVideoView::contextMenuEvent(QContextMenuEvent *event)
@@ -182,7 +188,7 @@ void MusicVideoView::mediaChanged(const QString &data)
 
 void MusicVideoView::mediaAutionPlayError(int code)
 {
-    if(DEFAULT_INDEX_LEVEL1 == code)
+    if(DEFAULT_LEVEL_NORMAL == code)
     {
         stop();
 

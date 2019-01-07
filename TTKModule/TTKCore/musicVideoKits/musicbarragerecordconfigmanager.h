@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ typedef struct MUSIC_VIDEO_EXPORT MusicBarrageRecord
     QString m_color;
     QString m_value;
 }MusicBarrageRecord;
-MUSIC_DECLARE_LISTS(MusicBarrageRecord)
+TTK_DECLARE_LISTS(MusicBarrageRecord)
 
 /*! @brief The class of the barrage record manager.
  * @author Greedysky <greedysky@163.com>
@@ -38,16 +38,13 @@ MUSIC_DECLARE_LISTS(MusicBarrageRecord)
 class MUSIC_VIDEO_EXPORT MusicBarrageRecordConfigManager : public MusicAbstractXml
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBarrageRecordConfigManager)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBarrageRecordConfigManager(QObject *parent = 0);
+    explicit MusicBarrageRecordConfigManager(QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Read barrage datas from xml file by given name.
      */

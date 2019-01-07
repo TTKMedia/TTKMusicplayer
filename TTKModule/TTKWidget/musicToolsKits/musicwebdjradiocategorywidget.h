@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,14 @@ class MusicDJRadioCategoryThread;
 class MUSIC_TOOL_EXPORT MusicWebDJRadioCategoryItemWidget : public MusicClickedLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioCategoryItemWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioCategoryItemWidget(QWidget *parent = 0);
+    explicit MusicWebDJRadioCategoryItemWidget(QWidget *parent = nullptr);
 
     ~MusicWebDJRadioCategoryItemWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set music results item.
@@ -78,18 +74,14 @@ protected:
 class MUSIC_TOOL_EXPORT MusicWebDJRadioCategoryWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioCategoryWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioCategoryWidget(QWidget *parent = 0);
+    explicit MusicWebDJRadioCategoryWidget(QWidget *parent = nullptr);
 
     virtual ~MusicWebDJRadioCategoryWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Init widget.

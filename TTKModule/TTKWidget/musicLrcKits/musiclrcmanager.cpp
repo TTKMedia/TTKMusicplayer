@@ -8,8 +8,7 @@ MusicLrcColor::MusicLrcColor()
 
 }
 
-MusicLrcColor::MusicLrcColor(const QList<QColor> &fg, const QList<QColor> &bg,
-                             MusicLrcColor::LrcColorType index)
+MusicLrcColor::MusicLrcColor(const QList<QColor> &fg, const QList<QColor> &bg, MusicLrcColor::LrcColorType index)
 {
     m_fgColor = fg;
     m_bgColor = bg;
@@ -150,11 +149,6 @@ MusicLrcManager::~MusicLrcManager()
     delete m_timer;
 }
 
-QString MusicLrcManager::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicLrcManager::startTimerClock()
 {
     m_timer->start(LRC_PER_TIME);
@@ -167,7 +161,7 @@ void MusicLrcManager::setFontFamily(int index)
         return;
     }
 
-    QStringList family = QFontDatabase().families(QFontDatabase::Any);
+    const QStringList &family = QFontDatabase().families(QFontDatabase::Any);
     if(!family.isEmpty())
     {
         if(index >= family.count())
@@ -237,7 +231,8 @@ void MusicLrcManager::startLrcMask(qint64 intervaltime)
 {
     m_intervalCount = 0.0f;
     m_geometry.setX(QFontMetrics(m_font).width(text()));
-    qreal count = intervaltime / m_speedLevel;
+
+    const qreal count = intervaltime / m_speedLevel;
     m_lrcMaskWidthInterval = (count != 0) ? m_geometry.x() / count : 0;
     m_lrcMaskWidth = 0;
     m_timer->start(LRC_PER_TIME);

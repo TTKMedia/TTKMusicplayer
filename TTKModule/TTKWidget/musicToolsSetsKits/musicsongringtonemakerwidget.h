@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,18 +33,14 @@ class MusicCoreMPlayer;
 class MUSIC_TOOLSET_EXPORT MusicSongRingtoneMaker : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongRingtoneMaker)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongRingtoneMaker(QWidget *parent = 0);
+    explicit MusicSongRingtoneMaker(QWidget *parent = nullptr);
 
     virtual ~MusicSongRingtoneMaker();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
 public Q_SLOTS:
     /*!

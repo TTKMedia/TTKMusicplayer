@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,9 +24,9 @@
 /*! @brief The namespace of the program type.
  * @author Greedysky <greedysky@163.com>
  */
-namespace Program
+namespace MusicObject
 {
-    enum Type
+    enum Program
     {
         Recommed,
         Rank
@@ -39,21 +39,17 @@ namespace Program
 class MUSIC_NETWORK_EXPORT MusicDJRadioProgramThread : public MusicDJRadioThreadAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDJRadioProgramThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDJRadioProgramThread(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDJRadioProgramThread(QObject *parent = nullptr);
 
     /*!
      * Start to download data.
      */
-    void startToDownload(Program::Type type);
+    void startToDownload(MusicObject::Program type);
 
 public Q_SLOTS:
     /*!

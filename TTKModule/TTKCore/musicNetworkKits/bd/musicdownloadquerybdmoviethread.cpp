@@ -14,11 +14,6 @@ MusicDownLoadQueryBDMovieThread::MusicDownLoadQueryBDMovieThread(QObject *parent
     m_pageSize = 30;
 }
 
-QString MusicDownLoadQueryBDMovieThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicDownLoadQueryBDMovieThread::startToSearch(QueryType type, const QString &text)
 {
     if(!m_manager)
@@ -27,10 +22,11 @@ void MusicDownLoadQueryBDMovieThread::startToSearch(QueryType type, const QStrin
     }
 
     M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(text));
+    deleteAll();
+
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_SONG_SEARCH_URL, false).arg(text).arg(0).arg(m_pageSize);
     m_searchText = text.trimmed();
     m_currentType = type;
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_SONG_SEARCH_URL, false).arg(text).arg(0).arg(m_pageSize);
-    deleteAll();
     m_interrupt = true;
 
     QNetworkRequest request;
@@ -52,10 +48,11 @@ void MusicDownLoadQueryBDMovieThread::startToPage(int offset)
     }
 
     M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(offset));
+    deleteAll();
+
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_AR_MV_URL, false).arg(m_searchText).arg(offset*m_pageSize);
     m_pageTotal = 0;
     m_pageSize = 20;
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_AR_MV_URL, false).arg(m_searchText).arg(offset*m_pageSize);
-    deleteAll();
     m_interrupt = true;
 
     QNetworkRequest request;
@@ -77,8 +74,9 @@ void MusicDownLoadQueryBDMovieThread::startToSingleSearch(const QString &text)
     }
 
     M_LOGGER_INFO(QString("%1 startToSingleSearch %2").arg(getClassName()).arg(text));
-    m_searchText = text.trimmed();
     deleteAll();
+
+    m_searchText = text.trimmed();
     m_interrupt = true;
 
     QTimer::singleShot(MT_MS, this, SLOT(singleDownLoadFinished()));
@@ -99,11 +97,11 @@ void MusicDownLoadQueryBDMovieThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();///Get all the data obtained by request
+        const QByteArray &bytes = m_reply->readAll();///Get all the data obtained by request
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
@@ -111,7 +109,7 @@ void MusicDownLoadQueryBDMovieThread::downLoadFinished()
             {
                 value = value["result"].toMap();
                 value = value["song_info"].toMap();
-                QVariantList datas = value["song_list"].toList();
+                const QVariantList &datas = value["song_list"].toList();
                 foreach(const QVariant &var, datas)
                 {
                     if(var.isNull())
@@ -128,9 +126,9 @@ void MusicDownLoadQueryBDMovieThread::downLoadFinished()
                     if(value["has_mv"].toInt() == 1)
                     {
                         musicInfo.m_songId = value["song_id"].toString();
-                        if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                        if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                         readFromMusicMVAttribute(&musicInfo, false);
-                        if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                        if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                     }
 
                     if(musicInfo.m_songAttrs.isEmpty())
@@ -180,31 +178,32 @@ void MusicDownLoadQueryBDMovieThread::pageDownLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();///Get all the data obtained by request
+        const QByteArray &bytes = m_reply->readAll();///Get all the data obtained by request
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
             if(value.contains("data") && value["errorCode"].toInt() == 22000)
             {
-                readFromMusicMVCount();
-
+                m_pageTotal = DEFAULT_LEVEL_HIGHER;
                 value = value["data"].toMap();
-                QString html = value["html"].toString();
-                QRegExp regx("data-mv=\\\"([^\"]+).*title=\\\"([^\"]+).*org_src=\\\"([^\"]+).*>");
+
+                const QString &html = value["html"].toString();
+                QRegExp regx("<img src=\\\"([^\"]+).*>.*/playmv\\/([^\"]+)\\\".*title=\\\"([^\"]+).*a-tj='");
                 regx.setMinimal(true);
+
                 int pos = html.indexOf(regx);
                 while(pos != -1)
                 {
                     if(m_interrupt) return;
 
                     MusicResultsItem info;
-                    info.m_id = regx.cap(1).remove("/playmv/");
-                    info.m_coverUrl = regx.cap(3).remove("@s_0,w_160,h_90");
-                    info.m_name = regx.cap(2).remove("MV");
+                    info.m_id = regx.cap(2);
+                    info.m_coverUrl = regx.cap(1).remove("@s_0,w_160,h_90");
+                    info.m_name = regx.cap(3);
                     info.m_updateTime.clear();
                     emit createMovieInfoItem(info);
 
@@ -230,9 +229,9 @@ void MusicDownLoadQueryBDMovieThread::singleDownLoadFinished()
 
     MusicObject::MusicSongInformation musicInfo;
     musicInfo.m_songId = m_searchText;
-    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
     readFromMusicMVAttribute(&musicInfo, true);
-    if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
 
     /// found playmv url request
     if(musicInfo.m_songAttrs.isEmpty())
@@ -256,43 +255,6 @@ void MusicDownLoadQueryBDMovieThread::singleDownLoadFinished()
     M_LOGGER_INFO(QString("%1 singleDownLoadFinished deleteAll").arg(getClassName()));
 }
 
-void MusicDownLoadQueryBDMovieThread::readFromMusicMVCount()
-{
-    if(!m_manager)
-    {
-        return;
-    }
-
-    M_LOGGER_INFO(QString("%1 readFromMusicMVCount").arg(getClassName()));
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_AR_MV_PG_URL, false).arg(m_searchText);
-    m_pageTotal = MU_MAX;
-
-    QNetworkRequest request;
-    request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
-    request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
-
-    MusicSemaphoreLoop loop;
-    QNetworkReply *reply = m_manager->get(request);
-    QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
-    QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), &loop, SLOT(quit()));
-    loop.exec();
-
-    if(!reply || reply->error() != QNetworkReply::NoError)
-    {
-        return;
-    }
-
-    QString html(reply->readAll());
-    QRegExp regx("<a class=\"list\" hidefocus=\"true\" href=\"#\">MV(.*)</a>");
-    regx.setMinimal(true);
-    if(html.indexOf(regx) != -1)
-    {
-        m_pageTotal = regx.cap(1).remove('(').remove(')').toInt();
-    }
-}
-
 void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::MusicSongInformation *info)
 {
     if(!m_manager)
@@ -300,7 +262,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::M
         return;
     }
 
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_W_URL, false).arg(info->m_songId);
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_W_URL, false).arg(info->m_songId);
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
@@ -319,28 +281,29 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::M
         return;
     }
 
-    QString html(reply->readAll());
+    const QString html(reply->readAll());
     QRegExp regx("data.push(.*);");
     regx.setMinimal(true);
+
     if(html.indexOf(regx) != -1)
     {
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(regx.cap(1).remove('(').remove(')').toUtf8(), &ok);
+        const QVariant &data = parser.parse(regx.cap(1).remove('(').remove(')').toUtf8(), &ok);
         if(ok)
         {
-            QVariantMap value = data.toMap();
-            QString type = value["source"].toString();
+            const QVariantMap &value = data.toMap();
+            const QString &type = value["source"].toString();
 
-            if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+            if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
             if(type == "yinyuetai")
             {
-                QString vars = QString("videoId=%1").arg(value["tvid"].toString());
+                const QString &vars = QString("videoId=%1").arg(value["tvid"].toString());
                 readFromMusicMVAttributeYYT(info, vars, true);
             }
             else if(type == "iqiyi")
             {
-                QString vars = QString("tvid=%1&vid=%2").arg(value["tvid"].toString()).arg(value["vid"].toString());
+                const QString &vars = QString("tvid=%1&vid=%2").arg(value["tvid"].toString()).arg(value["vid"].toString());
                 readFromMusicMVAttributeIQY(info, vars, true);
             }
             else if(type == "own")
@@ -357,7 +320,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::M
                 if(!findUrlFileSize(&attr)) return;
                 info->m_songAttrs.append(attr);
             }
-            if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+            if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
         }
     }
 }
@@ -369,7 +332,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttribute(MusicObject::Musi
         return;
     }
 
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_MV_INFO_URL, false).arg(info->m_songId);
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_MV_INFO_URL, false).arg(info->m_songId);
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
@@ -390,16 +353,16 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttribute(MusicObject::Musi
 
     QJson::Parser parser;
     bool ok;
-    QVariant data = parser.parse(reply->readAll(), &ok);
+    const QVariant &data = parser.parse(reply->readAll(), &ok);
     if(ok)
     {
-        QVariantMap value = data.toMap();
+        const QVariantMap &value = data.toMap();
         if(value["re"].toInt() == 1)
         {
-            QString type = value["source"].toString();
-            QString vars = value["flashvars"].toString();
+            const QString &type = value["source"].toString();
+            const QString &vars = value["flashvars"].toString();
 
-            if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+            if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
             if(type == "yinyuetai")
             {
                 readFromMusicMVAttributeYYT(info, vars, more);
@@ -408,7 +371,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttribute(MusicObject::Musi
             {
                 readFromMusicMVAttributeIQY(info, vars, more);
             }
-            if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+            if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
         }
     }
 }
@@ -430,7 +393,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
         }
     }
 
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_Y_URL, false).arg(videoId);
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_Y_URL, false).arg(videoId);
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
@@ -451,7 +414,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
 
     QJson::Parser parser;
     bool ok;
-    QVariant data = parser.parse(reply->readAll(), &ok);
+    const QVariant &data = parser.parse(reply->readAll(), &ok);
     if(ok)
     {
         QVariantMap value = data.toMap();
@@ -460,7 +423,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
             value = value["videoInfo"].toMap();
             value = value["coreVideoInfo"].toMap();
 
-            QString duration = MusicTime::msecTime2LabelJustified(value["duration"].toInt()*1000);
+            const QString &duration = MusicTime::msecTime2LabelJustified(value["duration"].toInt()*1000);
 
             if(more)
             {
@@ -469,7 +432,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
                 info->m_timeLength = duration;
             }
 
-            QVariantList datas = value["videoUrlModels"].toList();
+            const QVariantList &datas = value["videoUrlModels"].toList();
             foreach(const QVariant &var, datas)
             {
                 if(var.isNull())
@@ -478,7 +441,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
                 }
 
                 value = var.toMap();
-                int type = value["bitrateType"].toInt();
+                const int type = value["bitrateType"].toInt();
                 if(type == 1)
                 {
                     readFromMusicMVAttributeYYT(info, value, MB_500, duration);
@@ -516,9 +479,9 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
         }
     }
 
-    QString time = QString::number(MusicTime::timeStamp());
-    QString host = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_I_URL, false);
-    QString src = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_ID_URL, false).arg(tvid).arg(vid).arg(tvid).arg(time);
+    const QString &time = QString::number(MusicTime::timeStamp());
+    const QString &host = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_I_URL, false);
+    const QString &src = MusicUtils::Algorithm::mdII(BD_MV_INFO_ATTR_ID_URL, false).arg(tvid).arg(vid).arg(tvid).arg(time);
 
     int v8 = 0, v4 = 0;
     QString sufix;
@@ -539,7 +502,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
         }
     }
 
-    QUrl musicUrl = host + src + "&vf=" + MusicUtils::Algorithm::md5((src + sufix).toUtf8()).toHex();
+    const QUrl &musicUrl = host + src + "&vf=" + MusicUtils::Algorithm::md5((src + sufix).toUtf8()).toHex();
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
@@ -560,7 +523,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
 
     QJson::Parser parser;
     bool ok;
-    QVariant data = parser.parse(reply->readAll(), &ok);
+    const QVariant &data = parser.parse(reply->readAll(), &ok);
     if(ok)
     {
         QVariantMap value = data.toMap();
@@ -569,7 +532,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
             value = value["data"].toMap();
             value = value["vp"].toMap();
 
-            QString prefix = value["du"].toString();
+            const QString &prefix = value["du"].toString();
             QVariantList datas = value["tkl"].toList();
             if(datas.isEmpty())
             {
@@ -585,7 +548,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
                 }
 
                 value = var.toMap();
-                QVariantList fsDatas = value["fs"].toList();
+                const QVariantList &fsDatas = value["fs"].toList();
                 if(fsDatas.isEmpty())
                 {
                     continue;
@@ -608,9 +571,9 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
 
                 value = fsDatas.first().toMap();
                 attr.m_url = prefix + value["l"].toString();
-                if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                 readFromMusicMVAttributeIQY(&attr);
-                if(m_interrupt || !m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+                if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                 attr.m_duration = MusicTime::msecTime2LabelJustified(value["d"].toLongLong());
                 attr.m_format = "flv";
                 attr.m_size = MusicUtils::Number::size2Label(value["b"].toLongLong());
@@ -627,8 +590,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
     }
 }
 
-void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::MusicSongInformation *info, const QVariantMap &key,
-                                                                  int bitrate, const QString &duration)
+void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate, const QString &duration)
 {
     if(key.isEmpty())
     {
@@ -640,10 +602,10 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
     attr.m_duration = duration;
     attr.m_bitrate = bitrate;
 
-    QStringList datas = attr.m_url.split("?");
+    const QStringList &datas = attr.m_url.split("?");
     if(datas.count() == 2)
     {
-        QString v = datas.front();
+        const QString &v = datas.front();
         attr.m_format = MusicUtils::Core::fileSuffix(v);
         attr.m_size = MusicUtils::Number::size2Label(key["fileSize"].toLongLong());
         info->m_songAttrs.append(attr);
@@ -657,7 +619,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
         return;
     }
 
-    QUrl musicUrl = attr->m_url;
+    const QUrl &musicUrl = attr->m_url;
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
@@ -678,10 +640,10 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
 
     QJson::Parser parser;
     bool ok;
-    QVariant data = parser.parse(reply->readAll(), &ok);
+    const QVariant &data = parser.parse(reply->readAll(), &ok);
     if(ok)
     {
-        QVariantMap value = data.toMap();
+        const QVariantMap &value = data.toMap();
         if(value.contains("l"))
         {
             attr->m_url = value["l"].toString();

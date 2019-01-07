@@ -10,16 +10,12 @@
 class MUSIC_TOOLSET_EXPORT MusicSongCheckToolsRenameTableWidget : public MusicFillItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongCheckToolsRenameTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongCheckToolsRenameTableWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicSongCheckToolsRenameTableWidget(QWidget *parent = nullptr);
 
     /*!
      * Create all items.
@@ -52,18 +48,14 @@ protected:
 class MUSIC_TOOLSET_EXPORT MusicSongCheckToolsDuplicateTableWidget : public MusicFillItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongCheckToolsDuplicateTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongCheckToolsDuplicateTableWidget(QWidget *parent = 0);
+    explicit MusicSongCheckToolsDuplicateTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSongCheckToolsDuplicateTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Create all items.
@@ -106,18 +98,14 @@ protected:
 class MUSIC_TOOLSET_EXPORT MusicSongCheckToolsQualityTableWidget : public MusicFillItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongCheckToolsQualityTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicSongCheckToolsQualityTableWidget(QWidget *parent = 0);
+    explicit MusicSongCheckToolsQualityTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicSongCheckToolsQualityTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Create all items.

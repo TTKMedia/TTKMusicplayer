@@ -18,9 +18,7 @@ MusicQualityChoiceTableWidget::MusicQualityChoiceTableWidget(QWidget *parent)
     headerview->resizeSection(2, 25);
 
     MusicUtils::Widget::setTransparent(this, 0);
-    setStyleSheet(MusicUIObject::MTableWidgetStyle03 + \
-                  MusicUIObject::MLineEditStyle01 + \
-                  MusicUIObject::MTableWidgetStyle04);
+    setStyleSheet(MusicUIObject::MTableWidgetStyle03 + MusicUIObject::MLineEditStyle01 + MusicUIObject::MTableWidgetStyle04);
 
     MusicCheckBoxDelegate *delegate = new MusicCheckBoxDelegate(this);
     delegate->setStyleSheet(MusicUIObject::MCheckBoxStyle02);
@@ -33,11 +31,6 @@ MusicQualityChoiceTableWidget::MusicQualityChoiceTableWidget(QWidget *parent)
 MusicQualityChoiceTableWidget::~MusicQualityChoiceTableWidget()
 {
     clear();
-}
-
-QString MusicQualityChoiceTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicQualityChoiceTableWidget::createItems()
@@ -148,13 +141,7 @@ MusicQualityChoicePopWidget::MusicQualityChoicePopWidget(QWidget *parent)
 
     initWidget();
 
-    setStyleSheet(MusicUIObject::MToolButtonStyle05 + MusicUIObject::MKGBtnQuality +
-                  "QToolButton{ margin-left:-45px;}" );
-}
-
-QString MusicQualityChoicePopWidget::getClassName()
-{
-    return staticMetaObject.className();
+    setStyleSheet(MusicUIObject::MToolButtonStyle05 + MusicUIObject::MKGBtnQuality + "QToolButton{ margin-left:-45px;}" );
 }
 
 void MusicQualityChoicePopWidget::initWidget()

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,16 +32,12 @@
 class MUSIC_WIDGET_EXPORT MusicBackgroundListItem : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundListItem)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundListItem(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicBackgroundListItem(QWidget *parent = nullptr);
 
     /*!
      * Set item file name.
@@ -142,18 +138,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicBackgroundListWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundListWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundListWidget(QWidget *parent = 0);
+    explicit MusicBackgroundListWidget(QWidget *parent = nullptr);
 
     ~MusicBackgroundListWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Select current item by name when the widget show.

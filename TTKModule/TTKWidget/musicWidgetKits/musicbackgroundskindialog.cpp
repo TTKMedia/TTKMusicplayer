@@ -14,13 +14,13 @@
 
 #include <QScrollBar>
 
-#define NEW_OPERATOR(ui, list)  \
-    ui->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff); \
-    ui->setWidgetResizable(true); \
-    ui->setFrameShape(QFrame::NoFrame); \
-    ui->setFrameShadow(QFrame::Plain); \
-    ui->setAlignment(Qt::AlignVCenter); \
-    ui->setWidget(list); \
+#define NEW_OPERATOR(ui, list)                                                  \
+    ui->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);                   \
+    ui->setWidgetResizable(true);                                               \
+    ui->setFrameShape(QFrame::NoFrame);                                         \
+    ui->setFrameShadow(QFrame::Plain);                                          \
+    ui->setAlignment(Qt::AlignVCenter);                                         \
+    ui->setWidget(list);                                                        \
     ui->verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle03);
 
 
@@ -92,16 +92,12 @@ MusicBackgroundSkinDialog::~MusicBackgroundSkinDialog()
     delete m_dailyBackgroundList;
 }
 
-QString MusicBackgroundSkinDialog::getClassName()
-{
-    return staticMetaObject.className();
-}
 
-QPixmap MusicBackgroundSkinDialog::setMBackground(QString &name)
+QPixmap MusicBackgroundSkinDialog::setBackgroundUrl(QString &name)
 {
     QString path = USER_THEME_DIR_FULL + name + TTS_FILE;
     MusicBackgroundSkinDialog::themeValidCheck(name, path);
-    M_BACKGROUND_PTR->setMBackground(path);
+    M_BACKGROUND_PTR->setBackgroundUrl(path);
 
     MusicBackgroundImage image;
     return MusicExtractWrap::outputSkin(&image, path) ? image.m_pix : QPixmap();
@@ -129,13 +125,13 @@ bool MusicBackgroundSkinDialog::themeValidCheck(QString &name, QString &path)
 
 QString MusicBackgroundSkinDialog::cpoyArtFileToLocal(const QString &path)
 {
-    int index = cpoyFileToLocal(path);
+    const int index = cpoyFileToLocal(path);
     return (index != -1) ? QString("theme-%1").arg(index + 1) : QString();
 }
 
 void MusicBackgroundSkinDialog::updateArtFileTheme(const QString &theme)
 {
-    QString des = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(theme).arg(TTS_FILE);
+    const QString &des = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(theme).arg(TTS_FILE);
     m_myBackgroundList->createItem(theme, des, true);
     m_myBackgroundList->updateLastedItem();
 }
@@ -148,7 +144,7 @@ void MusicBackgroundSkinDialog::setCurrentBgTheme(const QString &theme, int alph
     m_ui->listTransparentButton->setValue(listAlpha);
     setListTransToolText(listAlpha);
 
-    bool state = M_SETTING_PTR->value(MusicSettingManager::BgTransparentEnableChoiced).toBool();
+    const bool state = M_SETTING_PTR->value(MusicSettingManager::BgTransparentEnableChoiced).toBool();
     m_ui->skinTransparentButton->setValue(state ? alpha : 100);
     m_ui->skinTransparentButton->setEnabled(state);
     setSkinTransToolText(state ? alpha : 100);
@@ -199,7 +195,7 @@ void MusicBackgroundSkinDialog::showCustomSkinDialog()
 
     if(QFileInfo(customSkinPath).suffix().toLower() == TTS_FILE_PREFIX)
     {
-        int index = cpoyFileToLocalIndex();
+        const int index = cpoyFileToLocalIndex();
         if(index != -1)
         {
             m_myThemeIndex = index;
@@ -249,7 +245,7 @@ void MusicBackgroundSkinDialog::backgroundListWidgetItemClicked(const QString &n
 {
     if(!m_myBackgroundList->contains(name))
     {
-        QString path = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(name).arg(TTS_FILE);
+        const QString &path = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(name).arg(TTS_FILE);
         QFile::copy(QString("%1%2%3").arg(THEME_DIR_FULL).arg(name).arg(TTS_FILE), path);
         m_myBackgroundList->createItem(name, path, true);
     }
@@ -281,7 +277,7 @@ void MusicBackgroundSkinDialog::currentColorChanged(const QString &path)
     {
         MusicTopAreaWidget::instance()->musicBackgroundSkinCustumChanged(QFileInfo(path).baseName());
     }
-    M_BACKGROUND_PTR->setMBackground(path);
+    M_BACKGROUND_PTR->setBackgroundUrl(path);
     emit M_BACKGROUND_PTR->backgroundHasChanged();
 }
 
@@ -312,7 +308,7 @@ void MusicBackgroundSkinDialog::listWidgetItemClicked(MusicBackgroundListWidget 
     QString s(name);
     QString path = USER_THEME_DIR_FULL + s + TTS_FILE;
     MusicBackgroundSkinDialog::themeValidCheck(s, path);
-    M_BACKGROUND_PTR->setMBackground(path);
+    M_BACKGROUND_PTR->setBackgroundUrl(path);
     emit M_BACKGROUND_PTR->backgroundHasChanged();
 }
 
@@ -327,9 +323,9 @@ void MusicBackgroundSkinDialog::listWidgetItemClicked(MusicBackgroundRemoteWidge
 
     if(!m_myBackgroundList->contains(image))
     {
-        int index = cpoyFileToLocalIndex();
-        QString theme = QString("theme-%1").arg(index + 1);
-        QString des = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(theme).arg(TTS_FILE);
+        const int index = cpoyFileToLocalIndex();
+        const QString &theme = QString("theme-%1").arg(index + 1);
+        const QString &des = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(theme).arg(TTS_FILE);
         MusicExtractWrap::inputSkin(&image, des);
 
         m_myBackgroundList->createItem(theme, des, true);
@@ -337,7 +333,7 @@ void MusicBackgroundSkinDialog::listWidgetItemClicked(MusicBackgroundRemoteWidge
     }
     else
     {
-        MusicBackgroundListItem *it = m_myBackgroundList->find(image);
+        const MusicBackgroundListItem *it = m_myBackgroundList->find(image);
         if(it)
         {
             listWidgetItemClicked(m_myBackgroundList, it->getFileName());
@@ -353,42 +349,42 @@ void MusicBackgroundSkinDialog::addThemeListWidgetItem()
 
 void MusicBackgroundSkinDialog::addThemeListWidgetItem(MusicBackgroundListWidget *item, const QString &dir, bool state)
 {
-    QStringList files(QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name));
-    MusicObject::MIntList data;
+   const  QStringList files(QDir(dir).entryList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name));
+    MIntList data;
     foreach(const QString &path, files)
     {
         QString fileName = QFileInfo(path).baseName();
-        fileName = fileName.split("-").last();
+                fileName = fileName.split("-").last();
         data << fileName.trimmed().toInt();
     }
     qSort(data.begin(), data.end(), qLess<int>());
 
     foreach(const int index, data)
     {
-        QFileInfo info(QString("%1theme-%2%3").arg(dir).arg(index).arg(TTS_FILE));
+        const QFileInfo info(QString("%1theme-%2%3").arg(dir).arg(index).arg(TTS_FILE));
         item->createItem(info.baseName(), info.filePath(), state);
     }
 }
 
 void MusicBackgroundSkinDialog::cpoyFileFromLocal(const QString &path)
 {
-    int index = cpoyFileToLocal(path);
+    const int index = cpoyFileToLocal(path);
     if(index != -1)
     {
         m_myThemeIndex = index;
-        QString des = QString("%1theme-%2%3").arg(USER_THEME_DIR_FULL).arg(m_myThemeIndex + 1).arg(TTS_FILE);
+        const QString &des = QString("%1theme-%2%3").arg(USER_THEME_DIR_FULL).arg(m_myThemeIndex + 1).arg(TTS_FILE);
         m_myBackgroundList->createItem(QString("theme-%1").arg(m_myThemeIndex + 1), des, true);
     }
 }
 
 int MusicBackgroundSkinDialog::cpoyFileToLocalIndex()
 {
-    QList<QFileInfo> files(QDir(USER_THEME_DIR_FULL).entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name));
-    MusicObject::MIntList data;
+    const QList<QFileInfo> files(QDir(USER_THEME_DIR_FULL).entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name));
+    MIntList data;
     foreach(const QFileInfo &info, files)
     {
         QString fileName = info.baseName();
-        fileName = fileName.split("-").last();
+                fileName = fileName.split("-").last();
         data << fileName.trimmed().toInt();
     }
     qSort(data.begin(), data.end(), qGreater<int>());
@@ -408,9 +404,9 @@ int MusicBackgroundSkinDialog::cpoyFileToLocalIndex()
 
 int MusicBackgroundSkinDialog::cpoyFileToLocal(const QString &path)
 {
-    int index = cpoyFileToLocalIndex();
+    const int index = cpoyFileToLocalIndex();
 
-    QString des = QString("%1theme-%2%3").arg(USER_THEME_DIR_FULL).arg(index + 1).arg(TTS_FILE);
+    const QString &des = QString("%1theme-%2%3").arg(USER_THEME_DIR_FULL).arg(index + 1).arg(TTS_FILE);
     MusicBackgroundImage image;
     image.m_pix = QPixmap(path);
     return MusicExtractWrap::inputSkin(&image, des) ? index : -1;

@@ -4,7 +4,7 @@
 #  pragma GCC diagnostic ignored "-Wmultichar"
 #endif
 
-class ChineseHelperPrivate : public MusicPrivate<ChineseHelper>
+class ChineseHelperPrivate : public TTKPrivate<ChineseHelper>
 {
 public:
     ChineseHelperPrivate();
@@ -23,24 +23,24 @@ ChineseHelperPrivate::ChineseHelperPrivate()
 ///
 ChineseHelper::ChineseHelper()
 {
-    MUSIC_INIT_PRIVATE;
+    TTK_INIT_PRIVATE;
 }
 
-QChar ChineseHelper::convertToSimplifiedChinese(const QChar &c)
+QChar ChineseHelper::convertToSimplifiedChinese(const QChar &c) const
 {
-    MUSIC_D(ChineseHelper);
-    QString simplifiedChinese = d->m_data.value(c);
+    TTK_D(ChineseHelper);
+    const QString &simplifiedChinese = d->m_data.value(c);
     return simplifiedChinese.isEmpty() ? c : simplifiedChinese.at(0);
 }
 
-QChar ChineseHelper::convertToTraditionalChinese(const QChar &c)
+QChar ChineseHelper::convertToTraditionalChinese(const QChar &c) const
 {
-    MUSIC_D(ChineseHelper);
-    QString simpTraditionaChinese = d->m_data.key(c);
+    TTK_D(ChineseHelper);
+    const QString &simpTraditionaChinese = d->m_data.key(c);
     return simpTraditionaChinese.isEmpty() ? c : simpTraditionaChinese.at(0);
 }
 
-QString ChineseHelper::convertToSimplifiedChinese(const QString &str)
+QString ChineseHelper::convertToSimplifiedChinese(const QString &str) const
 {
     QString sb;
     for(int i=0, len=str.length(); i<len; i++)
@@ -50,7 +50,7 @@ QString ChineseHelper::convertToSimplifiedChinese(const QString &str)
     return sb;
 }
 
-QString ChineseHelper::convertToTraditionalChinese(const QString &str)
+QString ChineseHelper::convertToTraditionalChinese(const QString &str) const
 {
     QString sb;
     for(int i=0, len=str.length(); i<len; i++)
@@ -60,13 +60,13 @@ QString ChineseHelper::convertToTraditionalChinese(const QString &str)
     return sb;
 }
 
-bool ChineseHelper::isTraditionalChinese(const QChar &c)
+bool ChineseHelper::isTraditionalChinese(const QChar &c) const
 {
-    MUSIC_D(ChineseHelper);
+    TTK_D(ChineseHelper);
     return d->m_data.keys().indexOf(c) != -1;
 }
 
-bool ChineseHelper::isChinese(const QChar &c)
+bool ChineseHelper::isChinese(const QChar &c) const
 {
 #ifdef Q_CC_MSVC
     return '\xa9\x96' == c || (c.unicode() >= 0x4e00 && c.unicode() <= 0x9fa5);
@@ -75,7 +75,7 @@ bool ChineseHelper::isChinese(const QChar &c)
 #endif
 }
 
-bool ChineseHelper::containsChinese(const QString &str)
+bool ChineseHelper::containsChinese(const QString &str) const
 {
     for(int i=0, len=str.length(); i<len; i++)
     {

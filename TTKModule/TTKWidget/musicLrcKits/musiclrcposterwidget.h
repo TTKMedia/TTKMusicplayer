@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QListWidget>
+#include "musicwidgetheaders.h"
 #include "musicabstractmovedialog.h"
 #include "musicfillitemtablewidget.h"
 
@@ -33,6 +33,7 @@ class MusicLrcPosterWidget;
 class MUSIC_LRC_EXPORT MusicLrcPosterItemWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcPosterItemWidget)
 public:
     enum Type
     {
@@ -58,12 +59,7 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcPosterItemWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcPosterItemWidget(QWidget *parent = nullptr);
 
     /*!
      * Check widget has scroll or not.
@@ -176,16 +172,13 @@ protected:
 class MUSIC_LRC_EXPORT MusicLrcPosterTableWidget : public MusicFillItemTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcPosterTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcPosterTableWidget(QWidget *parent = 0);
+    explicit MusicLrcPosterTableWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Create all items.
      */
@@ -212,16 +205,12 @@ public Q_SLOTS:
 class MUSIC_LRC_EXPORT MusicLrcPosterThemeListWidget : public QListWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcPosterThemeListWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcPosterThemeListWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcPosterThemeListWidget(QWidget *parent = nullptr);
 
 public Q_SLOTS:
     /*!
@@ -238,18 +227,14 @@ public Q_SLOTS:
 class MUSIC_LRC_EXPORT MusicLrcPosterWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcPosterWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcPosterWidget(QWidget *parent = 0);
+    explicit MusicLrcPosterWidget(QWidget *parent = nullptr);
 
     virtual ~MusicLrcPosterWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current lrc and song name.

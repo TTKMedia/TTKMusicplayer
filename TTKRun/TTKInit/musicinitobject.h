@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
 #define S_MUSICPATH_FULL          S_APPDATA_DIR_FULL + MUSICPATH
 #define S_NORMALDOWNPATH_FULL     S_APPDATA_DIR_FULL + NORMALDOWNPATH
 #define S_CLOUDDOWNPATH_FULL      S_APPDATA_DIR_FULL + CLOUDDOWNPATH
+#define S_CLOUDUPPATH_FULL        S_APPDATA_DIR_FULL + CLOUDUPPATH
 #define S_MUSICSEARCH_FULL        S_APPDATA_DIR_FULL + MUSICSEARCH
 #define S_DARABASEPATH_FULL       S_APPDATA_DIR_FULL + DARABASEPATH
 #define S_USERPATH_FULL           S_APPDATA_DIR_FULL + USERPATH
@@ -69,7 +70,7 @@ public:
     /*!
      * Object contsructor.
      */
-    explicit MusicInitObject(QObject *parent = 0);
+    explicit MusicInitObject(QObject *parent = nullptr);
 
     /*!
      * Check current setting file's validation.

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,16 +27,13 @@
 class MUSIC_WIDGET_EXPORT MusicColorPreviewLabel : public MusicClickedLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicColorPreviewLabel)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicColorPreviewLabel(QWidget *parent = 0);
+    explicit MusicColorPreviewLabel(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set linear gradient and fg and bg.
      */
@@ -70,16 +67,13 @@ typedef struct MUSIC_WIDGET_EXPORT MusicPreviewLabelItem
 class MUSIC_WIDGET_EXPORT MusicPreviewLabel : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicPreviewLabel)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicPreviewLabel(QWidget *parent = 0);
+    explicit MusicPreviewLabel(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set linear gradient item.
      */

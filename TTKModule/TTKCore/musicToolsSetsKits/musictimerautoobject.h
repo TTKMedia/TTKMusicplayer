@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ typedef struct MUSIC_TOOLSET_EXPORT MusicTimeObject
         m_state = false;
     }
 }MusicTimeObject;
-MUSIC_DECLARE_LISTS(MusicTimeObject)
+TTK_DECLARE_LISTS(MusicTimeObject)
 
 
 /*! @brief The class of the time auto run.
@@ -52,18 +52,15 @@ MUSIC_DECLARE_LISTS(MusicTimeObject)
 class MUSIC_TOOLSET_EXPORT MusicTimerAutoObject : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicTimerAutoObject)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicTimerAutoObject(QObject *parent = 0);
+    explicit MusicTimerAutoObject(QObject *parent = nullptr);
 
     ~MusicTimerAutoObject();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Run time auto from local file config.
      */

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,18 +33,14 @@ class MusicDownloadQueueCache;
 class MUSIC_WIDGET_EXPORT MusicBackgroundRemoteWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundRemoteWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundRemoteWidget(QWidget *parent = 0);
+    explicit MusicBackgroundRemoteWidget(QWidget *parent = nullptr);
 
     ~MusicBackgroundRemoteWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Abort the current download thread.
@@ -87,18 +83,14 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicBackgroundThunderWidget : public MusicBackgroundRemoteWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundThunderWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundThunderWidget(QWidget *parent = 0);
+    explicit MusicBackgroundThunderWidget(QWidget *parent = nullptr);
 
     virtual ~MusicBackgroundThunderWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Init the current download object.
@@ -108,7 +100,7 @@ public:
     /*!
      * Create functions widget.
      */
-    QWidget* createFunctionsWidget(bool revert, QWidget *object = 0);
+    QWidget* createFunctionsWidget(bool revert, QWidget *object = nullptr);
     /*!
      * Output remote skin.
      */
@@ -147,16 +139,12 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicBackgroundDailyWidget : public MusicBackgroundRemoteWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBackgroundDailyWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBackgroundDailyWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicBackgroundDailyWidget(QWidget *parent = nullptr);
 
     /*!
      * Init the current download object.

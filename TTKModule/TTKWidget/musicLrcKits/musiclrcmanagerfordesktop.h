@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,16 +27,12 @@
 class MUSIC_LRC_EXPORT MusicLrcManagerForDesktop : public MusicLrcManager
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcManagerForDesktop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcManagerForDesktop(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcManagerForDesktop(QWidget *parent = nullptr);
 
 };
 
@@ -47,16 +43,12 @@ public:
 class MUSIC_LRC_EXPORT MusicLrcManagerHorizontalDesktop : public MusicLrcManagerForDesktop
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcManagerHorizontalDesktop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcManagerHorizontalDesktop(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcManagerHorizontalDesktop(QWidget *parent = nullptr);
 
 protected:
     /*!
@@ -73,16 +65,12 @@ protected:
 class MUSIC_LRC_EXPORT MusicLrcManagerVerticalDesktop : public MusicLrcManagerForDesktop
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcManagerVerticalDesktop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcManagerVerticalDesktop(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcManagerVerticalDesktop(QWidget *parent = nullptr);
 
 protected:
     /*!

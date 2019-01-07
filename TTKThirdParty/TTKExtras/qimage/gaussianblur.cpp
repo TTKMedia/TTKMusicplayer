@@ -5,7 +5,7 @@
 
 #define PI		3.14159265358979323846
 
-class GaussianBlurPrivate : public MusicPrivate<GaussianBlur>
+class GaussianBlurPrivate : public TTKPrivate<GaussianBlur>
 {
 public:
     void boxBlurH(int* srcPix, int* destPix, int w, int h, int radius);
@@ -188,7 +188,7 @@ void GaussianBlurPrivate::boxBlur(int* srcPix, int* destPix, int w, int h, int r
 
 void GaussianBlurPrivate::boxesForGauss(float sigma, int* size, int n)
 {
-    float wIdeal = sqrt(12.0 * sigma * sigma / n + 1.0);
+    const float wIdeal = sqrt(12.0 * sigma * sigma / n + 1.0);
     int wl = floor(wIdeal);
 
     if (0 == wl % 2)
@@ -196,10 +196,10 @@ void GaussianBlurPrivate::boxesForGauss(float sigma, int* size, int n)
         wl--;
     }
 
-    int wu = wl + 2;
+    const int wu = wl + 2;
 
-    float mIdeal = (12.0 * sigma * sigma - n * wl * wl - 4 * n * wl - 3 * n) / (-4 * wl - 4);
-    int m = round(mIdeal);
+    const float mIdeal = (12.0 * sigma * sigma - n * wl * wl - 4 * n * wl - 3 * n) / (-4 * wl - 4);
+    const int m = round(mIdeal);
 
     for (int i = 0; i < n; ++i)
     {
@@ -211,14 +211,14 @@ void GaussianBlurPrivate::boxesForGauss(float sigma, int* size, int n)
 
 GaussianBlur::GaussianBlur()
 {
-    MUSIC_INIT_PRIVATE;
+    TTK_INIT_PRIVATE;
 }
 
 void GaussianBlur::gaussBlur(int* pix, int w, int h, int radius)
 {
-    float sigma =  1.0 * radius / 2.57;
-    float deno  =  1.0 / (sigma * sqrt(2.0 * PI));
-    float nume  = -1.0 / (2.0 * sigma * sigma);
+    const float sigma =  1.0 * radius / 2.57;
+    const float deno  =  1.0 / (sigma * sqrt(2.0 * PI));
+    const float nume  = -1.0 / (2.0 * sigma * sigma);
 
     float* gaussMatrix = (float*)malloc(sizeof(float)* (radius + radius + 1));
     float gaussSum = 0.0;
@@ -230,7 +230,7 @@ void GaussianBlur::gaussBlur(int* pix, int w, int h, int radius)
         gaussSum += g;
     }
 
-    int len = radius + radius + 1;
+    const int len = radius + radius + 1;
     for (int i = 0; i < len; ++i)
     {
         gaussMatrix[i] /= gaussSum;
@@ -322,10 +322,10 @@ void GaussianBlur::gaussBlur(int* pix, int w, int h, int radius)
 
 void GaussianBlur::gaussBlurPlus(int* pix, int w, int h, int radius)
 {
-    MUSIC_D(GaussianBlur);
-    float sigma = 1.0 * radius / 2.57;
+    TTK_D(GaussianBlur);
+    const float sigma = 1.0 * radius / 2.57;
 
-    int boxSize = 3;
+    const int boxSize = 3;
     int* boxR = (int*)malloc(sizeof(int) * boxSize);
 
     d->boxesForGauss(sigma, boxR, boxSize);

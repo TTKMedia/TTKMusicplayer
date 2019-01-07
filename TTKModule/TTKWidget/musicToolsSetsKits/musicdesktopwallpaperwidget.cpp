@@ -8,9 +8,9 @@
 #include "musicmessagebox.h"
 #include "musicnumberdefine.h"
 #include "musiccoreutils.h"
+#include "musicwidgetheaders.h"
+#include "musicsinglemanager.h"
 
-#include <QBoxLayout>
-#include <QFileDialog>
 #include <QStyledItemDelegate>
 
 MusicDesktopWallpaperItem::MusicDesktopWallpaperItem(QWidget *parent)
@@ -29,11 +29,6 @@ MusicDesktopWallpaperItem::MusicDesktopWallpaperItem(QWidget *parent)
 MusicDesktopWallpaperItem::~MusicDesktopWallpaperItem()
 {
     delete m_background;
-}
-
-QString MusicDesktopWallpaperItem::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDesktopWallpaperItem::updateBackground(const QPixmap &pix)
@@ -85,6 +80,7 @@ MusicDesktopWallpaperWidget::MusicDesktopWallpaperWidget(QWidget *parent)
 
 MusicDesktopWallpaperWidget::~MusicDesktopWallpaperWidget()
 {
+    M_SINGLE_MANAGER_PTR->removeObject(getClassName());
     QFile file(QString("%1%2").arg(TEMPORARY_DIR).arg(JPG_FILE));
     if(file.exists())
     {
@@ -94,17 +90,6 @@ MusicDesktopWallpaperWidget::~MusicDesktopWallpaperWidget()
     delete m_wallThread;
     delete m_wallItem;
     delete m_ui;
-}
-
-QString MusicDesktopWallpaperWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
-void MusicDesktopWallpaperWidget::closeEvent(QCloseEvent *event)
-{
-    emit resetFlag(MusicObject::TT_Wallpaper);
-    MusicAbstractMoveWidget::closeEvent(event);
 }
 
 void MusicDesktopWallpaperWidget::initWidgetStyle() const
@@ -172,7 +157,7 @@ void MusicDesktopWallpaperWidget::initParameters() const
 
 void MusicDesktopWallpaperWidget::viewButtonPressed()
 {
-    QString path = QFileDialog::getExistingDirectory(this, QString(), "./");
+    const QString &path = QFileDialog::getExistingDirectory(this, QString(), "./");
     if(!path.isEmpty())
     {
         m_ui->urlLineEdit->setText(path);
@@ -219,8 +204,7 @@ void MusicDesktopWallpaperWidget::confirmButtonPressed()
             imgs << QString("%1%2").arg(TEMPORARY_DIR).arg(JPG_FILE);
             m_wallThread->setImagePath(imgs);
 
-            MusicDataDownloadThread *download = new MusicDataDownloadThread(m_ui->urlLineEdit->text().trimmed(), imgs[0],
-                                                                            MusicDownLoadThreadAbstract::DownloadBigBG, this);
+            MusicDataDownloadThread *download = new MusicDataDownloadThread(m_ui->urlLineEdit->text().trimmed(), imgs[0], MusicObject::DownloadBigBG, this);
             connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(parameterFinished()));
             download->startToDownload();
             break;
@@ -250,9 +234,7 @@ void MusicDesktopWallpaperWidget::confirmButtonPressed()
 
 void MusicDesktopWallpaperWidget::parameterFinished()
 {
-    int time = m_ui->timeH->currentIndex()*MT_H2S +
-               m_ui->timeM->currentIndex()*MT_M2S +
-               m_ui->timeS->currentIndex();
+    const int time = m_ui->timeH->currentIndex()*MT_H2S + m_ui->timeM->currentIndex()*MT_M2S + m_ui->timeS->currentIndex();
     if(time <= 0)
     {
         MusicMessageBox message;

@@ -4,7 +4,7 @@
 
 #include <QDebug>
 
-class QNSimpleDeleteDataPrivate : public MusicPrivate<QNSimpleDeleteData>
+class QNSimpleDeleteDataPrivate : public TTKPrivate<QNSimpleDeleteData>
 {
 public:
     QNSimpleDeleteDataPrivate();
@@ -24,20 +24,19 @@ QNSimpleDeleteDataPrivate::QNSimpleDeleteDataPrivate()
 QNSimpleDeleteData::QNSimpleDeleteData(QNetworkAccessManager *networkManager, QObject *parent)
     : QObject(parent)
 {
-    MUSIC_INIT_PRIVATE;
-    MUSIC_D(QNSimpleDeleteData);
+    TTK_INIT_PRIVATE;
+    TTK_D(QNSimpleDeleteData);
     d->m_networkManager = networkManager;
 }
 
 void QNSimpleDeleteData::deleteDataToServer(const QString &bucket, const QString &key)
 {
-    MUSIC_D(QNSimpleDeleteData);
-    QNMac mac(QNConf::ACCESS_KEY, QNConf::SECRET_KEY);
+    TTK_D(QNSimpleDeleteData);
+    const QNMac mac(QNConf::ACCESS_KEY, QNConf::SECRET_KEY);
     QNetworkRequest request = QNIOHelper::deleteRequest(bucket, key, &mac);
     QNetworkReply *reply = d->m_networkManager->get(request);
     connect(reply, SIGNAL(finished()), SLOT(receiveDataFromServer()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
-                   SLOT(handleError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(handleError(QNetworkReply::NetworkError)));
 }
 
 void QNSimpleDeleteData::receiveDataFromServer()

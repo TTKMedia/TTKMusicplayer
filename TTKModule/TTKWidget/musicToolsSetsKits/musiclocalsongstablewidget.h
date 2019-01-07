@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,18 +27,14 @@
 class MUSIC_TOOLSET_EXPORT MusicLocalSongsTableWidget : public MusicSongsListAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLocalSongsTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLocalSongsTableWidget(QWidget *parent = 0);
+    explicit MusicLocalSongsTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicLocalSongsTableWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Clear current items.
@@ -81,16 +77,12 @@ typedef QMapIterator<QString , QFileInfoList> MusicInfoDataIterator;
 class MUSIC_TOOLSET_EXPORT MusicLocalSongsInfoTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLocalSongsInfoTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLocalSongsInfoTableWidget(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLocalSongsInfoTableWidget(QWidget *parent = nullptr);
 
     /*!
      * Clear current items.

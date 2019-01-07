@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,18 +31,15 @@ class MusicLrcColorWidget;
 class MUSIC_LRC_EXPORT MusicLrcColorWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcColorWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcColorWidget(QWidget *parent = 0);
+    explicit MusicLrcColorWidget(QWidget *parent = nullptr);
 
     virtual ~MusicLrcColorWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set current colors.
      */

@@ -6,7 +6,7 @@
 
 #include <QDebug>
 
-class QNSimpleListDataPrivate : public MusicPrivate<QNSimpleListData>
+class QNSimpleListDataPrivate : public TTKPrivate<QNSimpleListData>
 {
 public:
     QNSimpleListDataPrivate();
@@ -26,20 +26,19 @@ QNSimpleListDataPrivate::QNSimpleListDataPrivate()
 QNSimpleListData::QNSimpleListData(QNetworkAccessManager *networkManager, QObject *parent)
     : QObject(parent)
 {
-    MUSIC_INIT_PRIVATE;
-    MUSIC_D(QNSimpleListData);
+    TTK_INIT_PRIVATE;
+    TTK_D(QNSimpleListData);
     d->m_networkManager = networkManager;
 }
 
 void QNSimpleListData::listDataToServer(const QString &bucket)
 {
-    MUSIC_D(QNSimpleListData);
-    QNMac mac(QNConf::ACCESS_KEY, QNConf::SECRET_KEY);
+    TTK_D(QNSimpleListData);
+    const QNMac mac(QNConf::ACCESS_KEY, QNConf::SECRET_KEY);
     QNetworkRequest request = QNIOHelper::listRequest(bucket, &mac);
     QNetworkReply *reply = d->m_networkManager->get(request);
     connect(reply, SIGNAL(finished()), SLOT(receiveDataFromServer()));
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
-                   SLOT(handleError(QNetworkReply::NetworkError)));
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), SLOT(handleError(QNetworkReply::NetworkError)));
 }
 
 void QNSimpleListData::receiveDataFromServer()
@@ -52,11 +51,11 @@ void QNSimpleListData::receiveDataFromServer()
         {
             QJson::Parser parser;
             bool ok;
-            QVariant data = parser.parse(reply->readAll(), &ok);
+            const QVariant &data = parser.parse(reply->readAll(), &ok);
             if(ok)
             {
                 QVariantMap value = data.toMap();
-                QVariantList array = value["items"].toList();
+                const QVariantList &array = value["items"].toList();
                 foreach(const QVariant &var, array)
                 {
                     value = var.toMap();

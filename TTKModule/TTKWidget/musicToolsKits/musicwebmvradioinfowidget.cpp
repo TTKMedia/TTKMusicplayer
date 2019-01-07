@@ -6,7 +6,6 @@
 #include "musicrightareawidget.h"
 
 #include <qmath.h>
-#include <QScrollBar>
 Q_DECLARE_METATYPE(MusicObject::MusicSongInformation)
 
 MusicWebMVRadioInfoTableWidget::MusicWebMVRadioInfoTableWidget(QWidget *parent)
@@ -18,11 +17,6 @@ MusicWebMVRadioInfoTableWidget::MusicWebMVRadioInfoTableWidget(QWidget *parent)
 MusicWebMVRadioInfoTableWidget::~MusicWebMVRadioInfoTableWidget()
 {
     clearAllItems();
-}
-
-QString MusicWebMVRadioInfoTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicWebMVRadioInfoTableWidget::setQueryInput(MusicDownLoadQueryThreadAbstract *query)
@@ -42,13 +36,12 @@ void MusicWebMVRadioInfoTableWidget::listCellClicked(int row, int column)
         case 5:
         case 6:
             {
-                MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
+                const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
                 if(row < 0 || row >= musicSongInfos.count())
                 {
                     return;
                 }
-                MusicRightAreaWidget::instance()->musicMovieRadioSearch(
-                            QVariant::fromValue<MusicObject::MusicSongInformation>(musicSongInfos[row]));
+                MusicRightAreaWidget::instance()->musicMovieRadioSearch(QVariant::fromValue<MusicObject::MusicSongInformation>(musicSongInfos[row]));
             }
             break;
         case 7:
@@ -61,7 +54,7 @@ void MusicWebMVRadioInfoTableWidget::listCellClicked(int row, int column)
 
 void MusicWebMVRadioInfoTableWidget::musicDownloadLocal(int row)
 {
-    MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
+    const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
     if(row < 0 || row >= musicSongInfos.count())
     {
         return;
@@ -91,11 +84,6 @@ MusicWebMVRadioInfoWidget::MusicWebMVRadioInfoWidget(QWidget *parent)
     MusicMVRadioProgramThread *v = new MusicMVRadioProgramThread(this);
     m_foundTableWidget->setQueryInput(v);
     connect(v, SIGNAL(createCategoryItem(MusicResultsItem)), SLOT(createCategoryInfoItem(MusicResultsItem)));
-}
-
-QString MusicWebMVRadioInfoWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicWebMVRadioInfoWidget::setSongName(const QString &name)
@@ -140,7 +128,7 @@ void MusicWebMVRadioInfoWidget::createCategoryInfoItem(const MusicResultsItem &i
     {
         MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
         connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
-        if(!item.m_coverUrl.isEmpty() && item.m_coverUrl != "null")
+        if(!item.m_coverUrl.isEmpty() && item.m_coverUrl != COVER_URL_NULL)
         {
             download->startToDownload(item.m_coverUrl);
         }

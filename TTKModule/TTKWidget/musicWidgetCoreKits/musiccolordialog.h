@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,16 +27,13 @@
 class MUSIC_WIDGET_EXPORT MusicHlPalette : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicHlPalette)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicHlPalette(QWidget *parent = 0);
+    explicit MusicHlPalette(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get color.
      */
@@ -85,16 +82,13 @@ protected:
 class MUSIC_WIDGET_EXPORT MusicHlSaturationPalette : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicHlSaturationPalette)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicHlSaturationPalette(QWidget *parent = 0);
+    explicit MusicHlSaturationPalette(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get saturation.
      */
@@ -141,22 +135,19 @@ class MusicColorDialog;
 class MUSIC_WIDGET_EXPORT MusicColorDialog : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicColorDialog)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicColorDialog(QWidget *parent = 0);
+    explicit MusicColorDialog(QWidget *parent = nullptr);
 
     virtual ~MusicColorDialog();
 
     /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-    /*!
      * Get color static function.
      */
-    static QColor getColor(QWidget *parent = 0);
+    static QColor getColor(QWidget *parent = nullptr);
     /*!
      * Get color.
      */

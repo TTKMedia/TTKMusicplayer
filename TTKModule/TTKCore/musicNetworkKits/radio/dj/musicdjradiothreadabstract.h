@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 #include "musicdownloadquerythreadabstract.h"
 
 const QString DJ_CATEGORY_N_URL       = "NVkzVk1qY3JGODB1MEpMWEVWMzBkVGZKcFkzK0ppcks1L0tKdnc5emZWUndFYWtjNEZTbWo0dytIakRJNWJyTE5pOXExUT09";
-const QString DJ_RADIO_LIST_URL       = "MXUyUS9tWFhVU0JQSk1IcEZJajd0bWs3YnNVb3pyd3Y4cTNsVXQzYVlRRzJ2MmlxWjFYQ1YwZlp4cEhHRzQ0bXlVNFY0K1E2eDhQSFpIWFI5R0sxZ0FvMWdyUGtpU0ljTWU1RDhjUHNjTjVMNmhORldlTG13b3BuMmxlU0luWlhMZFRVZlE9PQ==";
+const QString DJ_RADIO_LIST_URL       = "RkpnbVYvN3RUOUFZY2J2RXpBMFNZLy9lTHU2bnF6dUp1M1VIUjkzSDJJNzJYZVFiSWx3cHFqbjlNSkRhU1JuRERHamVoWWRiZ3RNb000VXQ3Y0dJbm1CMnpUbz0=";
 const QString DJ_DETAIL_NDT_URL       = "RldscFN4UXIreThMWlNOSWZ1TFRuZGp2dWlDL2xRZGJtY3EzM0kxVlFrNGVLUGhO";
 const QString DJ_DETAIL_N_URL         = "WjRXcVYzQktuOHlRaHlYWVR3bXpUcnpHTmVYS1c5SkVBTktmQ1AvbDBqMUNWYnRiRUh3eDRzclhibnp4SDZ2OGsweWxkQT09";
 const QString DJ_PROGRAM_INFO_NDT_URL = "dmt4VnNDdWErYjRYUXBnOWdubVBIQT09";
@@ -40,16 +40,12 @@ class MUSIC_NETWORK_EXPORT MusicDJRadioThreadAbstract : public MusicNetworkAbstr
                                                         protected MusicDownLoadWYInterface
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDJRadioThreadAbstract)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDJRadioThreadAbstract(QObject *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicDJRadioThreadAbstract(QObject *parent = nullptr);
 
     /*!
      * Release the network object.

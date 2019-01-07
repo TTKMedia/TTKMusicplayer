@@ -1,4 +1,4 @@
-﻿#include "ui_musicdownloadresetwidget.h"
+#include "ui_musicdownloadresetwidget.h"
 #include "musicdownloadmgmtwidget.h"
 #include "musicdownloadwidget.h"
 #include "musicsettingmanager.h"
@@ -35,18 +35,12 @@ MusicDownloadResetWidget::MusicDownloadResetWidget(QWidget *parent)
     connect(m_ui->downloadButton, SIGNAL(clicked()), SLOT(restartToDownload()));
     connect(m_ui->openDetailButton, SIGNAL(clicked()), SLOT(openDetailInfo()));
     connect(m_ui->openDirButton, SIGNAL(clicked()), SLOT(openFileLocation()));
-    connect(this, SIGNAL(openStackedDownloadWidget()), MusicLeftAreaWidget::instance(),
-                  SLOT(musicStackedMyDownWidgetChanged()));
+    connect(this, SIGNAL(openStackedDownloadWidget()), MusicLeftAreaWidget::instance(), SLOT(musicStackedMyDownWidgetChanged()));
 }
 
 MusicDownloadResetWidget::~MusicDownloadResetWidget()
 {
     delete m_ui;
-}
-
-QString MusicDownloadResetWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDownloadResetWidget::setSongName(const QString &name)
@@ -78,7 +72,7 @@ void MusicDownloadResetWidget::openDetailInfo()
 void MusicDownloadResetWidget::openFileLocation()
 {
     bool exist = false;
-    QString path = MusicApplication::instance()->musicDownloadContains(exist);
+    const QString &path = MusicApplication::instance()->musicDownloadContains(exist);
     if(exist)
     {
         MusicUtils::Url::openUrl( path, true );
@@ -91,11 +85,6 @@ MusicDownloadMgmtWidget::MusicDownloadMgmtWidget(QObject *parent)
     : QObject(parent)
 {
     m_parentClass = MStatic_cast(QWidget*, parent);
-}
-
-QString MusicDownloadMgmtWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDownloadMgmtWidget::setSongName(const QString &name, MusicDownLoadQueryThreadAbstract::QueryType type)

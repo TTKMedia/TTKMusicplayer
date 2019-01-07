@@ -4,20 +4,15 @@ MusicNetworkAbstract::MusicNetworkAbstract(QObject *parent)
     : QObject(parent)
 {
     m_interrupt = false;
-    m_stateCode = Init;
+    m_stateCode = MusicObject::NetworkInit;
     m_reply = nullptr;
     m_manager = nullptr;
 }
 
 MusicNetworkAbstract::~MusicNetworkAbstract()
 {
-    m_stateCode = Success;
+    m_stateCode = MusicObject::NetworkSuccess;
     deleteAll();
-}
-
-QString MusicNetworkAbstract::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicNetworkAbstract::deleteAll()

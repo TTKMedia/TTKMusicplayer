@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,21 +27,22 @@
 class MUSIC_NETWORK_EXPORT MusicDataDownloadThread : public MusicDownLoadThreadAbstract
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDataDownloadThread)
 public:
     /*!
      * Object contsructor provide download URL\ save local path and download type.
      */
-    MusicDataDownloadThread(const QString &url, const QString &save,
-                            DownloadType type, QObject *parent = 0);
+    MusicDataDownloadThread(const QString &url, const QString &save, MusicObject::DownloadType type, QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start to download data.
      */
     virtual void startToDownload() override;
+
+    /*!
+     * Set record type.
+     */
+    void setRecordType(MusicObject::RecordType type);
 
 Q_SIGNALS:
     /*!
@@ -87,7 +88,7 @@ protected:
 
     qint64 m_createItemTime;
     bool m_redirection, m_needUpdate;
-
+    MusicObject::RecordType m_recordType;
 };
 
 #endif // MUSICDATADOWNLOADTHREAD_H

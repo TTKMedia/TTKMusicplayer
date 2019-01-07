@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QStackedWidget>
+#include "musicwidgetheaders.h"
 #include "musicabstracttablewidget.h"
 #include "musicdjradioprogramthread.h"
 
@@ -32,23 +32,19 @@ class MusicWebDJRadioFoundWidget;
 class MUSIC_TOOL_EXPORT MusicWebDJRadioProgramTableWidget : public MusicAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioProgramTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioProgramTableWidget(QWidget *parent = 0);
+    explicit MusicWebDJRadioProgramTableWidget(QWidget *parent = nullptr);
 
     virtual ~MusicWebDJRadioProgramTableWidget();
 
     /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-    /*!
      * Init widget.
      */
-    void init(Program::Type type);
+    void init(MusicObject::Program type);
     /*!
      * Resize window bound by widgte resize called.
      */
@@ -90,18 +86,14 @@ protected:
 class MUSIC_TOOL_EXPORT MusicWebDJRadioProgramWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioProgramWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioProgramWidget(Program::Type type, QWidget *parent = 0);
+    explicit MusicWebDJRadioProgramWidget(MusicObject::Program type, QWidget *parent = nullptr);
 
     virtual ~MusicWebDJRadioProgramWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Init widget.
@@ -113,7 +105,7 @@ public:
     void resizeWindow();
 
 protected:
-    Program::Type m_type;
+    MusicObject::Program m_type;
     MusicWebDJRadioProgramTableWidget *m_tableWidget;
 
 };
@@ -125,18 +117,14 @@ protected:
 class MUSIC_TOOL_EXPORT MusicWebDJRadioWidget : public QStackedWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebDJRadioWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebDJRadioWidget(QWidget *parent = 0);
+    explicit MusicWebDJRadioWidget(QWidget *parent = nullptr);
 
     virtual ~MusicWebDJRadioWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Init widget.

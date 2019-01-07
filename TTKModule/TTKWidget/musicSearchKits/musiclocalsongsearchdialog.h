@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QDialog>
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 
 class MusicLocalSongSearchEdit;
 
@@ -30,18 +30,15 @@ class MusicLocalSongSearchEdit;
 class MUSIC_SEARCH_EXPORT MusicLocalSongSearchDialog : public QDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLocalSongSearchDialog)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLocalSongSearchDialog(QWidget *parent = 0);
+    explicit MusicLocalSongSearchDialog(QWidget *parent = nullptr);
 
     ~MusicLocalSongSearchDialog();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Get the search text that the user searched.
      */

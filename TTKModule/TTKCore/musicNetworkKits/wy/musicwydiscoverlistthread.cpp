@@ -9,11 +9,6 @@ MusicWYDiscoverListThread::MusicWYDiscoverListThread(QObject *parent)
 
 }
 
-QString MusicWYDiscoverListThread::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicWYDiscoverListThread::startToSearch()
 {
     if(!m_manager)
@@ -22,14 +17,16 @@ void MusicWYDiscoverListThread::startToSearch()
     }
 
     M_LOGGER_INFO(QString("%1 startToSearch").arg(getClassName()));
+    deleteAll();
+
     m_interrupt = true;
 
     QNetworkRequest request;
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
-    QByteArray parameter = makeTokenQueryUrl(&request,
-               MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_N_URL, false),
-               MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_NDT_URL, false).arg(19723756));
-    if(!m_manager || m_stateCode != MusicNetworkAbstract::Init) return;
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
+    const QByteArray &parameter = makeTokenQueryUrl(&request,
+                      MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_N_URL, false),
+                      MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_NDT_URL, false).arg(19723756));
+    if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
     setSslConfiguration(&request);
 
     m_reply = m_manager->post(request, parameter);
@@ -50,18 +47,18 @@ void MusicWYDiscoverListThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
             if(value.contains("playlist") && value["code"].toInt() == 200)
             {
                 value = value["playlist"].toMap();
-                QVariantList datas = value["tracks"].toList();
+                const QVariantList &datas = value["tracks"].toList();
                 int where = datas.count();
                 where = (where > 0) ? qrand()%where : 0;
 
@@ -76,14 +73,14 @@ void MusicWYDiscoverListThread::downLoadFinished()
                     }
 
                     value = var.toMap();
-                    QVariantList artistsArray = value["ar"].toList();
+                    const QVariantList &artistsArray = value["ar"].toList();
                     foreach(const QVariant &artistValue, artistsArray)
                     {
                         if(artistValue.isNull())
                         {
                             continue;
                         }
-                        QVariantMap artistMap = artistValue.toMap();
+                        const QVariantMap &artistMap = artistValue.toMap();
                         m_toplistInfo = artistMap["name"].toString();
                     }
 

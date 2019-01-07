@@ -35,11 +35,6 @@ MusicLrcMakerWidgetItem::MusicLrcMakerWidgetItem(QWidget *ui, QObject *parent)
     setFont(ft);
 }
 
-QString MusicLrcMakerWidgetItem::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 bool MusicLrcMakerWidgetItem::biggerThan(int value) const
 {
     return m_currentIndex > value;
@@ -72,6 +67,7 @@ void MusicLrcMakerWidgetItem::moveUp()
     m_paintIndex = 0;
     m_intervalCount = 5;
     m_painetLineDone = false;
+
     move(0, ITEM_HEIGHT*m_currentIndex);
 }
 
@@ -84,6 +80,7 @@ void MusicLrcMakerWidgetItem::moveDown()
     m_paintIndex = 0;
     m_intervalCount = 5;
     m_painetLineDone = false;
+
     move(0, ITEM_HEIGHT*m_currentIndex);
 }
 
@@ -103,7 +100,7 @@ void MusicLrcMakerWidgetItem::moveLeft()
 void MusicLrcMakerWidgetItem::moveRight()
 {
     m_leftDirection = false;
-    int w = QFontMetrics(font()).width(text());
+    const int w = QFontMetrics(font()).width(text());
     m_paintIndex += m_itemDelta;
 
     if(m_paintIndex >= w)
@@ -118,7 +115,7 @@ void MusicLrcMakerWidgetItem::moveRight()
 void MusicLrcMakerWidgetItem::setText(const QString &string)
 {
     QLabel::setText(string);
-    int len = string.isEmpty() ? 1 : string.length();
+    const int len = string.isEmpty() ? 1 : string.length();
     m_itemDelta = QFontMetrics(font()).width(string)/len;
 }
 
@@ -126,7 +123,7 @@ void MusicLrcMakerWidgetItem::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
 
-    int w = QFontMetrics(font()).width(text());
+    const int w = QFontMetrics(font()).width(text());
     if(!m_leftDirection && m_intervalCount + w >= width() && m_paintIndex >= width() / 2)
     {
         m_intervalCount -= m_itemDelta;
@@ -184,14 +181,10 @@ MusicLrcMakerWidget::~MusicLrcMakerWidget()
     qDeleteAll(m_musicLrcContainer);
     delete m_lineItem;
     delete m_analysis;
+
     resetToOriginPlayMode();
     M_CONNECTION_PTR->removeValue(getClassName());
     delete m_ui;
-}
-
-QString MusicLrcMakerWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicLrcMakerWidget::setCurrentSongName(const QString &name)
@@ -216,8 +209,8 @@ void MusicLrcMakerWidget::positionChanged(qint64 position)
     m_ui->timeSlider_S->blockSignals(false);
     m_ui->timeSlider_T->blockSignals(false);
 
-    QString t = QString("%1/%2").arg(MusicTime::msecTime2LabelJustified(position))
-                                .arg(MusicTime::msecTime2LabelJustified(m_ui->timeSlider_F->maximum()));
+    const QString &t = QString("%1/%2").arg(MusicTime::msecTime2LabelJustified(position))
+                                       .arg(MusicTime::msecTime2LabelJustified(m_ui->timeSlider_F->maximum()));
     m_ui->labelTime_F->setText(t);
     m_ui->labelTime_S->setText(t);
     m_ui->labelTime_T->setText(t);
@@ -301,7 +294,7 @@ void MusicLrcMakerWidget::backToMakeLrcWidget()
 
 void MusicLrcMakerWidget::firstWidgetStateButtonClicked()
 {
-    QString text = (m_ui->stateButton_F->text() == tr("Play")) ? tr("Stop") : tr("Play");
+    const QString &text = (m_ui->stateButton_F->text() == tr("Play")) ? tr("Stop") : tr("Play");
     m_ui->stateButton_F->setText(text);
     m_ui->stateButton_T->setText(text);
 
@@ -310,8 +303,8 @@ void MusicLrcMakerWidget::firstWidgetStateButtonClicked()
 
 void MusicLrcMakerWidget::thirdWidgetStateButtonClicked()
 {
-    bool state = m_ui->stateButton_T->text() == tr("Play");
-    QString text = state ? tr("Stop") : tr("Play");
+    const bool state = m_ui->stateButton_T->text() == tr("Play");
+    const QString &text = state ? tr("Stop") : tr("Play");
     m_ui->stateButton_F->setText(text);
     m_ui->stateButton_T->setText(text);
 
@@ -392,7 +385,7 @@ void MusicLrcMakerWidget::setCurrentThirdWidget()
 
     if(m_times.count() == m_plainText.count())
     {
-        MusicObject::MIntStringMap data;
+        MIntStringMap data;
         for(int i=0; i<m_times.count(); ++i)
         {
             data.insert(m_times.value(i), m_plainText[i]);
@@ -725,9 +718,8 @@ void MusicLrcMakerWidget::setControlEnable(bool enable) const
 
 QString MusicLrcMakerWidget::translateTimeString(qint64 time)
 {
-    MusicTime t(time, MusicTime::All_Msec);
-    return QString("[%1.%2]").arg(t.toString("mm:ss")).arg(
-           QString::number(t.getMillionSecond()).rightJustified(3, '0'));
+    const MusicTime t(time, MusicTime::All_Msec);
+    return QString("[%1.%2]").arg(t.toString("mm:ss")).arg(QString::number(t.getMillionSecond()).rightJustified(3, '0'));
 }
 
 void MusicLrcMakerWidget::resetToOriginPlayMode()
@@ -763,22 +755,20 @@ void MusicLrcMakerWidget::setItemStyleSheet(int index, int size, int transparent
     MusicLrcManagerForInline *w = m_musicLrcContainer[index];
     w->setFontSize(size);
 
-    int value = 100 - transparent;
-    value = (value < 0) ? 0 : value;
-    value = (value > 100) ? 100 : value;
+    const int value = qBound<int>(0, 100 - transparent, 100);
     w->setFontTransparent(value);
     w->setTransparent(value);
 
     if(M_SETTING_PTR->value("LrcColorChoiced").toInt() != -1)
     {
-        MusicLrcColor::LrcColorType index = MStatic_cast(MusicLrcColor::LrcColorType, M_SETTING_PTR->value("LrcColorChoiced").toInt());
-        MusicLrcColor cl = MusicLrcColor::mapIndexToColor(index);
+        const MusicLrcColor::LrcColorType index = MStatic_cast(MusicLrcColor::LrcColorType, M_SETTING_PTR->value("LrcColorChoiced").toInt());
+        const MusicLrcColor &cl = MusicLrcColor::mapIndexToColor(index);
         w->setLinearGradientColor(cl);
     }
     else
     {
-        MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFgColorChoiced").toString()),
-                         MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBgColorChoiced").toString()));
+        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFgColorChoiced").toString()),
+                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBgColorChoiced").toString()));
         w->setLinearGradientColor(cl);
     }
 }

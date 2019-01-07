@@ -2,8 +2,8 @@
 #include "ui_musicmessagebox.h"
 #include "musicuiobject.h"
 
-#include <QButtonGroup>
 #include <QPainter>
+#include <QButtonGroup>
 
 MusicMessageBox::MusicMessageBox(QWidget *parent)
     : MusicAbstractMoveDialog(parent),
@@ -47,8 +47,7 @@ MusicMessageBox::MusicMessageBox(const QString &text, QWidget *parent)
     setText(text);
 }
 
-MusicMessageBox::MusicMessageBox(const QString &title, const QString &text,
-                                 QWidget *parent)
+MusicMessageBox::MusicMessageBox(const QString &title, const QString &text, QWidget *parent)
     : MusicMessageBox(text, parent)
 {
     setTitle(title);
@@ -57,11 +56,6 @@ MusicMessageBox::MusicMessageBox(const QString &title, const QString &text,
 MusicMessageBox::~MusicMessageBox()
 {
     delete m_ui;
-}
-
-QString MusicMessageBox::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicMessageBox::setTitle(const QString &text) const

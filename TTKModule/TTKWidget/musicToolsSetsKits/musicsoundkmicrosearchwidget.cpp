@@ -8,10 +8,6 @@
 #include "musicitemdelegate.h"
 #include "musicdownloadwidget.h"
 
-#include <QLabel>
-#include <QBoxLayout>
-#include <QPushButton>
-#include <QRadioButton>
 #include <QButtonGroup>
 
 MusicSoundKMicroSearchTableWidget::MusicSoundKMicroSearchTableWidget(QWidget *parent)
@@ -26,16 +22,13 @@ MusicSoundKMicroSearchTableWidget::MusicSoundKMicroSearchTableWidget(QWidget *pa
     headerview->resizeSection(4, 24);
 
     m_queryMovieMode = true;
+    viewport()->setStyleSheet(MusicUIObject::MBackgroundStyle02);
+    m_defaultBkColor = Qt::black;
 }
 
 MusicSoundKMicroSearchTableWidget::~MusicSoundKMicroSearchTableWidget()
 {
     clearAllItems();
-}
-
-QString MusicSoundKMicroSearchTableWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicSoundKMicroSearchTableWidget::startSearchQuery(const QString &text)
@@ -76,10 +69,9 @@ void MusicSoundKMicroSearchTableWidget::musicDownloadLocal(int row)
         return;
     }
 
-    MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
+    const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
     MusicDownloadWidget *download = new MusicDownloadWidget(this);
-    download->setSongName(musicSongInfos[row], m_queryMovieMode ?
-                          MusicDownLoadQueryThreadAbstract::MovieQuery : MusicDownLoadQueryThreadAbstract::MusicQuery);
+    download->setSongName(musicSongInfos[row], m_queryMovieMode ? MusicDownLoadQueryThreadAbstract::MovieQuery : MusicDownLoadQueryThreadAbstract::MusicQuery);
     download->show();
 }
 
@@ -96,12 +88,13 @@ void MusicSoundKMicroSearchTableWidget::clearAllItems()
 
 void MusicSoundKMicroSearchTableWidget::createSearchedItem(const MusicSearchedItem &songItem)
 {
-    int count = rowCount();
+    const int count = rowCount();
     setRowCount(count + 1);
 
     QHeaderView *headerview = horizontalHeader();
     QTableWidgetItem *item = new QTableWidgetItem;
     item->setData(MUSIC_CHECK_ROLE, false);
+    item->setBackgroundColor(m_defaultBkColor);
     setItem(count, 0, item);
 
                       item = new QTableWidgetItem;
@@ -135,6 +128,16 @@ void MusicSoundKMicroSearchTableWidget::itemDoubleClicked(int row, int column)
     dataDownloadPlay(row);
 }
 
+void MusicSoundKMicroSearchTableWidget::listCellEntered(int row, int column)
+{
+    MusicQueryItemTableWidget::listCellEntered(row, column);
+    QTableWidgetItem *it = item(row, 0);
+    if(it)
+    {
+        it->setBackgroundColor(m_defaultBkColor);
+    }
+}
+
 void MusicSoundKMicroSearchTableWidget::listCellClicked(int row, int column)
 {
     MusicQueryItemTableWidget::listCellClicked(row, column);
@@ -158,7 +161,7 @@ void MusicSoundKMicroSearchTableWidget::dataDownloadPlay(int row)
         return;
     }
 
-    MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
+    const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
     foreach(const MusicObject::MusicSongAttribute &attr, musicSongInfos[row].m_songAttrs)
     {
         emit mediaUrlChanged(m_queryMovieMode, attr.m_url, m_queryMovieMode ? QString() : musicSongInfos[row].m_lrcUrl);
@@ -245,11 +248,6 @@ MusicSoundKMicroSearchWidget::~MusicSoundKMicroSearchWidget()
 {
     delete m_searchEdit;
     delete m_searchTableWidget;
-}
-
-QString MusicSoundKMicroSearchWidget::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicSoundKMicroSearchWidget::connectTo(QObject *obj)

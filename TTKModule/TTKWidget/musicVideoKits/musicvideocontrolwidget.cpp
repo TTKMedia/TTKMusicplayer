@@ -9,9 +9,6 @@
 #include "musicuiobject.h"
 #include "musictime.h"
 
-#include <QPushButton>
-#include <QBoxLayout>
-
 MusicVideoControlWidget::MusicVideoControlWidget(QWidget *parent)
     : QWidget(parent)
 {
@@ -82,11 +79,6 @@ MusicVideoControlWidget::~MusicVideoControlWidget()
     delete m_lineEditBarrage;
 }
 
-QString MusicVideoControlWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicVideoControlWidget::setValue(qint64 position) const
 {
     m_timeSlider->setValue(position*MT_S2MS);
@@ -102,8 +94,7 @@ void MusicVideoControlWidget::durationChanged(qint64 duration) const
 
 void MusicVideoControlWidget::setButtonStyle(bool style) const
 {
-    m_playButton->setStyleSheet(style ? MusicUIObject::MKGVideoBtnPlay :
-                                        MusicUIObject::MKGVideoBtnPause);
+    m_playButton->setStyleSheet(style ? MusicUIObject::MKGVideoBtnPlay : MusicUIObject::MKGVideoBtnPause);
 }
 
 void MusicVideoControlWidget::mediaChanged(const QString &url)
@@ -124,8 +115,7 @@ void MusicVideoControlWidget::setQualityActionState()
 
 void MusicVideoControlWidget::pushBarrageClicked()
 {
-    m_pushBarrage->setStyleSheet(m_pushBarrageOn ? MusicUIObject::MKGVideoBtnBarrageOn :
-                                                   MusicUIObject::MKGVideoBtnBarrageOff);
+    m_pushBarrage->setStyleSheet(m_pushBarrageOn ? MusicUIObject::MKGVideoBtnBarrageOn : MusicUIObject::MKGVideoBtnBarrageOff);
     m_barrageSend->setEnabled(m_pushBarrageOn);
     m_menuBarrage->setEnabled(m_pushBarrageOn);
     m_lineEditBarrage->setEnabled(m_pushBarrageOn);

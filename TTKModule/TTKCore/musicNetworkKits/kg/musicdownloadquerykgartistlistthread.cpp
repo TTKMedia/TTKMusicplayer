@@ -1,19 +1,13 @@
 #include "musicdownloadquerykgartistlistthread.h"
-#include "musicnumberdefine.h"
 #///QJson import
 #include "qjson/parser.h"
 
 MusicDownLoadQueryKGArtistListThread::MusicDownLoadQueryKGArtistListThread(QObject *parent)
     : MusicDownLoadQueryArtistListThread(parent)
 {
-    m_pageSize = MU_MAX;
-    m_pageTotal = MU_MAX;
+    m_pageSize = DEFAULT_LEVEL_HIGHER;
+    m_pageTotal = DEFAULT_LEVEL_HIGHER;
     m_queryServer = "Kugou";
-}
-
-QString MusicDownLoadQueryKGArtistListThread::getClassName()
-{
-    return staticMetaObject.className();
 }
 
 void MusicDownLoadQueryKGArtistListThread::startToPage(int offset)
@@ -24,9 +18,11 @@ void MusicDownLoadQueryKGArtistListThread::startToPage(int offset)
     }
 
     M_LOGGER_INFO(QString("%1 startToPage %2").arg(getClassName()).arg(offset));
+    deleteAll();
+
     QString catId = "type=1&sextype=1";
     m_rawData["initial"] = "%E7%83%AD%E9%97%A8";
-    QStringList dds = m_searchText.split(STRING_SPLITER);
+    const QStringList &dds = m_searchText.split(TTK_STR_SPLITER);
     if(dds.count() == 2)
     {
         catId = dds[0];
@@ -45,9 +41,7 @@ void MusicDownLoadQueryKGArtistListThread::startToPage(int offset)
             m_rawData["initial"] = "%E5%85%B6%E4%BB%96";
         }
     }
-    QUrl musicUrl = MusicUtils::Algorithm::mdII(KG_AR_LIST_URL, false).arg(catId);
-
-    deleteAll();
+    const QUrl &musicUrl = MusicUtils::Algorithm::mdII(KG_AR_LIST_URL, false).arg(catId);
     m_interrupt = true;
 
     QNetworkRequest request;
@@ -83,18 +77,18 @@ void MusicDownLoadQueryKGArtistListThread::downLoadFinished()
 
     if(m_reply->error() == QNetworkReply::NoError)
     {
-        QByteArray bytes = m_reply->readAll();
+        const QByteArray &bytes = m_reply->readAll();
 
         QJson::Parser parser;
         bool ok;
-        QVariant data = parser.parse(bytes, &ok);
+        const QVariant &data = parser.parse(bytes, &ok);
         if(ok)
         {
             QVariantMap value = data.toMap();
             if(value.contains("data") && value["errcode"].toInt() == 0)
             {
                 value = value["data"].toMap();
-                QVariantList datas = value["info"].toList();
+                const QVariantList &datas = value["info"].toList();
                 foreach(const QVariant &var, datas)
                 {
                     if(m_interrupt) return;

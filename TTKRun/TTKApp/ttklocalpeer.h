@@ -1,9 +1,9 @@
-#ifndef MUSICLOCALPEER_H
-#define MUSICLOCALPEER_H
+#ifndef TTKLOCALPEER_H
+#define TTKLOCALPEER_H
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,22 +20,22 @@
  ================================================= */
 
 #include <QObject>
-#include "musicprivate.h"
+#include "ttkprivate.h"
 #include "musicrunglobaldefine.h"
 
-class MusicLocalPeerPrivate;
+class TTKLocalPeerPrivate;
 
-/*! @brief The class of the music local peer.
+/*! @brief The class of the ttk local peer.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_RUN_EXPORT MusicLocalPeer : public QObject
+class MUSIC_RUN_EXPORT TTKLocalPeer : public QObject
 {
     Q_OBJECT
 public:
     /*!
      * Object contsructor.
     */
-    explicit MusicLocalPeer(QObject *parent = 0, const QString &appId = QString());
+    explicit TTKLocalPeer(QObject *parent = nullptr, const QString &appId = QString());
 
     /*!
      * Current client is running or not.
@@ -65,8 +65,8 @@ protected Q_SLOTS:
     void receiveConnection();
 
 private:
-    MUSIC_DECLARE_PRIVATE(MusicLocalPeer)
+    TTK_DECLARE_PRIVATE(TTKLocalPeer)
 
 };
 
-#endif // MUSICLOCALPEER_H
+#endif // TTKLOCALPEER_H

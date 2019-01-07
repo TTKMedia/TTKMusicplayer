@@ -24,11 +24,6 @@ MusicLrcSearchTableWidget::~MusicLrcSearchTableWidget()
     clearAllItems();
 }
 
-QString MusicLrcSearchTableWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicLrcSearchTableWidget::startSearchQuery(const QString &text)
 {
     if(!M_NETWORK_PTR->isOnline())   //no network connection
@@ -54,11 +49,11 @@ void MusicLrcSearchTableWidget::musicDownloadLocal(int row)
         return;
     }
 
-    MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
+    const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
     ///download lrc
     MusicDownLoadThreadAbstract *d = M_DOWNLOAD_QUERY_PTR->getDownloadLrcThread(musicSongInfos[row].m_lrcUrl,
-                             MusicUtils::Core::lrcPrefix() + m_downLoadManager->getSearchedText() + LRC_FILE,
-                             MusicDownLoadThreadAbstract::DownloadLrc, this);
+                                     MusicUtils::Core::lrcPrefix() + m_downLoadManager->getSearchedText() + LRC_FILE,
+                                     MusicObject::DownloadLrc, this);
     connect(d, SIGNAL(downLoadDataChanged(QString)), SIGNAL(lrcDownloadStateChanged(QString)));
     d->startToDownload();
 }
@@ -98,7 +93,7 @@ void MusicLrcSearchTableWidget::clearAllItems()
 
 void MusicLrcSearchTableWidget::createSearchedItem(const MusicSearchedItem &songItem)
 {
-    int count = rowCount();
+    const int count = rowCount();
     setRowCount(count + 1);
 
     QHeaderView *headerview = horizontalHeader();
@@ -151,8 +146,8 @@ void MusicLrcSearchTableWidget::itemDoubleClicked(int row, int column)
 void MusicLrcSearchTableWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     MusicQueryItemTableWidget::contextMenuEvent(event);
+
     QMenu rightClickMenu(this);
     createContextMenu(rightClickMenu);
-
     rightClickMenu.exec(QCursor::pos());
 }

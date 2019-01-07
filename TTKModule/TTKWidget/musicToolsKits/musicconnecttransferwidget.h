@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,18 +35,15 @@ class MusicFileSenderServer;
 class MUSIC_TOOL_EXPORT MusicConnectTransferWidget : public MusicAbstractMoveDialog
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicConnectTransferWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicConnectTransferWidget(QWidget *parent = 0);
+    explicit MusicConnectTransferWidget(QWidget *parent = nullptr);
 
     virtual ~MusicConnectTransferWidget();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Open transfer files by mode.
      */
@@ -118,7 +115,7 @@ protected:
     int m_currentIndex;
     MusicSongs m_currentSongs;
     QButtonGroup *m_buttonGroup;
-    MusicObject::MIntsListMap m_searchfileListCache;
+    MIntsListMap m_searchfileListCache;
     MusicFileSenderServer *m_sendServer;
 
 };

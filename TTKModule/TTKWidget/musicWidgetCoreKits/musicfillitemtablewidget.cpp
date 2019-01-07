@@ -17,14 +17,9 @@ MusicFillItemTableWidget::~MusicFillItemTableWidget()
     delete m_checkBoxDelegate;
 }
 
-QString MusicFillItemTableWidget::getClassName()
+MIntList MusicFillItemTableWidget::getSelectedItems() const
 {
-    return staticMetaObject.className();
-}
-
-MusicObject::MIntList MusicFillItemTableWidget::getSelectedItems() const
-{
-    MusicObject::MIntList list;
+    MIntList list;
     for(int i=0; i<rowCount(); ++i)
     {
         if(item(i, 0)->data(MUSIC_CHECK_ROLE) == true)
@@ -40,7 +35,7 @@ void MusicFillItemTableWidget::listCellClicked(int row, int column)
     if(column == 0)
     {
         QTableWidgetItem *it = item(row, 0);
-        bool status = it->data(MUSIC_CHECK_ROLE).toBool();
+        const bool status = it->data(MUSIC_CHECK_ROLE).toBool();
         it->setData(MUSIC_CHECK_ROLE, !status);
     }
     else

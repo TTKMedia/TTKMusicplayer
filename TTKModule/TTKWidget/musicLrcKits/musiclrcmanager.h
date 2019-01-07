@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,13 +19,12 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QLabel>
-#include <QMouseEvent>
-#include <QMenu>
 #include <QTimer>
 #include <QAction>
 #include <QPainter>
+#include <QMouseEvent>
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 
 #define LRC_PER_TIME        30
 #define LRC_COLOR_OFFSET    9
@@ -67,8 +66,7 @@ public:
     /*!
      * Object contsructor.
      */
-    MusicLrcColor(const QList<QColor> &fg, const QList<QColor> &bg,
-                  MusicLrcColor::LrcColorType index = MusicLrcColor::Null);
+    MusicLrcColor(const QList<QColor> &fg, const QList<QColor> &bg, MusicLrcColor::LrcColorType index = MusicLrcColor::Null);
 
     /*!
      * Map index to color.
@@ -87,18 +85,14 @@ public:
 class MUSIC_LRC_EXPORT MusicLrcManager : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcManager)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcManager(QWidget *parent = 0);
+    explicit MusicLrcManager(QWidget *parent = nullptr);
 
     virtual ~MusicLrcManager();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Start timer clock to draw lrc.

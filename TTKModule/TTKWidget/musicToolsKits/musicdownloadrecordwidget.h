@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,30 +19,65 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
+#include "musicfunctiontoolboxwidget.h"
 #include "musicdownloadabstracttablewidget.h"
 
-/*! @brief The class of the download record widget.
+/*! @brief The class of the download record table widget.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_TOOL_EXPORT MusicDownloadRecordWidget : public MusicDownloadAbstractTableWidget
+class MUSIC_TOOL_EXPORT MusicDownloadRecordTableWidget : public MusicDownloadAbstractTableWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadRecordTableWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicDownloadRecordWidget(QWidget *parent = 0);
+    explicit MusicDownloadRecordTableWidget(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    virtual ~MusicDownloadRecordTableWidget();
 
 protected:
     /*!
      * Create item by index and name and size and time.
      */
-    virtual void createItem(int index, const MusicDownloadRecord &record) override;
+    virtual void createItem(int index, const MusicSong &record) override;
+
+};
+
+/*! @brief The class of the download tool box widget.
+ * @author Greedysky <greedysky@163.com>
+ */
+class MUSIC_TOOL_EXPORT MusicDownloadToolBoxWidget : public MusicFunctionToolBoxWidget
+{
+    Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownloadToolBoxWidget)
+public:
+    /*!
+     * Object contsructor.
+     */
+    explicit MusicDownloadToolBoxWidget(QWidget *parent = nullptr);
+
+    virtual ~MusicDownloadToolBoxWidget();
+
+public Q_SLOTS:
+    /*!
+     * Update item title.
+     */
+    void updateItemTitle(int index);
+
+protected:
+    /*!
+     * Create widget item.
+     */
+    void createWidgetItem(MusicDownloadAbstractTableWidget *w, const QString &text, int index);
+    /*!
+     * Create item.
+     */
+    virtual MusicFunctionToolBoxWidgetItem* createItem(QWidget *item, const QString &text);
+
+    MusicSongItems m_songItems;
+    MusicDownloadRecordTableWidget *m_downloadTable;
 
 };
 

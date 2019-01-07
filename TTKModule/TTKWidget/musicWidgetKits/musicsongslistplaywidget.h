@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,18 +33,14 @@ class MusicSongsToolItemRenamedWidget;
 class MUSIC_WIDGET_EXPORT MusicSongsListPlayWidget : public QWidget
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicSongsListPlayWidget)
 public:
     /*!
      * Object contsructor by index.
      */
-    explicit MusicSongsListPlayWidget(int index, QWidget *parent = 0);
+    explicit MusicSongsListPlayWidget(int index, QWidget *parent = nullptr);
 
-    virtual ~MusicSongsListPlayWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    ~MusicSongsListPlayWidget();
 
     /*!
      * Update item time label time.

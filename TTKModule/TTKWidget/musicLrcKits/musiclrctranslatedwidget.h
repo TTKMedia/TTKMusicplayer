@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QLabel>
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 
 /*! @brief The class of the lrc translate widget.
  * @author Greedysky <greedysky@163.com>
@@ -28,18 +28,14 @@
 class MUSIC_LRC_EXPORT MusicLrcTranslatedWidget : public QLabel
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcTranslatedWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcTranslatedWidget(QWidget *parent = 0);
+    explicit MusicLrcTranslatedWidget(QWidget *parent = nullptr);
 
     ~MusicLrcTranslatedWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Set current translated string.

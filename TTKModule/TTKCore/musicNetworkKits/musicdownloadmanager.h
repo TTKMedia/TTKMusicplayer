@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,7 @@
  ================================================= */
 
 #include "musicsingleton.h"
+#include "musicnetworkdefines.h"
 
 #define M_DOWNLOAD_MANAGER_PTR (MusicSingleton<MusicDownLoadManager>::createInstance())
 
@@ -30,17 +31,25 @@ typedef struct MUSIC_NETWORK_EXPORT MusicDownLoadPair
 {
     qint64 m_time;
     QObject *m_object;
+    MusicObject::RecordType m_type;
 
     MusicDownLoadPair()
     {
         m_time = -1;
         m_object = nullptr;
+        m_type = MusicObject::RecordNormalDownload;
     }
 
-    MusicDownLoadPair(qint64 t, QObject *object)
+    MusicDownLoadPair(qint64 t) : MusicDownLoadPair()
+    {
+        m_time = t;
+    }
+
+    MusicDownLoadPair(qint64 t, QObject *object, MusicObject::RecordType type)
     {
         m_time = t;
         m_object = object;
+        m_type = type;
     }
 
     bool operator< (const MusicDownLoadPair &other) const
@@ -60,12 +69,8 @@ typedef struct MUSIC_NETWORK_EXPORT MusicDownLoadPair
 class MUSIC_NETWORK_EXPORT MusicDownLoadManager : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicDownLoadManager)
 public:
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
     /*!
      * Set mutiple network connection object.
      */

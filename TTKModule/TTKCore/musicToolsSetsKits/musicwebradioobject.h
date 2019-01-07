@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,31 +28,17 @@
 class MUSIC_TOOLSET_EXPORT MusicWebRadioObject : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicWebRadioObject)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicWebRadioObject(QObject *parent = 0);
+    explicit MusicWebRadioObject(QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
-
-    /*!
-     * Null function.
-     */
-    void raise();
     /*!
      * Start to run object.
      */
-    void show();
-
-Q_SIGNALS:
-    /*!
-     * Reset window open flag.
-     */
-    void resetFlag(MusicObject::ToolsType flag);
+    void start();
 
 public Q_SLOTS:
     /*!

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,10 +19,8 @@
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
 
-#include <QBoxLayout>
-#include <QToolButton>
-#include <QPushButton>
 #include "musiclrccontainer.h"
+#include "musicwidgetheaders.h"
 
 #define TOOLBAR_MAIN_HEIGHT     35
 #define TOOLBAR_HEIGHT          23
@@ -38,18 +36,15 @@ class MusicLRCManagerForDesktop;
 class MUSIC_LRC_EXPORT MusicLrcContainerForDesktop : public MusicLrcContainer
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcContainerForDesktop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcContainerForDesktop(QWidget *parent = 0);
+    explicit MusicLrcContainerForDesktop(QWidget *parent = nullptr);
 
     virtual ~MusicLrcContainerForDesktop();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Start timer clock to draw lrc.
      */
@@ -166,16 +161,13 @@ protected:
 class MUSIC_LRC_EXPORT MusicLrcContainerHorizontalDesktop : public MusicLrcContainerForDesktop
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcContainerHorizontalDesktop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcContainerHorizontalDesktop(QWidget *parent = 0);
+    explicit MusicLrcContainerHorizontalDesktop(QWidget *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Init current lrc when the first show.
      */
@@ -202,16 +194,12 @@ protected:
 class MUSIC_LRC_EXPORT MusicLrcContainerVerticalDesktop : public MusicLrcContainerForDesktop
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicLrcContainerVerticalDesktop)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicLrcContainerVerticalDesktop(QWidget *parent = 0);
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
+    explicit MusicLrcContainerVerticalDesktop(QWidget *parent = nullptr);
 
     /*!
      * Init current lrc when the first show.

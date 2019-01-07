@@ -24,7 +24,8 @@ MusicRemoteWidgetForRaysWave::MusicRemoteWidgetForRaysWave(QWidget *parent)
     QVBoxLayout *mhbox = new QVBoxLayout(m_mainWidget);
     mhbox->setContentsMargins(5, 0, 5, 0);
     mhbox->setSpacing(0);
-    QList<Visual *> *vs = Visual::visuals();
+
+    const QList<Visual *> *vs = Visual::visuals();
     if(!vs->isEmpty() && vs->last())
     {
         mhbox->addWidget(vs->last());
@@ -58,11 +59,6 @@ MusicRemoteWidgetForRaysWave::~MusicRemoteWidgetForRaysWave()
     delete m_songNameLabel;
 }
 
-QString MusicRemoteWidgetForRaysWave::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicRemoteWidgetForRaysWave::setLabelText(const QString &value)
 {
     m_songNameLabel->setText(MusicUtils::Widget::elidedText(font(), value, Qt::ElideRight, 350));
@@ -72,7 +68,7 @@ void MusicRemoteWidgetForRaysWave::enablePlugin(bool enable)
 {
     foreach(VisualFactory *v, Visual::factories())
     {
-        if(v->properties().shortName.contains("rayswave"))
+        if(v->properties().shortName.contains("outerrayswave"))
         {
             Visual::setEnabled(v, enable);
             break;

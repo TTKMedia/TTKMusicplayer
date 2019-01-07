@@ -10,18 +10,15 @@
 class MUSIC_TOOLSET_EXPORT MusicNetworkTestThread : public QThread
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicNetworkTestThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicNetworkTestThread(QObject *parent = 0);
+    explicit MusicNetworkTestThread(QObject *parent = nullptr);
 
     ~MusicNetworkTestThread();
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Stop and quit current thread.
      */

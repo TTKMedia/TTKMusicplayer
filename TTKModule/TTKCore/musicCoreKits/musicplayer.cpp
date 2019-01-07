@@ -32,11 +32,6 @@ MusicPlayer::~MusicPlayer()
     delete m_music;
 }
 
-QString MusicPlayer::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 bool MusicPlayer::isPlaying() const
 {
     return m_state == MusicObject::PS_PlayingState;
@@ -138,7 +133,8 @@ void MusicPlayer::play()
     }
 
     m_state = MusicObject::PS_PlayingState;
-    Qmmp::State state = m_music->state(); ///Get the current state of play
+    const Qmmp::State state = m_music->state(); ///Get the current state of play
+
     if(m_currentMedia == m_playlist->currentMediaString() && state == Qmmp::Paused)
     {
         m_music->pause(); ///When the pause time for recovery
@@ -162,7 +158,7 @@ void MusicPlayer::play()
 
     ////////////////////////////////////////////////
     ///Read the configuration settings for the sound
-    int volume = M_SETTING_PTR->value(MusicSettingManager::VolumeChoiced).toInt();
+    const int volume = M_SETTING_PTR->value(MusicSettingManager::VolumeChoiced).toInt();
     if(volume != -1)
     {
         setVolume(volume);
@@ -185,7 +181,7 @@ void MusicPlayer::stop()
     m_state = MusicObject::PS_StoppedState;
 }
 
-void MusicPlayer::setEqEffect(const MusicObject::MIntList &hz)
+void MusicPlayer::setEqEffect(const MIntList &hz)
 {
     if(hz.count() != 11)
     {
@@ -206,7 +202,7 @@ void MusicPlayer::setEnaleEffect(bool enable)
 {
     if(enable == false)
     {
-        setEqEffect(MusicObject::MIntList()<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0);
+        setEqEffect(MIntList()<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0<< 0);
     }
 }
 
@@ -216,10 +212,10 @@ void MusicPlayer::setEqInformation()
     if(M_SETTING_PTR->value(MusicSettingManager::EqualizerEnableChoiced).toInt())
     {
         setEnaleEffect(true);
-        QStringList eqValue = M_SETTING_PTR->value(MusicSettingManager::EqualizerValueChoiced).toString().split(',');
+        const QStringList &eqValue = M_SETTING_PTR->value(MusicSettingManager::EqualizerValueChoiced).toString().split(',');
         if(eqValue.count() == 11)
         {
-            MusicObject::MIntList hz;
+            MIntList hz;
             hz << eqValue[0].toInt() << eqValue[1].toInt() << eqValue[2].toInt()
                << eqValue[3].toInt() << eqValue[4].toInt() << eqValue[5].toInt()
                << eqValue[6].toInt() << eqValue[7].toInt() << eqValue[8].toInt()
@@ -257,7 +253,7 @@ void MusicPlayer::update()
         m_music->setVolume(fabs(100 * cosf(m_posOnCircle)), fabs(100 * sinf(m_posOnCircle * 0.5f)));
     }
 
-    Qmmp::State state = m_music->state();
+    const Qmmp::State state = m_music->state();
     if(state != Qmmp::Playing && state != Qmmp::Paused)
     {
         m_timer.stop();
@@ -283,7 +279,7 @@ void MusicPlayer::update()
 
 void MusicPlayer::getCurrentDuration()
 {
-    qint64 dur = duration();
+    const qint64 dur = duration();
     if((dur == 0 || m_duration == dur) && m_tryTimes++ < 10)
     {
         QTimer::singleShot(50*MT_MS, this, SLOT(getCurrentDuration()));
@@ -299,16 +295,16 @@ void MusicPlayer::setMusicEnhancedCase()
     switch(m_musicEnhanced)
     {
         case EnhancedOff:
-            setEqEffect(MusicObject::MIntList()<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0);
+            setEqEffect(MIntList()<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0<<  0);
             break;
         case EnhancedVocal:
-            setEqEffect(MusicObject::MIntList()<<  0<<  0<<  4<<  1<< -5<< -1<<  2<< -2<< -4<< -4<<  0);
+            setEqEffect(MIntList()<<  0<<  0<<  4<<  1<< -5<< -1<<  2<< -2<< -4<< -4<<  0);
             break;
         case EnhancedNICAM:
-            setEqEffect(MusicObject::MIntList()<<  6<<-12<<-12<< -9<< -6<< -3<<-12<< -9<< -6<< -3<<-12);
+            setEqEffect(MIntList()<<  6<<-12<<-12<< -9<< -6<< -3<<-12<< -9<< -6<< -3<<-12);
             break;
         case EnhancedSubwoofer:
-            setEqEffect(MusicObject::MIntList()<<  6<<  6<<-10<<-10<<  0<<  0<< -3<< -5<< -7<< -9<<-11);
+            setEqEffect(MIntList()<<  6<<  6<<-10<<-10<<  0<<  0<< -3<< -5<< -7<< -9<<-11);
             break;
         default:
             break;

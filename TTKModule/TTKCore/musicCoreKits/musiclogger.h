@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,10 +30,10 @@
 #define LOG_END     QString("log::npos")
 
 #define M_LOGGER    (*MusicLogger::createInstance())
-#define M_MESSAGE(str, msg) \
-{ \
-    M_LOGGER.setLevel(msg); \
-    M_LOGGER << str << LOG_END;\
+#define M_MESSAGE(str, msg)         \
+{                                   \
+    M_LOGGER.setLevel(msg);         \
+    M_LOGGER << str << LOG_END;     \
 }
 
 #ifdef MUSIC_DEBUG
@@ -61,19 +61,12 @@ public:
     /*!
      * Get object instance ptr.
      */
-    static inline MusicLogger* createInstance()
+    inline static MusicLogger* createInstance()
     {
         static MusicLogger obj;
         return &obj;
     }
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName()
-    {
-        return "MusicLogger";
-    }
     /*!
      * Set logger level.
      */

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2018 Greedysky Studio
+ * Copyright (C) 2015 - 2019 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,9 @@
  ================================================= */
 
 #include "musicglobaldefine.h"
+#include "musicwidgetheaders.h"
 #include "musicbarragerecordconfigmanager.h"
 
-#include <QLabel>
-#include <QLineEdit>
 #include <QPropertyAnimation>
 
 /*! @brief The class of the barrage animation.
@@ -32,20 +31,17 @@
 class MUSIC_VIDEO_EXPORT MusicBarrageAnimation : public QPropertyAnimation
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBarrageAnimation)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBarrageAnimation(QObject *parent = 0);
+    explicit MusicBarrageAnimation(QObject *parent = nullptr);
     /*!
      * Object contsructor by tagrget and propertyName.
      */
-    MusicBarrageAnimation(QObject *target, const QByteArray &propertyName, QObject *parent = 0);
+    MusicBarrageAnimation(QObject *target, const QByteArray &propertyName, QObject *parent = nullptr);
 
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
     /*!
      * Set animation region size.
      */
@@ -73,18 +69,14 @@ protected:
 class MUSIC_VIDEO_EXPORT MusicBarrageWidget : public QObject
 {
     Q_OBJECT
+    TTK_DECLARE_MODULE(MusicBarrageWidget)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicBarrageWidget(QObject *parent = 0);
+    explicit MusicBarrageWidget(QObject *parent = nullptr);
 
     ~MusicBarrageWidget();
-
-    /*!
-     * Get class object name.
-     */
-    static QString getClassName();
 
     /*!
      * Start barrage animation.

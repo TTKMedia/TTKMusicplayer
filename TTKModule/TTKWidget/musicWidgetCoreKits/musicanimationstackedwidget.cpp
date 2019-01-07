@@ -25,11 +25,6 @@ MusicAnimationStackedWidget::~MusicAnimationStackedWidget()
     delete m_animation;
 }
 
-QString MusicAnimationStackedWidget::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicAnimationStackedWidget::paintEvent(QPaintEvent * event)
 {
     if(m_isAnimating)
@@ -42,6 +37,11 @@ void MusicAnimationStackedWidget::paintEvent(QPaintEvent * event)
     {
         QWidget::paintEvent(event);
     }
+}
+
+void MusicAnimationStackedWidget::contextMenuEvent(QContextMenuEvent *event)
+{
+    Q_UNUSED(event);
 }
 
 void MusicAnimationStackedWidget::renderPreviousWidget(QPainter &painter)
@@ -127,8 +127,8 @@ void MusicAnimationStackedWidget::start(int index)
     m_previousIndex = m_currentIndex;
     m_currentIndex = index;
 
-    int offsetx = frameRect().width();
-    int offsety = frameRect().height();
+    const int offsetx = frameRect().width();
+    const int offsety = frameRect().height();
     widget(m_currentIndex)->setGeometry(0, 0, offsetx, offsety);
 
     currentWidget()->hide();

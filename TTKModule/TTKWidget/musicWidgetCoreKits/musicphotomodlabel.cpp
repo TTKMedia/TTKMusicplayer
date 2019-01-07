@@ -14,11 +14,6 @@ MusicPhotoModLabel::MusicPhotoModLabel(QWidget *parent)
     m_picMoved = false;
 }
 
-QString MusicPhotoModLabel::getClassName()
-{
-    return staticMetaObject.className();
-}
-
 void MusicPhotoModLabel::setImagePath(const QString &path)
 {
     m_path = path;
@@ -53,7 +48,8 @@ void MusicPhotoModLabel::paintEvent(QPaintEvent *event)
 
     m_imagePos.setX(m_imagePos.x() + m_deltaPos.x());
     m_imagePos.setY(m_imagePos.y() + m_deltaPos.y());
-    QRect imageRect(m_imagePos.x(), m_imagePos.y(), m_width, m_height);
+
+    const QRect imageRect(m_imagePos.x(), m_imagePos.y(), m_width, m_height);
     painter.drawPixmap(imageRect, m_showPix);
     painter.end();
 }
@@ -94,8 +90,7 @@ void MusicPhotoModLabel::wheelEvent(QWheelEvent *event)
 void MusicPhotoModLabel::mousePressEvent(QMouseEvent *event)
 {
 //    QWidget::mousePressEvent(event);
-    if(event->button() == Qt::MiddleButton ||
-       event->button() == Qt::LeftButton )
+    if(event->button() == Qt::MiddleButton || event->button() == Qt::LeftButton )
     {
         m_picMoved = true;
         m_pressedPos = event->pos();
