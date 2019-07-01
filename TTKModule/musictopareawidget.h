@@ -58,7 +58,7 @@ public:
     /*!
      * Set background skin and alpha and list alpha parameter.
      */
-    void setParameters(const QString &skin, int alpha, int list);
+    void setBackgroundParams(const QString &skin, int alpha, int list);
     /*!
      * Get background skin name.
      */
@@ -72,7 +72,7 @@ public:
      */
     int getBackgroundListAlpha();
     /*!
-     * Get bg window skin enable.
+     * Get background window skin enable.
      */
     bool getBackgroundTransparentEnable() const;
     /*!
@@ -122,21 +122,21 @@ public Q_SLOTS:
      */
     void musicUserContextLogin();
     /*!
-     * Set background as art big picture.
+     * Set background as artist big picture.
      */
-    void musicSetAsArtBackground();
+    void musicSetAsArtistBackground();
     /*!
      * Current background transparent changed.
      */
-    void musicBgTransparentChanged();
+    void musicBackgroundTransparentChanged();
     /*!
      * Current background transparent changed by index.
      */
-    void musicBgTransparentChanged(int index);
+    void musicBackgroundTransparentChanged(int index);
     /*!
      * Current background transparent changed by string.
      */
-    void musicBgTransparentChanged(const QString &fileName);
+    void musicBackgroundTransparentChanged(const QString &fileName);
     /*!
      * Current background skin changed by new path.
      */
@@ -156,15 +156,15 @@ public Q_SLOTS:
     /*!
      * Current background skin download is finished.
      */
-    void musicBgThemeDownloadFinished();
+    void musicBackgroundThemeDownloadFinished();
     /*!
      * Resize current background skin when geometry changed.
      */
-    void musicBgThemeChangedByResize();
+    void musicBackgroundThemeChangedByResize();
     /*!
      * Current list background transparent changed.
      */
-    void musicPlayListTransparent(int index);
+    void musicPlaylistTransparent(int index);
     /*!
      * Changed current remote to circle mode.
      */

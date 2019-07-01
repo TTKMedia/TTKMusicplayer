@@ -149,7 +149,7 @@ void MusicFunctionToolBoxTopWidget::mouseMoveEvent(QMouseEvent *event)
         QDrag *drag = new QDrag(this);
         drag->setMimeData(mimeData);
         drag->setHotSpot(QPoint(0, height()/2));
-#ifdef MUSIC_GREATER_NEW
+#ifdef TTK_GREATER_NEW
         drag->setPixmap( grab(rect()) );
 #else
         drag->setPixmap( QPixmap::grabWidget(this, rect()) );
@@ -316,6 +316,7 @@ MusicFunctionToolBoxWidget::MusicFunctionToolBoxWidget(QWidget *parent)
     m_scrollArea->setFrameShape(QFrame::NoFrame);
     m_scrollArea->setFrameShadow(QFrame::Plain);
     m_scrollArea->setAlignment(Qt::AlignLeft);
+    m_scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_scrollArea->setWidget(m_contentsWidget);
 
     setTransparent(0);

@@ -53,10 +53,7 @@ TTKLocalPeerPrivate::~TTKLocalPeerPrivate()
     delete m_server;
 }
 
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-///
-///
+
 
 TTKLocalPeer::TTKLocalPeer(QObject *parent, const QString &appId)
     : QObject(parent)
@@ -115,7 +112,7 @@ bool TTKLocalPeer::isClient()
         return true;
     }
 
-    const bool res = d->m_server->listen(d->m_socketName);
+    bool res = d->m_server->listen(d->m_socketName);
 #if defined(Q_OS_UNIX) && (QT_VERSION >= QT_VERSION_CHECK(4,5,0))
     // ### Workaround
     if(!res && d->m_server->serverError() == QAbstractSocket::AddressInUseError)

@@ -119,7 +119,7 @@ void MusicLrcContainerForWallpaper::start(bool immediate)
 {
     if(m_wallThread)
     {
-        m_wallThread->setImagePath(M_BACKGROUND_PTR->getArtPhotoPathList());
+        m_wallThread->setImagePath(M_BACKGROUND_PTR->getArtistPhotoPathList());
 
         if(!m_wallThread->isRunning())
         {
@@ -178,8 +178,8 @@ void MusicLrcContainerForWallpaper::setItemStyleSheet(int index, int size, int t
     }
     else
     {
-        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFgColorChoiced").toString()),
-                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBgColorChoiced").toString()));
+        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColorChoiced").toString()),
+                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColorChoiced").toString()));
         setLinearGradientColor(cl);
     }
 }

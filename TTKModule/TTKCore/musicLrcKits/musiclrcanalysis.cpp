@@ -269,7 +269,7 @@ void MusicLrcAnalysis::matchLrcLine(const QString &oneLine)
         type = Type14;
         regx = regx14;
     }
-    /////////////////////////////////////////
+
     QString temp = oneLine;
     temp.replace(regx, QString());
     int pos = regx.indexIn(oneLine, 0);
@@ -439,7 +439,7 @@ void MusicLrcAnalysis::saveLrcTimeChanged()
 {
     MIntStringMapIterator it(m_lrcContainer);
     QByteArray data;
-    data.append(QString("[by: %1]\n[offset:0]\n").arg(APPNAME));
+    data.append(QString("[by: %1]\n[offset:0]\n").arg(APP_NAME));
     while(it.hasNext())
     {
         it.next();

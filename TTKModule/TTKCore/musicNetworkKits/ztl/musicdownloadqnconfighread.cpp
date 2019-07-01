@@ -23,7 +23,7 @@ void MusicDownloadQNConfighread::startToDownload()
 #ifndef QT_NO_SSL
     connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
     M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 #endif
 
     m_reply = m_manager->get( request );
@@ -42,7 +42,7 @@ void MusicDownloadQNConfighread::downLoadFinished()
         if(ok)
         {
             const QVariantMap &value = data.toMap();
-            if(QDateTime::fromString(value["time"].toString(), "yyyy-MM-dd HH:mm:ss") >
+            if(QDateTime::fromString(value["time"].toString(), "yyyy-MM-dd HH:mm:ss").addDays(1) >=
                QDateTime::fromString(M_SETTING_PTR->value(MusicSettingManager::QiNiuTimeConfigChoiced).toString(), "yyyy-MM-dd HH:mm:ss").addMonths(1))
             {
                 M_SETTING_PTR->setValue(MusicSettingManager::QiNiuMusicConfigChoiced, value["music_buket"]);

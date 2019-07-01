@@ -146,7 +146,7 @@ void MusicSoundKMicroWidget::durationChanged(qint64 duration)
 {
     m_ui->loadingLabel->run(false);
     m_ui->timeSlider->setRange(0, duration*MT_S2MS);
-    m_ui->timeLabel->setText(QString("00:00/%1").arg(MusicTime::msecTime2LabelJustified(duration*MT_S2MS)));
+    m_ui->timeLabel->setText(QString("%1/%2").arg(MUSIC_TIME_INIT).arg(MusicTime::msecTime2LabelJustified(duration*MT_S2MS)));
 
     multiMediaChanged();
 }
@@ -245,7 +245,7 @@ void MusicSoundKMicroWidget::mediaUrlChanged(bool mv, const QString &url, const 
         m_mediaPlayer->setMedia(MusicCoreMPlayer::MusicCategory, url);
         m_mediaPlayer->play();
 
-        ////////////////////////////////////////////////////////////////
+        //
         MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
         connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
         download->startToDownload(lrcUrl);
@@ -359,8 +359,8 @@ void MusicSoundKMicroWidget::setItemStyleSheet(int index, int size, int transpar
     }
     else
     {
-        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFgColorChoiced").toString()),
-                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBgColorChoiced").toString()));
+        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColorChoiced").toString()),
+                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColorChoiced").toString()));
         w->setLinearGradientColor(cl);
     }
 }

@@ -1,5 +1,5 @@
 #include "musicplayer.h"
-#include "musicplayedlist.h"
+#include "musicplaylist.h"
 #include "musicsettingmanager.h"
 #include "musicconnectionpool.h"
 #include "musicnumberdefine.h"
@@ -42,20 +42,20 @@ MusicObject::PlayState MusicPlayer::state() const
     return m_state;
 }
 
-void MusicPlayer::setPlaylist(MusicPlayedlist *playlist)
+void MusicPlayer::setPlaylist(MusicPlaylist *playlist)
 {
     delete m_playlist;
     m_playlist = playlist;
 }
 
-MusicPlayedlist *MusicPlayer::playlist() const
+MusicPlaylist *MusicPlayer::playlist() const
 {
     return m_playlist;
 }
 
 qint64 MusicPlayer::duration() const
 {
-    return m_music->totalTime();
+    return m_music->duration();
 }
 
 qint64 MusicPlayer::position() const
@@ -156,7 +156,6 @@ void MusicPlayer::play()
     emit positionChanged(0);
     getCurrentDuration();
 
-    ////////////////////////////////////////////////
     ///Read the configuration settings for the sound
     const int volume = M_SETTING_PTR->value(MusicSettingManager::VolumeChoiced).toInt();
     if(volume != -1)
@@ -164,7 +163,6 @@ void MusicPlayer::play()
         setVolume(volume);
     }
     setSoundEffectVolume(M_SETTING_PTR->value(MusicSettingManager::EnhancedBalanceChoiced).toInt());
-    ////////////////////////////////////////////////
 }
 
 void MusicPlayer::pause()

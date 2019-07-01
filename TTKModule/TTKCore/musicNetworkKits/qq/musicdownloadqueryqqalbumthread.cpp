@@ -6,7 +6,7 @@
 MusicDownLoadQueryQQAlbumThread::MusicDownLoadQueryQQAlbumThread(QObject *parent)
     : MusicDownLoadQueryAlbumThread(parent)
 {
-    m_queryServer = "QQ";
+    m_queryServer = QUERY_QQ_INTERFACE;
 }
 
 void MusicDownLoadQueryQQAlbumThread::startToSearch(const QString &album)
@@ -24,9 +24,8 @@ void MusicDownLoadQueryQQAlbumThread::startToSearch(const QString &album)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(QQ_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -47,9 +46,8 @@ void MusicDownLoadQueryQQAlbumThread::startToSingleSearch(const QString &artist)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(QQ_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     QNetworkReply *reply = m_manager->get(request);
     connect(reply, SIGNAL(finished()), SLOT(singleDownLoadFinished()));
@@ -88,7 +86,7 @@ void MusicDownLoadQueryQQAlbumThread::downLoadFinished()
                                      value["lan"].toString() + TTK_STR_SPLITER +
                                      value["company_new"].toMap()["name"].toString() + TTK_STR_SPLITER +
                                      value["aDate"].toString();
-                ////////////////////////////////////////////////////////////
+                //
                 const QVariantList &datas = value["list"].toList();
                 foreach(const QVariant &var, datas)
                 {
@@ -133,7 +131,7 @@ void MusicDownLoadQueryQQAlbumThread::downLoadFinished()
                     {
                         continue;
                     }
-                    ////////////////////////////////////////////////////////////
+                    //
                     if(!albumFlag)
                     {
                         albumFlag = true;
@@ -143,7 +141,7 @@ void MusicDownLoadQueryQQAlbumThread::downLoadFinished()
                         info.m_coverUrl = musicInfo.m_smallPicUrl;
                         emit createAlbumInfoItem(info);
                     }
-                    ////////////////////////////////////////////////////////////
+                    //
                     MusicSearchedItem item;
                     item.m_songName = musicInfo.m_songName;
                     item.m_singerName = musicInfo.m_singerName;

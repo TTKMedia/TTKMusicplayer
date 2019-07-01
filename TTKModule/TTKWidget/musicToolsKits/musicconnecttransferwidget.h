@@ -63,7 +63,7 @@ public Q_SLOTS:
     /*!
      * Current playList selected.
      */
-    void currentPlayListSelected(int index);
+    void currentPlaylistSelected(int index);
     /*!
      * Select all items.
      */
@@ -115,7 +115,7 @@ protected:
     int m_currentIndex;
     MusicSongs m_currentSongs;
     QButtonGroup *m_buttonGroup;
-    MIntsListMap m_searchfileListCache;
+    MIntListMap m_searchfileListCache;
     MusicFileSenderServer *m_sendServer;
 
 };

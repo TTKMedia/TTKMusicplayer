@@ -13,26 +13,24 @@ void MusicRunTimeManager::run() const
 {
     M_LOGGER_INFO("MusicApplication Begin");
 
-#ifndef MUSIC_GREATER_NEW
+#ifndef TTK_GREATER_NEW
     MusicUtils::Codec::setLocalCodec();
 #endif
-    MusicUtils::QMMP::midTransferFile();
+    MusicUtils::QMMP::updateMidConfigFile();
 
-    ///////////////////////////////////////////////////////
 #ifdef Q_OS_UNIX
     QFont font;
     font.setPixelSize(13);
     qApp->setFont(font);
 #endif
-    ///////////////////////////////////////////////////////
 
     //detect the current network state
     M_NETWORK_PTR->start();
 
     M_LOGGER_INFO("Load Translation");
     MusicSysConfigManager *xml = new MusicSysConfigManager;
-    xml->readXMLConfig();
-    xml->readSysLoadConfig();
+    xml->readConfig();
+    xml->readSysConfigData();
 
     MusicUtils::Core::checkCacheSize(
                 M_SETTING_PTR->value(MusicSettingManager::DownloadCacheSizeChoiced).toInt()*MH_MB2B,

@@ -6,7 +6,7 @@
 MusicDownLoadQueryBDAlbumThread::MusicDownLoadQueryBDAlbumThread(QObject *parent)
     : MusicDownLoadQueryAlbumThread(parent)
 {
-    m_queryServer = "Baidu";
+    m_queryServer = QUERY_BD_INTERFACE;
 }
 
 void MusicDownLoadQueryBDAlbumThread::startToSearch(const QString &album)
@@ -24,9 +24,8 @@ void MusicDownLoadQueryBDAlbumThread::startToSearch(const QString &album)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -48,9 +47,8 @@ void MusicDownLoadQueryBDAlbumThread::startToSingleSearch(const QString &artist)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     QNetworkReply *reply = m_manager->get(request);
     connect(reply, SIGNAL(finished()), SLOT(singleDownLoadFinished()));
@@ -90,7 +88,7 @@ void MusicDownLoadQueryBDAlbumThread::downLoadFinished()
                                      albumInfo["language"].toString() + TTK_STR_SPLITER +
                                      albumInfo["publishcompany"].toString() + TTK_STR_SPLITER +
                                      albumInfo["publishtime"].toString();
-                ////////////////////////////////////////////////////////////
+                //
                 const QVariantList &datas = value["songlist"].toList();
                 foreach(const QVariant &var, datas)
                 {
@@ -124,7 +122,7 @@ void MusicDownLoadQueryBDAlbumThread::downLoadFinished()
                     {
                         continue;
                     }
-                    ////////////////////////////////////////////////////////////
+                    //
                     if(!albumFlag)
                     {
                         albumFlag = true;
@@ -132,7 +130,7 @@ void MusicDownLoadQueryBDAlbumThread::downLoadFinished()
                         info.m_name = musicInfo.m_singerName;
                         emit createAlbumInfoItem(info);
                     }
-                    ////////////////////////////////////////////////////////////
+                    //
                     MusicSearchedItem item;
                     item.m_songName = musicInfo.m_songName;
                     item.m_singerName = musicInfo.m_singerName;

@@ -55,20 +55,20 @@ void MusicSongSearchTableWidget::startSearchQuery(const QString &text)
         emit showDownLoadInfoFor(MusicObject::DW_DisConnection);
         return;
     }
-    ////////////////////////////////////////////////
+    //
     MusicSearchRecords records;
     MusicLocalSongSearchRecordConfigManager search(this);
-    if(!search.readSearchXMLConfig())
+    if(!search.readConfig())
     {
         return;
     }
-    search.readSearchConfig( records );
+    search.readSearchData( records );
     MusicSearchRecord record;
     record.m_name = text;
     record.m_time = QString::number(MusicTime::timeStamp());
     records.insert(0, record);
-    search.writeSearchConfig( records );
-    ////////////////////////////////////////////////
+    search.writeSearchData( records );
+    //
     if(!m_downLoadManager)
     {
         MusicQueryItemTableWidget::startSearchQuery(text);
@@ -79,7 +79,7 @@ void MusicSongSearchTableWidget::startSearchQuery(const QString &text)
         MusicQueryItemTableWidget::startSearchQuery(text);
         m_downLoadManager->setSearchQuality(quality);
     }
-    ////////////////////////////////////////////////
+    //
     m_loadingLabel->run(true);
     m_downLoadManager->setQueryAllRecords(m_queryAllRecords);
     m_downLoadManager->startToSearch(MusicDownLoadQueryThreadAbstract::MusicQuery, text);
@@ -93,7 +93,7 @@ void MusicSongSearchTableWidget::startSearchSingleQuery(const QString &text)
         emit showDownLoadInfoFor(MusicObject::DW_DisConnection);
         return;
     }
-    ////////////////////////////////////////////////
+    //
     if(!m_downLoadManager)
     {
         MusicQueryItemTableWidget::startSearchQuery(text);
@@ -104,7 +104,7 @@ void MusicSongSearchTableWidget::startSearchSingleQuery(const QString &text)
         MusicQueryItemTableWidget::startSearchQuery(text);
         m_downLoadManager->setSearchQuality(quality);
     }
-    ////////////////////////////////////////////////
+    //
     m_loadingLabel->run(true);
     m_downLoadManager->setQueryAllRecords(m_queryAllRecords);
     m_downLoadManager->startToSingleSearch(text);
@@ -236,7 +236,7 @@ void MusicSongSearchTableWidget::listCellClicked(int row, int column)
     switch(column)
     {
         case 7:
-            addSearchMusicToPlayList(row);
+            addSearchMusicToPlaylist(row);
             break;
         case 8:
             musicDownloadLocal(row);
@@ -319,7 +319,7 @@ void MusicSongSearchTableWidget::itemDoubleClicked(int row, int column)
     {
         return;
     }
-    addSearchMusicToPlayList(row);
+    addSearchMusicToPlaylist(row);
 }
 
 void MusicSongSearchTableWidget::actionGroupClick(QAction *action)
@@ -341,7 +341,7 @@ void MusicSongSearchTableWidget::actionGroupClick(QAction *action)
         case 2: MusicRightAreaWidget::instance()->musicArtistFound(info.m_singerName, info.m_artistId); break;
         case 3: emit restartSearchQuery(info.m_singerName + " - " + info.m_songName); break;
         case 4: auditionToMusic(row); break;
-        case 5: addSearchMusicToPlayList(row); break;
+        case 5: addSearchMusicToPlaylist(row); break;
         case 6: musicSongDownload(row); break;
         case 7: MusicRightAreaWidget::instance()->musicAlbumFound(info.m_albumName, info.m_albumId); break;
         default: break;
@@ -352,7 +352,7 @@ void MusicSongSearchTableWidget::searchDataDwonloadFinished()
 {
     if(m_downloadData.isValid())
     {
-        emit musicSongToPlayListChanged(m_downloadData.m_songName, m_downloadData.m_time, m_downloadData.m_format, true);
+        emit musicSongToPlaylistChanged(m_downloadData.m_songName, m_downloadData.m_time, m_downloadData.m_format, true);
     }
     m_downloadData.clear();
 }
@@ -409,7 +409,7 @@ void MusicSongSearchTableWidget::contextMenuEvent(QContextMenuEvent *event)
     rightClickMenu.exec(QCursor::pos());
 }
 
-void MusicSongSearchTableWidget::addSearchMusicToPlayList(int row)
+void MusicSongSearchTableWidget::addSearchMusicToPlaylist(int row)
 {
     if(!M_NETWORK_PTR->isOnline())   //no network connection
     {
@@ -439,7 +439,7 @@ void MusicSongSearchTableWidget::addSearchMusicToPlayList(int row)
     download->startToDownload();
 
     M_DOWNLOAD_QUERY_PTR->getDownloadSmallPicThread(musicSongInfo.m_smallPicUrl, ART_DIR_FULL + musicSongInfo.m_singerName + SKN_FILE,
-                                                    MusicObject::DownloadSmallBG, this)->startToDownload();
+                                                    MusicObject::DownloadSmallBackground, this)->startToDownload();
     ///download big picture
     M_DOWNLOAD_QUERY_PTR->getDownloadBigPicThread(musicSongInfo.m_singerName, musicSongInfo.m_singerName, this)->startToDownload();
 
@@ -639,7 +639,7 @@ void MusicSongSearchOnlineWidget::createToolWidget(QWidget *widget)
     funcWidget->setLayout(funcLayout);
     wLayout->addWidget(funcWidget);
 
-    //////////////////////////////////////////////////////////
+    //
     QWidget *labelWidget = new QWidget(widget);
     QHBoxLayout *labelLayout = new QHBoxLayout(labelWidget);
     labelLayout->setContentsMargins(7, 0, 10, 0);

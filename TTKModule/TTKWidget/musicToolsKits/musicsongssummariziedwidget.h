@@ -28,6 +28,7 @@ class MusicSongsListWidget;
 class MusicSongCheckToolsWidget;
 class MusicSongsListFunctionWidget;
 class MusicLocalSongSearchDialog;
+class MusicLrcDownloadBatchWidget;
 
 /*! @brief The class of the songs summarizied widget.
  * @author Greedysky <greedysky@163.com>
@@ -113,7 +114,7 @@ public:
     /*!
      * Update item time label time.
      */
-    void setTimerLabel(const QString &time, const QString &total) const;
+    void updateTimeLabel(const QString &current, const QString &total) const;
 
 public Q_SLOTS:
     /*!
@@ -168,6 +169,10 @@ public Q_SLOTS:
      * Open music songs check test tools.
      */
     void musicSongsCheckTestTools();
+    /*!
+     * Open lrc batch download.
+     */
+    void musicLrcBatchDownload();
 
     /*!
      * Set current play index from config file.
@@ -188,7 +193,7 @@ public Q_SLOTS:
     /*!
      * Add current selected song to play lists.
      */
-    void addSongToPlayList(const QStringList &items);
+    void addSongToPlaylist(const QStringList &items);
     /*!
      * Delete items from indexs and check remove file or not.
      */
@@ -286,12 +291,14 @@ protected:
     int m_currentPlayToolIndex, m_searchFileListIndex;
     int m_currentImportIndex, m_currentDeleteIndex;
     bool m_toolDeleteChanged;
+
     MusicSongItems m_songItems;
     MusicSongsToolBoxMaskWidget *m_listMaskWidget;
-    MIntsListMap m_searchfileListCache;
+    MIntListMap m_searchfileListCache;
     MusicSongCheckToolsWidget *m_songCheckToolsWidget;
     MusicSongsListFunctionWidget *m_listFunctionWidget;
     MusicLocalSongSearchDialog *m_musicSongSearchWidget;
+    MusicLrcDownloadBatchWidget *m_lrcBatchDownloadWidget;
 
 };
 

@@ -22,7 +22,7 @@
 #include "musicabstractmoveresizewidget.h"
 
 class MusicPlayer;
-class MusicPlayedlist;
+class MusicPlaylist;
 class MusicSongsSummariziedWidget;
 class MusicBottomAreaWidget;
 class MusicTopAreaWidget;
@@ -72,7 +72,7 @@ public:
      */
     void musicLoadCurrentSongLrc();
 
-    ////////////////////////////////////////////////
+    //
     /*!
      * Execute outer radio by type.
      */
@@ -81,7 +81,7 @@ public:
      * Import outer music datas into container.
      */
     void musicImportSongsSettingPathOuter(const QStringList &path, bool play);
-    ////////////////////////////////////////////////
+    //
 
     /*!
      * Import music datas into container.
@@ -161,7 +161,7 @@ public Q_SLOTS:
     /*!
      * Set current play mdoe to list loop.
      */
-    void musicPlayListLoop();
+    void musicPlaylistLoop();
     /*!
      * Set current play mdoe to single loop.
      */
@@ -258,17 +258,14 @@ public Q_SLOTS:
      * Create right menu.
      */
     void musicCreateRightMenu();
-    /////////////////////////////////////////////
     /*!
      * Search file from list.
      */
     void musicSearchIndexChanged(int row, int col);
-    /////////////////////////////////////////////
     /*!
      * Get settings parameters.
      */
     void getParameterSetting();
-    /////////////////////////////////////////////
     /*!
      * Delete love item from indexs.
      */
@@ -277,7 +274,6 @@ public Q_SLOTS:
      * Delete items from indexs.
      */
     void setDeleteItemAt(const QStringList &path, bool remove, bool current, int toolIndex);
-    /////////////////////////////////////////////
     /*!
      * The current lrc should update, emit it.
      */
@@ -301,7 +297,7 @@ public Q_SLOTS:
     /*!
      * Get current play lists.
      */
-    void getCurrentPlayList(QStringList &list);
+    void getCurrentPlaylist(QStringList &list);
 
 protected:
     virtual void resizeEvent(QResizeEvent *event) override;
@@ -334,7 +330,7 @@ private:
     int m_currentMusicSongTreeIndex;
 
     MusicPlayer* m_musicPlayer;
-    MusicPlayedlist* m_musicPlayList;
+    MusicPlaylist* m_musicPlaylist;
     MusicSongsSummariziedWidget *m_musicSongTreeWidget;
     MusicBottomAreaWidget *m_bottomAreaWidget;
     MusicTopAreaWidget *m_topAreaWidget;

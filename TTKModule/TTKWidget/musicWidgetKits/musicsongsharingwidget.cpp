@@ -31,7 +31,7 @@ MusicSongSharingWidget::MusicSongSharingWidget(QWidget *parent)
 
     m_qrCodeWidget = new QRCodeQWidget(QByteArray(), QSize(90, 90), this);
     m_qrCodeWidget->setMargin(2);
-    m_qrCodeWidget->setIcon(":/image/lb_player_logo", 0.23);
+    m_qrCodeWidget->setIcon(":/image/lb_app_logo", 0.23);
     m_ui->QRCodeIconWidgetLayout->addWidget(m_qrCodeWidget);
 
 #ifdef Q_OS_UNIX
@@ -115,17 +115,17 @@ void MusicSongSharingWidget::confirmButtonClicked()
                 {
                     const MusicObject::MusicSongInformation info(d->getMusicSongInfos().first());
                     QString server = d->getQueryServer();
-                    if(server == "WangYi")
+                    if(server == QUERY_WY_INTERFACE)
                         server = MusicUtils::Algorithm::mdII(WY_SG_SHARE, ALG_LOW_KEY, false).arg(info.m_songId);
-                    else if(server == "QQ")
+                    else if(server == QUERY_QQ_INTERFACE)
                         server = MusicUtils::Algorithm::mdII(QQ_SG_SHARE, ALG_LOW_KEY, false).arg(info.m_songId);
-                    else if(server == "Kugou")
+                    else if(server == QUERY_KG_INTERFACE)
                         server = MusicUtils::Algorithm::mdII(KG_SG_SHARE, ALG_LOW_KEY, false).arg(info.m_songId);
-                    else if(server == "Baidu")
+                    else if(server == QUERY_BD_INTERFACE)
                         server = MusicUtils::Algorithm::mdII(BD_SG_SHARE, ALG_LOW_KEY, false).arg(info.m_songId);
-                    else if(server == "Kuwo")
+                    else if(server == QUERY_KW_INTERFACE)
                         server = MusicUtils::Algorithm::mdII(KW_SG_SHARE, ALG_LOW_KEY, false).arg(info.m_songId);
-                    else if(server == "XiaMi")
+                    else if(server == QUERY_XM_INTERFACE)
                         server = MusicUtils::Algorithm::mdII(XM_SG_SHARE, ALG_LOW_KEY, false).arg(info.m_songId);
                     else
                     {
@@ -149,17 +149,17 @@ void MusicSongSharingWidget::confirmButtonClicked()
                     id.remove(MUSIC_YYT_PREFIX);
                     server = MusicUtils::Algorithm::mdII(YT_MV_SHARE, ALG_LOW_KEY, false).arg(id);
                 }
-                else if(server == "WangYi")
+                else if(server == QUERY_WY_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(WY_MV_SHARE, ALG_LOW_KEY, false).arg(id);
-                else if(server == "QQ")
+                else if(server == QUERY_QQ_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(QQ_MV_SHARE, ALG_LOW_KEY, false).arg(id);
-                else if(server == "Kugou")
+                else if(server == QUERY_KG_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KG_MV_SHARE, ALG_LOW_KEY, false).arg(id);
-                else if(server == "Baidu")
+                else if(server == QUERY_BD_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(BD_MV_SHARE, ALG_LOW_KEY, false).arg(id);
-                else if(server == "Kuwo")
+                else if(server == QUERY_KW_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KW_MV_SHARE, ALG_LOW_KEY, false).arg(id);
-                else if(server == "XiaMi")
+                else if(server == QUERY_XM_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(XM_MV_SHARE, ALG_LOW_KEY, false).arg(id);
                 else
                 {
@@ -173,17 +173,17 @@ void MusicSongSharingWidget::confirmButtonClicked()
         case Artist:
             {
                 QString server = m_data["queryServer"].toString();
-                if(server == "WangYi")
+                if(server == QUERY_WY_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(WY_AR_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "QQ")
+                else if(server == QUERY_QQ_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(QQ_AR_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Kugou")
+                else if(server == QUERY_KG_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KG_AR_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Baidu")
+                else if(server == QUERY_BD_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(BD_AR_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Kuwo")
+                else if(server == QUERY_KW_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KW_AR_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "XiaMi")
+                else if(server == QUERY_XM_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(XM_AR_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
                 else
                 {
@@ -197,17 +197,17 @@ void MusicSongSharingWidget::confirmButtonClicked()
         case Album:
             {
                 QString server = m_data["queryServer"].toString();
-                if(server == "WangYi")
+                if(server == QUERY_WY_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(WY_AL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "QQ")
+                else if(server == QUERY_QQ_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(QQ_AL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Kugou")
+                else if(server == QUERY_KG_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KG_AL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Baidu")
+                else if(server == QUERY_BD_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(BD_AL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Kuwo")
+                else if(server == QUERY_KW_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KW_AL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "XiaMi")
+                else if(server == QUERY_XM_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(XM_AL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
                 else
                 {
@@ -221,17 +221,17 @@ void MusicSongSharingWidget::confirmButtonClicked()
         case Playlist:
             {
                 QString server = m_data["queryServer"].toString();
-                if(server == "WangYi")
+                if(server == QUERY_WY_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(WY_PL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "QQ")
+                else if(server == QUERY_QQ_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(QQ_PL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Kugou")
+                else if(server == QUERY_KG_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KG_PL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Baidu")
+                else if(server == QUERY_BD_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(BD_PL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "Kuwo")
+                else if(server == QUERY_KW_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(KW_PL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
-                else if(server == "XiaMi")
+                else if(server == QUERY_XM_INTERFACE)
                     server = MusicUtils::Algorithm::mdII(XM_PL_SHARE, ALG_LOW_KEY, false).arg(m_data["id"].toString());
                 else
                 {
@@ -296,7 +296,7 @@ void MusicSongSharingWidget::downLoadDataChanged(const QString &playUrl, const Q
 void MusicSongSharingWidget::close()
 {
     ///remove temp file path
-    QFile::remove(ART_DIR_FULL + TEMPORARY_DIR);
+    QFile::remove(ART_DIR_FULL + TEMPPATH);
     MusicAbstractMoveDialog::close();
 }
 

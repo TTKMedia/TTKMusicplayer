@@ -1,9 +1,13 @@
 #include "musicqmmputils.h"
 #include "musicobject.h"
+#include "musicstringutils.h"
+#include "musicsettingmanager.h"
 
 #include <QSettings>
 ///qmmp incldue
 #include "qmmp.h"
+#include "visual.h"
+#include "visualfactory.h"
 
 QString MusicUtils::QMMP::pluginPath(const QString &module, const QString &format)
 {
@@ -16,7 +20,7 @@ QString MusicUtils::QMMP::pluginPath(const QString &module, const QString &forma
     return path;
 }
 
-void MusicUtils::QMMP::midTransferFile()
+void MusicUtils::QMMP::updateMidConfigFile()
 {
     const QString &confPath = MAKE_CONFIG_DIR_FULL + QString("wildmidi.cfg");
     QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
@@ -38,4 +42,29 @@ void MusicUtils::QMMP::midTransferFile()
         }
     }
     file.close();
+}
+
+void MusicUtils::QMMP::enableVisualPlugin(const QString &name, bool enable)
+{
+    foreach(VisualFactory *v, Visual::factories())
+    {
+        if(v->properties().shortName == name)
+        {
+            Visual::setEnabled(v, enable);
+            break;
+        }
+    }
+}
+
+void MusicUtils::QMMP::updateRippleSpectrumConfigFile()
+{
+    QSettings settings(Qmmp::configFile(), QSettings::IniFormat);
+    settings.beginGroup("OuterEWave");
+
+    QString colors = M_SETTING_PTR->value(MusicSettingManager::OtherRippleSpectrumColorChoiced).toString();
+    settings.setValue("colors", colors.remove(";"));
+    const double opacity = M_SETTING_PTR->value(MusicSettingManager::OtherRippleSpectrumOpacityChoiced).toInt()/100.0;
+    settings.setValue("opacity", opacity);
+
+    settings.endGroup();
 }

@@ -9,7 +9,7 @@ MusicDJRadioProgramCategoryThread::MusicDJRadioProgramCategoryThread(QObject *pa
     : MusicDownLoadQueryThreadAbstract(parent)
 {
     m_pageSize = 30;
-    m_queryServer = "WangYi";
+    m_queryServer = QUERY_WY_INTERFACE;
 }
 
 void MusicDJRadioProgramCategoryThread::startToSearch(QueryType type, const QString &category)
@@ -41,7 +41,7 @@ void MusicDJRadioProgramCategoryThread::startToPage(int offset)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -64,7 +64,7 @@ void MusicDJRadioProgramCategoryThread::startToSearch(const QString &category)
                       MusicUtils::Algorithm::mdII(DJ_DETAIL_N_URL, false),
                       MusicUtils::Algorithm::mdII(DJ_DETAIL_NDT_URL, false).arg(category));
     if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     QNetworkReply *reply = m_manager->post(request, parameter);
     connect(reply, SIGNAL(finished()), SLOT(getDetailsFinished()));
@@ -86,7 +86,7 @@ void MusicDJRadioProgramCategoryThread::getProgramInfo(MusicResultsItem &item)
                       MusicUtils::Algorithm::mdII(DJ_PROGRAM_INFO_N_URL, false),
                       MusicUtils::Algorithm::mdII(DJ_PROGRAM_INFO_NDT_URL, false).arg(item.m_id));
     if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->post(request, parameter);
@@ -195,7 +195,7 @@ void MusicDJRadioProgramCategoryThread::getDetailsFinished()
             if(value["code"].toInt() == 200 && value.contains("programs"))
             {
                 bool categoryFlag = false;
-                ////////////////////////////////////////////////////////////
+                //
                 const QVariantList &datas = value["programs"].toList();
                 foreach(const QVariant &var, datas)
                 {
@@ -220,7 +220,7 @@ void MusicDJRadioProgramCategoryThread::getDetailsFinished()
                     if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
                     readFromMusicSongAttribute(&musicInfo, mainSongObject, m_searchQuality, true);
                     if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
-                    ////////////////////////////////////////////////////////////
+                    //
                     if(!categoryFlag)
                     {
                         categoryFlag = true;
@@ -232,7 +232,7 @@ void MusicDJRadioProgramCategoryThread::getDetailsFinished()
                         info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["createTime"].toULongLong()).toString("yyyy-MM-dd");
                         emit createCategoryInfoItem(info);
                     }
-                    ////////////////////////////////////////////////////////////
+                    //
                     if(musicInfo.m_songAttrs.isEmpty())
                     {
                         continue;

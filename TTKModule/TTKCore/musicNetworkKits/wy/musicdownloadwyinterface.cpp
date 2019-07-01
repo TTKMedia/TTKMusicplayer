@@ -4,6 +4,7 @@
 #include "musicalgorithmutils.h"
 #include "musicurlutils.h"
 #include "musicsettingmanager.h"
+#include "musicnetworkabstract.h"
 #///QJson import
 #include "qjson/parser.h"
 #include "qalg/qaeswrap.h"
@@ -13,9 +14,8 @@
 #include <QSslConfiguration>
 #include <QNetworkAccessManager>
 
-void MusicDownLoadWYInterface::makeTokenQueryQequest(QNetworkRequest *request)
+void MusicDownLoadWYInterface::makeTokenQueryRequest(QNetworkRequest *request)
 {
-    request->setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request->setRawHeader("Referer", MusicUtils::Algorithm::mdII(WY_BASE_URL, false).toUtf8());
     request->setRawHeader("Origin", MusicUtils::Algorithm::mdII(WY_BASE_URL, false).toUtf8());
     request->setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(WY_UA_URL_1, ALG_UA_KEY, false).toUtf8());
@@ -26,16 +26,18 @@ void MusicDownLoadWYInterface::makeTokenQueryQequest(QNetworkRequest *request)
                                             .arg(MusicUtils::Algorithm::mdII(WY_NUID_URL, ALG_UA_KEY, false))
                                             .arg(MusicUtils::Algorithm::mdII(WY_NNID_URL, ALG_UA_KEY, false))
                                             .arg(WY_WYYY_URL).toUtf8());
+    MusicObject::setSslConfiguration(request);
 }
 
 QByteArray MusicDownLoadWYInterface::makeTokenQueryUrl(QNetworkRequest *request, const QString &query, const QString &type)
 {
-    QByteArray parameter = QAesWrap::encrypt(type.toUtf8(), "0CoJUm6Qyw8W8jud", "0102030405060708");
-    parameter = QAesWrap::encrypt(parameter, "a44e542eaac91dce", "0102030405060708");
+    QAesWrap aes;
+    QByteArray parameter = aes.encryptCBC(type.toUtf8(), "0CoJUm6Qyw8W8jud", "0102030405060708");
+    parameter = aes.encryptCBC(parameter, "a44e542eaac91dce", "0102030405060708");
     MusicUtils::Url::urlEncode(parameter);
 
     request->setUrl(QUrl(query));
-    makeTokenQueryQequest(request);
+    makeTokenQueryRequest(request);
 
     return "params=" + parameter + "&encSecKey=" + WY_SECKRY.toUtf8();
 }
@@ -46,12 +48,8 @@ void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSong
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    makeTokenQueryQequest(&request);
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfig = request.sslConfiguration();
-    sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    request.setSslConfiguration(sslConfig);
-#endif
+    makeTokenQueryRequest(&request);
+
     QNetworkAccessManager manager;
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = manager.get(request);
@@ -67,6 +65,7 @@ void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSong
     QJson::Parser parser;
     bool ok;
     const QVariant &data = parser.parse(reply->readAll(), &ok);
+
     if(ok)
     {
         QVariantMap value = data.toMap();
@@ -100,9 +99,9 @@ void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSong
     }
 }
 
-void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate)
+void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate, const QString &suffix)
 {
-    const qlonglong dfsId = /*key.value("dfsId").toLongLong()*/0;
+    const qint64 dfsId = /*key.value("dfsId").toLongLong()*/0;
     if(key.isEmpty() || dfsId == 0)
     {
         readFromMusicSongAttribute(info, bitrate);
@@ -114,7 +113,7 @@ void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSong
         attr.m_format = key.value("extension").toString();
         if(attr.m_format.isEmpty())
         {
-            attr.m_format =  MP3_FILE_PREFIX;
+            attr.m_format = suffix;
         }
         attr.m_size = MusicUtils::Number::size2Label(key.value("size").toInt());
         attr.m_url = MusicUtils::Algorithm::mdII(WY_SONG_PATH_URL, false).arg(encryptedId(dfsId)).arg(dfsId);
@@ -151,33 +150,38 @@ void MusicDownLoadWYInterface::readFromMusicSongAttribute(MusicObject::MusicSong
     {
         if(maxBr == MB_999 || maxBr == MB_320)
         {
-            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128);
-            readFromMusicSongAttribute(info, key["mMusic"].toMap(), MB_192);
-            readFromMusicSongAttribute(info, key["hMusic"].toMap(), MB_320);
+            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128, MP3_FILE_PREFIX);
+            readFromMusicSongAttribute(info, key["mMusic"].toMap(), MB_192, MP3_FILE_PREFIX);
+            readFromMusicSongAttribute(info, key["hMusic"].toMap(), MB_320, MP3_FILE_PREFIX);
+            readFromMusicSongAttribute(info, key["fMusic"].toMap(), MB_999, FLC_FILE_PREFIX);
         }
         else if(maxBr == MB_192)
         {
-            readFromMusicSongAttribute(info, key["mMusic"].toMap(), MB_192);
-            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128);
+            readFromMusicSongAttribute(info, key["mMusic"].toMap(), MB_192, MP3_FILE_PREFIX);
+            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128, MP3_FILE_PREFIX);
         }
         else
         {
-            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128);
+            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128, MP3_FILE_PREFIX);
         }
     }
     else
     {
         if(quality == QObject::tr("SD") && maxBr >= MB_128)
         {
-            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128);
+            readFromMusicSongAttribute(info, key["bMusic"].toMap(), MB_128, MP3_FILE_PREFIX);
         }
         else if(quality == QObject::tr("HQ") && maxBr >= MB_192)
         {
-            readFromMusicSongAttribute(info, key["mMusic"].toMap(), MB_192);
+            readFromMusicSongAttribute(info, key["mMusic"].toMap(), MB_192, MP3_FILE_PREFIX);
         }
         else if(quality == QObject::tr("SQ") && maxBr >= MB_320)
         {
-            readFromMusicSongAttribute(info, key["hMusic"].toMap(), MB_320);
+            readFromMusicSongAttribute(info, key["hMusic"].toMap(), MB_320, MP3_FILE_PREFIX);
+        }
+        else if(quality == QObject::tr("CD") && maxBr >= MB_999)
+        {
+            readFromMusicSongAttribute(info, key["fMusic"].toMap(), MB_999, FLC_FILE_PREFIX);
         }
     }
 }
@@ -188,11 +192,7 @@ void MusicDownLoadWYInterface::readFromMusicSongAttributeNew(MusicObject::MusicS
     const QByteArray &parameter = makeTokenQueryUrl(&request,
                       MusicUtils::Algorithm::mdII(WY_SONG_INFO_N_URL, false),
                       MusicUtils::Algorithm::mdII(WY_SONG_INFO_NDT_URL, false).arg(info->m_songId).arg(bitrate*1000));
-#ifndef QT_NO_SSL
-    QSslConfiguration sslConfig = request.sslConfiguration();
-    sslConfig.setPeerVerifyMode(QSslSocket::VerifyNone);
-    request.setSslConfiguration(sslConfig);
-#endif
+
     QNetworkAccessManager manager;
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = manager.post(request, parameter);
@@ -238,9 +238,9 @@ void MusicDownLoadWYInterface::readFromMusicSongAttributeNew(MusicObject::MusicS
     }
 }
 
-void MusicDownLoadWYInterface::readFromMusicSongAttributeNew(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate)
+void MusicDownLoadWYInterface::readFromMusicSongAttributeNew(MusicObject::MusicSongInformation *info, const QVariantMap &key, int bitrate, const QString &suffix)
 {
-    const qlonglong fid = /*key.value("fid").toLongLong()*/0;
+    const qint64 fid = /*key.value("fid").toLongLong()*/0;
     if(key.isEmpty() || fid == 0)
     {
         readFromMusicSongAttribute(info, bitrate);
@@ -252,7 +252,7 @@ void MusicDownLoadWYInterface::readFromMusicSongAttributeNew(MusicObject::MusicS
         attr.m_format = key.value("extension").toString();
         if(attr.m_format.isEmpty())
         {
-            attr.m_format =  MP3_FILE_PREFIX;
+            attr.m_format = suffix;
         }
         attr.m_size = MusicUtils::Number::size2Label(key.value("size").toInt());
         attr.m_url = MusicUtils::Algorithm::mdII(WY_SONG_PATH_URL, false).arg(encryptedId(fid)).arg(fid);
@@ -289,33 +289,38 @@ void MusicDownLoadWYInterface::readFromMusicSongAttributeNew(MusicObject::MusicS
     {
         if(maxBr == MB_999 || maxBr == MB_320)
         {
-            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128);
-            readFromMusicSongAttributeNew(info, key["m"].toMap(), MB_192);
-            readFromMusicSongAttributeNew(info, key["h"].toMap(), MB_320);
+            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128, MP3_FILE_PREFIX);
+            readFromMusicSongAttributeNew(info, key["m"].toMap(), MB_192, MP3_FILE_PREFIX);
+            readFromMusicSongAttributeNew(info, key["h"].toMap(), MB_320, MP3_FILE_PREFIX);
+            readFromMusicSongAttributeNew(info, key["f"].toMap(), MB_999, FLC_FILE_PREFIX);
         }
         else if(maxBr == MB_192)
         {
-            readFromMusicSongAttributeNew(info, key["m"].toMap(), MB_192);
-            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128);
+            readFromMusicSongAttributeNew(info, key["m"].toMap(), MB_192, MP3_FILE_PREFIX);
+            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128, MP3_FILE_PREFIX);
         }
         else
         {
-            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128);
+            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128, MP3_FILE_PREFIX);
         }
     }
     else
     {
         if(quality == QObject::tr("SD") && maxBr >= MB_128)
         {
-            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128);
+            readFromMusicSongAttributeNew(info, key["l"].toMap(), MB_128, MP3_FILE_PREFIX);
         }
         else if(quality == QObject::tr("HQ") && maxBr >= MB_192)
         {
-            readFromMusicSongAttributeNew(info, key["m"].toMap(), MB_192);
+            readFromMusicSongAttributeNew(info, key["m"].toMap(), MB_192, MP3_FILE_PREFIX);
         }
         else if(quality == QObject::tr("SQ") && maxBr >= MB_320)
         {
-            readFromMusicSongAttributeNew(info, key["h"].toMap(), MB_320);
+            readFromMusicSongAttributeNew(info, key["h"].toMap(), MB_320, MP3_FILE_PREFIX);
+        }
+        else if(quality == QObject::tr("CD") && maxBr >= MB_999)
+        {
+            readFromMusicSongAttributeNew(info, key["f"].toMap(), MB_999, FLC_FILE_PREFIX);
         }
     }
 }
@@ -336,7 +341,7 @@ QString MusicDownLoadWYInterface::encryptedId(const QString &string)
     }
 
     QByteArray encodedData = MusicUtils::Algorithm::md5(array2);
-#if (defined MUSIC_GREATER_NEW && !defined MUSIC_NO_WINEXTRAS)
+#if (defined TTK_GREATER_NEW && !defined TTK_NO_WINEXTRAS)
     encodedData = encodedData.toBase64(QByteArray::Base64UrlEncoding);
 #else
     encodedData = encodedData.toBase64();

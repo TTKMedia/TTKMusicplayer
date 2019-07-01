@@ -409,7 +409,7 @@ void MusicUserDialog::clearOriginData()
 
     m_ui->automaticLogin->setChecked(false);
     m_ui->rememberPwd->setChecked(false);
-#ifdef MUSIC_GREATER_NEW
+#ifdef TTK_GREATER_NEW
     m_ui->userComboBox->setCurrentText(QString());
 #else
     m_ui->userComboBox->setCurrentIndex(-1);
@@ -471,11 +471,11 @@ void MusicUserDialog::networkLoginMode()
 void MusicUserDialog::readFromUserConfig()
 {
     MusicUserConfigManager xml;
-    if(!xml.readUserXMLConfig())
+    if(!xml.readConfig())
     {
         return;
     }
-    xml.readUserConfig(m_records);
+    xml.readUserData(m_records);
     readFromUserSettings();
 }
 
@@ -507,7 +507,7 @@ void MusicUserDialog::writeToUserConfig()
 {
     MusicUserConfigManager xml;
     writeToUserSettings();
-    xml.writeUserXMLConfig(m_records);
+    xml.writeUserData(m_records);
 }
 
 void MusicUserDialog::writeToUserSettings()

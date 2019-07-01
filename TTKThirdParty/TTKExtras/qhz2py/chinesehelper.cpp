@@ -9,7 +9,7 @@ class ChineseHelperPrivate : public TTKPrivate<ChineseHelper>
 public:
     ChineseHelperPrivate();
 
-    QMap<QString, QString> m_data;
+    MStringMap m_data;
 
 };
 
@@ -18,9 +18,8 @@ ChineseHelperPrivate::ChineseHelperPrivate()
     m_data = PinyinResource::getChineseResource();
 }
 
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-///
+
+
 ChineseHelper::ChineseHelper()
 {
     TTK_INIT_PRIVATE;

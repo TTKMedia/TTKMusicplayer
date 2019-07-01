@@ -25,17 +25,17 @@
 /*! @brief The class of music radio thread of playlist.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_NETWORK_EXPORT MusicRadioPlayListThread : public MusicRadioThreadAbstract
+class MUSIC_NETWORK_EXPORT MusicRadioPlaylistThread : public MusicRadioThreadAbstract
 {
     Q_OBJECT
-    TTK_DECLARE_MODULE(MusicRadioPlayListThread)
+    TTK_DECLARE_MODULE(MusicRadioPlaylistThread)
 public:
     /*!
      * Object contsructor.
      */
-    explicit MusicRadioPlayListThread(QObject *parent = nullptr, QNetworkCookieJar *cookie = nullptr);
+    explicit MusicRadioPlaylistThread(QObject *parent = nullptr, QNetworkCookieJar *cookie = nullptr);
 
-    virtual ~MusicRadioPlayListThread();
+    virtual ~MusicRadioPlaylistThread();
 
     /*!
      * Start to download data.
@@ -44,7 +44,7 @@ public:
     /*!
      * Get music playlist.
      */
-    inline const QStringList &getMusicPlayList() const { return m_playList; }
+    inline const QStringList &getMusicPlaylist() const { return m_playlist; }
 
 public Q_SLOTS:
     /*!
@@ -53,7 +53,7 @@ public Q_SLOTS:
     virtual void downLoadFinished() override;
 
 protected:
-    QStringList m_playList;
+    QStringList m_playlist;
 
 };
 

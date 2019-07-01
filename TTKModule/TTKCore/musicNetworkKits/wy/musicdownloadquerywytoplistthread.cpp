@@ -6,7 +6,7 @@
 MusicDownLoadQueryWYToplistThread::MusicDownLoadQueryWYToplistThread(QObject *parent)
     : MusicDownLoadQueryToplistThread(parent)
 {
-    m_queryServer = "WangYi";
+    m_queryServer = QUERY_WY_INTERFACE;
 }
 
 void MusicDownLoadQueryWYToplistThread::startToSearch(QueryType type, const QString &toplist)
@@ -39,7 +39,7 @@ void MusicDownLoadQueryWYToplistThread::startToSearch(const QString &toplist)
                       MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_N_URL, false),
                       MusicUtils::Algorithm::mdII(WY_SG_TOPLIST_NDT_URL, false).arg(toplist));
     if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->post(request, parameter);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -79,7 +79,7 @@ void MusicDownLoadQueryWYToplistThread::downLoadFinished()
                 info.m_description = value["description"].toString();
                 info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString("yyyy-MM-dd");
                 emit createToplistInfoItem(info);
-                ////////////////////////////////////////////////////////////
+                //
                 const QVariantList &datas = value["tracks"].toList();
                 foreach(const QVariant &var, datas)
                 {

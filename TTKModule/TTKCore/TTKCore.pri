@@ -19,6 +19,7 @@
 include($$PWD/musicCoreKits/MusicCoreKits.pri)
 include($$PWD/musicLrcKits/MusicLrcKits.pri)
 include($$PWD/musicNetworkKits/MusicNetworkKits.pri)
+include($$PWD/musicPlaylistKits/MusicPlaylistKits.pri)
 include($$PWD/musicSearchKits/MusicSearchKits.pri)
 include($$PWD/musicToolsKits/MusicToolsKits.pri)
 include($$PWD/musicToolsSetsKits/MusicToolsSetsKits.pri)

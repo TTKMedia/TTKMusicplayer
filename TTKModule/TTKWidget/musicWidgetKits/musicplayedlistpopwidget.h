@@ -24,7 +24,7 @@
 
 class QLabel;
 class QScrollArea;
-class MusicPlayedlist;
+class MusicPlaylist;
 class MusicSongsListPlayedTableWidget;
 
 #define PlayedPairItem(a, b) std::pair<int, int>(a, b);
@@ -76,11 +76,11 @@ public:
     /*!
      * Set current play list.
      */
-    void setPlaylist(MusicPlayedlist *playlist);
+    void setPlaylist(MusicPlaylist *playlist);
     /*!
      * Get current play list.
      */
-    MusicPlayedlist *playlist() const;
+    MusicPlaylist *playlist() const;
 
     /*!
      * Clear music data list.
@@ -169,14 +169,14 @@ protected:
     /*!
      * Set play list count.
      */
-    void setPlayListCount(int count);
+    void setPlaylistCount(int count);
     /*!
      * Set play state to pause or stop.
      */
-    void setPlayEmpty();
+    void setPlaylistEmpty();
 
     QList<QLabel*> m_labels;
-    MusicPlayedlist *m_playlist;
+    MusicPlaylist *m_playlist;
     MusicSongs m_songLists;
     QScrollArea *m_scrollArea;
     MusicSongsListPlayedTableWidget *m_playedListWidget;

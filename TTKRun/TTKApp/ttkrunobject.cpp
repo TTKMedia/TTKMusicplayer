@@ -24,10 +24,8 @@ TTKRunObjectPrivate::~TTKRunObjectPrivate()
     delete m_process;
 }
 
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-///
-///
+
+
 TTKRunObject::TTKRunObject(QObject *parent)
     : QObject(parent)
 {
@@ -48,7 +46,7 @@ void TTKRunObject::run(int argc, char **argv)
 {
     TTK_D(TTKRunObject);
 
-    QStringList list(APPNAME);
+    QStringList list(APP_NAME);
     if(argc == 3)
     {
         list << QString::fromLocal8Bit(argv[1]) << QString::fromLocal8Bit(argv[2]);

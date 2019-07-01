@@ -112,7 +112,7 @@ void MusicSongsToolBoxTopWidget::showMenu()
     musicAddNewFiles.addAction(tr("openOnlyDir"), this, SLOT(addNewDir()));
 
     menu.addAction(tr("playLater"), this, SLOT(addToPlayLater()));
-    menu.addAction(tr("addToPlayList"), this, SLOT(addToPlayedList()));
+    menu.addAction(tr("addToPlaylist"), this, SLOT(addToPlayedList()));
 
     QMenu musicSortFiles(tr("sort"), &menu);
     musicSortFiles.addAction(tr("sortByFileName"))->setData(0);
@@ -222,7 +222,7 @@ MusicSongsToolBoxMaskWidget::~MusicSongsToolBoxMaskWidget()
 
 void MusicSongsToolBoxMaskWidget::paintEvent(QPaintEvent *event)
 {
-    int alpha = M_SETTING_PTR->value(MusicSettingManager::BgListTransparentChoiced).toInt();
+    int alpha = M_SETTING_PTR->value(MusicSettingManager::BackgroundListTransparentChoiced).toInt();
         alpha = MusicUtils::Widget::reRenderValue<int>(0xFF, 0x1F, alpha);
     QWidget::paintEvent(event);
     QPainter painter(this);

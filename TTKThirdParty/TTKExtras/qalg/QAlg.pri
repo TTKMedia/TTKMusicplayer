@@ -19,6 +19,7 @@
 INCLUDEPATH += $$PWD
 
 SOURCES += \
+    $$PWD/aes_ecb.cpp \
     $$PWD/aes_cbc.cpp \
     $$PWD/aes_core.cpp \
     $$PWD/cbc128.cpp \

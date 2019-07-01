@@ -23,7 +23,6 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-#define ROW_HIGHT   30
 #define SEARCH_ITEM_DEFINED(index, names)                                                   \
     case index:                                                                             \
     {                                                                                       \
@@ -67,6 +66,7 @@ MusicSongsListTableWidget::MusicSongsListTableWidget(int index, QWidget *parent)
 
     connect(&m_timerShow, SIGNAL(timeout()), SLOT(showTimeOut()));
     connect(&m_timerStay, SIGNAL(timeout()), SLOT(stayTimeOut()));
+    connect(this, SIGNAL(cellDoubleClicked(int,int)), MusicApplication::instance(), SLOT(musicPlayIndexClicked(int,int)));
 }
 
 MusicSongsListTableWidget::~MusicSongsListTableWidget()
@@ -89,7 +89,6 @@ void MusicSongsListTableWidget::updateSongsFileName(const MusicSongs &songs)
     {
         return;
     }
-    ////////////////////////////////////////////////////////////////
 
     const int count = rowCount();
     setRowCount(songs.count());
@@ -125,7 +124,7 @@ void MusicSongsListTableWidget::updateSongsFileName(const MusicSongs &songs)
 void MusicSongsListTableWidget::clearAllItems()
 {
     //Remove play widget
-    setRowHeight(m_playRowIndex, ROW_HIGHT);
+    setRowHeight(m_playRowIndex, ITEM_ROW_HEIGHT_M);
     removeCellWidget(m_playRowIndex, 0);
 
     delete m_musicSongsPlayWidget;
@@ -189,24 +188,34 @@ void MusicSongsListTableWidget::selectRow(int index)
 
     const QString &name = !m_musicSongs->isEmpty() ? m_musicSongs->at(index).getMusicName() : QString();
     const QString &path = !m_musicSongs->isEmpty() ? m_musicSongs->at(index).getMusicPath() : QString();
+    QString timeLabel;
 
     m_musicSongsPlayWidget = new MusicSongsListPlayWidget(index, this);
-    m_musicSongsPlayWidget->setParameter(name, path);
+    m_musicSongsPlayWidget->setParameter(name, path, timeLabel);
+
+    if(!m_musicSongs->isEmpty())
+    {
+        MusicSong *song = &(*m_musicSongs)[index];
+        if(song->getMusicPlayTime().isEmpty() || song->getMusicPlayTime() == MUSIC_TIME_INIT)
+        {
+            song->setMusicPlayTime(timeLabel);
+        }
+    }
 
     setSpan(index, 0, 1, 6);
     setCellWidget(index, 0, m_musicSongsPlayWidget);
-    setRowHeight(index, 2*ROW_HIGHT);
+    setRowHeight(index, ITEM_ROW_HEIGHT_XL);
     m_playRowIndex = index;
 
     //just fix table widget size hint
     setFixedHeight( allRowsHeight() );
 }
 
-void MusicSongsListTableWidget::setTimerLabel(const QString &time, const QString &total) const
+void MusicSongsListTableWidget::updateTimeLabel(const QString &current, const QString &total) const
 {
     if(m_musicSongsPlayWidget)
     {
-        m_musicSongsPlayWidget->insertTimerLabel(time, total);
+        m_musicSongsPlayWidget->updateTimeLabel(current, total);
     }
 }
 
@@ -227,7 +236,7 @@ void MusicSongsListTableWidget::replacePlayWidgetRow()
 
     const QString &name = !m_musicSongs->isEmpty() ? m_musicSongs->at(m_playRowIndex).getMusicName() : QString();
 
-    setRowHeight(m_playRowIndex, ROW_HIGHT);
+    setRowHeight(m_playRowIndex, ITEM_ROW_HEIGHT_M);
 
     removeCellWidget(m_playRowIndex, 0);
     delete takeItem(m_playRowIndex, 0);
@@ -683,7 +692,7 @@ void MusicSongsListTableWidget::contextMenuEvent(QContextMenuEvent *event)
     rightClickMenu.setStyleSheet(MusicUIObject::MMenuStyle02);
     rightClickMenu.addAction(QIcon(":/contextMenu/btn_play"), tr("musicPlay"), this, SLOT(musicPlayClicked()));
     rightClickMenu.addAction(tr("playLater"), this, SLOT(musicAddToPlayLater()));
-    rightClickMenu.addAction(tr("addToPlayList"), this, SLOT(musicAddToPlayedList()));
+    rightClickMenu.addAction(tr("addToPlaylist"), this, SLOT(musicAddToPlayedList()));
     rightClickMenu.addAction(tr("downloadMore..."), this, SLOT(musicSongDownload()));
     rightClickMenu.addSeparator();
 
@@ -691,7 +700,7 @@ void MusicSongsListTableWidget::contextMenuEvent(QContextMenuEvent *event)
     QList<QAction*> actions;
     actions << musicPlaybackMode.addAction(tr("OrderPlay"), MusicApplication::instance(), SLOT(musicPlayOrder()));
     actions << musicPlaybackMode.addAction(tr("RandomPlay"), MusicApplication::instance(), SLOT(musicPlayRandom()));
-    actions << musicPlaybackMode.addAction(tr("ListCycle"), MusicApplication::instance(), SLOT(musicPlayListLoop()));
+    actions << musicPlaybackMode.addAction(tr("ListCycle"), MusicApplication::instance(), SLOT(musicPlaylistLoop()));
     actions << musicPlaybackMode.addAction(tr("SingleCycle"), MusicApplication::instance(), SLOT(musicPlayOneLoop()));
     actions << musicPlaybackMode.addAction(tr("PlayOnce"), MusicApplication::instance(), SLOT(musicPlayItemOnce()));
 
@@ -701,7 +710,7 @@ void MusicSongsListTableWidget::contextMenuEvent(QContextMenuEvent *event)
     {
         case MusicObject::PM_PlayOrder: index = 0; break;
         case MusicObject::PM_PlayRandom: index = 1; break;
-        case MusicObject::PM_PlayListLoop: index = 2; break;
+        case MusicObject::PM_PlaylistLoop: index = 2; break;
         case MusicObject::PM_PlayOneLoop: index = 3; break;
         case MusicObject::PM_PlayOnce: index = 4; break;
         default: break;

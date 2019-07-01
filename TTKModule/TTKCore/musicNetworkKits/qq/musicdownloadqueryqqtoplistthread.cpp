@@ -6,7 +6,7 @@
 MusicDownLoadQueryQQToplistThread::MusicDownLoadQueryQQToplistThread(QObject *parent)
     : MusicDownLoadQueryToplistThread(parent)
 {
-    m_queryServer = "QQ";
+    m_queryServer = QUERY_QQ_INTERFACE;
 }
 
 void MusicDownLoadQueryQQToplistThread::startToSearch(QueryType type, const QString &toplist)
@@ -36,9 +36,8 @@ void MusicDownLoadQueryQQToplistThread::startToSearch(const QString &toplist)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(QQ_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -78,7 +77,7 @@ void MusicDownLoadQueryQQToplistThread::downLoadFinished()
                 info.m_description = topInfo["info"].toString();
                 info.m_updateTime = value["date"].toString();
                 emit createToplistInfoItem(info);
-                ////////////////////////////////////////////////////////////
+                //
                 const QVariantList &datas = value["songlist"].toList();
                 foreach(const QVariant &var, datas)
                 {

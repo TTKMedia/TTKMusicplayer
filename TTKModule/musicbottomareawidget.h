@@ -25,6 +25,7 @@
 
 class MusicSystemTrayMenu;
 class MusicWindowExtras;
+class MusicRippleSpecturmObject;
 
 namespace Ui {
     class MusicApplication;
@@ -87,7 +88,7 @@ public:
      */
     void showMessage(const QString &title, const QString &text);
 
-#if defined MUSIC_DEBUG && defined Q_OS_WIN && defined MUSIC_GREATER_NEW
+#if defined TTK_DEBUG && defined Q_OS_WIN && defined TTK_WINEXTRAS
     /*!
      * Set current value.
      */
@@ -105,8 +106,20 @@ public:
      * Resize window bound by widgte resize called.
      */
     void resizeWindow();
+    /*!
+     * Get setting parameter.
+     */
+    void getParameterSetting();
+    /*!
+     * Current is show full container.
+     */
+    bool isLrcWidgetShowFullScreen() const;
 
 public Q_SLOTS:
+    /*!
+     * Show full container or not.
+     */
+    void lrcWidgetShowFullScreen();
     /*!
      * Lock or not current desktop lrc.
      */
@@ -128,9 +141,11 @@ protected:
 
     Ui::MusicApplication *m_ui;
     bool m_systemCloseConfig;
+    bool m_lrcWidgetShowFullScreen;
     QSystemTrayIcon *m_systemTray;
     MusicSystemTrayMenu *m_systemTrayMenu;
     MusicWindowExtras *m_musicWindowExtras;
+    MusicRippleSpecturmObject *m_musicRipplesObject;
 
     static MusicBottomAreaWidget *m_instance;
 };

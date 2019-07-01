@@ -18,7 +18,7 @@
 
 INCLUDEPATH += $$PWD
 
-!contains(CONFIG, MUSIC_NO_MSVC_LINK_NEED){
+!contains(CONFIG, TTK_NO_MSVC_LINK_NEED){
 HEADERS  += \
     $$PWD/musicabstracttablewidget.h \
     $$PWD/musicabstractmovedialog.h \
@@ -28,7 +28,7 @@ HEADERS  += \
     $$PWD/musicfillitemtablewidget.h \
     $$PWD/musicquerytablewidget.h \
     $$PWD/musicqueryfoundtablewidget.h \
-    $$PWD/musicsmoothmovingtablewidget.h \
+    $$PWD/musicsmoothmovingwidget.h \
     $$PWD/musicitemdelegate.h \
     $$PWD/musiccolordialog.h \
     $$PWD/musicmarqueewidget.h \
@@ -45,7 +45,6 @@ HEADERS  += \
     $$PWD/musictransitionanimationlabel.h \
     $$PWD/musicfloatabstractwidget.h \
     $$PWD/musicfoundabstractwidget.h \
-    $$PWD/musictimersliderwidget.h \
     $$PWD/musiccutsliderwidget.h \
     $$PWD/musictoolmenuwidget.h \
     $$PWD/musicgiflabelwidget.h \
@@ -59,11 +58,13 @@ HEADERS  += \
     $$PWD/musiclayoutanimationwidget.h \
     $$PWD/musiccommentswidget.h \
     $$PWD/musicdownloadabstracttablewidget.h \
-    $$PWD/musicfunctiontoolboxwidget.h
+    $$PWD/musicfunctiontoolboxwidget.h \
+    $$PWD/musicsongitemselecteddialog.h \
+    $$PWD/musictimesliderwidget.h
 
 }
 
-contains(CONFIG, MUSIC_BUILD_LIB){
+contains(CONFIG, TTK_BUILD_LIB){
 SOURCES += \
     $$PWD/musicabstracttablewidget.cpp \
     $$PWD/musicabstractmovedialog.cpp \
@@ -73,7 +74,7 @@ SOURCES += \
     $$PWD/musicfillitemtablewidget.cpp \
     $$PWD/musicquerytablewidget.cpp \
     $$PWD/musicqueryfoundtablewidget.cpp \
-    $$PWD/musicsmoothmovingtablewidget.cpp \
+    $$PWD/musicsmoothmovingwidget.cpp \
     $$PWD/musicitemdelegate.cpp \
     $$PWD/musiccolordialog.cpp \
     $$PWD/musicmarqueewidget.cpp \
@@ -90,7 +91,6 @@ SOURCES += \
     $$PWD/musictransitionanimationlabel.cpp \
     $$PWD/musicfloatabstractwidget.cpp \
     $$PWD/musicfoundabstractwidget.cpp \
-    $$PWD/musictimersliderwidget.cpp \
     $$PWD/musiccutsliderwidget.cpp \
     $$PWD/musictoolmenuwidget.cpp \
     $$PWD/musicgiflabelwidget.cpp \
@@ -104,6 +104,8 @@ SOURCES += \
     $$PWD/musiclayoutanimationwidget.cpp \
     $$PWD/musiccommentswidget.cpp \
     $$PWD/musicdownloadabstracttablewidget.cpp \
-    $$PWD/musicfunctiontoolboxwidget.cpp
+    $$PWD/musicfunctiontoolboxwidget.cpp \
+    $$PWD/musicsongitemselecteddialog.cpp \
+    $$PWD/musictimesliderwidget.cpp
 
 }

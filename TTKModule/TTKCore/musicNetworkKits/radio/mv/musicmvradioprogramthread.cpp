@@ -132,9 +132,8 @@ void MusicMVRadioProgramThread::readFromMusicMVAttribute(MusicObject::MusicSongI
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(KG_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -185,7 +184,7 @@ void MusicMVRadioProgramThread::readFromMusicMVAttribute(MusicObject::MusicSongI
     MusicObject::MusicSongAttribute attr;
     attr.m_url = key["downurl"].toString();
     attr.m_size = MusicUtils::Number::size2Label(key["filesize"].toInt());
-    attr.m_format = MusicUtils::Core::fileSuffix(attr.m_url);
+    attr.m_format = MusicUtils::Core::StringSplite(attr.m_url);
 
     int bitRate = key["bitrate"].toInt()/1000;
     if(bitRate <= 375)

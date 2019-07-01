@@ -88,7 +88,7 @@ public:
     /*!
      * Get state of background is artist shown.
      */
-    inline bool artBackgroundIsShow() const { return m_showArtBackground;}
+    inline bool artistBackgroundIsShow() const { return m_showArtistBackground;}
 
     /*!
      * Set current lrc size.
@@ -120,7 +120,7 @@ Q_SIGNALS:
     /*!
      * The art background state has changed emit.
      */
-    void artBgHasChanged();
+    void artistBackgroundHasChanged();
 
 public Q_SLOTS:
     /*!
@@ -140,13 +140,13 @@ public Q_SLOTS:
      */
     void saveLrcTimeChanged();
     /*!
-     * The art background state has changed.
+     * The artist background state has changed.
      */
-    void artBackgroundChanged();
+    void artistBackgroundChanged();
     /*!
-     * The art background has uploaded.
+     * The artist background has uploaded.
      */
-    void showArtBackgroundUploadedWidget();
+    void showArtistBackgroundUploadedWidget();
     /*!
      * Open current lrc file location.
      */
@@ -246,7 +246,7 @@ protected:
     bool m_mouseLeftPressed, m_lrcChangeState, m_mouseMoved;
     int m_lrcChangeOffset, m_lrcChangeDelta;
 
-    bool m_lrcDisplayAll, m_showArtBackground;
+    bool m_lrcDisplayAll, m_showArtistBackground;
     int m_animationFreshTime, m_lrcSizeProperty;
 
     qint64 m_changeSpeedValue;

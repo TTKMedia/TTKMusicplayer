@@ -13,7 +13,7 @@ MusicXMMVInfoConfigManager::MusicXMMVInfoConfigManager(QObject *parent)
 
 }
 
-void MusicXMMVInfoConfigManager::readMVInfoConfig(MusicObject::MusicSongInformation *info)
+void MusicXMMVInfoConfigManager::readMovieInfoData(MusicObject::MusicSongInformation *info)
 {
     info->m_timeLength = MusicTime::msecTime2LabelJustified(readXmlTextByTagName("duration").toInt()*1000);
 
@@ -59,7 +59,7 @@ void MusicXMMVInfoConfigManager::readMVInfoConfig(MusicObject::MusicSongInformat
 MusicDownLoadQueryXMMovieThread::MusicDownLoadQueryXMMovieThread(QObject *parent)
     : MusicDownLoadQueryMovieThread(parent)
 {
-    m_queryServer = "XiaMi";
+    m_queryServer = QUERY_XM_INTERFACE;
     m_pageSize = 30;
 }
 
@@ -83,7 +83,7 @@ void MusicDownLoadQueryXMMovieThread::startToSearch(QueryType type, const QStrin
                       MusicUtils::Algorithm::mdII(XM_SONG_DATA_URL, false).arg(text).arg(1).arg(m_pageSize),
                       MusicUtils::Algorithm::mdII(XM_SONG_URL, false));
     if(!m_manager || m_stateCode != MusicObject::NetworkInit) return;
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -107,9 +107,8 @@ void MusicDownLoadQueryXMMovieThread::startToPage(int offset)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(XM_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(pageDownLoadFinished()));
@@ -229,13 +228,13 @@ void MusicDownLoadQueryXMMovieThread::pageDownLoadFinished()
         const QString html(bytes);
         QRegExp regx;
         regx.setMinimal(true);
-        ///////////////////////////////////////////////////////////////////
+        //
         regx.setPattern("<p class=\"counts\">.*(\\d+).*</p>");
         if(html.indexOf(regx) != -1)
         {
             m_pageTotal = regx.cap(1).toInt();
         }
-        ///////////////////////////////////////////////////////////////////
+        //
         regx.setPattern("<div class=\"mv_item100_block\">(.*)</div>");
         int pos = html.indexOf(regx);
         while(pos != -1)
@@ -303,7 +302,7 @@ void MusicDownLoadQueryXMMovieThread::singleDownLoadFinished()
 
 void MusicDownLoadQueryXMMovieThread::readFromMusicMVAttribute(MusicObject::MusicSongInformation *info, bool more)
 {
-    if(info->m_songId.isEmpty() || !m_manager)
+    if(info->m_songId.isEmpty())
     {
         return;
     }
@@ -312,12 +311,13 @@ void MusicDownLoadQueryXMMovieThread::readFromMusicMVAttribute(MusicObject::Musi
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(XM_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    request.setRawHeader("Cookie", "xm_expect_legacy=1; ");
+    MusicObject::setSslConfiguration(&request);
 
+    QNetworkAccessManager manager;
     MusicSemaphoreLoop loop;
-    QNetworkReply *reply = m_manager->get(request);
+    QNetworkReply *reply = manager.get(request);
     QObject::connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
     QObject::connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), &loop, SLOT(quit()));
     loop.exec();
@@ -379,9 +379,8 @@ void MusicDownLoadQueryXMMovieThread::readFromMusicMVAttribute(MusicObject::Musi
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(XM_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -396,15 +395,15 @@ void MusicDownLoadQueryXMMovieThread::readFromMusicMVAttribute(MusicObject::Musi
 
     MusicXMMVInfoConfigManager xml;
     xml.fromByteArray(reply->readAll());
-    xml.readMVInfoConfig(info);
+    xml.readMovieInfoData(info);
 
     for(int i=0; i<info->m_songAttrs.count(); ++i)
     {
         MusicObject::MusicSongAttribute *attr = &info->m_songAttrs[i];
         const QString &urlPrefix = attr->m_url;
         QStringList urls;
-        int round = attr->m_size.toLongLong()/20000000 + 1;
-        int start = 0, end = 0;
+        qint64 round = attr->m_size.toLongLong()/20000000 + 1;
+        qint64 start = 0, end = 0;
         while(round > 0)
         {
             end = start + 20000000;
@@ -423,6 +422,6 @@ void MusicDownLoadQueryXMMovieThread::readFromMusicMVAttribute(MusicObject::Musi
         }
         attr->m_size = MusicUtils::Number::size2Label(attr->m_size.toLongLong());
         attr->m_url = urls.join(TTK_STR_SPLITER);
-        attr->m_format = MusicUtils::Core::fileSuffix(attr->m_url);
+        attr->m_format = MusicUtils::Core::StringSplite(attr->m_url);
     }
 }

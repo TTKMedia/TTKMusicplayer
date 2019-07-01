@@ -10,7 +10,7 @@
 MusicDownLoadQueryBDMovieThread::MusicDownLoadQueryBDMovieThread(QObject *parent)
     : MusicDownLoadQueryMovieThread(parent)
 {
-    m_queryServer = "Baidu";
+    m_queryServer = QUERY_BD_INTERFACE;
     m_pageSize = 30;
 }
 
@@ -31,9 +31,8 @@ void MusicDownLoadQueryBDMovieThread::startToSearch(QueryType type, const QStrin
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -57,9 +56,8 @@ void MusicDownLoadQueryBDMovieThread::startToPage(int offset)
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(pageDownLoadFinished()));
@@ -266,9 +264,8 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::M
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -296,7 +293,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::M
             const QString &type = value["source"].toString();
 
             if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
-            if(type == "yinyuetai")
+            if(type == QUERY_YYT_INTERFACE)
             {
                 const QString &vars = QString("videoId=%1").arg(value["tvid"].toString());
                 readFromMusicMVAttributeYYT(info, vars, true);
@@ -316,7 +313,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeWeb(MusicObject::M
                 attr.m_url = value["file_link"].toString();
                 attr.m_duration = info->m_timeLength;
                 attr.m_bitrate = MB_500;
-                attr.m_format = MusicUtils::Core::fileSuffix(attr.m_url);
+                attr.m_format = MusicUtils::Core::StringSplite(attr.m_url);
                 if(!findUrlFileSize(&attr)) return;
                 info->m_songAttrs.append(attr);
             }
@@ -336,9 +333,8 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttribute(MusicObject::Musi
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -363,7 +359,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttribute(MusicObject::Musi
             const QString &vars = value["flashvars"].toString();
 
             if(m_interrupt || !m_manager || m_stateCode != MusicObject::NetworkInit) return;
-            if(type == "yinyuetai")
+            if(type == QUERY_YYT_INTERFACE)
             {
                 readFromMusicMVAttributeYYT(info, vars, more);
             }
@@ -397,9 +393,8 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -506,9 +501,8 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -606,7 +600,7 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeYYT(MusicObject::M
     if(datas.count() == 2)
     {
         const QString &v = datas.front();
-        attr.m_format = MusicUtils::Core::fileSuffix(v);
+        attr.m_format = MusicUtils::Core::StringSplite(v);
         attr.m_size = MusicUtils::Number::size2Label(key["fileSize"].toLongLong());
         info->m_songAttrs.append(attr);
     }
@@ -623,9 +617,8 @@ void MusicDownLoadQueryBDMovieThread::readFromMusicMVAttributeIQY(MusicObject::M
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("User-Agent", MusicUtils::Algorithm::mdII(BD_UA_URL_1, ALG_UA_KEY, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);

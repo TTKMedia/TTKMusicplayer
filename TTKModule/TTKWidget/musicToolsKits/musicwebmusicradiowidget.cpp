@@ -8,7 +8,7 @@
 #include "musicotherdefine.h"
 #include "musicwidgetheaders.h"
 
-#ifdef MUSIC_GREATER_NEW
+#ifdef TTK_GREATER_NEW
 #include <QStandardPaths>
 #else
 #include <QDesktopServices>
@@ -123,7 +123,7 @@ void MusicWebMusicRadioWidget::addListWidgetItem()
     {
         const int index = rowCount();
         setRowCount(index + 1);
-        setRowHeight(index, 60);
+        setRowHeight(index, ITEM_ROW_HEIGHT_XL);
 
         QTableWidgetItem *item = new QTableWidgetItem;
         setItem(index, 0, item);
@@ -198,17 +198,17 @@ void MusicWebMusicRadioWidget::sendToDesktopLink()
         fileName = it->text();
     }
 
-#ifdef MUSIC_GREATER_NEW
-    QString desktop = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
+#ifdef TTK_GREATER_NEW
+    const QString &desktop = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
 #else
-    QString desktop = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
+    const QString &desktop = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
 #endif
 
     MusicRegeditManager reg;
 #ifdef Q_OS_WIN
-    reg.setFileLink(MAIN_DIR_FULL + APPEXE, desktop + "/" + fileName + ".lnk", QString(), QString("%1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), tr("TTK Radio Link"));
+    reg.setFileLink(MAIN_DIR_FULL + APP_EXE_NAME, desktop + "/" + fileName + ".lnk", QString(), QString("%1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), tr("TTK Radio Link"));
 #else
-    reg.setFileLink(QString(" %1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), desktop, MAIN_DIR_FULL + APPNAME, MusicObject::getAppDir(), fileName);
+    reg.setFileLink(QString(" %1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), desktop, MAIN_DIR_FULL + APP_NAME, MusicObject::getAppDir(), fileName);
 #endif
 }
 

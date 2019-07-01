@@ -21,7 +21,7 @@
     ui->setFrameShadow(QFrame::Plain);                                          \
     ui->setAlignment(Qt::AlignVCenter);                                         \
     ui->setWidget(list);                                                        \
-    ui->verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle03);
+    ui->verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
 
 
 MusicBackgroundSkinDialog::MusicBackgroundSkinDialog(QWidget *parent)
@@ -46,7 +46,7 @@ MusicBackgroundSkinDialog::MusicBackgroundSkinDialog(QWidget *parent)
 #endif
     connect(m_ui->skinAnimationSiwidget, SIGNAL(buttonClicked(int)), SLOT(backgroundListWidgetChanged(int)));
 
-    //////////////////////////////////////////////////////
+    //
     m_backgroundList = new MusicBackgroundListWidget(this);
     NEW_OPERATOR(m_ui->recommandScrollArea, m_backgroundList);
 
@@ -62,7 +62,7 @@ MusicBackgroundSkinDialog::MusicBackgroundSkinDialog(QWidget *parent)
     m_myThemeIndex = CURRENT_ITEMS_COUNT;
     addThemeListWidgetItem();
     backgroundListWidgetChanged(0);
-    //////////////////////////////////////////////////////
+    //
     m_ui->resetWindowButton->setStyleSheet(MusicUIObject::MKGBtnResetWindow);
     m_ui->skinTransparentButton->setStyleSheet(MusicUIObject::MToolButtonStyle06);
     m_ui->listTransparentButton->setStyleSheet(MusicUIObject::MToolButtonStyle06);
@@ -72,9 +72,9 @@ MusicBackgroundSkinDialog::MusicBackgroundSkinDialog(QWidget *parent)
     m_ui->listTransparentLabel->setStyleSheet(MusicUIObject::MColorStyle03);
 
     connect(m_ui->skinTransparentLabelBox, SIGNAL(clicked(bool)), SLOT(windowTransparentChanged(bool)));
-    connect(m_ui->skinTransparentButton, SIGNAL(valueChanged(int)), MusicTopAreaWidget::instance(), SLOT(musicBgTransparentChanged(int)));
+    connect(m_ui->skinTransparentButton, SIGNAL(valueChanged(int)), MusicTopAreaWidget::instance(), SLOT(musicBackgroundTransparentChanged(int)));
     connect(m_ui->skinTransparentButton, SIGNAL(sliderStateChanged(bool)), MusicTopAreaWidget::instance(), SLOT(musicBackgroundSliderStateChanged(bool)));
-    connect(m_ui->listTransparentButton, SIGNAL(valueChanged(int)), MusicTopAreaWidget::instance(), SLOT(musicPlayListTransparent(int)));
+    connect(m_ui->listTransparentButton, SIGNAL(valueChanged(int)), MusicTopAreaWidget::instance(), SLOT(musicPlaylistTransparent(int)));
     connect(m_ui->topTitleCloseButton, SIGNAL(clicked()), SLOT(close()));
     connect(m_ui->paletteButton, SIGNAL(clicked()), SLOT(showPaletteDialog()));
     connect(m_ui->customSkin, SIGNAL(clicked()) ,SLOT(showCustomSkinDialog()));
@@ -123,20 +123,20 @@ bool MusicBackgroundSkinDialog::themeValidCheck(QString &name, QString &path)
     return true;
 }
 
-QString MusicBackgroundSkinDialog::cpoyArtFileToLocal(const QString &path)
+QString MusicBackgroundSkinDialog::cpoyArtistFileToLocal(const QString &path)
 {
     const int index = cpoyFileToLocal(path);
     return (index != -1) ? QString("theme-%1").arg(index + 1) : QString();
 }
 
-void MusicBackgroundSkinDialog::updateArtFileTheme(const QString &theme)
+void MusicBackgroundSkinDialog::updateArtistFileTheme(const QString &theme)
 {
     const QString &des = QString("%1%2%3").arg(USER_THEME_DIR_FULL).arg(theme).arg(TTS_FILE);
     m_myBackgroundList->createItem(theme, des, true);
     m_myBackgroundList->updateLastedItem();
 }
 
-void MusicBackgroundSkinDialog::setCurrentBgTheme(const QString &theme, int alpha, int listAlpha)
+void MusicBackgroundSkinDialog::setCurrentBackgroundTheme(const QString &theme, int alpha, int listAlpha)
 {
     m_backgroundList->setCurrentItemName(theme);
     m_myBackgroundList->setCurrentItemName(theme);
@@ -144,7 +144,7 @@ void MusicBackgroundSkinDialog::setCurrentBgTheme(const QString &theme, int alph
     m_ui->listTransparentButton->setValue(listAlpha);
     setListTransToolText(listAlpha);
 
-    const bool state = M_SETTING_PTR->value(MusicSettingManager::BgTransparentEnableChoiced).toBool();
+    const bool state = M_SETTING_PTR->value(MusicSettingManager::BackgroundTransparentEnableChoiced).toBool();
     m_ui->skinTransparentButton->setValue(state ? alpha : 100);
     m_ui->skinTransparentButton->setEnabled(state);
     setSkinTransToolText(state ? alpha : 100);
@@ -225,7 +225,7 @@ void MusicBackgroundSkinDialog::backgroundListWidgetChanged(int index)
     {
         return;
     }
-    ///////////////////////////////////////////////////////
+    //
     m_dailyBackgroundList->abort();
     m_thunderBackgroundList->abort();
     if(index == 2)
@@ -236,7 +236,7 @@ void MusicBackgroundSkinDialog::backgroundListWidgetChanged(int index)
     {
         m_thunderBackgroundList->init();
     }
-    ///////////////////////////////////////////////////////
+    //
     m_ui->stackedWidget->setIndex(0, 0);
     m_ui->stackedWidget->start(index);
 }
@@ -271,7 +271,7 @@ void MusicBackgroundSkinDialog::currentColorChanged(const QString &path)
 {
     if(path.contains(MUSIC_COLOR_FILE))
     {
-        MusicTopAreaWidget::instance()->musicBgTransparentChanged(path);
+        MusicTopAreaWidget::instance()->musicBackgroundTransparentChanged(path);
     }
     else
     {
@@ -284,11 +284,11 @@ void MusicBackgroundSkinDialog::currentColorChanged(const QString &path)
 void MusicBackgroundSkinDialog::windowTransparentChanged(bool state)
 {
     m_ui->skinTransparentButton->setEnabled(state);
-    M_SETTING_PTR->setValue(MusicSettingManager::BgTransparentEnableChoiced, state);
+    M_SETTING_PTR->setValue(MusicSettingManager::BackgroundTransparentEnableChoiced, state);
     if(!state)
     {
         m_ui->skinTransparentButton->setValue(100);
-        MusicTopAreaWidget::instance()->musicBgTransparentChanged(100);
+        MusicTopAreaWidget::instance()->musicBackgroundTransparentChanged(100);
     }
 }
 

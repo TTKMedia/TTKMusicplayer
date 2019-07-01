@@ -16,7 +16,7 @@ const QString BD_MV_INFO_DV        = "cEoxTGtxZW9qQ1d0UHhZZWpabnNnSlBLTWV5Z055RT
 MusicDownLoadQueryYYTThread::MusicDownLoadQueryYYTThread(QObject *parent)
     : MusicDownLoadQueryMovieThread(parent)
 {
-    m_queryServer = "YinYueTai";
+    m_queryServer = QUERY_YYT_INTERFACE;
 }
 
 void MusicDownLoadQueryYYTThread::startToSearch(QueryType type, const QString &text)
@@ -35,11 +35,10 @@ void MusicDownLoadQueryYYTThread::startToSearch(QueryType type, const QString &t
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("App-Id", MusicUtils::Algorithm::mdII(BD_MV_INFO_ID, false).toUtf8());
     request.setRawHeader("Device-Id", MusicUtils::Algorithm::mdII(BD_MV_INFO_DID, false).toUtf8());
     request.setRawHeader("Device-V", MusicUtils::Algorithm::mdII(BD_MV_INFO_DV, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     m_reply = m_manager->get(request);
     connect(m_reply, SIGNAL(finished()), SLOT(downLoadFinished()));
@@ -136,11 +135,10 @@ void MusicDownLoadQueryYYTThread::readFromMusicMVAttribute(MusicObject::MusicSon
 
     QNetworkRequest request;
     request.setUrl(musicUrl);
-    request.setRawHeader("Content-Type", "application/x-www-form-urlencoded");
     request.setRawHeader("App-Id", MusicUtils::Algorithm::mdII(BD_MV_INFO_ID, false).toUtf8());
     request.setRawHeader("Device-Id", MusicUtils::Algorithm::mdII(BD_MV_INFO_DID, false).toUtf8());
     request.setRawHeader("Device-V", MusicUtils::Algorithm::mdII(BD_MV_INFO_DV, false).toUtf8());
-    setSslConfiguration(&request);
+    MusicObject::setSslConfiguration(&request);
 
     MusicSemaphoreLoop loop;
     QNetworkReply *reply = m_manager->get(request);
@@ -194,7 +192,7 @@ void MusicDownLoadQueryYYTThread::readFromMusicMVAttribute(MusicObject::MusicSon
         MusicObject::MusicSongAttribute attr;
         attr.m_url = url;
         attr.m_size = size;
-        attr.m_format = MusicUtils::Core::fileSuffix(v);
+        attr.m_format = MusicUtils::Core::StringSplite(v);
         attr.m_duration = duration;
         v = datas.back();
         foreach(QString var, v.split("&"))

@@ -37,12 +37,12 @@ void MusicPhotoModLabel::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
     QPainter painter(this);
-    QPixmap bgPix(":/lrc/lb_transparent");
+    QPixmap pix(":/lrc/lb_transparent");
     for(int i=0; i<ceil(width()/PIX_WIDTH); ++i)
     {
         for(int j=0; j<=ceil(height()/PIX_HEIGHT); ++j)
         {
-            painter.drawPixmap(i*PIX_WIDTH, j*PIX_HEIGHT, PIX_WIDTH, PIX_HEIGHT, bgPix);
+            painter.drawPixmap(i*PIX_WIDTH, j*PIX_HEIGHT, PIX_WIDTH, PIX_HEIGHT, pix);
         }
     }
 
@@ -51,7 +51,6 @@ void MusicPhotoModLabel::paintEvent(QPaintEvent *event)
 
     const QRect imageRect(m_imagePos.x(), m_imagePos.y(), m_width, m_height);
     painter.drawPixmap(imageRect, m_showPix);
-    painter.end();
 }
 
 void MusicPhotoModLabel::wheelEvent(QWheelEvent *event)

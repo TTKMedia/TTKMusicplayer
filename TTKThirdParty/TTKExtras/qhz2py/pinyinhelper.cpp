@@ -34,8 +34,8 @@ public:
 
 
     ChineseHelper m_chineseHelper;
-    QMap<QString, QString> m_pinyinTable;
-    QMap<QString, QString> m_mutliPinyinTable;
+    MStringMap m_pinyinTable;
+    MStringMap m_mutliPinyinTable;
     QString m_pinyinSeparator;   // = ",";
     QChar m_chineseLing;         // = '〇';
     QString m_allUnmarkedVowel;  // = "aeiouv";
@@ -112,9 +112,8 @@ QStringList PinyinHelperPrivate::convertWithoutTone(QString pinyinArrayString)
     return pinyinSet.toList();
 }
 
-//////////////////////////////////////////////////////
-//////////////////////////////////////////////////////
-///
+
+
 PinyinHelper::PinyinHelper()
 {
     TTK_INIT_PRIVATE;

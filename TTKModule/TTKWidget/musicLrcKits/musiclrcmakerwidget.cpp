@@ -139,7 +139,6 @@ void MusicLrcMakerWidgetItem::paintEvent(QPaintEvent *event)
 
     painter.setPen(QColor(144, 184, 214));
     painter.drawText(m_intervalCount, -10, m_paintIndex, 60, Qt::AlignLeft | Qt::AlignVCenter, text());
-    painter.end();
 }
 
 
@@ -642,7 +641,7 @@ void MusicLrcMakerWidget::createThirdWidget()
         m_ui->lrcViewer->addWidget(w);
         m_musicLrcContainer.append(w);
     }
-    ///////////////////////////////////////////////////////////////
+
     m_ui->stateButton_T->setText(!MusicApplication::instance()->isPlaying() ? tr("Play") : tr("Stop"));
     m_ui->timeSlider_T->setFocusPolicy(Qt::NoFocus);
     m_ui->lrc_make_up_T->setToolTip(tr("Before 1s"));
@@ -731,8 +730,8 @@ void MusicLrcMakerWidget::resetToOriginPlayMode()
             w->musicPlayOrder(); break;
         case MusicObject::PM_PlayRandom:
             w->musicPlayRandom(); break;
-        case MusicObject::PM_PlayListLoop:
-            w->musicPlayListLoop(); break;
+        case MusicObject::PM_PlaylistLoop:
+            w->musicPlaylistLoop(); break;
         case MusicObject::PM_PlayOneLoop:
             w->musicPlayOneLoop(); break;
         case MusicObject::PM_PlayOnce:
@@ -767,8 +766,8 @@ void MusicLrcMakerWidget::setItemStyleSheet(int index, int size, int transparent
     }
     else
     {
-        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFgColorChoiced").toString()),
-                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBgColorChoiced").toString()));
+        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColorChoiced").toString()),
+                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColorChoiced").toString()));
         w->setLinearGradientColor(cl);
     }
 }
