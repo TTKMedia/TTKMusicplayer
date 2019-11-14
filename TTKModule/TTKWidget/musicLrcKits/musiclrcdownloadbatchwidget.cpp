@@ -17,7 +17,6 @@ MusicLrcDownloadBatchTableWidget::MusicLrcDownloadBatchTableWidget(QWidget *pare
     setAttribute(Qt::WA_TranslucentBackground, false);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
 
     setColumnCount(5);
@@ -68,7 +67,7 @@ void MusicLrcDownloadBatchTableWidget::createAllItems(const MusicSongs &items)
     }
 }
 
-void MusicLrcDownloadBatchTableWidget::listCellClicked(int row, int column)
+void MusicLrcDownloadBatchTableWidget::itemCellClicked(int row, int column)
 {
     Q_UNUSED(row);
     Q_UNUSED(column);
@@ -172,7 +171,7 @@ void MusicLrcDownloadBatchWidget::downloadButtonClicked()
         it->setText("...");
 
         MusicSong *song = &m_localSongs[i];
-        const QString &prefix = lrcDir ? MusicUtils::Core::lrcPrefix() : QFileInfo(song->getMusicPath()).path() + QDir::separator();
+        const QString &prefix = lrcDir ? MusicUtils::String::lrcPrefix() : QFileInfo(song->getMusicPath()).path() + QDir::separator();
         const QString &path = QString("%1/%2%3").arg(prefix).arg(song->getMusicName()).arg(LRC_FILE);
         if(skip && QFile::exists(path))
         {

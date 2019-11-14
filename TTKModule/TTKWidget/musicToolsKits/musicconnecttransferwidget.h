@@ -27,7 +27,8 @@ namespace Ui {
 class MusicConnectTransferWidget;
 }
 class QButtonGroup;
-class MusicFileSenderServer;
+class MusicDeviceInfoItem;
+class MusicConnectTransferThread;
 
 /*! @brief The class of the transfer file to mobile widget.
  * @author Greedysky <greedysky@163.com>
@@ -45,13 +46,9 @@ public:
     virtual ~MusicConnectTransferWidget();
 
     /*!
-     * Open transfer files by mode.
+     * Set current device info item.
      */
-    void openTransferFiles(int mode);
-    /*!
-     * Redirect to current song.
-     */
-    void redirectToCurrentSong(int toolIndex, int songIndex);
+    void setDeviceInfoItem(MusicDeviceInfoItem *item);
 
 Q_SIGNALS:
     /*!
@@ -61,6 +58,10 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     /*!
+     * Button state changed.
+     */
+    void itemSelectedChanged();
+    /*!
      * Current playList selected.
      */
     void currentPlaylistSelected(int index);
@@ -69,21 +70,9 @@ public Q_SLOTS:
      */
     void selectedAllItems(bool check);
     /*!
-     * Start to transfer usb files.
+     * Start to transfer files.
      */
-    void startToTransferUSBFiles();
-    /*!
-     * Start to transfer wifi files.
-     */
-    void startToTransferWIFIFiles();
-    /*!
-     * Reflash removable dir.
-     */
-    void reflashRemovableDir();
-    /*!
-     * Switch to different device.
-     */
-    void switchDiffDevice();
+    void startToTransferFiles();
     /*!
      * Search file from list.
      */
@@ -106,17 +95,16 @@ protected:
      * Get selected files.
      */
     QStringList getSelectedFiles();
-    /*!
-     * Get removable drive name.
-     */
-    QString getRemovableDrive();
+
 
     Ui::MusicConnectTransferWidget *m_ui;
     int m_currentIndex;
     MusicSongs m_currentSongs;
     QButtonGroup *m_buttonGroup;
     MIntListMap m_searchfileListCache;
-    MusicFileSenderServer *m_sendServer;
+    MusicDeviceInfoItem *m_currentDeviceItem;
+    QString m_songCountLabel, m_selectCountLabel;
+    MusicConnectTransferThread *m_transferThread;
 
 };
 

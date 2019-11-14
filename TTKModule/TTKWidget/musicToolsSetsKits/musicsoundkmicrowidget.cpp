@@ -13,9 +13,10 @@
 #include "musicuiobject.h"
 #include "musictoolsetsuiobject.h"
 #include "musicmessagebox.h"
-#include "musicaudiorecordercore.h"
+#include "musicaudiorecorderobject.h"
 #include "musiccodecutils.h"
 #include "musicotherdefine.h"
+#include "musicfileutils.h"
 #include "musictime.h"
 #include "musicsinglemanager.h"
 
@@ -76,7 +77,7 @@ MusicSoundKMicroWidget::MusicSoundKMicroWidget(QWidget *parent)
         m_musicLrcContainer.append(w);
     }
 
-    m_recordCore = new MusicAudioRecorderCore(this);
+    m_recordCore = new MusicAudioRecorderObject(this);
     m_ui->transferButton->setAudioCore(m_recordCore);
 
 #ifdef Q_OS_UNIX
@@ -162,7 +163,7 @@ void MusicSoundKMicroWidget::playFinished()
 
         recordStateChanged(false);
 
-        const QString &filename = MusicUtils::Widget::getSaveFileDialog(this, "Wav(*.wav)");
+        const QString &filename = MusicUtils::File::getSaveFileDialog(this, "Wav(*.wav)");
         if(!filename.isEmpty())
         {
             m_recordCore->addWavHeader(MusicUtils::Codec::toLocal8Bit(filename));
@@ -351,16 +352,16 @@ void MusicSoundKMicroWidget::setItemStyleSheet(int index, int size, int transpar
     w->setFontTransparent(value);
     w->setTransparent(value);
 
-    if(M_SETTING_PTR->value("LrcColorChoiced").toInt() != -1)
+    if(M_SETTING_PTR->value("LrcColor").toInt() != -1)
     {
-        const MusicLrcColor::LrcColorType index = MStatic_cast(MusicLrcColor::LrcColorType, M_SETTING_PTR->value("LrcColorChoiced").toInt());
+        const MusicLrcColor::LrcColorType index = MStatic_cast(MusicLrcColor::LrcColorType, M_SETTING_PTR->value("LrcColor").toInt());
         const MusicLrcColor &cl = MusicLrcColor::mapIndexToColor(index);
         w->setLinearGradientColor(cl);
     }
     else
     {
-        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColorChoiced").toString()),
-                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColorChoiced").toString()));
+        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColor").toString()),
+                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColor").toString()));
         w->setLinearGradientColor(cl);
     }
 }

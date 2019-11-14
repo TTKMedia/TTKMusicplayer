@@ -123,7 +123,7 @@ void MusicDownLoadQueryQQPlaylistThread::getPlaylistInfo(MusicResultsItem &item)
                 item.m_name = value["dissname"].toString();
                 item.m_playCount = QString::number(value["listennum"].toULongLong());
                 item.m_description = value["desc"].toString();
-                item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["ctime"].toULongLong()*1000).toString("yyyy-MM-dd");
+                item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["ctime"].toULongLong()*1000).toString(MUSIC_YEAR_FORMAT);
                 item.m_nickName = value["nickname"].toString();
 
                 const QVariantList &tags = value["tags"].toList();
@@ -204,7 +204,6 @@ void MusicDownLoadQueryQQPlaylistThread::downLoadFinished()
 
 //    emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryQQPlaylistThread::getDetailsFinished()
@@ -298,7 +297,6 @@ void MusicDownLoadQueryQQPlaylistThread::getDetailsFinished()
     }
 
     emit downLoadDataChanged(QString());
-    M_LOGGER_INFO(QString("%1 getDetailsFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryQQPlaylistThread::getMoreDetails(MusicResultsItem *item)

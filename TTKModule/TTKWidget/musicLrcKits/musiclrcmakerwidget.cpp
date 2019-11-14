@@ -189,7 +189,7 @@ MusicLrcMakerWidget::~MusicLrcMakerWidget()
 void MusicLrcMakerWidget::setCurrentSongName(const QString &name)
 {
     m_plainText.clear();
-    m_analysis->setCurrentFileName(QString("%1%2%3").arg(MusicUtils::Core::lrcPrefix()).arg(name).arg(LRC_FILE));
+    m_analysis->setCurrentFileName(QString("%1%2%3").arg(MusicUtils::String::lrcPrefix()).arg(name).arg(LRC_FILE));
     m_ui->songNameEdit->setText(MusicUtils::String::songName(name));
     m_ui->artNameEdit->setText(MusicUtils::String::artistName(name));
 }
@@ -758,16 +758,16 @@ void MusicLrcMakerWidget::setItemStyleSheet(int index, int size, int transparent
     w->setFontTransparent(value);
     w->setTransparent(value);
 
-    if(M_SETTING_PTR->value("LrcColorChoiced").toInt() != -1)
+    if(M_SETTING_PTR->value("LrcColor").toInt() != -1)
     {
-        const MusicLrcColor::LrcColorType index = MStatic_cast(MusicLrcColor::LrcColorType, M_SETTING_PTR->value("LrcColorChoiced").toInt());
+        const MusicLrcColor::LrcColorType index = MStatic_cast(MusicLrcColor::LrcColorType, M_SETTING_PTR->value("LrcColor").toInt());
         const MusicLrcColor &cl = MusicLrcColor::mapIndexToColor(index);
         w->setLinearGradientColor(cl);
     }
     else
     {
-        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColorChoiced").toString()),
-                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColorChoiced").toString()));
+        const MusicLrcColor cl(MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcFrontgroundColor").toString()),
+                               MusicUtils::String::readColorConfig(M_SETTING_PTR->value("LrcBackgroundColor").toString()));
         w->setLinearGradientColor(cl);
     }
 }

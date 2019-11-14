@@ -20,7 +20,6 @@ INCLUDEPATH += $$PWD
 
 !contains(CONFIG, TTK_NO_MSVC_LINK_NEED){
 HEADERS  += \
-    $$PWD/musiclogger.h \
     $$PWD/musicobject.h \
     $$PWD/musicformats.h \
     $$PWD/musicnumberdefine.h \
@@ -30,6 +29,7 @@ HEADERS  += \
     $$PWD/musicplayer.h \
     $$PWD/musicplaylist.h \
     $$PWD/musicabstractxml.h \
+    $$PWD/musicabstractthread.h \
     $$PWD/musicsettingmanager.h \
     $$PWD/musicconnectionpool.h \
     $$PWD/musicregeditmanager.h \
@@ -41,7 +41,7 @@ HEADERS  += \
     $$PWD/musicbackgroundmanager.h \
     $$PWD/musicsemaphoreloop.h \
     $$PWD/musiccategoryconfigmanager.h \
-    $$PWD/musiclicensecore.h \
+    $$PWD/musiclicenseobject.h \
     $$PWD/musicplaylistmanager.h \
     $$PWD/musichotkeymanager.h \
     $$PWD/musicruntimemanager.h \
@@ -60,6 +60,7 @@ SOURCES += \
     $$PWD/musicplayer.cpp \
     $$PWD/musicplaylist.cpp \
     $$PWD/musicabstractxml.cpp \
+    $$PWD/musicabstractthread.cpp \
     $$PWD/musicconnectionpool.cpp \
     $$PWD/musicregeditmanager.cpp \
     $$PWD/musiccoremplayer.cpp \
@@ -69,7 +70,7 @@ SOURCES += \
     $$PWD/musicbackgroundmanager.cpp \
     $$PWD/musicsemaphoreloop.cpp \
     $$PWD/musiccategoryconfigmanager.cpp \
-    $$PWD/musiclicensecore.cpp \
+    $$PWD/musiclicenseobject.cpp \
     $$PWD/musicplaylistmanager.cpp \
     $$PWD/musichotkeymanager.cpp \
     $$PWD/musicruntimemanager.cpp \

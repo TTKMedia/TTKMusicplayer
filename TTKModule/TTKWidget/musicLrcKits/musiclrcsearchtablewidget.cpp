@@ -52,13 +52,13 @@ void MusicLrcSearchTableWidget::musicDownloadLocal(int row)
     const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
     ///download lrc
     MusicDownLoadThreadAbstract *d = M_DOWNLOAD_QUERY_PTR->getDownloadLrcThread(musicSongInfos[row].m_lrcUrl,
-                                     MusicUtils::Core::lrcPrefix() + m_downLoadManager->getSearchedText() + LRC_FILE,
+                                     MusicUtils::String::lrcPrefix() + m_downLoadManager->getSearchedText() + LRC_FILE,
                                      MusicObject::DownloadLrc, this);
     connect(d, SIGNAL(downLoadDataChanged(QString)), SIGNAL(lrcDownloadStateChanged(QString)));
     d->startToDownload();
 }
 
-void MusicLrcSearchTableWidget::listCellEntered(int row, int column)
+void MusicLrcSearchTableWidget::itemCellEntered(int row, int column)
 {
     if(column == 6)
     {
@@ -69,12 +69,12 @@ void MusicLrcSearchTableWidget::listCellEntered(int row, int column)
         unsetCursor();
     }
 
-    MusicQueryItemTableWidget::listCellEntered(row, column);
+    MusicQueryItemTableWidget::itemCellEntered(row, column);
 }
 
-void MusicLrcSearchTableWidget::listCellClicked(int row, int column)
+void MusicLrcSearchTableWidget::itemCellClicked(int row, int column)
 {
-    MusicQueryItemTableWidget::listCellClicked(row, column);
+    MusicQueryItemTableWidget::itemCellClicked(row, column);
     switch(column)
     {
         case 6:

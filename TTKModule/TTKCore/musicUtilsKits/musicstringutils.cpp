@@ -3,6 +3,80 @@
 
 #include <QColor>
 
+QString MusicUtils::String::lrcPrefix()
+{
+    QString path = M_SETTING_PTR->value(MusicSettingManager::DownloadLrcPathDir).toString();
+    if(path.isEmpty())
+    {
+        path = LRC_DIR_FULL;
+    }
+    else
+    {
+        if(!QDir(path).exists())
+        {
+            QDir().mkpath(path);
+        }
+    }
+    return path;
+}
+
+QString MusicUtils::String::musicPrefix()
+{
+    QString path = M_SETTING_PTR->value(MusicSettingManager::DownloadMusicPathDir).toString();
+    if(path.isEmpty())
+    {
+        path = MUSIC_DIR_FULL;
+    }
+    else
+    {
+        if(!QDir(path).exists())
+        {
+            QDir().mkpath(path);
+        }
+    }
+    return path;
+}
+
+QString MusicUtils::String::StringPrefix(const QString &name)
+{
+    return StringPrefix(name, ".");
+}
+
+QString MusicUtils::String::StringPrefix(const QString &name, const QString &prefix)
+{
+    return name.left(name.indexOf(prefix));
+}
+
+QString MusicUtils::String::StringSuffix(const QString &name)
+{
+    return StringSuffix(name, ".");
+}
+
+QString MusicUtils::String::StringSuffix(const QString &name, const QString &suffix)
+{
+    return name.right(name.length() - name.lastIndexOf(suffix) - 1);
+}
+
+QString MusicUtils::String::StringSplite(const QString &name)
+{
+    return StringSplite(name, ".", "?");
+}
+
+QString MusicUtils::String::StringSplite(const QString &name, const QString &prefix, const QString &suffix)
+{
+    const QString &data = StringSuffix(name, prefix);
+    return StringPrefix(data, suffix);
+}
+
+QString MusicUtils::String::splitLineKey()
+{
+#ifdef Q_OS_WIN
+    return "\r\n";
+#else
+    return "\n";
+#endif
+}
+
 QString MusicUtils::String::removeStringBy(const QString &value, const QString &key)
 {
     QString s = value;
@@ -22,6 +96,15 @@ QStringList MusicUtils::String::splitString(const QString &value, const QString 
         strings = value.split(key);
     }
     return strings;
+}
+
+bool MusicUtils::String::isChinese(const QChar &c)
+{
+#ifdef Q_CC_MSVC
+    return '\xa9\x96' == c || (c.unicode() >= 0x4e00 && c.unicode() <= 0x9fa5);
+#else
+    return L'〇' == c || (c.unicode() >= 0x4e00 && c.unicode() <= 0x9fa5);
+#endif
 }
 
 QString MusicUtils::String::artistName(const QString &value, const QString &key)

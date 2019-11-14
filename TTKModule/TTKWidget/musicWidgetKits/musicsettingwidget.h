@@ -77,9 +77,9 @@ Q_SIGNALS:
 
 public Q_SLOTS:
     /*!
-     * Table widget list cell click.
+     * Table widget item cell click.
      */
-    virtual void listCellClicked(int row, int column) override;
+    virtual void itemCellClicked(int row, int column) override;
 
 protected:
     /*!
@@ -154,10 +154,6 @@ public Q_SLOTS:
      * Ripples spectrum color changed.
      */
     void ripplesSpectrumColorChanged();
-    /*!
-     * Ripples spectrum opacity changed.
-     */
-    void ripplesSpectrumOpacityChanged(int value);
     /*!
      * Ripples spectrum opacity enable changed.
      */

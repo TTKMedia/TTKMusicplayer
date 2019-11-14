@@ -21,7 +21,9 @@
 
 #include "musicglobaldefine.h"
 #include "musicwidgetheaders.h"
+#include "musicdeviceinfoobject.h"
 
+class MusicTextSliderWidget;
 class MusicAnimationStackedWidget;
 
 /*! @brief The class of the connect mobile widget.
@@ -57,9 +59,13 @@ private Q_SLOTS:
      */
     void openTransferFiles2Mobile();
     /*!
-     * Open transfer files to wifi widget.
+     * Device type changed.
      */
-    void openTransferFiles2Wifi();
+    void deviceTypeChanged(QAction *action);
+    /*!
+     * Update device info.
+     */
+    void updateDeviceInfo();
 
 protected:
     /*!
@@ -79,6 +85,11 @@ protected:
      */
     void initThirdWidget();
 
+    QMenu m_popMenu;
+    QLabel *m_deviceInfoLabel;
+    MusicTextSliderWidget *m_deviceSizeLabel;
+    MusicDeviceInfoItem m_currentDeviceItem;
+    MusicDeviceInfoObject *m_deviceInfo;
     MusicAnimationStackedWidget *m_stackedWidget;
 
 };

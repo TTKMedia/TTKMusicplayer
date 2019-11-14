@@ -2,9 +2,9 @@
 #include "ui_musicaudiorecorderwidget.h"
 #include "musictime.h"
 #include "musiccodecutils.h"
-#include "musicwidgetutils.h"
+#include "musicfileutils.h"
 #include "musicmessagebox.h"
-#include "musicaudiorecordercore.h"
+#include "musicaudiorecorderobject.h"
 #include "musicsinglemanager.h"
 
 #include <QMovie>
@@ -85,7 +85,7 @@ MusicAudioRecorderWidget::MusicAudioRecorderWidget(QWidget *parent)
     m_mpInputDevSound = nullptr;
     m_mpOutputDevSound = nullptr;
 
-    m_recordCore = new MusicAudioRecorderCore(this);
+    m_recordCore = new MusicAudioRecorderObject(this);
 
     initMonitor();
 }
@@ -181,7 +181,7 @@ void MusicAudioRecorderWidget::onRecordStop()
 
 void MusicAudioRecorderWidget::onRecordSave()
 {
-    const QString &filename = MusicUtils::Widget::getSaveFileDialog(this, "Wav(*.wav)");
+    const QString &filename = MusicUtils::File::getSaveFileDialog(this, "Wav(*.wav)");
     if(!filename.isEmpty())
     {
         m_recordCore->addWavHeader(MusicUtils::Codec::toLocal8Bit(filename));

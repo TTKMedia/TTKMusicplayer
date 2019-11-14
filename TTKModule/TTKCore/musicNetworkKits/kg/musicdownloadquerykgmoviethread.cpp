@@ -155,7 +155,6 @@ void MusicDownLoadQueryKGMovieThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryKGMovieThread::pageDownLoadFinished()
@@ -208,7 +207,6 @@ void MusicDownLoadQueryKGMovieThread::pageDownLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 pageDownLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryKGMovieThread::singleDownLoadFinished()
@@ -240,7 +238,6 @@ void MusicDownLoadQueryKGMovieThread::singleDownLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 singleDownLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryKGMovieThread::readFromMusicMVAttribute(MusicObject::MusicSongInformation *info, bool more)
@@ -347,7 +344,7 @@ void MusicDownLoadQueryKGMovieThread::readFromMusicMVAttribute(MusicObject::Musi
     MusicObject::MusicSongAttribute attr;
     attr.m_url = key["downurl"].toString();
     attr.m_size = MusicUtils::Number::size2Label(key["filesize"].toInt());
-    attr.m_format = MusicUtils::Core::StringSplite(attr.m_url);
+    attr.m_format = MusicUtils::String::StringSplite(attr.m_url);
 
     int bitRate = key["bitrate"].toInt()/1000;
     if(bitRate <= 375)

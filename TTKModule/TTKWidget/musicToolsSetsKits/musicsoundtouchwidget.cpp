@@ -1,8 +1,9 @@
 #include "musicsoundtouchwidget.h"
 #include "ui_musicsoundtouchwidget.h"
-#include "musicaudiorecordercore.h"
+#include "musicaudiorecorderobject.h"
 #include "musicmessagebox.h"
 #include "musicuiobject.h"
+#include "musicfileutils.h"
 #include "musicwidgetutils.h"
 #include "musicsinglemanager.h"
 
@@ -66,7 +67,7 @@ MusicSoundTouchWidget::MusicSoundTouchWidget(QWidget *parent)
     m_ui->playWavButton->setEnabled(false);
     m_ui->transformButton->setEnabled(false);
 
-    m_recordCore = new MusicAudioRecorderCore(this);
+    m_recordCore = new MusicAudioRecorderObject(this);
 
     connect(m_ui->playButton, SIGNAL(clicked()), SLOT(onRecordStart()));
     connect(m_ui->stopButton, SIGNAL(clicked()), SLOT(onRecordStop()));
@@ -138,7 +139,7 @@ void MusicSoundTouchWidget::rateSliderValueChanged(int value)
 
 void MusicSoundTouchWidget::openWavButtonClicked()
 {
-    const QString &filename = MusicUtils::Widget::getOpenFileDialog(this, "Wav(*.wav)");
+    const QString &filename = MusicUtils::File::getOpenFileDialog(this, "Wav(*.wav)");
     if(!filename.isEmpty())
     {
         m_ui->transformButton->setEnabled(true);

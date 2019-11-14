@@ -92,7 +92,7 @@ void MusicDownLoadQueryWYAlbumThread::downLoadFinished()
                 info.m_description = albumValue["name"].toString() + TTK_STR_SPLITER +
                                      albumValue["language"].toString() + TTK_STR_SPLITER +
                                      albumValue["company"].toString() + TTK_STR_SPLITER +
-                                     QDateTime::fromMSecsSinceEpoch(albumValue["publishTime"].toULongLong()).toString("yyyy-MM-dd");
+                                     QDateTime::fromMSecsSinceEpoch(albumValue["publishTime"].toULongLong()).toString(MUSIC_YEAR_FORMAT);
                 //
                 const QVariantList &datas = value["songs"].toList();
                 foreach(const QVariant &var, datas)
@@ -162,7 +162,6 @@ void MusicDownLoadQueryWYAlbumThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryWYAlbumThread::singleDownLoadFinished()
@@ -209,5 +208,4 @@ void MusicDownLoadQueryWYAlbumThread::singleDownLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 singleDownLoadFinished deleteAll").arg(getClassName()));
 }

@@ -49,7 +49,7 @@ macro(_TO_FOUND_WEBENGINE module)
     set(USE_QT_WEBKIT_MODULE "2")
     message(STATUS "Message Found QT_WEBENGINE_MODULE component, build in KuGou by Qt webengine :" ${QT_WEBENGINE_MODULE})
   else()
-    message(STATUS "Message Not found QT_WEBENGINE_MODULE component, build in KuGou by no webkit")
+    message(STATUS "Message Not found QT_WEBENGINE_MODULE component, build in KuGou by no webengine")
   endif()
 endmacro(_TO_FOUND_WEBENGINE)
 
@@ -109,9 +109,18 @@ set(MUSIC_HEADERS
     qalg/cbc128.h
     qalg/qdeswrap.h
     qalg/qaeswrap.h
-    qhz2py/pinyinresource.h
-    qhz2py/chinesehelper.h
-    qhz2py/pinyinhelper.h
+    qdlna/dlnaclient.h
+    qdlna/dlnafinder.h
+    qdlna/dlnahelper.h
+    qdlna/dlnaservice.h
+    qdlna/dlnaxml.h
+    qdlna/dlnafileserver.h
+    qhttpserver/http_parser.h
+    qhttpserver/qhttpconnection.h
+    qhttpserver/qhttprequest.h
+    qhttpserver/qhttpresponse.h
+    qhttpserver/qhttpserver.h
+    qhttpserver/qhttpserverfwd.h
     qimage/gaussianblur.h
     qimage/qimagewrap.h
     qshortcut/qglobalshortcut.h
@@ -131,17 +140,14 @@ set(MUSIC_HEADERS
     qrencode/rscode.h
     qrencode/split.h
     qrencode/qrcodewidget.h
-    qiniu/qnconf.h
-    qiniu/qniohelper.h
-    qiniu/qndataitem.h
-    qiniu/qnmac.h
-    qiniu/qnputextra.h
-    qiniu/qnputpolicy.h
-    qiniu/qnputret.h
-    qiniu/qnutils.h
-    qiniu/qnsimplelistdata.h
-    qiniu/qnsimpleuploaddata.h
-    qiniu/qnsimpledeletedata.h
+    qoss/ossconf.h
+    qoss/ossdataitem.h
+    qoss/ossutils.h
+    qoss/ossdatainterface.h
+    qoss/osslistdata.h
+    qoss/ossdeletedata.h
+    qoss/ossuploaddata.h
+    qoss/ossdownloaddata.h
     qjson/parser.h
     qjson/parserrunnable.h
     qjson/qobjecthelper.h
@@ -158,10 +164,18 @@ set(MUSIC_SOURCES
     qalg/cbc128.cpp
     qalg/qdeswrap.cpp
     qalg/qaeswrap.cpp
+    qdlna/dlnaclient.cpp
+    qdlna/dlnafinder.cpp
+    qdlna/dlnahelper.cpp
+    qdlna/dlnaservice.cpp
+    qdlna/dlnaxml.cpp
+    qdlna/dlnafileserver.cpp
+    qhttpserver/http_parser.c
+    qhttpserver/qhttpconnection.cpp
+    qhttpserver/qhttprequest.cpp
+    qhttpserver/qhttpresponse.cpp
+    qhttpserver/qhttpserver.cpp
     qshortcut/qglobalshortcut.cpp
-    qhz2py/pinyinresource.cpp
-    qhz2py/chinesehelper.cpp
-    qhz2py/pinyinhelper.cpp
     qimage/gaussianblur.cpp
     qimage/qimagewrap.cpp
     qkugou/kugouurl.cpp
@@ -176,16 +190,13 @@ set(MUSIC_SOURCES
     qrencode/rscode.c
     qrencode/split.c
     qrencode/qrcodewidget.cpp
-    qiniu/qnconf.cpp
-    qiniu/qniohelper.cpp
-    qiniu/qnmac.cpp
-    qiniu/qnputextra.cpp
-    qiniu/qnputpolicy.cpp
-    qiniu/qnputret.cpp
-    qiniu/qnutils.cpp
-    qiniu/qnsimplelistdata.cpp
-    qiniu/qnsimpleuploaddata.cpp
-    qiniu/qnsimpledeletedata.cpp
+    qoss/ossconf.cpp
+    qoss/ossutils.cpp
+    qoss/ossdatainterface.cpp
+    qoss/osslistdata.cpp
+    qoss/ossdeletedata.cpp
+    qoss/ossuploaddata.cpp
+    qoss/ossdownloaddata.cpp
     qjson/parser.cpp
     qjson/qobjecthelper.cpp
     qjson/json_scanner.cpp

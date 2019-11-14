@@ -97,8 +97,8 @@ MusicSongsListPlayWidget::MusicSongsListPlayWidget(int index, QWidget *parent)
     connect(m_downloadButton, SIGNAL(clicked()), MusicLeftAreaWidget::instance(), SLOT(musicDownloadSongToLocal()));
     connect(m_deleteButton, SIGNAL(clicked()), parent, SLOT(setDeleteItemAt()));
     connect(this, SIGNAL(renameFinished(QString)), parent, SLOT(setItemRenameFinished(QString)));
-    connect(this, SIGNAL(enterChanged(int,int)), parent, SLOT(listCellEntered(int,int)));
-    connect(m_showMVButton, SIGNAL(clicked()), parent, SLOT(musicSongMovieFoundPy()));
+    connect(this, SIGNAL(enterChanged(int,int)), parent, SLOT(itemCellEntered(int,int)));
+    connect(m_showMVButton, SIGNAL(clicked()), parent, SLOT(musicSongPlayedMovieFound()));
     connect(addButton, SIGNAL(clicked()), parent, SLOT(musicAddToPlayLater()));
 
     connect(MusicLeftAreaWidget::instance(), SIGNAL(currentLoveStateChanged()), SLOT(currentLoveStateClicked()));
@@ -129,7 +129,7 @@ void MusicSongsListPlayWidget::updateTimeLabel(const QString &current, const QSt
 
 void MusicSongsListPlayWidget::updateCurrentArtist()
 {
-    if(!m_noCover && M_SETTING_PTR->value(MusicSettingManager::OtherUseAlbumCoverChoiced).toBool())
+    if(!m_noCover && M_SETTING_PTR->value(MusicSettingManager::OtherUseAlbumCover).toBool())
     {
         return;
     }
@@ -155,7 +155,7 @@ void MusicSongsListPlayWidget::setParameter(const QString &name, const QString &
     }
     m_timeLabel->setText(MUSIC_TIME_INIT + m_totalTimeLabel);
 
-    if(state && M_SETTING_PTR->value(MusicSettingManager::OtherUseAlbumCoverChoiced).toBool())
+    if(state && M_SETTING_PTR->value(MusicSettingManager::OtherUseAlbumCover).toBool())
     {
         QPixmap pix = tag.getCover();
         if(pix.isNull())
@@ -224,11 +224,9 @@ void MusicSongsListPlayWidget::createMoreMenu(QMenu *menu)
     QMenu *addMenu = menu->addMenu(QIcon(":/contextMenu/btn_add"), tr("addToList"));
     addMenu->addAction(tr("musicCloud"));
 
-    menu->addAction(QIcon(":/contextMenu/btn_mobile"), tr("songToMobile"), parent(), SLOT(musicSongTransferWidget()));
-    menu->addAction(QIcon(":/contextMenu/btn_ring"), tr("ringToMobile"), parent(), SLOT(musicSongTransferWidget()));
-    menu->addAction(QIcon(":/contextMenu/btn_similar"), tr("similar"), parent(), SLOT(musicSimilarFoundWidgetPy()));
-    menu->addAction(QIcon(":/contextMenu/btn_share"), tr("songShare"), parent(), SLOT(musicSongSharedWidgetPy()));
-    menu->addAction(QIcon(":/contextMenu/btn_kmicro"), tr("KMicro"), parent(), SLOT(musicSongKMicroWidgetPy()));
+    menu->addAction(QIcon(":/contextMenu/btn_similar"), tr("similar"), parent(), SLOT(musicPlayedSimilarFoundWidget()));
+    menu->addAction(QIcon(":/contextMenu/btn_share"), tr("songShare"), parent(), SLOT(musicSongPlayedSharedWidget()));
+    menu->addAction(QIcon(":/contextMenu/btn_kmicro"), tr("KMicro"), parent(), SLOT(musicSongPlayedKMicroWidget()));
 }
 
 bool MusicSongsListPlayWidget::showArtistPicture(const QString &name) const

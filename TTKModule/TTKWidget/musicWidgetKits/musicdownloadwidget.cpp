@@ -2,7 +2,6 @@
 #include "ui_musicdownloadwidget.h"
 #include "musicuiobject.h"
 #include "musicsettingmanager.h"
-#include "musicnetworkthread.h"
 #include "musicdownloadrecordconfigmanager.h"
 #include "musicdatatagdownloadthread.h"
 #include "musicmessagebox.h"
@@ -100,7 +99,7 @@ MusicDownloadTableItemRole MusicDownloadTableWidget::getCurrentItemRole() const
    return item(row, 0)->data(TABLE_ITEM_ROLE).value<MusicDownloadTableItemRole>();
 }
 
-void MusicDownloadTableWidget::listCellClicked(int row, int column)
+void MusicDownloadTableWidget::itemCellClicked(int row, int column)
 {
     Q_UNUSED(row);
     Q_UNUSED(column);
@@ -163,7 +162,7 @@ void MusicDownloadWidget::initWidget()
     }
     else
     {
-        m_ui->downloadPathEdit->setText(M_SETTING_PTR->value(MusicSettingManager::DownloadMusicPathDirChoiced).toString());
+        m_ui->downloadPathEdit->setText(M_SETTING_PTR->value(MusicSettingManager::DownloadMusicPathDir).toString());
     }
 }
 
@@ -396,7 +395,7 @@ void MusicDownloadWidget::downloadDirSelected()
         {
             if(m_queryType == MusicDownLoadQueryThreadAbstract::MusicQuery)
             {
-                M_SETTING_PTR->setValue(MusicSettingManager::DownloadMusicPathDirChoiced, path + "/");
+                M_SETTING_PTR->setValue(MusicSettingManager::DownloadMusicPathDir, path + "/");
             }
             m_ui->downloadPathEdit->setText(path + "/");
         }

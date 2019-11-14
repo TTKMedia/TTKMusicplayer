@@ -93,7 +93,7 @@ void MusicDownLoadQueryXMAlbumThread::downLoadFinished()
                 info.m_description = value["albumName"].toString() + TTK_STR_SPLITER +
                                      value["language"].toString() + TTK_STR_SPLITER +
                                      value["company"].toString() + TTK_STR_SPLITER +
-                                     QDateTime::fromMSecsSinceEpoch(value["gmtPublish"].toULongLong()).toString("yyyy-MM-dd");
+                                     QDateTime::fromMSecsSinceEpoch(value["gmtPublish"].toULongLong()).toString(MUSIC_YEAR_FORMAT);
                 //
                 const QVariantList &datas = value["songs"].toList();
                 foreach(const QVariant &var, datas)
@@ -151,7 +151,6 @@ void MusicDownLoadQueryXMAlbumThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryXMAlbumThread::singleDownLoadFinished()
@@ -200,5 +199,4 @@ void MusicDownLoadQueryXMAlbumThread::singleDownLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 singleDownLoadFinished deleteAll").arg(getClassName()));
 }

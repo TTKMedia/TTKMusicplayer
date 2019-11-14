@@ -21,7 +21,7 @@
 
 #include "musicglobaldefine.h"
 
-/*! @brief The namespace of the utils algorithm.
+/*! @brief The namespace of the utils url.
  * @author Greedysky <greedysky@163.com>
  */
 namespace MusicUtils
@@ -54,6 +54,23 @@ namespace MusicUtils
          * Decode the data into url.
          */
         MUSIC_UTILS_EXPORT void urlDecode(QByteArray &data);
+
+        /*!
+         * Pretty encode the data into url.
+         */
+        MUSIC_UTILS_EXPORT void urlPrettyEncode(QString &data);
+        /*!
+         * Pretty decode the data into url.
+         */
+        MUSIC_UTILS_EXPORT void urlPrettyDecode(QString &data);
+        /*!
+         * Pretty encode the data into url.
+         */
+        MUSIC_UTILS_EXPORT void urlPrettyEncode(QByteArray &data);
+        /*!
+         * Pretty decode the data into url.
+         */
+        MUSIC_UTILS_EXPORT void urlPrettyDecode(QByteArray &data);
 
     }
 }

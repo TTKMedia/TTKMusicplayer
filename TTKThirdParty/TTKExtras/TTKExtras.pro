@@ -47,9 +47,10 @@ unix:!mac{
 include(../TTKExtrasDefine.pri)
 
 include(qalg/QAlg.pri)
-include(qhz2py/QHz2Py.pri)
+include(qdlna/QDlna.pri)
+include(qhttpserver/QHttpServer.pri)
 include(qimage/QImage.pri)
-include(qiniu/QiNiu.pri)
+include(qoss/QOss.pri)
 include(qjson/QJson.pri)
 include(qkugou/QKuGou.pri)
 include(qrencode/QRencode.pri)

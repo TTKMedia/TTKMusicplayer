@@ -1,5 +1,5 @@
 #include "musicxmtextdownloadthread.h"
-#include "musiccoreutils.h"
+#include "musicstringutils.h"
 #///QJson import
 #include "qjson/parser.h"
 
@@ -18,13 +18,12 @@ void MusicXMTextDownLoadThread::startToDownload()
             m_timer.start(MT_S2MS);
             m_manager = new QNetworkAccessManager(this);
 
-            m_lrcType = MusicUtils::Core::StringSplite(m_url);
+            m_lrcType = MusicUtils::String::StringSplite(m_url);
 
             QNetworkRequest request;
             request.setUrl(m_url);
 #ifndef QT_NO_SSL
             connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
-            M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
             MusicObject::setSslConfiguration(&request);
 #endif
 

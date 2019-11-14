@@ -93,7 +93,7 @@ void MusicKGSongCommentsThread::downLoadFinished()
                     value = comm.toMap();
 
                     comment.m_playCount = QString::number(value["like"].toMap()["count"].toLongLong());
-                    comment.m_updateTime = QString::number(QDateTime::fromString(value["addtime"].toString(), "yyyy-MM-dd hh:mm:ss").toMSecsSinceEpoch());
+                    comment.m_updateTime = QString::number(QDateTime::fromString(value["addtime"].toString(), MUSIC_YEAR_STIME_FORMAT).toMSecsSinceEpoch());
                     comment.m_description = value["content"].toString();
                     comment.m_nickName = value["user_name"].toString();
                     comment.m_coverUrl = value["user_pic"].toString();
@@ -106,7 +106,6 @@ void MusicKGSongCommentsThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 
@@ -188,7 +187,7 @@ void MusicKGPlaylistCommentsThread::downLoadFinished()
                     value = comm.toMap();
 
                     comment.m_playCount = QString::number(value["like"].toMap()["count"].toLongLong());
-                    comment.m_updateTime = QString::number(QDateTime::fromString(value["addtime"].toString(),"yyyy-MM-dd hh:mm:ss").toMSecsSinceEpoch());
+                    comment.m_updateTime = QString::number(QDateTime::fromString(value["addtime"].toString(), MUSIC_YEAR_STIME_FORMAT).toMSecsSinceEpoch());
                     comment.m_description = value["content"].toString();
                     comment.m_nickName = value["user_name"].toString();
                     comment.m_coverUrl = value["user_pic"].toString();
@@ -201,5 +200,4 @@ void MusicKGPlaylistCommentsThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }

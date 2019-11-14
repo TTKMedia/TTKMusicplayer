@@ -4,11 +4,11 @@
 #include "musicbackgroundmanager.h"
 #include "musicstringutils.h"
 #include "musicuiobject.h"
+#include "musicfileutils.h"
 #include "musicextractwrap.h"
 #include "musicbackgroundconfigmanager.h"
 
 #include "qimage/qimagewrap.h"
-#include "qhz2py/chinesehelper.h"
 
 #include <qmath.h>
 #include <QPainter>
@@ -746,16 +746,15 @@ void MusicLrcPosterItemWidget::drawTheme15(QPainter *painter)
 void MusicLrcPosterItemWidget::drawTheme16(QPainter *painter)
 {
     QStringList splData;
-    ChineseHelper chinese;
     foreach(QString var, m_data)
     {
         QString afVar;
         var.replace(" ", " / ");
         for(int i=0; i<var.length(); ++i)
         {
-            QChar ch = var.at(i);
+            const QChar &ch = var.at(i);
             afVar.append(ch);
-            if(chinese.isChinese(ch))
+            if(MusicUtils::String::isChinese(ch))
             {
                 afVar.append(" / ");
             }
@@ -852,7 +851,6 @@ MusicLrcPosterTableWidget::MusicLrcPosterTableWidget(QWidget *parent)
 {
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle03);
 
     setColumnCount(2);
@@ -877,9 +875,9 @@ void MusicLrcPosterTableWidget::createAllItems(const QStringList &lrcs)
     }
 }
 
-void MusicLrcPosterTableWidget::listCellClicked(int row, int column)
+void MusicLrcPosterTableWidget::itemCellClicked(int row, int column)
 {
-    MusicFillItemTableWidget::listCellClicked(row, column);
+    MusicFillItemTableWidget::itemCellClicked(row, column);
 
     QStringList data;
     for(int i=0; i<rowCount(); ++i)
@@ -1044,7 +1042,7 @@ void MusicLrcPosterWidget::setCurrentLrcs(const QStringList &lrcs, const QString
 
 void MusicLrcPosterWidget::openButtonClicked()
 {
-    const QString &picPath = MusicUtils::Widget::getOpenFileDialog(this);
+    const QString &picPath = MusicUtils::File::getOpenFileDialog(this);
     if(picPath.isEmpty())
     {
         return;
@@ -1055,7 +1053,7 @@ void MusicLrcPosterWidget::openButtonClicked()
 
 void MusicLrcPosterWidget::saveButtonClicked()
 {
-    const QString &filename = MusicUtils::Widget::getSaveFileDialog(this, "Jpeg(*.jpg)");
+    const QString &filename = MusicUtils::File::getSaveFileDialog(this, "Jpeg(*.jpg)");
     if(!filename.isEmpty())
     {
         QRect rect = m_itemWidget->rect();

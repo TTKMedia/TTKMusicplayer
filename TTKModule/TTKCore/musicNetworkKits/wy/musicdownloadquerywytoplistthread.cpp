@@ -77,7 +77,7 @@ void MusicDownLoadQueryWYToplistThread::downLoadFinished()
                 info.m_coverUrl = value["coverImgUrl"].toString();
                 info.m_playCount = QString::number(value["playCount"].toULongLong());
                 info.m_description = value["description"].toString();
-                info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString("yyyy-MM-dd");
+                info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString(MUSIC_YEAR_FORMAT);
                 emit createToplistInfoItem(info);
                 //
                 const QVariantList &datas = value["tracks"].toList();
@@ -140,5 +140,4 @@ void MusicDownLoadQueryWYToplistThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }

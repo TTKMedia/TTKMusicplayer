@@ -115,7 +115,7 @@ void MusicDownLoadQueryWYPlaylistThread::getPlaylistInfo(MusicResultsItem &item)
             item.m_name = value["name"].toString();
             item.m_playCount = QString::number(value["playCount"].toULongLong());
             item.m_description = value["description"].toString();
-            item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString("yyyy-MM-dd");
+            item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString(MUSIC_YEAR_FORMAT);
 
             const QVariantList &tags = value["tags"].toList();
             item.m_tags.clear();
@@ -177,7 +177,7 @@ void MusicDownLoadQueryWYPlaylistThread::downLoadFinished()
                     item.m_name = value["name"].toString();
                     item.m_playCount = QString::number(value["playCount"].toULongLong());
                     item.m_description = value["description"].toString();
-                    item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString("yyyy-MM-dd");
+                    item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["updateTime"].toULongLong()).toString(MUSIC_YEAR_FORMAT);
 
                     const QVariantList &tags = value["tags"].toList();
                     item.m_tags.clear();
@@ -201,7 +201,6 @@ void MusicDownLoadQueryWYPlaylistThread::downLoadFinished()
 
 //    emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryWYPlaylistThread::getDetailsFinished()
@@ -285,5 +284,4 @@ void MusicDownLoadQueryWYPlaylistThread::getDetailsFinished()
     }
 
     emit downLoadDataChanged(QString());
-    M_LOGGER_INFO(QString("%1 getDetailsFinished deleteAll").arg(getClassName()));
 }

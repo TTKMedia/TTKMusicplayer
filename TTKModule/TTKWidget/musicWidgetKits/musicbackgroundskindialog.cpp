@@ -8,7 +8,7 @@
 #include "musictopareawidget.h"
 #include "musicapplicationobject.h"
 #include "musicotherdefine.h"
-#include "musicwidgetutils.h"
+#include "musicfileutils.h"
 #include "musicsettingmanager.h"
 #include "musicextractwrap.h"
 
@@ -144,7 +144,7 @@ void MusicBackgroundSkinDialog::setCurrentBackgroundTheme(const QString &theme, 
     m_ui->listTransparentButton->setValue(listAlpha);
     setListTransToolText(listAlpha);
 
-    const bool state = M_SETTING_PTR->value(MusicSettingManager::BackgroundTransparentEnableChoiced).toBool();
+    const bool state = M_SETTING_PTR->value(MusicSettingManager::BackgroundTransparentEnable).toBool();
     m_ui->skinTransparentButton->setValue(state ? alpha : 100);
     m_ui->skinTransparentButton->setEnabled(state);
     setSkinTransToolText(state ? alpha : 100);
@@ -187,7 +187,7 @@ void MusicBackgroundSkinDialog::showPaletteDialog(const QString &path)
 
 void MusicBackgroundSkinDialog::showCustomSkinDialog()
 {
-    QString customSkinPath = MusicUtils::Widget::getOpenFileDialog(this, "Images (*.png *.bmp *.jpg);;TTKS Files(*.ttks)");
+    QString customSkinPath = MusicUtils::File::getOpenFileDialog(this, "Images (*.png *.bmp *.jpg);;TTKS Files(*.ttks)");
     if(customSkinPath.isEmpty())
     {
         return;
@@ -284,7 +284,7 @@ void MusicBackgroundSkinDialog::currentColorChanged(const QString &path)
 void MusicBackgroundSkinDialog::windowTransparentChanged(bool state)
 {
     m_ui->skinTransparentButton->setEnabled(state);
-    M_SETTING_PTR->setValue(MusicSettingManager::BackgroundTransparentEnableChoiced, state);
+    M_SETTING_PTR->setValue(MusicSettingManager::BackgroundTransparentEnable, state);
     if(!state)
     {
         m_ui->skinTransparentButton->setValue(100);

@@ -13,8 +13,9 @@
 MusicSongsListPlayedTableWidget::MusicSongsListPlayedTableWidget(QWidget *parent)
     : MusicSongsListAbstractTableWidget(parent)
 {
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setSelectionMode(QAbstractItemView::SingleSelection);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
     setColumnCount(5);
 
     QHeaderView *headerview = horizontalHeader();
@@ -188,7 +189,7 @@ void MusicSongsListPlayedTableWidget::replacePlayWidgetRow()
     setFixedHeight( qMax(365, allRowsHeight()) );
 }
 
-void MusicSongsListPlayedTableWidget::listCellEntered(int row, int column)
+void MusicSongsListPlayedTableWidget::itemCellEntered(int row, int column)
 {
     ///clear previous table item state
     QTableWidgetItem *it = item(m_previousColorRow, 2);
@@ -234,10 +235,10 @@ void MusicSongsListPlayedTableWidget::listCellEntered(int row, int column)
         unsetCursor();
     }
 
-    MusicSongsListAbstractTableWidget::listCellEntered(row, column);
+    MusicSongsListAbstractTableWidget::itemCellEntered(row, column);
 }
 
-void MusicSongsListPlayedTableWidget::listCellClicked(int row, int column)
+void MusicSongsListPlayedTableWidget::itemCellClicked(int row, int column)
 {
     if(row == m_playRowIndex)
     {

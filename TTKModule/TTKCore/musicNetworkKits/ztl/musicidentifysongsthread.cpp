@@ -6,6 +6,8 @@
 #include "musicsettingmanager.h"
 #///QJson import
 #include "qjson/parser.h"
+#///Oss import
+#include "qoss/ossconf.h"
 
 #include <QFile>
 
@@ -18,7 +20,6 @@ MusicIdentifySongsThread::MusicIdentifySongsThread(QObject *parent)
     m_manager = new QNetworkAccessManager(this);
 #ifndef QT_NO_SSL
     connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
-    M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
 #endif
 }
 
@@ -38,8 +39,7 @@ bool MusicIdentifySongsThread::getKey()
 
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
     connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(keyDownLoadFinished(QByteArray)));
-    const QString &buketUrl = M_SETTING_PTR->value(MusicSettingManager::QiNiuDataConfigChoiced).toString();
-    download->startToDownload(MusicUtils::Algorithm::mdII(buketUrl, false) + QN_ACRUA_URL);
+    download->startToDownload(OSSConf::generateDataBucketUrl() + QN_ACRUA_URL);
 
     loop.exec();
 
@@ -138,7 +138,7 @@ void MusicIdentifySongsThread::keyDownLoadFinished(const QByteArray &data)
     if(ok)
     {
         const QVariantMap &value = dt.toMap();
-        if(QDateTime::fromString( value["time"].toString(), "yyyy-MM-dd HH:mm:ss") > QDateTime::currentDateTime())
+        if(QDateTime::fromString( value["time"].toString(), MUSIC_YEAR_STIME_FORMAT) > QDateTime::currentDateTime())
         {
             m_accessKey = value["key"].toString();
             m_accessSecret = value["secret"].toString();

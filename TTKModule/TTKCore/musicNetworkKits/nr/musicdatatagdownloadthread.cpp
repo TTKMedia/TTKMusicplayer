@@ -25,7 +25,6 @@ void MusicDataTagDownloadThread::startToDownload()
             m_manager = new QNetworkAccessManager(this);
 #ifndef QT_NO_SSL
             connect(m_manager, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)));
-            M_LOGGER_INFO(QString("%1 Support ssl: %2").arg(getClassName()).arg(QSslSocket::supportsSsl()));
 #endif
             startRequest(m_url);
             disconnect(m_reply, SIGNAL(finished()), this, SLOT(downLoadFinished()));
@@ -69,7 +68,7 @@ void MusicDataTagDownloadThread::downLoadFinished(const QByteArray &data)
     MusicSongTag tag;
     if(tag.read(m_savePathName))
     {
-        if(M_SETTING_PTR->value(MusicSettingManager::OtherWriteInfoChoiced).toBool())
+        if(M_SETTING_PTR->value(MusicSettingManager::OtherWriteInfo).toBool())
         {
             tag.setTitle(m_musicTag.getTitle());
             tag.setArtist(m_musicTag.getArtist());
@@ -77,7 +76,7 @@ void MusicDataTagDownloadThread::downLoadFinished(const QByteArray &data)
             tag.setTrackNum(m_musicTag.getTrackNum());
             tag.setYear(m_musicTag.getYear());
         }
-        if(M_SETTING_PTR->value(MusicSettingManager::OtherWriteAlbumCoverChoiced).toBool())
+        if(M_SETTING_PTR->value(MusicSettingManager::OtherWriteAlbumCover).toBool())
         {
             tag.setCover(data);
         }

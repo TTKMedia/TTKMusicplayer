@@ -121,7 +121,6 @@ void MusicDownLoadQueryYYTThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryYYTThread::readFromMusicMVAttribute(MusicObject::MusicSongInformation *info)
@@ -192,7 +191,7 @@ void MusicDownLoadQueryYYTThread::readFromMusicMVAttribute(MusicObject::MusicSon
         MusicObject::MusicSongAttribute attr;
         attr.m_url = url;
         attr.m_size = size;
-        attr.m_format = MusicUtils::Core::StringSplite(v);
+        attr.m_format = MusicUtils::String::StringSplite(v);
         attr.m_duration = duration;
         v = datas.back();
         foreach(QString var, v.split("&"))

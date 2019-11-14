@@ -3,7 +3,7 @@
 #include "musicidentifysongsthread.h"
 #include "musicdownloadqueryfactory.h"
 #include "musicdatadownloadthread.h"
-#include "musicaudiorecordercore.h"
+#include "musicaudiorecorderobject.h"
 #include "musicsongsharingwidget.h"
 #include "musicdownloadwidget.h"
 #include "musicnumberdefine.h"
@@ -37,7 +37,7 @@ MusicIdentifySongsWidget::MusicIdentifySongsWidget(QWidget *parent)
     m_lrcLabel = nullptr;
     m_mediaPlayer = nullptr;
     m_analysis = nullptr;
-    m_recordCore = new MusicAudioRecorderCore(this);
+    m_recordCore = new MusicAudioRecorderObject(this);
     m_detectedThread = new MusicIdentifySongsThread(this);
 
     QShortcut *cut = new QShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_T, this);
@@ -236,7 +236,7 @@ void MusicIdentifySongsWidget::createDetectedWidget()
     m_detectedLabel = new QLabel(widget);
     m_detectedLabel->setText(tr("Intelligent Recognition Of The Music Being Played"));
 
-    QLabel *text = new QLabel(tr("ShotCut:") + " Shift+Ctrl+T", widget);
+    QLabel *text = new QLabel(tr("ShotCut:") + " Shift + Ctrl + T", widget);
     text->setStyleSheet(MusicUIObject::MFontStyle03);
 
     widgetLayout->addStretch(2);
@@ -366,7 +366,7 @@ void MusicIdentifySongsWidget::createDetectedSuccessedWidget()
 
     if(!m_currentSong.m_singerName.isEmpty())
     {
-        const QString &name = MusicUtils::Core::lrcPrefix() + m_currentSong.m_singerName + " - " + m_currentSong.m_songName + LRC_FILE;
+        const QString &name = MusicUtils::String::lrcPrefix() + m_currentSong.m_singerName + " - " + m_currentSong.m_songName + LRC_FILE;
         if(!QFile::exists(name))
         {
             MusicDownLoadThreadAbstract *d = M_DOWNLOAD_QUERY_PTR->getDownloadLrcThread(m_currentSong.m_lrcUrl, name, MusicObject::DownloadLrc, this);

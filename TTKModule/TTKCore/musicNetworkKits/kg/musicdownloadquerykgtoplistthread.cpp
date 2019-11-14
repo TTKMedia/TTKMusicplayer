@@ -77,7 +77,7 @@ void MusicDownLoadQueryKGToplistThread::downLoadFinished()
                 info.m_description = topInfo["intro"].toString();
 
                 value = value["songs"].toMap();
-                info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["timestamp"].toLongLong()*1000).toString("yyyy-MM-dd");
+                info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["timestamp"].toLongLong()*1000).toString(MUSIC_YEAR_FORMAT);
 
                 emit createToplistInfoItem(info);
                 //
@@ -139,5 +139,4 @@ void MusicDownLoadQueryKGToplistThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }

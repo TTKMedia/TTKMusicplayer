@@ -143,7 +143,6 @@ void MusicDownLoadQueryWYMovieThread::downLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 downLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryWYMovieThread::pageDownLoadFinished()
@@ -198,7 +197,6 @@ void MusicDownLoadQueryWYMovieThread::pageDownLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 pageDownLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryWYMovieThread::singleDownLoadFinished()
@@ -219,7 +217,6 @@ void MusicDownLoadQueryWYMovieThread::singleDownLoadFinished()
 
     emit downLoadDataChanged(QString());
     deleteAll();
-    M_LOGGER_INFO(QString("%1 singleDownLoadFinished deleteAll").arg(getClassName()));
 }
 
 void MusicDownLoadQueryWYMovieThread::startMVListQuery(qint64 id)
@@ -273,7 +270,7 @@ void MusicDownLoadQueryWYMovieThread::startMVListQuery(qint64 id)
                     attr.m_bitrate = MB_1000;
 
                 attr.m_url = value[key].toString();
-                attr.m_format = MusicUtils::Core::StringSplite(attr.m_url);
+                attr.m_format = MusicUtils::String::StringSplite(attr.m_url);
                 if(!findUrlFileSize(&attr)) return;
                 musicInfo.m_songAttrs.append(attr);
             }
