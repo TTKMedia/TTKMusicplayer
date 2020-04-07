@@ -1,6 +1,6 @@
 # =================================================
 # * This file is part of the TTK Music Player project
-# * Copyright (C) 2015 - 2019 Greedysky Studio
+# * Copyright (C) 2015 - 2020 Greedysky Studio
 #
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,6 @@ HEADERS  += \
     $$PWD/musicdesktopwallpaperwidget.h \
     $$PWD/musiclocalsongstablewidget.h \
     $$PWD/musicvolumegainwidget.h \
-    $$PWD/musicsoundtouchwidget.h \
     $$PWD/musicsongringtonemakerwidget.h \
     $$PWD/musicidentifysongswidget.h \
     $$PWD/musicnetworkconnectiontestwidget.h \
@@ -39,7 +38,9 @@ HEADERS  += \
     $$PWD/musicsoundkmicrosearchwidget.h \
     $$PWD/musicsoundkmicrosettingpopwidget.h \
     $$PWD/musicspectrumwidget.h \
-    $$PWD/musicsongdlnatransferwidget.h
+    $$PWD/musicspectrumlayoutwidget.h \
+    $$PWD/musicsongdlnatransferwidget.h \
+    $$PWD/musicscreensaverwidget.h
 
 }
 
@@ -54,7 +55,6 @@ SOURCES += \
     $$PWD/musicdesktopwallpaperwidget.cpp \
     $$PWD/musiclocalsongstablewidget.cpp \
     $$PWD/musicvolumegainwidget.cpp \
-    $$PWD/musicsoundtouchwidget.cpp \
     $$PWD/musicsongringtonemakerwidget.cpp \
     $$PWD/musicidentifysongswidget.cpp \
     $$PWD/musicnetworkconnectiontestwidget.cpp \
@@ -64,7 +64,8 @@ SOURCES += \
     $$PWD/musicsoundkmicrosearchwidget.cpp \
     $$PWD/musicsoundkmicrosettingpopwidget.cpp \
     $$PWD/musicspectrumwidget.cpp \
-    $$PWD/musicsongdlnatransferwidget.cpp
+    $$PWD/musicspectrumlayoutwidget.cpp \
+    $$PWD/musicsongdlnatransferwidget.cpp \
+    $$PWD/musicscreensaverwidget.cpp
 
 }
-

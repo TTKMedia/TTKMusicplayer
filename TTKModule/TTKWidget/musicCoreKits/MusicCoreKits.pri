@@ -1,6 +1,6 @@
 # =================================================
 # * This file is part of the TTK Music Player project
-# * Copyright (C) 2015 - 2019 Greedysky Studio
+# * Copyright (C) 2015 - 2020 Greedysky Studio
 #
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -61,7 +61,8 @@ HEADERS  += \
     $$PWD/musicdownloadabstracttablewidget.h \
     $$PWD/musicfunctiontoolboxwidget.h \
     $$PWD/musicsongitemselecteddialog.h \
-    $$PWD/musictimesliderwidget.h
+    $$PWD/musictimesliderwidget.h \
+    $$PWD/musicpagingwidgetobject.h
 
 }
 
@@ -108,6 +109,7 @@ SOURCES += \
     $$PWD/musicdownloadabstracttablewidget.cpp \
     $$PWD/musicfunctiontoolboxwidget.cpp \
     $$PWD/musicsongitemselecteddialog.cpp \
-    $$PWD/musictimesliderwidget.cpp
+    $$PWD/musictimesliderwidget.cpp \
+    $$PWD/musicpagingwidgetobject.cpp
 
 }

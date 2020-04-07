@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2019 Greedysky Studio
+ * Copyright (C) 2015 - 2020 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +20,8 @@
  ================================================= */
 
 #include "qhttpserverfwd.h"
+
+class QHttpResponsePrivate;
 
 /*! @brief The class of the http response.
  * @author Greedysky <greedysky@163.com>
@@ -76,6 +78,7 @@ public:
 
     /// @cond nodoc
     friend class QHttpConnection;
+    friend class QHttpConnectionPrivate;
     /// @endcond
 
 public Q_SLOTS:
@@ -132,28 +135,20 @@ Q_SIGNALS:
         has already been scheduled for deletion. */
     void done();
 
+private Q_SLOTS:
+    void connectionClosed();
+
 private:
     explicit QHttpResponse(QHttpConnection *connection);
 
-    void writeHeaders();
-    void writeHeader(const char *field, const QString &value);
+    /** @overload */
+    void setKeepAlive(bool alive);
+    /** @overload */
+    bool isLast() const;
 
-    QHttpConnection *m_connection;
+private:
+    TTK_DECLARE_PRIVATE(QHttpResponse)
 
-    HeaderHash m_headers;
-
-    bool m_headerWritten;
-    bool m_sentConnectionHeader;
-    bool m_sentContentLengthHeader;
-    bool m_sentTransferEncodingHeader;
-    bool m_sentDate;
-    bool m_keepAlive;
-    bool m_last;
-    bool m_useChunkedEncoding;
-    bool m_finished;
-
-private Q_SLOTS:
-    void connectionClosed();
 };
 
 #endif

@@ -60,7 +60,7 @@ void MusicSongsListAbstractTableWidget::musicPlayClicked()
         return;
     }
 
-    emit cellDoubleClicked(currentRow(), 0);
+    Q_EMIT cellDoubleClicked(currentRow(), 0);
 }
 
 void MusicSongsListAbstractTableWidget::setDeleteItemAt()
@@ -74,7 +74,7 @@ void MusicSongsListAbstractTableWidget::setDeleteItemAll()
     setDeleteItemAt();
 
     bool state = false;
-    emit isCurrentIndex(state);
+    Q_EMIT isCurrentIndex(state);
 
     if(rowCount() == 0 && state)
     {
@@ -96,7 +96,7 @@ void MusicSongsListAbstractTableWidget::musicOpenFileDir()
         return;
     }
 
-    if(!MusicUtils::Url::openUrl(QFileInfo(path).absoluteFilePath(), true))
+    if(!MusicUtils::Url::openUrl(QFileInfo(path).absoluteFilePath()))
     {
         MusicMessageBox message;
         message.setText(tr("The origin one does not exist!"));
@@ -220,7 +220,7 @@ void MusicSongsListAbstractTableWidget::musicSongPlayedKMicroWidget()
 
 void MusicSongsListAbstractTableWidget::createMoreMenu(QMenu *menu)
 {
-    menu->setStyleSheet(MusicUIObject::MMenuStyle02);
+    menu->setStyleSheet(MusicUIObject::MQSSMenuStyle02);
 
     QMenu *addMenu = menu->addMenu(QIcon(":/contextMenu/btn_add"), tr("addToList"));
     addMenu->addAction(tr("musicCloud"));

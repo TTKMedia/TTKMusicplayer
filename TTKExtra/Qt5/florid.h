@@ -1,6 +1,6 @@
 /* =================================================
  * This file is part of the TTK Music Player qmmp plugin project
- * Copyright (C) 2015 - 2019 Greedysky Studio
+ * Copyright (C) 2015 - 2020 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,14 +116,18 @@ protected:
      * Image color burn transform.
      */
     int colorBurnTransform(int c, int delta);
+
     virtual void resizeEvent(QResizeEvent *event) override;
     virtual void paintEvent(QPaintEvent *event) override;
+    virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
 protected:
     QImage m_image;
     bool m_useImage, m_scale;
     QColor m_averageColor;
+    bool m_gradientOn;
     RoundAnimationLabel *m_roundLabel;
+    QAction *m_screenAction;
 
 };
 

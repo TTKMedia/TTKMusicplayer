@@ -17,9 +17,10 @@ MusicEqualizerDialog::MusicEqualizerDialog(QWidget *parent)
       m_ui(new Ui::MusicEqualizerDialog)
 {
     m_ui->setupUi(this);
+    setFixedSize(size());
 
     m_ui->topTitleCloseButton->setIcon(QIcon(":/functions/btn_close_hover"));
-    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MToolButtonStyle04);
+    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MQSSToolButtonStyle04);
     m_ui->topTitleCloseButton->setCursor(QCursor(Qt::PointingHandCursor));
     m_ui->topTitleCloseButton->setToolTip(tr("Close"));
     connect(m_ui->topTitleCloseButton, SIGNAL(clicked()), SLOT(close()));
@@ -27,11 +28,11 @@ MusicEqualizerDialog::MusicEqualizerDialog(QWidget *parent)
     m_eable = false;
     m_eqChoiceSelected = false;
 
-    init();
+    initialize();
 
     m_ui->eqChoice->setItemDelegate(new QStyledItemDelegate(m_ui->eqChoice));
-    m_ui->eqChoice->setStyleSheet(MusicUIObject::MComboBoxStyle01 + MusicUIObject::MItemView01);
-    m_ui->eqChoice->view()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
+    m_ui->eqChoice->setStyleSheet(MusicUIObject::MQSSComboBoxStyle01 + MusicUIObject::MQSSItemView01);
+    m_ui->eqChoice->view()->setStyleSheet(MusicUIObject::MQSSScrollBarStyle01);
     m_ui->eqChoice->addItems(QStringList() << tr("Custom") << tr("Default") << tr("Classical")
                                            << tr("Club") << tr("Dance") << tr("Bass") << tr("Soprano") << tr("BassSoprano")
                                            << tr("Headset") << tr("Hall") << tr("Scene") << tr("Pop") << tr("Repaglinide")
@@ -39,14 +40,14 @@ MusicEqualizerDialog::MusicEqualizerDialog(QWidget *parent)
                                            << tr("Electronics"));
     connect(m_ui->eqChoice, SIGNAL(currentIndexChanged(int)), SLOT(eqChoiceIndexChanged(int)));
 
-    m_ui->showEqButton->setStyleSheet(MusicUIObject::MKGEqualizerOff);
+    m_ui->showEqButton->setStyleSheet(MusicUIObject::MQSSEqualizerOff);
 
 #ifdef Q_OS_UNIX
     m_ui->showEqButton->setFocusPolicy(Qt::NoFocus);
     m_ui->resetButton->setFocusPolicy(Qt::NoFocus);
 #endif
 
-    setControlEnable(false);
+    setControlEnabled(false);
     initEqualizeValue();
     readEqInformation();
 
@@ -63,7 +64,7 @@ MusicEqualizerDialog::~MusicEqualizerDialog()
     delete m_ui;
 }
 
-void MusicEqualizerDialog::init()
+void MusicEqualizerDialog::initialize()
 {
     m_signalMapper = new QSignalMapper(this);
     initSlider(m_ui->verticalSlider1, 0);
@@ -81,7 +82,7 @@ void MusicEqualizerDialog::init()
 
     connect(m_ui->showEqButton, SIGNAL(clicked()), SLOT(setEqEnable()));
     connect(m_ui->resetButton, SIGNAL(clicked()), SLOT(resetEq()));
-    m_ui->resetButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
+    m_ui->resetButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
 
 #ifdef Q_OS_UNIX
     MusicUtils::Widget::setLabelFontSize(m_ui->showPerArea_21, 9);
@@ -101,7 +102,7 @@ void MusicEqualizerDialog::init()
 void MusicEqualizerDialog::initSlider(QSlider *slider, int index)
 {
     slider->setRange(-15, 15);
-    slider->setStyleSheet(MusicUIObject::MSliderStyle04);
+    slider->setStyleSheet(MusicUIObject::MQSSSliderStyle04);
     connect(slider, SIGNAL(valueChanged(int)), m_signalMapper, SLOT(map()));
     m_signalMapper->setMapping(slider, index);
 }
@@ -113,7 +114,7 @@ void MusicEqualizerDialog::readEqInformation()
         m_ui->showEqButton->click();
     }
 
-    const QStringList &eqValue = M_SETTING_PTR->value(MusicSettingManager::EqualizerValue).toString().split(',');
+    const QStringList &eqValue = M_SETTING_PTR->value(MusicSettingManager::EqualizerValue).toString().split(",");
     if(eqValue.count() == 11)
     {
         if(M_SETTING_PTR->value(MusicSettingManager::EqualizerIndex).toInt() == 0)
@@ -161,33 +162,33 @@ void MusicEqualizerDialog::verticalSliderChanged(int)
     {
         m_ui->eqChoice->setCurrentIndex(0);
     }
-    emitParameter();
+    parameterSubmit();
 }
 
-void MusicEqualizerDialog::emitParameter()
+void MusicEqualizerDialog::parameterSubmit()
 {
-    emit setEqEffect(MIntList() << m_ui->bwVerticalSlider->value() << m_ui->verticalSlider1->value()
-                                << m_ui->verticalSlider2->value() << m_ui->verticalSlider3->value()
-                                << m_ui->verticalSlider4->value() << m_ui->verticalSlider5->value()
-                                << m_ui->verticalSlider6->value() << m_ui->verticalSlider7->value()
-                                << m_ui->verticalSlider8->value() << m_ui->verticalSlider9->value()
-                                << m_ui->verticalSlider10->value());
+    Q_EMIT setEqEffect(TTKIntList() << m_ui->bwVerticalSlider->value() << m_ui->verticalSlider1->value()
+                                  << m_ui->verticalSlider2->value() << m_ui->verticalSlider3->value()
+                                  << m_ui->verticalSlider4->value() << m_ui->verticalSlider5->value()
+                                  << m_ui->verticalSlider6->value() << m_ui->verticalSlider7->value()
+                                  << m_ui->verticalSlider8->value() << m_ui->verticalSlider9->value()
+                                  << m_ui->verticalSlider10->value());
 }
 
 void MusicEqualizerDialog::setEqEnable()
 {
     m_eable = !m_eable;
-    emit setEnaleEffect(m_eable);
-    m_ui->showEqButton->setStyleSheet(!m_eable ? MusicUIObject::MKGEqualizerOff : MusicUIObject::MKGEqualizerOn);
+    Q_EMIT setEnabledEffect(m_eable);
+    m_ui->showEqButton->setStyleSheet(!m_eable ? MusicUIObject::MQSSEqualizerOff : MusicUIObject::MQSSEqualizerOn);
 
-    setControlEnable(m_eable);
+    setControlEnabled(m_eable);
     if(m_eable)
     {
-        emitParameter();
+        parameterSubmit();
     }
 }
 
-void MusicEqualizerDialog::setControlEnable(bool enable) const
+void MusicEqualizerDialog::setControlEnabled(bool enable) const
 {
     m_ui->bwVerticalSlider->setEnabled(enable);
     m_ui->verticalSlider1->setEnabled(enable);

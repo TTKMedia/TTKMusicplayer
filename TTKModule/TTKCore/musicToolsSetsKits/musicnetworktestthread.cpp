@@ -1,5 +1,4 @@
 #include "musicnetworktestthread.h"
-#include "musicnumberdefine.h"
 #include "musicobject.h"
 #include "musictime.h"
 #include "musiccoreutils.h"
@@ -9,7 +8,7 @@
 MusicNetworkTestThread::MusicNetworkTestThread(QObject *parent)
     : MusicAbstractThread(parent)
 {
-    MusicTime::timeSRand();
+    MusicTime::InitSRand();
 }
 
 void MusicNetworkTestThread::setUrl(const QString &url)
@@ -26,8 +25,8 @@ void MusicNetworkTestThread::run()
 
     MusicUtils::Core::sleep(rand * MT_S2MS);
 
-    if(m_run)
+    if(m_running)
     {
-        emit networkConnectionTestChanged( !info.addresses().isEmpty() );
+        Q_EMIT networkConnectionTestChanged( !info.addresses().isEmpty() );
     }
 }

@@ -1,6 +1,6 @@
 # =================================================
 # * This file is part of the TTK Music Player project
-# * Copyright (C) 2015 - 2019 Greedysky Studio
+# * Copyright (C) 2015 - 2020 Greedysky Studio
 #
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -21,20 +21,21 @@ QT       += network
 INCLUDEPATH += $$PWD
 
 HEADERS  += \
-    $$PWD/ossconf.h \
-    $$PWD/ossdataitem.h \
-    $$PWD/ossutils.h \
-    $$PWD/ossdatainterface.h \
-    $$PWD/osslistdata.h \
-    $$PWD/ossdeletedata.h \
-    $$PWD/ossuploaddata.h \
-    $$PWD/ossdownloaddata.h
+    $$PWD/qossconf.h \
+    $$PWD/qossdataitem.h \
+    $$PWD/qossutils.h \
+    $$PWD/qossdatainterface.h \
+    $$PWD/qossdatainterface_p.h \
+    $$PWD/qosslistdata.h \
+    $$PWD/qossdeletedata.h \
+    $$PWD/qossuploaddata.h \
+    $$PWD/qossdownloaddata.h
 
 SOURCES += \
-    $$PWD/ossconf.cpp \
-    $$PWD/ossutils.cpp \
-    $$PWD/ossdatainterface.cpp \
-    $$PWD/osslistdata.cpp \
-    $$PWD/ossdeletedata.cpp \
-    $$PWD/ossuploaddata.cpp \
-    $$PWD/ossdownloaddata.cpp
+    $$PWD/qossconf.cpp \
+    $$PWD/qossutils.cpp \
+    $$PWD/qossdatainterface.cpp \
+    $$PWD/qosslistdata.cpp \
+    $$PWD/qossdeletedata.cpp \
+    $$PWD/qossuploaddata.cpp \
+    $$PWD/qossdownloaddata.cpp

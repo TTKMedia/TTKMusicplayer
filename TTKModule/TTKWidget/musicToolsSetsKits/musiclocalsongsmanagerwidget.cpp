@@ -6,7 +6,6 @@
 #include "musicmessagebox.h"
 #include "musicconnectionpool.h"
 #include "musicsongtag.h"
-#include "musicotherdefine.h"
 #include "musicsinglemanager.h"
 
 #ifdef TTK_GREATER_NEW
@@ -23,25 +22,26 @@ MusicLocalSongsManagerWidget::MusicLocalSongsManagerWidget(QWidget *parent)
 {
     Q_UNUSED(qRegisterMetaType<QFileInfoList>("QFileInfoList"));
     m_ui->setupUi(this);
+    setFixedSize(size());
 
     setAttribute(Qt::WA_DeleteOnClose, true);
     setAttribute(Qt::WA_QuitOnClose, true);
 
     m_ui->topTitleCloseButton->setIcon(QIcon(":/functions/btn_close_hover"));
-    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MToolButtonStyle04);
+    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MQSSToolButtonStyle04);
     m_ui->topTitleCloseButton->setCursor(QCursor(Qt::PointingHandCursor));
     m_ui->topTitleCloseButton->setToolTip(tr("Close"));
     connect(m_ui->topTitleCloseButton, SIGNAL(clicked()), SLOT(close()));
 
-    m_ui->toolWidget->setStyleSheet(QString("#toolWidget{%1}").arg(MusicUIObject::MBackgroundStyle07));
+    m_ui->toolWidget->setStyleSheet(QString("#toolWidget{%1}").arg(MusicUIObject::MQSSBackgroundStyle07));
 
-    m_ui->allSelectedcheckBox->setStyleSheet(MusicUIObject::MCheckBoxStyle03);
+    m_ui->allSelectedcheckBox->setStyleSheet(MusicUIObject::MQSSCheckBoxStyle03);
     m_ui->allSelectedcheckBox->setCursor(QCursor(Qt::PointingHandCursor));
     m_ui->allSelectedcheckBox->setText(tr("allselected"));
     connect(m_ui->allSelectedcheckBox, SIGNAL(clicked(bool)), SLOT(selectedAllItems(bool)));
 
-    m_ui->auditionButton->setStyleSheet(MusicUIObject::MToolButtonStyle01 + MusicUIObject::MToolButtonStyle02 + "QToolButton{ image:url(:/contextMenu/btn_audition); }");
-    m_ui->addButton->setStyleSheet(MusicUIObject::MToolButtonStyle01 + MusicUIObject::MToolButtonStyle02 + "QToolButton{ image:url(:/contextMenu/btn_add); }");
+    m_ui->auditionButton->setStyleSheet(MusicUIObject::MQSSToolButtonStyle01 + MusicUIObject::MQSSToolButtonStyle02 + "QToolButton{ image:url(:/contextMenu/btn_audition); }");
+    m_ui->addButton->setStyleSheet(MusicUIObject::MQSSToolButtonStyle01 + MusicUIObject::MQSSToolButtonStyle02 + "QToolButton{ image:url(:/contextMenu/btn_add); }");
 
     m_ui->auditionButton->setCursor(QCursor(Qt::PointingHandCursor));
     m_ui->addButton->setCursor(QCursor(Qt::PointingHandCursor));
@@ -52,20 +52,22 @@ MusicLocalSongsManagerWidget::MusicLocalSongsManagerWidget(QWidget *parent)
     m_ui->loadingLabel->setType(MusicGifLabelWidget::Gif_Cicle_Blue);
 
     m_ui->scanButton->setIcon(QIcon(":/toolSets/btn_search"));
-    m_ui->scanButton->setStyleSheet(MusicUIObject::MPushButtonStyle10);
+    m_ui->scanButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle10);
     m_ui->scanCustButton->setIcon(QIcon(":/toolSets/btn_search"));
-    m_ui->scanCustButton->setStyleSheet(MusicUIObject::MPushButtonStyle10);
+    m_ui->scanCustButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle10);
 
     m_ui->filterComboBox->setItemDelegate(new QStyledItemDelegate(m_ui->filterComboBox));
-    m_ui->filterComboBox->setStyleSheet(MusicUIObject::MComboBoxStyle01 + MusicUIObject::MItemView01);
-    m_ui->filterComboBox->view()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
+    m_ui->filterComboBox->setStyleSheet(MusicUIObject::MQSSComboBoxStyle01 + MusicUIObject::MQSSItemView01);
+    m_ui->filterComboBox->view()->setStyleSheet(MusicUIObject::MQSSScrollBarStyle01);
 
-    m_ui->showlistButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
+    m_ui->showlistButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
     m_ui->showlistButton->setCursor(QCursor(Qt::PointingHandCursor));
-    m_ui->showArtButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
+    m_ui->showArtButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
     m_ui->showArtButton->setCursor(QCursor(Qt::PointingHandCursor));
-    m_ui->showAlbumButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
+    m_ui->showAlbumButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
     m_ui->showAlbumButton->setCursor(QCursor(Qt::PointingHandCursor));
+
+    m_ui->toolWidget->setStyleSheet(MusicUIObject::MQSSBackgroundStyle17);
 
     QButtonGroup *buttonGroup = new QButtonGroup(this);
     buttonGroup->addButton(m_ui->scanButton, 0);
@@ -189,7 +191,7 @@ void MusicLocalSongsManagerWidget::itemCellOnClick(int row, int col)
                   m_ui->searchLineEdit->clear();
                   m_searchfileListCache.clear();
               }
-              emit addSongToPlay(QStringList(m_fileNames[row].absoluteFilePath()));
+              Q_EMIT addSongToPlay(QStringList(m_fileNames[row].absoluteFilePath()));
               break;
            }
         default: break;
@@ -205,12 +207,12 @@ void MusicLocalSongsManagerWidget::itemDoubleClicked(int row, int)
         m_ui->searchLineEdit->clear();
         m_searchfileListCache.clear();
     }
-    emit addSongToPlay(QStringList(m_fileNames[row].absoluteFilePath()));
+    Q_EMIT addSongToPlay(QStringList(m_fileNames[row].absoluteFilePath()));
 }
 
 void MusicLocalSongsManagerWidget::setSongNamePath(const QFileInfoList &name)
 {
-    M_LOGGER_INFO("stop fetch!");
+    TTK_LOGGER_INFO("stop fetch!");
     loadingLabelState(false);
 
     m_ui->songlistsTable->setFiles(name);
@@ -219,7 +221,7 @@ void MusicLocalSongsManagerWidget::setSongNamePath(const QFileInfoList &name)
 
 void MusicLocalSongsManagerWidget::filterScanChanged(int index)
 {
-    M_LOGGER_INFO("start fetch!");
+    TTK_LOGGER_INFO("start fetch!");
     m_thread->stopAndQuitThread();
 
     if(index == 0)
@@ -243,7 +245,7 @@ void MusicLocalSongsManagerWidget::filterScanChanged(int index)
 
 void MusicLocalSongsManagerWidget::musicSearchIndexChanged(int, int index)
 {
-    MIntList searchResult;
+    TTKIntList searchResult;
     for(int j=0; j<m_fileNames.count(); ++j)
     {
         if(m_fileNames[j].fileName().contains(m_ui->searchLineEdit->text().trimmed(), Qt::CaseInsensitive))
@@ -266,7 +268,7 @@ void MusicLocalSongsManagerWidget::updateFileLists(const QFileInfoList &list)
 {
     m_fileNames = list;
     m_ui->stackedWidget->setCurrentIndex(LOCAL_MANAGER_INDEX_0);
-    controlEnable(true);
+    controlEnabled(true);
     addAllItems(m_fileNames);
 }
 
@@ -275,7 +277,7 @@ void MusicLocalSongsManagerWidget::setShowlistButton()
     m_runTypeChanged = false;
     loadingLabelState(true);
     m_ui->stackedWidget->setCurrentIndex(LOCAL_MANAGER_INDEX_0);
-    controlEnable(true);
+    controlEnabled(true);
     addAllItems( m_fileNames = m_ui->songlistsTable->getFiles() );
     loadingLabelState(false);
 }
@@ -285,7 +287,7 @@ void MusicLocalSongsManagerWidget::setShowArtButton()
     m_runTypeChanged = false;
     loadingLabelState(true);
     m_ui->stackedWidget->setCurrentIndex(LOCAL_MANAGER_INDEX_1);
-    controlEnable(false);
+    controlEnabled(false);
     m_runTypeChanged = true;
 
     QtConcurrent::run([&]
@@ -330,7 +332,7 @@ void MusicLocalSongsManagerWidget::setShowAlbumButton()
     m_runTypeChanged = false;
     loadingLabelState(true);
     m_ui->stackedWidget->setCurrentIndex(LOCAL_MANAGER_INDEX_1);
-    controlEnable(false);
+    controlEnabled(false);
     m_runTypeChanged = true;
 
     QtConcurrent::run([&]
@@ -414,7 +416,7 @@ void MusicLocalSongsManagerWidget::addDrivesList()
 
 void MusicLocalSongsManagerWidget::itemsSelected()
 {
-    MIntSet auditionRow; //if selected multi rows
+    TTKIntSet auditionRow; //if selected multi rows
     foreach(QTableWidgetItem *item, m_ui->songlistsTable->selectedItems())
     {
         if(!m_searchfileListCache.isEmpty())
@@ -430,8 +432,8 @@ void MusicLocalSongsManagerWidget::itemsSelected()
     m_ui->searchLineEdit->clear();
     m_searchfileListCache.clear();
 
-    MIntList auditionList = auditionRow.toList();
-    qSort(auditionList);
+    TTKIntList auditionList = auditionRow.values();
+    std::sort(auditionList.begin(), auditionList.end());
 
     QStringList names;
     foreach(const int index, auditionList)
@@ -439,7 +441,7 @@ void MusicLocalSongsManagerWidget::itemsSelected()
         names << m_fileNames[index].absoluteFilePath();
     }
 
-    emit addSongToPlay(names);
+    Q_EMIT addSongToPlay(names);
 }
 
 bool MusicLocalSongsManagerWidget::filterIndexChanged()
@@ -487,7 +489,7 @@ bool MusicLocalSongsManagerWidget::filterIndexCustChanged()
     return true;
 }
 
-void MusicLocalSongsManagerWidget::controlEnable(bool state)
+void MusicLocalSongsManagerWidget::controlEnabled(bool state)
 {
     clearAllItems();
     m_ui->searchLineEdit->clear();

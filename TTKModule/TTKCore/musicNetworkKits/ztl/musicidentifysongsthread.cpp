@@ -2,17 +2,16 @@
 #include "musicdownloadsourcethread.h"
 #include "musicsemaphoreloop.h"
 #include "musicalgorithmutils.h"
-#include "musicsourceupdatethread.h"
 #include "musicsettingmanager.h"
 #///QJson import
 #include "qjson/parser.h"
 #///Oss import
-#include "qoss/ossconf.h"
+#include "qoss/qossconf.h"
 
 #include <QFile>
 
 #define QUERY_URL     "VzBxZCtBUDBKK1R6aHNiTGxMdy84SzlIUVA5a3cvbjdKQ1ZIVGdYRThBS0hZMTlZSnhRQ0Y5N0lZdi9QQ3VveVEyVDdXbll3ZUZvPQ=="
-#define QN_ACRUA_URL  "acrcloud"
+#define OS_ACRUA_URL  "acrcloud"
 
 MusicIdentifySongsThread::MusicIdentifySongsThread(QObject *parent)
     : MusicNetworkAbstract(parent)
@@ -39,7 +38,7 @@ bool MusicIdentifySongsThread::getKey()
 
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
     connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(keyDownLoadFinished(QByteArray)));
-    download->startToDownload(OSSConf::generateDataBucketUrl() + QN_ACRUA_URL);
+    download->startToDownload(QOSSConf::generateDataBucketUrl() + OS_ACRUA_URL);
 
     loop.exec();
 
@@ -126,7 +125,7 @@ void MusicIdentifySongsThread::downLoadFinished()
         }
     }
 
-    emit downLoadDataChanged( QString() );
+    Q_EMIT downLoadDataChanged( QString() );
     deleteAll();
 }
 
@@ -144,5 +143,5 @@ void MusicIdentifySongsThread::keyDownLoadFinished(const QByteArray &data)
             m_accessSecret = value["secret"].toString();
         }
     }
-    emit getKeyFinished();
+    Q_EMIT getKeyFinished();
 }

@@ -30,11 +30,6 @@ MusicDownLoadQueryThreadAbstract *MusicQueryTableWidget::getQueryInput()
     return m_downLoadManager;
 }
 
-void MusicQueryTableWidget::contextMenuEvent(QContextMenuEvent *event)
-{
-    Q_UNUSED(event);
-}
-
 
 
 MusicQueryItemTableWidget::MusicQueryItemTableWidget(QWidget *parent)
@@ -105,9 +100,9 @@ void MusicQueryItemTableWidget::actionGroupClick(QAction *action)
     switch( action->data().toInt() )
     {
         case 0: musicDownloadLocal(row); break;
-        case 1: emit restartSearchQuery(songName); break;
-        case 2: emit restartSearchQuery(artistName); break;
-        case 3: emit restartSearchQuery(artistName + " - " + songName); break;
+        case 1: Q_EMIT restartSearchQuery(songName); break;
+        case 2: Q_EMIT restartSearchQuery(artistName); break;
+        case 3: Q_EMIT restartSearchQuery(artistName + " - " + songName); break;
         default: break;
     }
 }
@@ -141,7 +136,7 @@ void MusicQueryItemTableWidget::createContextMenu(QMenu &menu)
         return;
     }
 
-    menu.setStyleSheet(MusicUIObject::MMenuStyle02);
+    menu.setStyleSheet(MusicUIObject::MQSSMenuStyle02);
     m_actionGroup->addAction(menu.addAction(tr("musicDownload")))->setData(0);
 
     menu.addSeparator();

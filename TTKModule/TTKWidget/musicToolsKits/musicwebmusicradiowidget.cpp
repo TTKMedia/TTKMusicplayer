@@ -4,9 +4,11 @@
 #include "musicwidgetutils.h"
 #include "musicuiobject.h"
 #include "musicdownloadsourcethread.h"
-#include "musicregeditmanager.h"
-#include "musicotherdefine.h"
+#include "musicwindowsmanager.h"
 #include "musicwidgetheaders.h"
+#include "musicitemdelegate.h"
+#include "musiccoreutils.h"
+#include "musicimageutils.h"
 
 #ifdef TTK_GREATER_NEW
 #include <QStandardPaths>
@@ -33,7 +35,7 @@ MusicWebMusicRadioWidget::MusicWebMusicRadioWidget(QWidget *parent)
     m_cookJar = new QNetworkCookieJar(this);
 
     MusicUtils::Widget::setTransparent(this, 0);
-    verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle03);
+    verticalScrollBar()->setStyleSheet(MusicUIObject::MQSSScrollBarStyle03);
 
     connect(this, SIGNAL(cellDoubleClicked(int,int)), SLOT(itemCellDoubleClicked(int,int)));
 
@@ -126,10 +128,11 @@ void MusicWebMusicRadioWidget::addListWidgetItem()
         setRowHeight(index, ITEM_ROW_HEIGHT_XL);
 
         QTableWidgetItem *item = new QTableWidgetItem;
+        item->setData(MUSIC_DATAS_ROLE, channel.m_coverUrl);
         setItem(index, 0, item);
 
                           item = new QTableWidgetItem;
-        item->setIcon(MusicUtils::Widget::pixmapToRound(QPixmap(":/image/lb_defaultArt"), QPixmap(":/usermanager/lb_mask_50"), iconSize()));
+        item->setIcon(MusicUtils::Image::pixmapToRound(QPixmap(":/image/lb_defaultArt"), QPixmap(":/usermanager/lb_mask_50"), iconSize()));
         setItem(index, 1, item);
 
                           item = new QTableWidgetItem;
@@ -137,7 +140,11 @@ void MusicWebMusicRadioWidget::addListWidgetItem()
         f.setBold(true);
         item->setFont(f);
         item->setText(channel.m_name);
+#if TTK_QT_VERSION_CHECK(5,13,0)
+        item->setForeground(QColor(100, 100, 100));
+#else
         item->setTextColor(QColor(100, 100, 100));
+#endif
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(index, 2, item);
 
@@ -170,7 +177,7 @@ void MusicWebMusicRadioWidget::downLoadFinished(const QByteArray &data, const QV
     {
         QPixmap pix;
         pix.loadFromData(data);
-        it->setIcon(MusicUtils::Widget::pixmapToRound(pix, QPixmap(":/usermanager/lb_mask_50"), iconSize()));
+        it->setIcon(MusicUtils::Image::pixmapToRound(pix, QPixmap(":/usermanager/lb_mask_50"), iconSize()));
     }
 }
 
@@ -204,11 +211,11 @@ void MusicWebMusicRadioWidget::sendToDesktopLink()
     const QString &desktop = QDesktopServices::storageLocation(QDesktopServices::DesktopLocation);
 #endif
 
-    MusicRegeditManager reg;
+    MusicWindowsManager win;
 #ifdef Q_OS_WIN
-    reg.setFileLink(MAIN_DIR_FULL + APP_EXE_NAME, desktop + "/" + fileName + ".lnk", QString(), QString("%1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), tr("TTK Radio Link"));
+    win.setFileLink(MAIN_DIR_FULL + APP_EXE_NAME, desktop + "/" + fileName + ".lnk", QString(), QString("%1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), tr("TTK Radio Link"));
 #else
-    reg.setFileLink(QString(" %1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), desktop, MAIN_DIR_FULL + APP_NAME, MusicObject::getAppDir(), fileName);
+    win.setFileLink(QString(" %1 \"%2\"").arg(MUSIC_OUTER_RADIO).arg(row), desktop, MAIN_DIR_FULL + APP_NAME, MusicObject::getAppDir(), fileName);
 #endif
 }
 
@@ -216,7 +223,7 @@ void MusicWebMusicRadioWidget::contextMenuEvent(QContextMenuEvent *event)
 {
     MusicAbstractTableWidget::contextMenuEvent(event);
     QMenu rightClickMenu(this);
-    rightClickMenu.setStyleSheet(MusicUIObject::MMenuStyle02);
+    rightClickMenu.setStyleSheet(MusicUIObject::MQSSMenuStyle02);
 
     rightClickMenu.addAction(tr("musicPlay"), this, SLOT(musicPlayClicked()));
     rightClickMenu.addSeparator();

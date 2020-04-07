@@ -8,12 +8,11 @@
 #include "musicurlutils.h"
 #include "musictime.h"
 #include "musicsettingmanager.h"
-#include "musicapplicationobject.h"
-#include "musicotherdefine.h"
+#include "musicsourceupdatewidget.h"
 #///QJson import
 #include "qjson/parser.h"
 #///Oss import
-#include "qoss/ossconf.h"
+#include "qoss/qossconf.h"
 
 #include <QBoxLayout>
 
@@ -22,11 +21,11 @@ MusicSourceUpdateNotifyWidget::MusicSourceUpdateNotifyWidget(QWidget *parent)
 {
     hide();
 
-    setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::Tool);
     setMouseTracking(true);
     setAttribute(Qt::WA_DeleteOnClose, true);
     setAttribute(Qt::WA_QuitOnClose, true);
-    setStyleSheet(MusicUIObject::MBackgroundStyle17);
+    setStyleSheet(MusicUIObject::MQSSBackgroundStyle17);
     blockMoveOption(true);
 
     const QSize &windowSize = M_SETTING_PTR->value(MusicSettingManager::ScreenSize).toSize();
@@ -35,7 +34,7 @@ MusicSourceUpdateNotifyWidget::MusicSourceUpdateNotifyWidget(QWidget *parent)
     QVBoxLayout *vlayout = new QVBoxLayout(m_container);
     vlayout->setContentsMargins(5, 5, 5, 5);
     m_textLabel = new QLabel(this);
-    m_textLabel->setStyleSheet(MusicUIObject::MColorStyle03);
+    m_textLabel->setStyleSheet(MusicUIObject::MQSSColorStyle03);
     m_textLabel->setAlignment(Qt::AlignCenter);
 
     QWidget *contain = new QWidget(this);
@@ -43,8 +42,8 @@ MusicSourceUpdateNotifyWidget::MusicSourceUpdateNotifyWidget(QWidget *parent)
     hlayout->setContentsMargins(0, 0, 0, 0);
     QPushButton *updateButton = new QPushButton(tr("Update"), contain);
     QPushButton *nextTimeButton = new QPushButton(tr("Close"), contain);
-    updateButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
-    nextTimeButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
+    updateButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
+    nextTimeButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
     updateButton->setFixedSize(85, 27);
     nextTimeButton->setFixedSize(85, 27);
     hlayout->addWidget(updateButton);
@@ -79,7 +78,7 @@ void MusicSourceUpdateNotifyWidget::start()
 void MusicSourceUpdateNotifyWidget::updateSourceClicked()
 {
     close();
-    MusicApplicationObject::instance()->musicVersionUpdate();
+    MusicSourceUpdateWidget().exec();
 }
 
 void MusicSourceUpdateNotifyWidget::downLoadFinished(const QVariant &data)
@@ -105,8 +104,10 @@ MusicSourceUpdateWidget::MusicSourceUpdateWidget(QWidget *parent)
       m_ui(new Ui::MusicSourceUpdateWidget)
 {
     m_ui->setupUi(this);
+    setFixedSize(size());
+
     m_ui->topTitleCloseButton->setIcon(QIcon(":/functions/btn_close_hover"));
-    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MToolButtonStyle04);
+    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MQSSToolButtonStyle04);
     m_ui->topTitleCloseButton->setCursor(QCursor(Qt::PointingHandCursor));
     m_ui->topTitleCloseButton->setToolTip(tr("Close"));
     m_ui->upgradeButton->setEnabled(false);
@@ -136,7 +137,7 @@ void MusicSourceUpdateWidget::upgradeButtonClicked()
 #ifdef Q_OS_WIN
     m_ui->stackedWidget->setCurrentIndex(SOURCE_UPDATE_INDEX_1);
     const QString &localDwonload = "v" + m_newVersionStr + EXE_FILE;
-    MusicDataDownloadThread *download = new MusicDataDownloadThread(QString("%1%2").arg(OSSConf::generateDataBucketUrl()).arg(localDwonload),
+    MusicDataDownloadThread *download = new MusicDataDownloadThread(QString("%1%2").arg(QOSSConf::generateDataBucketUrl()).arg(localDwonload),
                                                                     UPDATE_DIR_FULL + localDwonload, MusicObject::DownloadOther, this);
     connect(download, SIGNAL(downloadProgressChanged(float,QString,qint64)), SLOT(downloadProgressChanged(float,QString)));
     connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(downloadProgressFinished()));
@@ -198,7 +199,7 @@ void MusicSourceUpdateWidget::downloadProgressFinished()
     if(message.exec())
     {
         MusicUtils::Url::openUrl("open", UPDATE_DIR_FULL+ localDwonload);
-        MStatic_cast(QWidget*, parent())->close();
+        TTKStatic_cast(QWidget*, parent())->close();
     }
 }
 

@@ -55,11 +55,19 @@ void MusicSysConfigManager::readSysConfigData() const
     M_SETTING_PTR->setValue(MusicSettingManager::OtherSongFormat,
                      readXmlAttributeByTagNameValue("otherSongFormat").toInt());
     M_SETTING_PTR->setValue(MusicSettingManager::OtherLrcKTVMode,
-                     readXmlAttributeByTagNameValue("otherLrcKTV").toInt());
-    M_SETTING_PTR->setValue(MusicSettingManager::OtherRippleSpectrumEnable,
-                     readXmlAttributeByTagNameValue("otherRippleSpectrumEnable").toInt());
-    M_SETTING_PTR->setValue(MusicSettingManager::OtherRippleSpectrumColor,
-                     readXmlAttributeByTagNameValue("otherRippleSpectrumColor"));
+                     readXmlAttributeByTagNameValue("otherLrcKTVMode").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::OtherScreenSaverEnable,
+                     readXmlAttributeByTagNameValue("otherScreenSaverEnable").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::OtherScreenSaverTime,
+                     readXmlAttributeByTagNameValue("otherScreenSaverTime").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::OtherScreenSaverIndex,
+                     readXmlAttributeByTagNameValue("otherScreenSaverIndex"));
+
+
+    M_SETTING_PTR->setValue(MusicSettingManager::RippleSpectrumEnable,
+                     readXmlAttributeByTagNameValue("rippleSpectrumEnable").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::RippleSpectrumColor,
+                     readXmlAttributeByTagNameValue("rippleSpectrumColor"));
 
 
     M_SETTING_PTR->setValue(MusicSettingManager::BackgroundTheme,
@@ -78,8 +86,8 @@ void MusicSysConfigManager::readSysConfigData() const
                      readXmlAttributeByTagNameValue("hotkeyString"));
 
 
-    M_SETTING_PTR->setValue(MusicSettingManager::ShowInlineLrc,
-                     readXmlAttributeByTagNameValue("showInlineLrc").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::ShowInteriorLrc,
+                     readXmlAttributeByTagNameValue("showInteriorLrc").toInt());
     M_SETTING_PTR->setValue(MusicSettingManager::LrcColor,
                      readXmlAttributeByTagNameValue("lrcColor").toInt());
     M_SETTING_PTR->setValue(MusicSettingManager::LrcSize,
@@ -149,6 +157,10 @@ void MusicSysConfigManager::readSysConfigData() const
                      readXmlAttributeByTagNameValue("enhancedSOX").toInt());
     M_SETTING_PTR->setValue(MusicSettingManager::EnhancedSRC,
                      readXmlAttributeByTagNameValue("enhancedSRC").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::EnhancedMonoStereo,
+                     readXmlAttributeByTagNameValue("enhancedMonoStereo").toInt());
+    M_SETTING_PTR->setValue(MusicSettingManager::EnhancedMono,
+                     readXmlAttributeByTagNameValue("enhancedMono").toInt());
 
 
     M_SETTING_PTR->setValue(MusicSettingManager::TimerAutoIndex,
@@ -232,8 +244,13 @@ void MusicSysConfigManager::writeSysConfigData()
     const int otherSideBy = M_SETTING_PTR->value(MusicSettingManager::OtherSideBy).toInt();
     const int otherSongFormat = M_SETTING_PTR->value(MusicSettingManager::OtherSongFormat).toInt();
     const int otherLrcKTVMode = M_SETTING_PTR->value(MusicSettingManager::OtherLrcKTVMode).toInt();
-    const int otherRippleSpectrumEnable = M_SETTING_PTR->value(MusicSettingManager::OtherRippleSpectrumEnable).toInt();
-    const QString &otherRippleSpectrumColor = M_SETTING_PTR->value(MusicSettingManager::OtherRippleSpectrumColor).toString();
+    const int otherScreenSaverEnable = M_SETTING_PTR->value(MusicSettingManager::OtherScreenSaverEnable).toInt();
+    const int otherScreenSaverTime = M_SETTING_PTR->value(MusicSettingManager::OtherScreenSaverTime).toInt();
+    const QString &otherScreenSaverIndex = M_SETTING_PTR->value(MusicSettingManager::OtherScreenSaverIndex).toString();
+
+    //
+    const int rippleSpectrumEnable = M_SETTING_PTR->value(MusicSettingManager::RippleSpectrumEnable).toInt();
+    const QString &rippleSpectrumColor = M_SETTING_PTR->value(MusicSettingManager::RippleSpectrumColor).toString();
 
     //
     const QString &backgroundTheme = M_SETTING_PTR->value(MusicSettingManager::BackgroundTheme).toString();
@@ -246,7 +263,7 @@ void MusicSysConfigManager::writeSysConfigData()
     const QString &hotkeyString = M_SETTING_PTR->value(MusicSettingManager::HotkeyString).toString();
 
     //
-    const int showInlineLrc = M_SETTING_PTR->value(MusicSettingManager::ShowInlineLrc).toInt();
+    const int showInteriorLrc = M_SETTING_PTR->value(MusicSettingManager::ShowInteriorLrc).toInt();
     const int showDesktopLrc = M_SETTING_PTR->value(MusicSettingManager::ShowDesktopLrc).toInt();
     const int lrcColor = M_SETTING_PTR->value(MusicSettingManager::LrcColor).toInt();
     const int lrcSize = M_SETTING_PTR->value(MusicSettingManager::LrcSize).toInt();
@@ -284,6 +301,8 @@ void MusicSysConfigManager::writeSysConfigData()
     const int enhancedLADSPA = M_SETTING_PTR->value(MusicSettingManager::EnhancedLADSPA).toInt();
     const int enhancedSOX = M_SETTING_PTR->value(MusicSettingManager::EnhancedSOX).toInt();
     const int enhancedSRC = M_SETTING_PTR->value(MusicSettingManager::EnhancedSRC).toInt();
+    const int enhancedMonoStereo = M_SETTING_PTR->value(MusicSettingManager::EnhancedMonoStereo).toInt();
+    const int enhancedMono = M_SETTING_PTR->value(MusicSettingManager::EnhancedMono).toInt();
 
     //
     const int timeAutoIndex = M_SETTING_PTR->value(MusicSettingManager::TimerAutoIndex).toInt();
@@ -320,22 +339,23 @@ void MusicSysConfigManager::writeSysConfigData()
     //
     createProcessingInstruction();
     QDomElement musicPlayerDom = createRoot(APP_NAME);
-    //Class A
+
     QDomElement musicSettingDom = writeDomNode(musicPlayerDom, "musicSetting");
     QDomElement plusSettingDom = writeDomNode(musicPlayerDom, "plusSetting");
     QDomElement otherSettingDom = writeDomNode(musicPlayerDom, "otherSetting");
+    QDomElement rippleSettingDom = writeDomNode(musicPlayerDom, "rippleSetting");
     QDomElement backgroundSettingDom = writeDomNode(musicPlayerDom, "backgroundSetting");
     QDomElement hotkeySettingDom = writeDomNode(musicPlayerDom, "hotkeySetting");
-    QDomElement inlineLrcSettingDom = writeDomNode(musicPlayerDom, "inlineLrcSetting");
+    QDomElement interiorLrcSettingDom = writeDomNode(musicPlayerDom, "interiorLrcSetting");
     QDomElement desktopLrcSettingDom = writeDomNode(musicPlayerDom, "desktopLrcSetting");
     QDomElement equalizerSettingDom = writeDomNode(musicPlayerDom, "equalizerSetting");
     QDomElement timeSettingDom = writeDomNode(musicPlayerDom, "timeSetting");
     QDomElement downloadSettingDom = writeDomNode(musicPlayerDom, "downloadSetting");
-    //Class B
+
     writeDomElement(musicSettingDom, "playMode", MusicXmlAttribute("value", playMode));
     writeDomElement(musicSettingDom, "playVolume", MusicXmlAttribute("value", volume));
     writeDomElementText(musicSettingDom, "lastPlayIndex", MusicXmlAttribute("value", lastPlayIndex[0]),
-                        QString("%1,%2").arg(lastPlayIndex[1]).arg(lastPlayIndex[2]));
+                                                          QString("%1,%2").arg(lastPlayIndex[1]).arg(lastPlayIndex[2]));
 
     //
     writeDomElement(plusSettingDom, "geometry", MusicXmlAttribute("value", QString("%1,%2,%3,%4").arg(widgetPosition.x())
@@ -359,9 +379,14 @@ void MusicSysConfigManager::writeSysConfigData()
     writeDomElement(otherSettingDom, "otherWriteInfo", MusicXmlAttribute("value", otherWriteInfo));
     writeDomElement(otherSettingDom, "otherSideBy", MusicXmlAttribute("value", otherSideBy));
     writeDomElement(otherSettingDom, "otherSongFormat", MusicXmlAttribute("value", otherSongFormat));
-    writeDomElement(otherSettingDom, "otherLrcKTV", MusicXmlAttribute("value", otherLrcKTVMode));
-    writeDomElement(otherSettingDom, "otherRippleSpectrumEnable", MusicXmlAttribute("value", otherRippleSpectrumEnable));
-    writeDomElement(otherSettingDom, "otherRippleSpectrumColor", MusicXmlAttribute("value", otherRippleSpectrumColor));
+    writeDomElement(otherSettingDom, "otherLrcKTVMode", MusicXmlAttribute("value", otherLrcKTVMode));
+    writeDomElement(otherSettingDom, "otherScreenSaverEnable", MusicXmlAttribute("value", otherScreenSaverEnable));
+    writeDomElement(otherSettingDom, "otherScreenSaverTime", MusicXmlAttribute("value", otherScreenSaverTime));
+    writeDomElement(otherSettingDom, "otherScreenSaverIndex", MusicXmlAttribute("value", otherScreenSaverIndex));
+
+    //
+    writeDomElement(rippleSettingDom, "rippleSpectrumEnable", MusicXmlAttribute("value", rippleSpectrumEnable));
+    writeDomElement(rippleSettingDom, "rippleSpectrumColor", MusicXmlAttribute("value", rippleSpectrumColor));
 
     //
     writeDomElement(backgroundSettingDom, "backgroundTheme", MusicXmlAttribute("value", backgroundTheme));
@@ -374,14 +399,14 @@ void MusicSysConfigManager::writeSysConfigData()
     writeDomElement(hotkeySettingDom, "hotkeyString", MusicXmlAttribute("value", hotkeyString));
 
     //
-    writeDomElement(inlineLrcSettingDom, "showInlineLrc", MusicXmlAttribute("value", showInlineLrc));
-    writeDomElement(inlineLrcSettingDom, "lrcColor", MusicXmlAttribute("value", lrcColor));
-    writeDomElement(inlineLrcSettingDom, "lrcSize", MusicXmlAttribute("value", lrcSize));
-    writeDomElement(inlineLrcSettingDom, "lrcFamily", MusicXmlAttribute("value", lrcFamily));
-    writeDomElement(inlineLrcSettingDom, "lrcType", MusicXmlAttribute("value", lrcType));
-    writeDomElement(inlineLrcSettingDom, "lrcTransparent", MusicXmlAttribute("value", lrcTransparent));
-    writeDomElement(inlineLrcSettingDom, "lrcFrontgroundColor", MusicXmlAttribute("value", lrcFrontgroundColor));
-    writeDomElement(inlineLrcSettingDom, "lrcBackgroundColor", MusicXmlAttribute("value", lrcBackgroundColor));
+    writeDomElement(interiorLrcSettingDom, "showInteriorLrc", MusicXmlAttribute("value", showInteriorLrc));
+    writeDomElement(interiorLrcSettingDom, "lrcColor", MusicXmlAttribute("value", lrcColor));
+    writeDomElement(interiorLrcSettingDom, "lrcSize", MusicXmlAttribute("value", lrcSize));
+    writeDomElement(interiorLrcSettingDom, "lrcFamily", MusicXmlAttribute("value", lrcFamily));
+    writeDomElement(interiorLrcSettingDom, "lrcType", MusicXmlAttribute("value", lrcType));
+    writeDomElement(interiorLrcSettingDom, "lrcTransparent", MusicXmlAttribute("value", lrcTransparent));
+    writeDomElement(interiorLrcSettingDom, "lrcFrontgroundColor", MusicXmlAttribute("value", lrcFrontgroundColor));
+    writeDomElement(interiorLrcSettingDom, "lrcBackgroundColor", MusicXmlAttribute("value", lrcBackgroundColor));
 
     //
     writeDomElement(desktopLrcSettingDom, "showDesktopLrc", MusicXmlAttribute("value", showDesktopLrc));
@@ -412,6 +437,8 @@ void MusicSysConfigManager::writeSysConfigData()
     writeDomElement(equalizerSettingDom, "enhancedLADSPA", MusicXmlAttribute("value", enhancedLADSPA));
     writeDomElement(equalizerSettingDom, "enhancedSOX", MusicXmlAttribute("value", enhancedSOX));
     writeDomElement(equalizerSettingDom, "enhancedSRC", MusicXmlAttribute("value", enhancedSRC));
+    writeDomElement(equalizerSettingDom, "enhancedMonoStereo", MusicXmlAttribute("value", enhancedMonoStereo));
+    writeDomElement(equalizerSettingDom, "enhancedMono", MusicXmlAttribute("value", enhancedMono));
 
     //
     writeDomElement(timeSettingDom, "timeAutoIndex", MusicXmlAttribute("value", timeAutoIndex));
@@ -454,7 +481,7 @@ void MusicSysConfigManager::readSystemLastPlayIndexConfig(QStringList &key) cons
     }
 
     const QDomElement &element = nodeList.at(0).toElement();
-    key << element.attribute("value") << element.text().split(',');
+    key << element.attribute("value") << element.text().split(",");
     if(key.count() != 3)
     {
         key.clear();
@@ -486,7 +513,7 @@ QRect MusicSysConfigManager::readWindowGeometry() const
 
 QPoint MusicSysConfigManager::readShowDLrcGeometry() const
 {
-    const QStringList &point = readXmlAttributeByTagNameValue("lrcDGeometry").split(',');
+    const QStringList &point = readXmlAttributeByTagNameValue("lrcDGeometry").split(",");
     if(point.count() != 2)
     {
         return QPoint();

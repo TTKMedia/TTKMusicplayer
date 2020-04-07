@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8.11)
 
-set(TARGET_NAME TTKExtras)
-project(${TARGET_NAME})
+project(TTKExtras)
 
 if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 OLD)
@@ -109,25 +108,23 @@ set(MUSIC_HEADERS
     qalg/cbc128.h
     qalg/qdeswrap.h
     qalg/qaeswrap.h
-    qdlna/dlnaclient.h
-    qdlna/dlnafinder.h
-    qdlna/dlnahelper.h
-    qdlna/dlnaservice.h
-    qdlna/dlnaxml.h
-    qdlna/dlnafileserver.h
+    qdlna/qdlnaclient.h
+    qdlna/qdlnafinder.h
+    qdlna/qdlnahelper.h
+    qdlna/qdlnaservice.h
+    qdlna/qdlnaxml.h
+    qdlna/qdlnafileserver.h
     qhttpserver/http_parser.h
     qhttpserver/qhttpconnection.h
     qhttpserver/qhttprequest.h
     qhttpserver/qhttpresponse.h
     qhttpserver/qhttpserver.h
     qhttpserver/qhttpserverfwd.h
-    qimage/gaussianblur.h
-    qimage/qimagewrap.h
     qshortcut/qglobalshortcut.h
     qshortcut/qglobalshortcut_p.h
-    qkugou/kugouurl.h
-    qkugou/kugouwindow.h
-    qkugou/kugouuiobject.h
+    qkugou/qkugouurl.h
+    qkugou/qkugouwindow.h
+    qkugou/qkugouuiobject.h
     qrencode/bitstream.h
     qrencode/config.h
     qrencode/mask.h
@@ -140,14 +137,14 @@ set(MUSIC_HEADERS
     qrencode/rscode.h
     qrencode/split.h
     qrencode/qrcodewidget.h
-    qoss/ossconf.h
-    qoss/ossdataitem.h
-    qoss/ossutils.h
-    qoss/ossdatainterface.h
-    qoss/osslistdata.h
-    qoss/ossdeletedata.h
-    qoss/ossuploaddata.h
-    qoss/ossdownloaddata.h
+    qoss/qossconf.h
+    qoss/qossdataitem.h
+    qoss/qossutils.h
+    qoss/qossdatainterface.h
+    qoss/qosslistdata.h
+    qoss/qossdeletedata.h
+    qoss/qossuploaddata.h
+    qoss/qossdownloaddata.h
     qjson/parser.h
     qjson/parserrunnable.h
     qjson/qobjecthelper.h
@@ -164,22 +161,19 @@ set(MUSIC_SOURCES
     qalg/cbc128.cpp
     qalg/qdeswrap.cpp
     qalg/qaeswrap.cpp
-    qdlna/dlnaclient.cpp
-    qdlna/dlnafinder.cpp
-    qdlna/dlnahelper.cpp
-    qdlna/dlnaservice.cpp
-    qdlna/dlnaxml.cpp
-    qdlna/dlnafileserver.cpp
+    qdlna/qdlnaclient.cpp
+    qdlna/qdlnafinder.cpp
+    qdlna/qdlnahelper.cpp
+    qdlna/qdlnaxml.cpp
+    qdlna/qdlnafileserver.cpp
     qhttpserver/http_parser.c
     qhttpserver/qhttpconnection.cpp
     qhttpserver/qhttprequest.cpp
     qhttpserver/qhttpresponse.cpp
     qhttpserver/qhttpserver.cpp
     qshortcut/qglobalshortcut.cpp
-    qimage/gaussianblur.cpp
-    qimage/qimagewrap.cpp
-    qkugou/kugouurl.cpp
-    qkugou/kugouwindow.cpp
+    qkugou/qkugouurl.cpp
+    qkugou/qkugouwindow.cpp
     qrencode/bitstream.c
     qrencode/mask.c
     qrencode/mmask.c
@@ -190,13 +184,13 @@ set(MUSIC_SOURCES
     qrencode/rscode.c
     qrencode/split.c
     qrencode/qrcodewidget.cpp
-    qoss/ossconf.cpp
-    qoss/ossutils.cpp
-    qoss/ossdatainterface.cpp
-    qoss/osslistdata.cpp
-    qoss/ossdeletedata.cpp
-    qoss/ossuploaddata.cpp
-    qoss/ossdownloaddata.cpp
+    qoss/qossconf.cpp
+    qoss/qossutils.cpp
+    qoss/qossdatainterface.cpp
+    qoss/qosslistdata.cpp
+    qoss/qossdeletedata.cpp
+    qoss/qossuploaddata.cpp
+    qoss/qossdownloaddata.cpp
     qjson/parser.cpp
     qjson/qobjecthelper.cpp
     qjson/json_scanner.cpp
@@ -208,7 +202,7 @@ set(MUSIC_SOURCES
   )
 
 if(WIN32)
-    list(APPEND MUSIC_SOURCES qshortcut/qglobalshortcut_win.cpp ${TARGET_NAME}.rc)
+    list(APPEND MUSIC_SOURCES qshortcut/qglobalshortcut_win.cpp ${PROJECT_NAME}.rc)
 else(UNIX)
     list(APPEND MUSIC_SOURCES qshortcut/qglobalshortcut_x11.cpp)
 endif()
@@ -217,12 +211,12 @@ if(TTK_QT_VERSION VERSION_GREATER "4")
   QT5_WRAP_CPP(MUSIC_MOC_H ${MUSIC_HEADERS})
 
   if(TTK_BUILD_SHARED)
-    add_library(${TARGET_NAME} SHARED ${MUSIC_SOURCES} ${MUSIC_MOC_H} ${MUSIC_HEADERS})
+    add_library(${PROJECT_NAME} SHARED ${MUSIC_SOURCES} ${MUSIC_MOC_H} ${MUSIC_HEADERS})
   else()
-    add_library(${TARGET_NAME} STATIC ${MUSIC_SOURCES}  ${MUSIC_MOC_H} ${MUSIC_HEADERS})
+    add_library(${PROJECT_NAME} STATIC ${MUSIC_SOURCES}  ${MUSIC_MOC_H} ${MUSIC_HEADERS})
   endif()
   
-  set(QT5_LIBS Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network TTKUi)
+  set(QT5_LIBS Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Network Qt5::Xml TTKUi)
   if(WIN32)
     string(COMPARE EQUAL "${USE_QT_WEBKIT_MODULE}" "3" QT_RESULT)
     if(${QT_RESULT})
@@ -241,18 +235,18 @@ if(TTK_QT_VERSION VERSION_GREATER "4")
 
     list(APPEND QT5_LIBS Qt5::X11Extras)
   endif()
-  target_link_libraries(${TARGET_NAME} ${QT5_LIBS})
+  target_link_libraries(${PROJECT_NAME} ${QT5_LIBS})
   
 else()
   QT4_WRAP_CPP(MUSIC_MOC_H ${MUSIC_HEADERS})
   
   if(TTK_BUILD_SHARED)
-    add_library(${TARGET_NAME} SHARED ${MUSIC_SOURCES} ${MUSIC_MOC_H} ${MUSIC_HEADERS})
+    add_library(${PROJECT_NAME} SHARED ${MUSIC_SOURCES} ${MUSIC_MOC_H} ${MUSIC_HEADERS})
   else()
-    add_library(${TARGET_NAME} STATIC ${MUSIC_SOURCES} ${MUSIC_MOC_H} ${MUSIC_HEADERS})
+    add_library(${PROJECT_NAME} STATIC ${MUSIC_SOURCES} ${MUSIC_MOC_H} ${MUSIC_HEADERS})
   endif()
   
-  set(QT4_LIBS ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTNETWORK_LIBRARY} TTKUi)
+  set(QT4_LIBS ${QT_QTGUI_LIBRARY} ${QT_QTCORE_LIBRARY} ${QT_QTNETWORK_LIBRARY} ${QT_QTXML_LIBRARY} TTKUi)
   if(WIN32)
     string(COMPARE EQUAL "${USE_QT_WEBKIT_MODULE}" "3" QT_RESULT)
     if(${QT_RESULT})
@@ -261,6 +255,12 @@ else()
   else()
     list(APPEND QT4_LIBS ${QT_QTWEBKIT_LIBRARY})
   endif()
-  target_link_libraries(${TARGET_NAME} ${QT4_LIBS})
+  target_link_libraries(${PROJECT_NAME} ${QT4_LIBS})
   
 endif()
+
+set_target_properties(
+${PROJECT_NAME}
+PROPERTIES
+VERSION ${TTK_MAJOR_VERSION})
+

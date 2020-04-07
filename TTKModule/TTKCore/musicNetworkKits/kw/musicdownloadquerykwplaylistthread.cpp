@@ -32,7 +32,7 @@ void MusicDownLoadQueryKWPlaylistThread::startToPage(int offset)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(offset));
+    TTK_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(offset));
     deleteAll();
 
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(KW_PLAYLIST_URL, false).arg(m_searchText).arg(offset).arg(m_pageSize);
@@ -56,7 +56,7 @@ void MusicDownLoadQueryKWPlaylistThread::startToSearch(const QString &playlist)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(playlist));
+    TTK_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(playlist));
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(KW_PLAYLIST_ATTR_URL, false).arg(playlist);
     m_interrupt = true;
 
@@ -77,7 +77,7 @@ void MusicDownLoadQueryKWPlaylistThread::getPlaylistInfo(MusicResultsItem &item)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 getPlaylistInfo %2").arg(getClassName()).arg(item.m_id));
+    TTK_LOGGER_INFO(QString("%1 getPlaylistInfo %2").arg(getClassName()).arg(item.m_id));
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(KW_PLAYLIST_ATTR_URL, false).arg(item.m_id);
 
     QNetworkRequest request;
@@ -122,8 +122,8 @@ void MusicDownLoadQueryKWPlaylistThread::downLoadFinished()
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
-    emit clearAllItems();
+    TTK_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
+    Q_EMIT clearAllItems();
     m_musicSongInfos.clear();
     m_interrupt = false;
 
@@ -158,16 +158,16 @@ void MusicDownLoadQueryKWPlaylistThread::downLoadFinished()
         }
     }
 
-//    emit downLoadDataChanged(QString());
+//    Q_EMIT downLoadDataChanged(QString());
     deleteAll();
 }
 
 void MusicDownLoadQueryKWPlaylistThread::getDetailsFinished()
 {
-    QNetworkReply *reply = MObject_cast(QNetworkReply*, QObject::sender());
+    QNetworkReply *reply = TTKObject_cast(QNetworkReply*, QObject::sender());
 
-    M_LOGGER_INFO(QString("%1 getDetailsFinished").arg(getClassName()));
-    emit clearAllItems();
+    TTK_LOGGER_INFO(QString("%1 getDetailsFinished").arg(getClassName()));
+    Q_EMIT clearAllItems();
     m_musicSongInfos.clear();
     m_interrupt = false;
 
@@ -227,20 +227,20 @@ void MusicDownLoadQueryKWPlaylistThread::getDetailsFinished()
                     item.m_albumName = musicInfo.m_albumName;
                     item.m_time = musicInfo.m_timeLength;
                     item.m_type = mapQueryServerString();
-                    emit createSearchedItem(item);
+                    Q_EMIT createSearchedItem(item);
                     m_musicSongInfos << musicInfo;
                 }
             }
         }
     }
 
-    emit downLoadDataChanged(QString());
+    Q_EMIT downLoadDataChanged(QString());
 }
 
 void MusicDownLoadQueryKWPlaylistThread::getMorePlaylistDetailsFinished()
 {
-    M_LOGGER_INFO(QString("%1 getMorePlaylistDetailsFinished").arg(getClassName()));
-    QNetworkReply *reply = MObject_cast(QNetworkReply*, QObject::sender());
+    TTK_LOGGER_INFO(QString("%1 getMorePlaylistDetailsFinished").arg(getClassName()));
+    QNetworkReply *reply = TTKObject_cast(QNetworkReply*, QObject::sender());
 
     if(reply && reply->error() == QNetworkReply::NoError)
     {
@@ -261,7 +261,7 @@ void MusicDownLoadQueryKWPlaylistThread::getMorePlaylistDetailsFinished()
                 item.m_description = value["info"].toString();
                 item.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["ctime"].toULongLong()*1000).toString(MUSIC_YEAR_FORMAT);
                 item.m_nickName = value["uname"].toString();
-                emit createPlaylistItem(item);
+                Q_EMIT createPlaylistItem(item);
             }
         }
     }
@@ -274,7 +274,7 @@ void MusicDownLoadQueryKWPlaylistThread::getMorePlaylistDetails(const QString &p
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 getMorePlaylistDetails %2").arg(getClassName()).arg(pid));
+    TTK_LOGGER_INFO(QString("%1 getMorePlaylistDetails %2").arg(getClassName()).arg(pid));
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(KW_PLAYLIST_ATTR_URL, false).arg(pid);
 
     QNetworkRequest request;

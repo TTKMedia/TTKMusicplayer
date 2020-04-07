@@ -1,6 +1,6 @@
 # =================================================
 # * This file is part of the TTK Music Player project
-# * Copyright (C) 2015 - 2019 Greedysky Studio
+# * Copyright (C) 2015 - 2020 Greedysky Studio
 #
 # * This program is free software; you can redistribute it and/or modify
 # * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ HEADERS  += \
     $$PWD/musicdesktoplrcuiobject.h \
     $$PWD/musicfunctionlistuiobject.h \
     $$PWD/musicfunctionuiobject.h \
-    $$PWD/musicinlinefloatuiobject.h \
-    $$PWD/musicinlinelrcuiobject.h \
+    $$PWD/musicinteriorfloatuiobject.h \
+    $$PWD/musicinteriorlrcuiobject.h \
     $$PWD/musicleftitemlistuiobject.h \
     $$PWD/musicmagicwidgetuiobject.h \
     $$PWD/musicqualitywidgetuiobject.h \
@@ -56,7 +56,6 @@ FORMS    += \
     $$PWD/musicToolsetsKits/musictransformwidget.ui \
     $$PWD/musicToolsetsKits/musicnetworkconnectiontestwidget.ui \
     $$PWD/musicToolsetsKits/musicvolumegainwidget.ui \
-    $$PWD/musicToolsetsKits/musicsoundtouchwidget.ui \
     $$PWD/musicToolsetsKits/musicsongchecktoolswidget.ui \
     $$PWD/musicToolsetsKits/musicsongringtonemakerwidget.ui \
     $$PWD/musicToolsetsKits/musicsoundkmicrowidget.ui \
@@ -86,5 +85,7 @@ FORMS    += \
     $$PWD/musicWidgetKits/musicmessageaboutdialog.ui \
     $$PWD/musicWidgetKits/musicsonglistenhancelosslesswidget.ui \
     $$PWD/musicWidgetKits/musicdownloadbatchwidget.ui \
-    $$PWD/musicWidgetKits/musicsongitemselecteddialog.ui
+    $$PWD/musicWidgetKits/musicsongitemselecteddialog.ui \
+    $$PWD/musicWidgetKits/musicmessagefeedbackdialog.ui \
+    $$PWD/musicWidgetKits/musicpluginwidget.ui
 }

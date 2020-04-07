@@ -16,7 +16,7 @@ void MusicDownLoadQueryXMAlbumThread::startToSearch(const QString &album)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(album));
+    TTK_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(album));
     deleteAll();
 
     m_searchText = album;
@@ -42,7 +42,7 @@ void MusicDownLoadQueryXMAlbumThread::startToSingleSearch(const QString &artist)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 startToSingleSearch %2").arg(getClassName()).arg(artist));
+    TTK_LOGGER_INFO(QString("%1 startToSingleSearch %2").arg(getClassName()).arg(artist));
 
     m_interrupt = true;
 
@@ -67,8 +67,8 @@ void MusicDownLoadQueryXMAlbumThread::downLoadFinished()
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
-    emit clearAllItems();
+    TTK_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
+    Q_EMIT clearAllItems();
     m_musicSongInfos.clear();
     m_interrupt = false;
 
@@ -133,7 +133,7 @@ void MusicDownLoadQueryXMAlbumThread::downLoadFinished()
                         albumFlag = true;
                         info.m_id = musicInfo.m_albumId;
                         info.m_name = musicInfo.m_singerName;
-                        emit createAlbumInfoItem(info);
+                        Q_EMIT createAlbumInfoItem(info);
                     }
                     //
                     MusicSearchedItem item;
@@ -142,22 +142,22 @@ void MusicDownLoadQueryXMAlbumThread::downLoadFinished()
                     item.m_albumName = musicInfo.m_albumName;
                     item.m_time = musicInfo.m_timeLength;
                     item.m_type = mapQueryServerString();
-                    emit createSearchedItem(item);
+                    Q_EMIT createSearchedItem(item);
                     m_musicSongInfos << musicInfo;
                 }
             }
         }
     }
 
-    emit downLoadDataChanged(QString());
+    Q_EMIT downLoadDataChanged(QString());
     deleteAll();
 }
 
 void MusicDownLoadQueryXMAlbumThread::singleDownLoadFinished()
 {
-    QNetworkReply *reply = MObject_cast(QNetworkReply*, QObject::sender());
+    QNetworkReply *reply = TTKObject_cast(QNetworkReply*, QObject::sender());
 
-    M_LOGGER_INFO(QString("%1 singleDownLoadFinished").arg(getClassName()));
+    TTK_LOGGER_INFO(QString("%1 singleDownLoadFinished").arg(getClassName()));
     m_interrupt = false;
 
     if(reply && m_manager &&reply->error() == QNetworkReply::NoError)
@@ -191,12 +191,12 @@ void MusicDownLoadQueryXMAlbumThread::singleDownLoadFinished()
                     info.m_coverUrl = value["albumLogo"].toString();
                     info.m_name = value["albumName"].toString();
                     info.m_updateTime = QDateTime::fromMSecsSinceEpoch(value["gmtPublish"].toULongLong()).toString("yyyy.MM.dd");
-                    emit createAlbumInfoItem(info);
+                    Q_EMIT createAlbumInfoItem(info);
                 }
             }
         }
     }
 
-    emit downLoadDataChanged(QString());
+    Q_EMIT downLoadDataChanged(QString());
     deleteAll();
 }

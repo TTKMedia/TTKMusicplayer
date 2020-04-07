@@ -15,7 +15,7 @@ MusicDownloadStatusObject::MusicDownloadStatusObject(QObject *parent)
     : QObject(parent)
 {
     m_previousState = true;
-    m_parentWidget = MStatic_cast(MusicApplication*, parent);
+    m_parentWidget = TTKStatic_cast(MusicApplication*, parent);
     m_downloadLrcThread = nullptr;
 
     M_CONNECTION_PTR->setValue(getClassName(), this);
@@ -84,10 +84,10 @@ void MusicDownloadStatusObject::networkConnectionStateChanged(bool state)
 
 bool MusicDownloadStatusObject::checkSettingParameterValue() const
 {
-    return M_SETTING_PTR->value(MusicSettingManager::ShowInlineLrc).toBool() || M_SETTING_PTR->value(MusicSettingManager::ShowDesktopLrc).toBool();
+    return M_SETTING_PTR->value(MusicSettingManager::ShowInteriorLrc).toBool() || M_SETTING_PTR->value(MusicSettingManager::ShowDesktopLrc).toBool();
 }
 
-void MusicDownloadStatusObject::musicCheckHasLrcAlready()
+void MusicDownloadStatusObject::musicCheckLrcValid()
 {
     if(!M_NETWORK_PTR->isOnline())   //no network connection
     {
@@ -134,7 +134,7 @@ void MusicDownloadStatusObject::musicHaveNoLrcAlready()
     if(!musicSongInfos.isEmpty())
     {
         const QString &filename = m_parentWidget->getCurrentFileName();
-        const int count = MusicUtils::String::splitString(filename).count();
+        const int count = MusicUtils::String::stringSplit(filename).count();
         const QString &artistName = MusicUtils::String::artistName(filename);
         const QString &songName = MusicUtils::String::songName(filename);
 

@@ -18,7 +18,7 @@ void MusicXMTextDownLoadThread::startToDownload()
             m_timer.start(MT_S2MS);
             m_manager = new QNetworkAccessManager(this);
 
-            m_lrcType = MusicUtils::String::StringSplite(m_url);
+            m_lrcType = MusicUtils::String::stringSplitToken(m_url);
 
             QNetworkRequest request;
             request.setUrl(m_url);
@@ -34,8 +34,8 @@ void MusicXMTextDownLoadThread::startToDownload()
         }
         else
         {
-            emit downLoadDataChanged("The xiami text file create failed");
-            M_LOGGER_ERROR(QString("%1 file create failed!").arg(getClassName()));
+            Q_EMIT downLoadDataChanged("The xiami text file create failed");
+            TTK_LOGGER_ERROR(QString("%1 file create failed!").arg(getClassName()));
             deleteAll();
         }
     }
@@ -74,16 +74,16 @@ void MusicXMTextDownLoadThread::downLoadFinished()
                 m_file->remove();
             }
             m_file->close();
-            M_LOGGER_INFO(QString("%1 download has finished!").arg(getClassName()));
+            TTK_LOGGER_INFO(QString("%1 download has finished!").arg(getClassName()));
         }
         else
         {
-            M_LOGGER_ERROR(QString("%1 download file error!").arg(getClassName()));
+            TTK_LOGGER_ERROR(QString("%1 download file error!").arg(getClassName()));
             m_file->remove();
             m_file->close();
         }
     }
 
-    emit downLoadDataChanged( transferData() );
+    Q_EMIT downLoadDataChanged( transferData() );
     deleteAll();
 }

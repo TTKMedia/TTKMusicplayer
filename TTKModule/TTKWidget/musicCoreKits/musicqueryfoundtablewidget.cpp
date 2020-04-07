@@ -50,7 +50,7 @@ void MusicQueryFoundTableWidget::startSearchQuery(const QString &text)
     if(!M_NETWORK_PTR->isOnline())
     {
         clearAllItems();
-        emit showDownLoadInfoFor(MusicObject::DW_DisConnection);
+        Q_EMIT showDownLoadInfoFor(MusicObject::DW_DisConnection);
         return;
     }
     m_downLoadManager->setQueryAllRecords(true);
@@ -73,7 +73,7 @@ void MusicQueryFoundTableWidget::musicDownloadLocal(int row)
 void MusicQueryFoundTableWidget::downloadDataFrom(bool play)
 {
     const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
-    const MIntList &list = getSelectedItems();
+    const TTKIntList &list = getSelectedItems();
     if(list.isEmpty())
     {
         MusicMessageBox message;
@@ -94,7 +94,7 @@ void MusicQueryFoundTableWidget::downloadDataFrom(bool play)
 void MusicQueryFoundTableWidget::downloadBatchData(bool music)
 {
     const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
-    const MIntList &list = getSelectedItems();
+    const TTKIntList &list = getSelectedItems();
     if(list.isEmpty())
     {
         MusicMessageBox message;
@@ -170,7 +170,7 @@ void MusicQueryFoundTableWidget::contextMenuEvent(QContextMenuEvent *event)
     MusicQueryTableWidget::contextMenuEvent(event);
 
     QMenu menu;
-    menu.setStyleSheet(MusicUIObject::MMenuStyle02);
+    menu.setStyleSheet(MusicUIObject::MQSSMenuStyle02);
 
     const int row = currentRow();
     const MusicObject::MusicSongInformations musicSongInfos(m_downLoadManager->getMusicSongInfos());
@@ -244,26 +244,38 @@ void MusicQueryFoundTableWidget::createSearchedItem(const MusicSearchedItem &son
 
     QHeaderView *headerview = horizontalHeader();
     QTableWidgetItem *item = new QTableWidgetItem;
-    item->setData(MUSIC_CHECK_ROLE, false);
+    item->setData(MUSIC_CHECK_ROLE, Qt::Unchecked);
     setItem(count, 0, item);
 
                       item = new QTableWidgetItem;
     item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     item->setToolTip(songItem.m_singerName + " - " + songItem.m_songName);
+#if TTK_QT_VERSION_CHECK(5,13,0)
+    item->setForeground(QColor(100, 100, 100));
+#else
     item->setTextColor(QColor(100, 100, 100));
+#endif
     item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(1) - 31));
     setItem(count, 1, item);
 
                       item = new QTableWidgetItem;
     item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     item->setToolTip(songItem.m_albumName);
+#if TTK_QT_VERSION_CHECK(5,13,0)
+    item->setForeground(QColor(100, 100, 100));
+#else
     item->setTextColor(QColor(100, 100, 100));
+#endif
     item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(2) - 31));
     setItem(count, 2, item);
 
                       item = new QTableWidgetItem(songItem.m_time);
     item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+#if TTK_QT_VERSION_CHECK(5,13,0)
+    item->setForeground(QColor(100, 100, 100));
+#else
     item->setTextColor(QColor(100, 100, 100));
+#endif
     setItem(count, 3, item);
 
                       item = new QTableWidgetItem;
@@ -333,7 +345,7 @@ bool MusicQueryFoundTableWidget::downloadDataFrom(const MusicObject::MusicSongIn
     }
 
     MusicObject::MusicSongAttributes attrs(downloadInfo.m_songAttrs);
-    qSort(attrs);
+    std::sort(attrs.begin(), attrs.end());
     //to find out the min bitrate
 
     if(!attrs.isEmpty())
@@ -348,7 +360,7 @@ bool MusicQueryFoundTableWidget::downloadDataFrom(const MusicObject::MusicSongIn
         download->startToDownload();
         loop.exec();
 
-        emit musicSongToPlaylistChanged(musicEnSong, downloadInfo.m_timeLength, attr.m_format, play);
+        Q_EMIT musicSongToPlaylistChanged(musicEnSong, downloadInfo.m_timeLength, attr.m_format, play);
     }
 
     return true;

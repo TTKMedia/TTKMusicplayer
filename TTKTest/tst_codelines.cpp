@@ -75,7 +75,7 @@ void CodeLinesTest::codeLines()
 
             if(availableSuffixs.contains(suffix))
             {
-                lineCount += fileAllData.count('\n') + 1;
+                lineCount += fileAllData.count("\n") + 1;
             }
             file.close();
         }, true);
@@ -84,11 +84,11 @@ void CodeLinesTest::codeLines()
     } );
     eventLoop.exec();
 
-    M_LOGGER_INFO("All File Count " << fileCount);
-    M_LOGGER_INFO("All Meet The Requirements Line Count " << lineCount);
+    TTK_LOGGER_INFO("All File Count " << fileCount);
+    TTK_LOGGER_INFO("All Meet The Requirements Line Count " << lineCount);
     foreach(const QString &key, categorys.keys())
     {
-        M_LOGGER_INFO(QString(".%1 Type  All count %2").arg(key).arg(categorys[key]));
+        TTK_LOGGER_INFO(QString(".%1 Type  All count %2").arg(key).arg(categorys[key]));
     }
 }
 

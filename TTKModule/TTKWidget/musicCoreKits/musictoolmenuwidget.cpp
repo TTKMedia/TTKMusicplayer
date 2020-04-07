@@ -12,13 +12,13 @@ MusicToolMenu::MusicToolMenu(QWidget *parent)
 void MusicToolMenu::showEvent(QShowEvent *event)
 {
     QMenu::showEvent(event);
-    emit windowStateChanged(true);
+    Q_EMIT windowStateChanged(true);
 }
 
 void MusicToolMenu::hideEvent(QHideEvent *event)
 {
     QMenu::hideEvent(event);
-    emit windowStateChanged(false);
+    Q_EMIT windowStateChanged(false);
 }
 
 
@@ -47,7 +47,7 @@ void MusicToolMenuWidget::setTranslucentBackground()
 {
     m_menu->setWindowFlags(m_menu->windowFlags() | Qt::FramelessWindowHint);
     m_menu->setAttribute(Qt::WA_TranslucentBackground);
-    m_menu->setStyleSheet(MusicUIObject::MMenuStyle03);
+    m_menu->setStyleSheet(MusicUIObject::MQSSMenuStyle03);
 }
 
 void MusicToolMenuWidget::popupMenu()

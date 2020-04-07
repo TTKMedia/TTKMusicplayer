@@ -10,7 +10,7 @@ MusicSongItemSelectedTableWidget::MusicSongItemSelectedTableWidget(QWidget *pare
     setAttribute(Qt::WA_TranslucentBackground, false);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    verticalScrollBar()->setStyleSheet(MusicUIObject::MScrollBarStyle01);
+    verticalScrollBar()->setStyleSheet(MusicUIObject::MQSSScrollBarStyle01);
 
     setColumnCount(2);
     QHeaderView *headerview = horizontalHeader();
@@ -37,7 +37,7 @@ void MusicSongItemSelectedTableWidget::createAllItems(MusicSongItems *items)
     {
         const MusicSongItem &song = (*items)[i];
         QTableWidgetItem *item = new QTableWidgetItem;
-        item->setData(MUSIC_CHECK_ROLE, false);
+        item->setData(MUSIC_CHECK_ROLE, Qt::Unchecked);
         item->setData(MUSIC_DATAS_ROLE, song.m_itemIndex);
         setItem(i, 0, item);
 
@@ -49,13 +49,13 @@ void MusicSongItemSelectedTableWidget::createAllItems(MusicSongItems *items)
     }
 }
 
-MIntList MusicSongItemSelectedTableWidget::getSelectedItems() const
+TTKIntList MusicSongItemSelectedTableWidget::getSelectedItems() const
 {
-    MIntList list;
+    TTKIntList list;
     for(int i=0; i<rowCount(); ++i)
     {
         const QTableWidgetItem *it = item(i, 0);
-        if(it && it->data(MUSIC_CHECK_ROLE) == true)
+        if(it && it->data(MUSIC_CHECK_ROLE) == Qt::Checked)
         {
             list << it->data(MUSIC_DATAS_ROLE).toInt();
         }
@@ -67,7 +67,7 @@ void MusicSongItemSelectedTableWidget::selectedAllItems(bool check)
 {
     for(int i=0; i<rowCount(); ++i)
     {
-        item(i, 0)->setData(MUSIC_CHECK_ROLE, check);
+        item(i, 0)->setData(MUSIC_CHECK_ROLE, check ? Qt::Checked : Qt::Unchecked);
     }
 
     if(!check)
@@ -88,15 +88,16 @@ MusicSongItemSelectedDialog::MusicSongItemSelectedDialog(QWidget *parent)
       m_ui(new Ui::MusicSongItemSelectedDialog)
 {
     m_ui->setupUi(this);
+    setFixedSize(size());
 
     m_ui->topTitleCloseButton->setIcon(QIcon(":/functions/btn_close_hover"));
-    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MToolButtonStyle04);
+    m_ui->topTitleCloseButton->setStyleSheet(MusicUIObject::MQSSToolButtonStyle04);
     m_ui->topTitleCloseButton->setCursor(QCursor(Qt::PointingHandCursor));
     m_ui->topTitleCloseButton->setToolTip(tr("Close"));
     connect(m_ui->topTitleCloseButton, SIGNAL(clicked()), SLOT(close()));
 
-    m_ui->confirmButton->setStyleSheet(MusicUIObject::MPushButtonStyle04);
-    m_ui->selectAllCheckButton->setStyleSheet(MusicUIObject::MCheckBoxStyle01);
+    m_ui->confirmButton->setStyleSheet(MusicUIObject::MQSSPushButtonStyle04);
+    m_ui->selectAllCheckButton->setStyleSheet(MusicUIObject::MQSSCheckBoxStyle01);
 #ifdef Q_OS_UNIX
     m_ui->confirmButton->setFocusPolicy(Qt::NoFocus);
     m_ui->selectAllCheckButton->setFocusPolicy(Qt::NoFocus);
@@ -118,7 +119,7 @@ void MusicSongItemSelectedDialog::createAllItems(MusicSongItems *items)
 
 void MusicSongItemSelectedDialog::confirmButtonClicked()
 {
-    emit itemListsChanged( m_ui->itemTableWidget->getSelectedItems() );
+    Q_EMIT itemListsChanged( m_ui->itemTableWidget->getSelectedItems() );
     accept();
 }
 

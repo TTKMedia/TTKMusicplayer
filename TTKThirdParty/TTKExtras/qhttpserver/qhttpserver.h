@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2019 Greedysky Studio
+ * Copyright (C) 2015 - 2020 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@
 
 #include <QHostAddress>
 #include "qhttpserverfwd.h"
+
+class QHttpServerPrivate;
 
 /// Maps status codes to string reason phrases
 extern QHash<int, QString> STATUS_CODES;
@@ -59,6 +61,7 @@ public:
 
     /// Stop the server and listening for new connections.
     void close();
+
 Q_SIGNALS:
     /// Emitted when a client makes a new request to the server.
     /** The slot should use the given @c request and @c response
@@ -71,7 +74,8 @@ private Q_SLOTS:
     void newConnection();
 
 private:
-    QTcpServer *m_tcpServer;
+    TTK_DECLARE_PRIVATE(QHttpServer)
+
 };
 
 #endif

@@ -78,7 +78,7 @@ void MusicDownloadQueueCache::startOrderImageQueue()
     {
         if(QFile::exists(m_imageQueue.first().m_savePath))
         {
-            emit downLoadDataChanged(m_imageQueue.takeFirst().m_savePath);
+            Q_EMIT downLoadDataChanged(m_imageQueue.takeFirst().m_savePath);
             startOrderImageQueue();
         }
         else
@@ -127,7 +127,7 @@ void MusicDownloadQueueCache::downLoadFinished()
     m_reply->deleteLater();
     m_reply = nullptr;
     m_isDownload = false;
-    emit downLoadDataChanged(m_imageQueue.takeFirst().m_savePath);
+    Q_EMIT downLoadDataChanged(m_imageQueue.takeFirst().m_savePath);
 
     startOrderImageQueue();
 }
@@ -152,7 +152,7 @@ void MusicDownloadQueueCache::errorSlot(QNetworkReply::NetworkError code)
 #ifndef TTK_DEBUG
     Q_UNUSED(code);
 #endif
-    M_LOGGER_ERROR(QString("QNetworkReply::NetworkError : %1 %2").arg(code).arg(m_reply->errorString()));
+    TTK_LOGGER_ERROR(QString("QNetworkReply::NetworkError : %1 %2").arg(code).arg(m_reply->errorString()));
     m_file->flush();
     if(!m_isAbort)
     {

@@ -55,7 +55,7 @@ void MusicDownloadAbstractTableWidget::musicPlay()
     }
 
     const QString &path = (*m_musicSongs)[currentRow()].getMusicPath();
-    emit addSongToPlay(QStringList( QFile::exists(path) ? path : QString() ));
+    Q_EMIT addSongToPlay(QStringList( QFile::exists(path) ? path : QString() ));
 }
 
 void MusicDownloadAbstractTableWidget::setDeleteItemAt()
@@ -67,7 +67,7 @@ void MusicDownloadAbstractTableWidget::setDeleteItemAt()
        return;
     }
 
-    const MIntList deleteList(getMultiSelectedIndexs());
+    const TTKIntList deleteList(getMultiSelectedIndexs());
 
     for(int i=deleteList.count() - 1; i>=0; --i)
     {
@@ -77,7 +77,7 @@ void MusicDownloadAbstractTableWidget::setDeleteItemAt()
     }
     //just fix table widget size hint
     setFixedHeight( allRowsHeight() );
-    emit updateItemTitle(m_parentToolIndex);
+    Q_EMIT updateItemTitle(m_parentToolIndex);
 }
 
 void MusicDownloadAbstractTableWidget::itemCellClicked(int row, int column)
@@ -124,7 +124,7 @@ void MusicDownloadAbstractTableWidget::createDownloadItem(const QString &name, q
     m_musicSongs->append(record);
 
     createItem(rowCount() - 1, record);
-    emit updateItemTitle(m_parentToolIndex);
+    Q_EMIT updateItemTitle(m_parentToolIndex);
 }
 
 void MusicDownloadAbstractTableWidget::contextMenuEvent(QContextMenuEvent *event)
@@ -132,7 +132,7 @@ void MusicDownloadAbstractTableWidget::contextMenuEvent(QContextMenuEvent *event
     Q_UNUSED(event);
     QMenu rightClickMenu(this);
 
-    rightClickMenu.setStyleSheet(MusicUIObject::MMenuStyle02);
+    rightClickMenu.setStyleSheet(MusicUIObject::MQSSMenuStyle02);
     rightClickMenu.addAction(QIcon(":/contextMenu/btn_play"), tr("musicPlay"), this, SLOT(musicPlayClicked()));
     rightClickMenu.addAction(tr("downloadMore..."), this, SLOT(musicSongDownload()));
     rightClickMenu.addSeparator();

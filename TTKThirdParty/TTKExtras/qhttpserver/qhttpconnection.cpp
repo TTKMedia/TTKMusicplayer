@@ -7,12 +7,50 @@
 #include "qhttprequest.h"
 #include "qhttpresponse.h"
 
-QHttpConnection::QHttpConnection(QTcpSocket *socket, QObject *parent)
-    : QObject(parent),
-      m_socket(socket),
-      m_parser(0),
-      m_parserSettings(0),
-      m_request(0),
+class QHttpConnectionPrivate : public TTKPrivate<QHttpConnection>
+{
+public:
+    QHttpConnectionPrivate();
+    ~QHttpConnectionPrivate();
+
+    void invalidateRequest();
+    void writeCount(qint64 count);
+    void write(const QByteArray &data);
+    void parseRequest();
+
+    static int MessageBegin(http_parser *parser);
+    static int Url(http_parser *parser, const char *at, size_t length);
+    static int HeaderField(http_parser *parser, const char *at, size_t length);
+    static int HeaderValue(http_parser *parser, const char *at, size_t length);
+    static int HeadersComplete(http_parser *parser);
+    static int Body(http_parser *parser, const char *at, size_t length);
+    static int MessageComplete(http_parser *parser);
+
+    QHttpConnection *m_parent;
+    QTcpSocket *m_socket;
+    http_parser *m_parser;
+    http_parser_settings *m_parserSettings;
+
+    // Since there can only be one request at any time even with pipelining.
+    QHttpRequest *m_request;
+
+    QByteArray m_currentUrl;
+    // The ones we are reading in from the parser
+    HeaderHash m_currentHeaders;
+    QString m_currentHeaderField;
+    QString m_currentHeaderValue;
+
+    // Keep track of transmit buffer status
+    qint64 m_transmitLen;
+    qint64 m_transmitPos;
+
+};
+
+QHttpConnectionPrivate::QHttpConnectionPrivate()
+    : m_socket(nullptr),
+      m_parser(nullptr),
+      m_parserSettings(nullptr),
+      m_request(nullptr),
       m_transmitLen(0),
       m_transmitPos(0)
 {
@@ -29,6 +67,68 @@ QHttpConnection::QHttpConnection(QTcpSocket *socket, QObject *parent)
     m_parserSettings->on_message_complete = MessageComplete;
 
     m_parser->data = this;
+}
+
+QHttpConnectionPrivate::~QHttpConnectionPrivate()
+{
+    delete m_socket;
+    m_socket = nullptr;
+
+    free(m_parser);
+    m_parser = nullptr;
+
+    delete m_parserSettings;
+    m_parserSettings = nullptr;
+}
+
+void QHttpConnectionPrivate::invalidateRequest()
+{
+    if (m_request && !m_request->successful()) {
+        Q_EMIT m_request->end();
+    }
+
+    m_request = nullptr;
+}
+
+void QHttpConnectionPrivate::writeCount(qint64 count)
+{
+    Q_ASSERT(m_transmitPos + count <= m_transmitLen);
+
+    m_transmitPos += count;
+
+    if (m_transmitPos == m_transmitLen)
+    {
+        m_transmitLen = 0;
+        m_transmitPos = 0;
+        Q_EMIT m_parent->allBytesWritten();
+    }
+}
+
+void QHttpConnectionPrivate::parseRequest()
+{
+    Q_ASSERT(m_parser);
+
+    while (m_socket->bytesAvailable()) {
+        QByteArray arr = m_socket->readAll();
+        http_parser_execute(m_parser, m_parserSettings, arr.constData(), arr.size());
+    }
+}
+
+void QHttpConnectionPrivate::write(const QByteArray &data)
+{
+    m_socket->write(data);
+    m_transmitLen += data.size();
+}
+
+
+
+QHttpConnection::QHttpConnection(QTcpSocket *socket, QObject *parent)
+    : QObject(parent)
+{
+    TTK_INIT_PRIVATE;
+    TTK_D(QHttpConnection);
+    d->m_socket = socket;
+    d->m_parent = this;
 
     connect(socket, SIGNAL(readyRead()), this, SLOT(parseRequest()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(socketDisconnected()));
@@ -37,14 +137,7 @@ QHttpConnection::QHttpConnection(QTcpSocket *socket, QObject *parent)
 
 QHttpConnection::~QHttpConnection()
 {
-    delete m_socket;
-    m_socket = 0;
 
-    free(m_parser);
-    m_parser = 0;
-
-    delete m_parserSettings;
-    m_parserSettings = 0;
 }
 
 void QHttpConnection::socketDisconnected()
@@ -55,58 +148,46 @@ void QHttpConnection::socketDisconnected()
 
 void QHttpConnection::invalidateRequest()
 {
-    if (m_request && !m_request->successful()) {
-        Q_EMIT m_request->end();
-    }
-
-    m_request = NULL;
+    TTK_D(QHttpConnection);
+    d->invalidateRequest();
 }
 
 void QHttpConnection::updateWriteCount(qint64 count)
 {
-    Q_ASSERT(m_transmitPos + count <= m_transmitLen);
-
-    m_transmitPos += count;
-
-    if (m_transmitPos == m_transmitLen)
-    {
-        m_transmitLen = 0;
-        m_transmitPos = 0;
-        Q_EMIT allBytesWritten();
-    }
+    TTK_D(QHttpConnection);
+    d->writeCount(count);
 }
 
 void QHttpConnection::parseRequest()
 {
-    Q_ASSERT(m_parser);
-
-    while (m_socket->bytesAvailable()) {
-        QByteArray arr = m_socket->readAll();
-        http_parser_execute(m_parser, m_parserSettings, arr.constData(), arr.size());
-    }
+    TTK_D(QHttpConnection);
+    d->parseRequest();
 }
 
 void QHttpConnection::write(const QByteArray &data)
 {
-    m_socket->write(data);
-    m_transmitLen += data.size();
+    TTK_D(QHttpConnection);
+    d->write(data);
 }
 
 void QHttpConnection::flush()
 {
-    m_socket->flush();
+    TTK_D(QHttpConnection);
+    d->m_socket->flush();
 }
 
 void QHttpConnection::waitForBytesWritten()
 {
-    m_socket->waitForBytesWritten();
+    TTK_D(QHttpConnection);
+    d->m_socket->waitForBytesWritten();
 }
 
 void QHttpConnection::responseDone()
 {
-    QHttpResponse *response = qobject_cast<QHttpResponse *>(QObject::sender());
-    if (response->m_last)
-        m_socket->disconnectFromHost();
+    TTK_D(QHttpConnection);
+    QHttpResponse *response = TTKObject_cast(QHttpResponse*, QObject::sender());
+    if (response->isLast())
+        d->m_socket->disconnectFromHost();
 }
 
 /* URL Utilities */
@@ -124,7 +205,7 @@ QUrl createUrl(const char *urlData, const http_parser_url &urlInfo)
     url.setScheme(CHECK_AND_GET_FIELD(urlData, urlInfo, UF_SCHEMA));
     url.setHost(CHECK_AND_GET_FIELD(urlData, urlInfo, UF_HOST));
     // Port is dealt with separately since it is available as an integer.
-#if QT_VERSION >= QT_VERSION_CHECK(5, 0, 0)
+#ifdef TTK_GREATER_NEW
     url.setPath(CHECK_AND_GET_FIELD(urlData, urlInfo, UF_PATH), QUrl::TolerantMode);
     url.setQuery(CHECK_AND_GET_FIELD(urlData, urlInfo, UF_QUERY));
 #else
@@ -151,35 +232,34 @@ QUrl createUrl(const char *urlData, const http_parser_url &urlInfo)
  * Static Callbacks *
  *******************/
 
-int QHttpConnection::MessageBegin(http_parser *parser)
+int QHttpConnectionPrivate::MessageBegin(http_parser *parser)
 {
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     theConnection->m_currentHeaders.clear();
     theConnection->m_currentUrl.clear();
     theConnection->m_currentUrl.reserve(128);
 
     // The QHttpRequest should not be parented to this, since it's memory
     // management is the responsibility of the user of the library.
-    theConnection->m_request = new QHttpRequest(theConnection);
+    theConnection->m_request = new QHttpRequest(theConnection->m_parent);
 
     // Invalidate the request when it is deleted to prevent keep-alive requests
     // from calling a signal on a deleted object.
-    connect(theConnection->m_request, SIGNAL(destroyed(QObject*)), theConnection, SLOT(invalidateRequest()));
+    QObject::connect(theConnection->m_request, SIGNAL(destroyed(QObject*)), theConnection->m_parent, SLOT(invalidateRequest()));
 
     return 0;
 }
 
-int QHttpConnection::HeadersComplete(http_parser *parser)
+int QHttpConnectionPrivate::HeadersComplete(http_parser *parser)
 {
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     Q_ASSERT(theConnection->m_request);
 
     /** set method **/
-    theConnection->m_request->setMethod(static_cast<QHttpRequest::HttpMethod>(parser->method));
+    theConnection->m_request->setMethod(TTKStatic_cast(QHttpRequest::HttpMethod, parser->method));
 
     /** set version **/
-    theConnection->m_request->setVersion(
-        QString("%1.%2").arg(parser->http_major).arg(parser->http_minor));
+    theConnection->m_request->setVersion(QString("%1.%2").arg(parser->http_major).arg(parser->http_minor));
 
     /** get parsed url **/
     struct http_parser_url urlInfo;
@@ -192,30 +272,29 @@ int QHttpConnection::HeadersComplete(http_parser *parser)
     theConnection->m_request->setUrl(createUrl(theConnection->m_currentUrl.constData(), urlInfo));
 
     // Insert last remaining header
-    theConnection->m_currentHeaders[theConnection->m_currentHeaderField.toLower()] =
-        theConnection->m_currentHeaderValue;
+    theConnection->m_currentHeaders[theConnection->m_currentHeaderField.toLower()] = theConnection->m_currentHeaderValue;
     theConnection->m_request->setHeaders(theConnection->m_currentHeaders);
 
     /** set client information **/
-    theConnection->m_request->m_remoteAddress = theConnection->m_socket->peerAddress().toString();
-    theConnection->m_request->m_remotePort = theConnection->m_socket->peerPort();
+    theConnection->m_request->setRemoteAddress(theConnection->m_socket->peerAddress().toString());
+    theConnection->m_request->setRemotePort(theConnection->m_socket->peerPort());
 
-    QHttpResponse *response = new QHttpResponse(theConnection);
+    QHttpResponse *response = new QHttpResponse(theConnection->m_parent);
     if (parser->http_major < 1 || parser->http_minor < 1)
-        response->m_keepAlive = false;
+        response->setKeepAlive(false);
 
-    connect(theConnection, SIGNAL(destroyed()), response, SLOT(connectionClosed()));
-    connect(response, SIGNAL(done()), theConnection, SLOT(responseDone()));
+    QObject::connect(theConnection->m_parent, SIGNAL(destroyed()), response, SLOT(connectionClosed()));
+    QObject::connect(response, SIGNAL(done()), theConnection->m_parent, SLOT(responseDone()));
 
     // we are good to go!
-    Q_EMIT theConnection->newRequest(theConnection->m_request, response);
+    Q_EMIT theConnection->m_parent->newRequest(theConnection->m_request, response);
     return 0;
 }
 
-int QHttpConnection::MessageComplete(http_parser *parser)
+int QHttpConnectionPrivate::MessageComplete(http_parser *parser)
 {
     // TODO: do cleanup and prepare for next request
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     Q_ASSERT(theConnection->m_request);
 
     theConnection->m_request->setSuccessful(true);
@@ -223,18 +302,18 @@ int QHttpConnection::MessageComplete(http_parser *parser)
     return 0;
 }
 
-int QHttpConnection::Url(http_parser *parser, const char *at, size_t length)
+int QHttpConnectionPrivate::Url(http_parser *parser, const char *at, size_t length)
 {
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     Q_ASSERT(theConnection->m_request);
 
     theConnection->m_currentUrl.append(at, length);
     return 0;
 }
 
-int QHttpConnection::HeaderField(http_parser *parser, const char *at, size_t length)
+int QHttpConnectionPrivate::HeaderField(http_parser *parser, const char *at, size_t length)
 {
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     Q_ASSERT(theConnection->m_request);
 
     // insert the header we parsed previously
@@ -256,9 +335,9 @@ int QHttpConnection::HeaderField(http_parser *parser, const char *at, size_t len
     return 0;
 }
 
-int QHttpConnection::HeaderValue(http_parser *parser, const char *at, size_t length)
+int QHttpConnectionPrivate::HeaderValue(http_parser *parser, const char *at, size_t length)
 {
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     Q_ASSERT(theConnection->m_request);
 
     QString valueSuffix = QString::fromLatin1(at, length);
@@ -266,9 +345,9 @@ int QHttpConnection::HeaderValue(http_parser *parser, const char *at, size_t len
     return 0;
 }
 
-int QHttpConnection::Body(http_parser *parser, const char *at, size_t length)
+int QHttpConnectionPrivate::Body(http_parser *parser, const char *at, size_t length)
 {
-    QHttpConnection *theConnection = static_cast<QHttpConnection *>(parser->data);
+    QHttpConnectionPrivate *theConnection = TTKStatic_cast(QHttpConnectionPrivate*, parser->data);
     Q_ASSERT(theConnection->m_request);
 
     Q_EMIT theConnection->m_request->data(QByteArray(at, length));

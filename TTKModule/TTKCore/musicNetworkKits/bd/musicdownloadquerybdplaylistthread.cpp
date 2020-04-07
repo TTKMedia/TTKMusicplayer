@@ -1,6 +1,5 @@
 #include "musicdownloadquerybdplaylistthread.h"
 #include "musicsemaphoreloop.h"
-#include "musicotherdefine.h"
 #include "musictime.h"
 #///QJson import
 #include "qjson/parser.h"
@@ -32,7 +31,7 @@ void MusicDownLoadQueryBDPlaylistThread::startToPage(int offset)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(offset));
+    TTK_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(offset));
     deleteAll();
 
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_PLAYLIST_URL, false).arg(m_searchText).arg(offset).arg(m_pageSize);
@@ -56,7 +55,7 @@ void MusicDownLoadQueryBDPlaylistThread::startToSearch(const QString &playlist)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(playlist));
+    TTK_LOGGER_INFO(QString("%1 startToSearch %2").arg(getClassName()).arg(playlist));
 
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_PLAYLIST_ATTR_URL, false).arg(playlist);
     m_interrupt = true;
@@ -78,7 +77,7 @@ void MusicDownLoadQueryBDPlaylistThread::getPlaylistInfo(MusicResultsItem &item)
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 getPlaylistInfo %2").arg(getClassName()).arg(item.m_id));
+    TTK_LOGGER_INFO(QString("%1 getPlaylistInfo %2").arg(getClassName()).arg(item.m_id));
     const QUrl &musicUrl = MusicUtils::Algorithm::mdII(BD_PLAYLIST_ATTR_URL, false).arg(item.m_id);
 
     QNetworkRequest request;
@@ -124,8 +123,8 @@ void MusicDownLoadQueryBDPlaylistThread::downLoadFinished()
         return;
     }
 
-    M_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
-    emit clearAllItems();
+    TTK_LOGGER_INFO(QString("%1 downLoadFinished").arg(getClassName()));
+    Q_EMIT clearAllItems();
     m_musicSongInfos.clear();
     m_interrupt = false;
 
@@ -163,22 +162,22 @@ void MusicDownLoadQueryBDPlaylistThread::downLoadFinished()
                     item.m_nickName = MUSIC_AUTHOR_NAME;
                     item.m_tags = value["tag"].toString().replace(",", "|");
 
-                    emit createPlaylistItem(item);
+                    Q_EMIT createPlaylistItem(item);
                 }
             }
         }
     }
 
-//    emit downLoadDataChanged(QString());
+//    Q_EMIT downLoadDataChanged(QString());
     deleteAll();
 }
 
 void MusicDownLoadQueryBDPlaylistThread::getDetailsFinished()
 {
-    QNetworkReply *reply = MObject_cast(QNetworkReply*, QObject::sender());
-    M_LOGGER_INFO(QString("%1 getDetailsFinished").arg(getClassName()));
+    QNetworkReply *reply = TTKObject_cast(QNetworkReply*, QObject::sender());
+    TTK_LOGGER_INFO(QString("%1 getDetailsFinished").arg(getClassName()));
 
-    emit clearAllItems();
+    Q_EMIT clearAllItems();
     m_musicSongInfos.clear();
     m_interrupt = false;
 
@@ -236,7 +235,7 @@ void MusicDownLoadQueryBDPlaylistThread::getDetailsFinished()
                     item.m_albumName = musicInfo.m_albumName;
                     item.m_time = musicInfo.m_timeLength;
                     item.m_type = mapQueryServerString();
-                    emit createSearchedItem(item);
+                    Q_EMIT createSearchedItem(item);
 
                     m_musicSongInfos << musicInfo;
                 }
@@ -244,5 +243,5 @@ void MusicDownLoadQueryBDPlaylistThread::getDetailsFinished()
         }
     }
 
-    emit downLoadDataChanged(QString());
+    Q_EMIT downLoadDataChanged(QString());
 }

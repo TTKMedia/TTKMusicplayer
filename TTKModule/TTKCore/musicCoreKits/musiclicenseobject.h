@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2019 Greedysky Studio
+ * Copyright (C) 2015 - 2020 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ private:
     /*!
      * Split hmac string.
      */
-    QString splitString(const QByteArray &data, const QByteArray &key);
+    QString stringSplit(const QByteArray &data, const QByteArray &key);
 
 };
 

@@ -3,7 +3,7 @@
 
 /* =================================================
  * This file is part of the TTK Music Player project
- * Copyright (C) 2015 - 2019 Greedysky Studio
+ * Copyright (C) 2015 - 2020 Greedysky Studio
 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,39 +23,38 @@
 #include <QDebug>
 #include <QDateTime>
 #include <QTextStream>
-#include "musicextrasglobaldefine.h"
 
-#define CURRENTTIME QTime::currentTime().toString(MUSIC_ZTIME_FORMAT)
-#define CURRENTDATE QDate::currentDate().toString(MUSIC_YEAR_FORMAT)
-#define LOG_END     QString("log::npos")
+#define CURRENT_TIME QTime::currentTime().toString(MUSIC_ZTIME_FORMAT)
+#define CURRENT_DATE QDate::currentDate().toString(MUSIC_YEAR_FORMAT)
+#define LOG_END      QString("log::npos")
 
-#define M_LOGGER    (*TTKLogger::createInstance())
-#define M_MESSAGE(str, msg)         \
+#define TTK_LOGGER    (*TTKLogger::createInstance())
+#define TTK_MESSAGE(str, msg)       \
 {                                   \
-    M_LOGGER.setLevel(msg);         \
-    M_LOGGER << str << LOG_END;     \
+    TTK_LOGGER.setLevel(msg);       \
+    TTK_LOGGER << str << LOG_END;   \
 }
 
 #ifdef TTK_DEBUG
-    #define M_LOGGER_INFO(str)  M_MESSAGE(str, "[Info]")
-    #define M_LOGGER_DEBUG(str) M_MESSAGE(str, "[Debug]")
-    #define M_LOGGER_WARN(str)  M_MESSAGE(str, "[Warn]")
-    #define M_LOGGER_TRACE(str) M_MESSAGE(str, "[Trace]")
-    #define M_LOGGER_ERROR(str) M_MESSAGE(str, "[Error]")
-    #define M_LOGGER_FATAL(str) M_MESSAGE(str, "[Fatal]")
+    #define TTK_LOGGER_INFO(str)  TTK_MESSAGE(str, "[Info]")
+    #define TTK_LOGGER_DEBUG(str) TTK_MESSAGE(str, "[Debug]")
+    #define TTK_LOGGER_WARN(str)  TTK_MESSAGE(str, "[Warn]")
+    #define TTK_LOGGER_TRACE(str) TTK_MESSAGE(str, "[Trace]")
+    #define TTK_LOGGER_ERROR(str) TTK_MESSAGE(str, "[Error]")
+    #define TTK_LOGGER_FATAL(str) TTK_MESSAGE(str, "[Fatal]")
 #else
-    #define M_LOGGER_INFO(str)  qDebug() << str
-    #define M_LOGGER_DEBUG(str) qDebug() << str
-    #define M_LOGGER_WARN(str)  qDebug() << str
-    #define M_LOGGER_TRACE(str) qDebug() << str
-    #define M_LOGGER_ERROR(str) qDebug() << str
-    #define M_LOGGER_FATAL(str) qDebug() << str
+    #define TTK_LOGGER_INFO(str)  qDebug() << str
+    #define TTK_LOGGER_DEBUG(str) qDebug() << str
+    #define TTK_LOGGER_WARN(str)  qDebug() << str
+    #define TTK_LOGGER_TRACE(str) qDebug() << str
+    #define TTK_LOGGER_ERROR(str) qDebug() << str
+    #define TTK_LOGGER_FATAL(str) qDebug() << str
 #endif
 
 /*! @brief The class of the application logger.
  * @author Greedysky <greedysky@163.com>
  */
-class MUSIC_EXTRAS_EXPORT TTKLogger
+class Q_DECL_EXPORT TTKLogger
 {
 public:
     /*!
@@ -95,7 +94,7 @@ public:
         return *this;
     }
     inline TTKLogger &operator<<(char t) { return debugData<char>(t); }
-    inline TTKLogger &operator<<(signed short t) { return debugData<short>(t);}
+    inline TTKLogger &operator<<(signed short t) { return debugData<short>(t); }
     inline TTKLogger &operator<<(ushort t) { return debugData<ushort>(t); }
     inline TTKLogger &operator<<(signed int t) { return debugData<int>(t); }
     inline TTKLogger &operator<<(uint t) { return debugData<uint>(t); }
@@ -106,12 +105,15 @@ public:
     inline TTKLogger &operator<<(float t) { return debugData<float>(t); }
     inline TTKLogger &operator<<(double t) { return debugData<double>(t); }
     inline TTKLogger &operator<<(const char *t) { return debugData<const char*>(t); }
+    inline TTKLogger &operator<<(const QStringRef &t) { return debugData<QString>(t.toString()); }
+    inline TTKLogger &operator<<(const QLatin1String &t) { return debugData<QLatin1String>(t); }
+    inline TTKLogger &operator<<(const QByteArray &t) { return debugData<QString>(QString(t)); }
     inline TTKLogger &operator<<(const QString &t)
     {
 #ifdef TTK_DEBUG
         if(t == LOG_END)
         {
-            m_stream << QString("[%1 %2]:  %3").arg(CURRENTDATE).arg(CURRENTTIME).arg(m_streamString) << endl;
+            m_stream << QString("[%1 %2]:  %3").arg(CURRENT_DATE).arg(CURRENT_TIME).arg(m_streamString) << endl;
             m_streamString.clear();
         }
         else
@@ -123,9 +125,6 @@ public:
 #endif
         return *this;
     }
-    inline TTKLogger &operator<<(const QStringRef &t) { return debugData<QString>(t.toString()); }
-    inline TTKLogger &operator<<(const QLatin1String &t) { return debugData<QLatin1String>(t); }
-    inline TTKLogger &operator<<(const QByteArray &t) { return debugData<QString>(QString(t)); }
 
 private:
     /*!
@@ -163,11 +162,11 @@ private:
         return *this;
     }
 
+    QFile m_file;
     QTextStream m_stream;
     QString m_streamString;
     QString m_levelType;
-    QFile m_file;
 
 };
 
-#endif // TTKLogger_H
+#endif // TTKLOGGER_H

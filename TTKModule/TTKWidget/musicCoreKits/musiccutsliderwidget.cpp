@@ -14,7 +14,7 @@ MusicMoveButton::MusicMoveButton(QWidget *parent)
     : QPushButton(parent)
 {
     setIcon(QIcon(":/toolSets/btn_arrow"));
-    setStyleSheet(MusicUIObject::MPushButtonStyle02);
+    setStyleSheet(MusicUIObject::MQSSPushButtonStyle02);
     setCursor(QCursor(Qt::PointingHandCursor));
 #ifdef Q_OS_UNIX
     setFocusPolicy(Qt::NoFocus);
@@ -43,7 +43,7 @@ void MusicMoveButton::mouseMoveEvent(QMouseEvent *event)
     int xpos = event->globalX() - m_pressAt.x();
     m_pressAt = event->globalPos();
     move( x() + xpos, y());
-    emit moveChanged();
+    Q_EMIT moveChanged();
 }
 
 void MusicMoveButton::mouseReleaseEvent(QMouseEvent *event)
@@ -51,7 +51,7 @@ void MusicMoveButton::mouseReleaseEvent(QMouseEvent *event)
 //    QWidget::mouseReleaseEvent(event);
     m_pressAt = event->globalPos();
     m_leftButtonPress = false;
-    emit buttonRelease();
+    Q_EMIT buttonRelease();
 }
 
 
@@ -140,11 +140,11 @@ void MusicCutSliderWidget::buttonMoveUpdate()
 
     if(leftX < rightX)
     {
-        emit posChanged(leftX, rightX);
+        Q_EMIT posChanged(leftX, rightX);
     }
     else
     {
-        emit posChanged(rightX, leftX);
+        Q_EMIT posChanged(rightX, leftX);
     }
     update();
 }
@@ -153,14 +153,14 @@ void MusicCutSliderWidget::buttonReleaseLeft()
 {
     int leftX = m_leftControl->geometry().x() + PAINT_BUTTON_WIDTH/2;
         leftX = leftX*m_duration/m_width;
-    emit buttonReleaseChanged(leftX);
+    Q_EMIT buttonReleaseChanged(leftX);
 }
 
 void MusicCutSliderWidget::buttonReleaseRight()
 {
     int rightX = m_rightControl->geometry().x() + PAINT_BUTTON_WIDTH/2;
         rightX = rightX*m_duration/m_width;
-    emit buttonReleaseChanged(rightX);
+    Q_EMIT buttonReleaseChanged(rightX);
 }
 
 void MusicCutSliderWidget::paintEvent(QPaintEvent *event)
@@ -175,7 +175,7 @@ void MusicCutSliderWidget::paintEvent(QPaintEvent *event)
     painter.setBrush(QBrush(QColor(150, 150, 150)));
     painter.drawRect(0, lineStartHeight, m_position, PAINT_SLIDER_HEIGHT);
 
-    painter.setBrush(QBrush(QColor(MusicUIObject::MColorStyle12_S)));
+    painter.setBrush(QBrush(QColor(MusicUIObject::MQSSColorStyle12_S)));
     const int leftX = m_leftControl->geometry().x();
     const int rightX = m_rightControl->geometry().x();
     painter.drawRect(leftX < rightX ? leftX + PAINT_BUTTON_WIDTH/2 : rightX + PAINT_BUTTON_WIDTH/2, lineStartHeight, abs(leftX -rightX), PAINT_SLIDER_HEIGHT);

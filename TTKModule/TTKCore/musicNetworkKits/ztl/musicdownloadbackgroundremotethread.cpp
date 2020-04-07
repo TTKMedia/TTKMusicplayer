@@ -1,6 +1,5 @@
 #include "musicdownloadbackgroundremotethread.h"
 #include "musicdownloadsourcethread.h"
-#include "musicotherdefine.h"
 #///QJson import
 #include "qjson/parser.h"
 
@@ -93,7 +92,7 @@ void MusicDownloadBackgroundThunderThread::downLoadDataFinished(const QByteArray
         manager.readSkinRemoteData(items);
     }
 
-    emit downLoadDataChanged(items);
+    Q_EMIT downLoadDataChanged(items);
 }
 
 
@@ -151,5 +150,5 @@ void MusicDownloadBackgroundBingThread::downLoadDataFinished(const QByteArray &b
         }
     }
 
-    emit downLoadDataChanged(items);
+    Q_EMIT downLoadDataChanged(items);
 }
