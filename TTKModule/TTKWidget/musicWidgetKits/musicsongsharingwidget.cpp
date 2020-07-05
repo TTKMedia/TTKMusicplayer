@@ -2,7 +2,7 @@
 #include "ui_musicsongsharingwidget.h"
 #include "musicdownloadquerythreadabstract.h"
 #include "musicdownloadqueryfactory.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicuiobject.h"
 #include "musicobject.h"
 #include "musicurlutils.h"
@@ -75,7 +75,7 @@ void MusicSongSharingWidget::setData(Type type, const QVariantMap &data)
             {
                 const QString &smallUrl = data["smallUrl"].toString();
                 MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
-                connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
+                connect(download, SIGNAL(downLoadRawDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
                 if(!smallUrl.isEmpty() && smallUrl != COVER_URL_NULL)
                 {
                     download->startToDownload(smallUrl);
@@ -134,7 +134,7 @@ void MusicSongSharingWidget::confirmButtonClicked()
                         break;
                     }
 
-                    downLoadDataChanged(server, info.m_smallPicUrl);
+                    downLoadFinished(server, info.m_smallPicUrl);
                 }
                 else
                 {
@@ -168,7 +168,7 @@ void MusicSongSharingWidget::confirmButtonClicked()
                     break;
                 }
 
-                downLoadDataChanged(server, QString());
+                downLoadFinished(server, QString());
                 break;
             }
         case Artist:
@@ -192,7 +192,7 @@ void MusicSongSharingWidget::confirmButtonClicked()
                     break;
                 }
 
-                downLoadDataChanged(server, m_data["smallUrl"].toString());
+                downLoadFinished(server, m_data["smallUrl"].toString());
                 break;
             }
         case Album:
@@ -216,7 +216,7 @@ void MusicSongSharingWidget::confirmButtonClicked()
                     break;
                 }
 
-                downLoadDataChanged(server, m_data["smallUrl"].toString());
+                downLoadFinished(server, m_data["smallUrl"].toString());
                 break;
             }
         case Playlist:
@@ -240,7 +240,7 @@ void MusicSongSharingWidget::confirmButtonClicked()
                     break;
                 }
 
-                downLoadDataChanged(server, m_data["smallUrl"].toString());
+                downLoadFinished(server, m_data["smallUrl"].toString());
                 break;
             }
         default: break;
@@ -249,12 +249,10 @@ void MusicSongSharingWidget::confirmButtonClicked()
 
 void MusicSongSharingWidget::queryUrlTimeout()
 {
-    MusicMessageBox message;
-    message.setText(tr("Song does not support sharing!"));
-    message.exec();
+    MusicToastLabel::popup(tr("Song does not support sharing!"));
 }
 
-void MusicSongSharingWidget::downLoadDataChanged(const QString &playUrl, const QString &imageUrl)
+void MusicSongSharingWidget::downLoadFinished(const QString &playUrl, const QString &imageUrl)
 {
     QString url;
     if(m_ui->qqButton->isChecked())

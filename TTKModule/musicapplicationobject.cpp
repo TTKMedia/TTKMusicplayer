@@ -4,13 +4,13 @@
 #include "musicspectrumwidget.h"
 #include "musictimerautoobject.h"
 #include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicequalizerdialog.h"
 #include "musicsettingmanager.h"
-#include "musicwindowsmanager.h"
+#include "musicplatformmanager.h"
 #include "musicsourceupdatewidget.h"
 #include "musicsoundeffectswidget.h"
 #include "musicmessageaboutdialog.h"
-#include "musicmessagefeedbackdialog.h"
 #include "musicapplication.h"
 #include "musictopareawidget.h"
 #include "musicwidgetutils.h"
@@ -25,11 +25,15 @@
 #include "musicscreensaverwidget.h"
 
 #include "qdevicewatcher.h"
-#include "qoss/qossconf.h"
+#include "qsync/qsyncconf.h"
+
+#ifdef Q_CC_GNU
+#   pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
 
 #define MARGIN_SIDE     5
 #define MARGIN_SIDE_BY  1
-#define OSS_HOST_URL    "VDVnYUdYMW9xNnVWSnd6L0J6NHI2MFZ5d0R3R2NiRVF4VW5WckpNcUhnUT0="
+#define SYNC_HOST_URL    "VDVnYUdYMW9xNnVWSnd6L0J6NHI2MFZ5d0R3R2NiRVF4VW5WckpNcUhnUT0="
 
 MusicApplicationObject *MusicApplicationObject::m_instance = nullptr;
 
@@ -94,10 +98,10 @@ void MusicApplicationObject::loadNetWorkSetting()
 {
 #ifndef QT_NO_SSL
     // ssl support check
-    TTK_LOGGER_INFO(QString("App Support ssl: %1").arg(QSslSocket::supportsSsl() ? "true" : "false"));
+    TTK_LOGGER_INFO(QString("Application network support ssl: %1").arg(QSslSocket::supportsSsl() ? "true" : "false"));
 #endif
-    // oss host init
-    QOSSConf::OSS_HOST = MusicUtils::Algorithm::mdII(OSS_HOST_URL, false);
+    // sync host init
+    QSyncConf::HOST = MusicUtils::Algorithm::mdII(SYNC_HOST_URL, false);
     //
     m_sourceUpdatehread->startToDownload();
     m_counterPVThread->startToDownload();
@@ -108,8 +112,8 @@ void MusicApplicationObject::applySettingParameter()
 #ifdef Q_OS_WIN
     if(M_SETTING_PTR->value(MusicSettingManager::FileAssociation).toInt())
     {
-        MusicWindowsManager windows;
-        windows.setMusicRegeditAssociateFileIcon();
+        MusicPlatformManager platform;
+        platform.setMusicRegeditAssociateFileIcon();
     }
 #endif
     if(!m_screenSaverWidget)
@@ -260,7 +264,7 @@ void MusicApplicationObject::windowCloseAnimationFinished()
         m_quitContainer->resize(gifWidget->size());
 
         const QPoint &center = w->geometry().center();
-        m_quitContainer->move(QPoint(center.x() - m_quitContainer->width()/2, center.y() - m_quitContainer->height()/2));
+        m_quitContainer->move(QPoint(center.x() - m_quitContainer->width() / 2, center.y() - m_quitContainer->height() / 2));
 
         m_quitContainer->raise();
         m_quitContainer->show();
@@ -277,11 +281,6 @@ void MusicApplicationObject::musicAboutUs()
 void MusicApplicationObject::musicBugReportView()
 {
     MusicUtils::Url::openUrl(MusicUtils::Algorithm::mdII(REPORT_URL, false), false);
-}
-
-void MusicApplicationObject::musicMessageFeedback()
-{
-    MusicMessageFeedbackDialog().exec();
 }
 
 void MusicApplicationObject::musicVersionUpdate()
@@ -326,20 +325,18 @@ void MusicApplicationObject::musicResetWindow()
     {
         w->showNormal();
     }
-    w->setGeometry((rect.width() - WINDOW_WIDTH_MIN)/2, (rect.height() - WINDOW_HEIGHT_MIN)/2, WINDOW_WIDTH_MIN, WINDOW_HEIGHT_MIN);
+    w->setGeometry((rect.width() - WINDOW_WIDTH_MIN) / 2, (rect.height() - WINDOW_HEIGHT_MIN) / 2, WINDOW_WIDTH_MIN, WINDOW_HEIGHT_MIN);
 }
 
 void MusicApplicationObject::musicToolSetsParameter()
 {
     m_musicTimerAutoObject->runTimerAutoConfig();
 #ifdef Q_OS_WIN
-    MusicWindowsManager windows;
-    const int version = windows.getLocalIEVersion();
+    MusicPlatformManager platform;
+    const int version = platform.getLocalIEVersion();
     if(version == -1 || version < 8)
     {
-        MusicMessageBox message;
-        message.setText(version == -1 ? QObject::tr("No IE Core Detected!") : QObject::tr("IE Version Less Than 8!"));
-        message.exec();
+        MusicToastLabel::popup(version == -1 ? QObject::tr("No IE Core Detected!") : QObject::tr("IE Version Less Than 8!"));
     }
 #endif
 }
@@ -452,14 +449,7 @@ bool MusicApplicationObject::closeCurrentEqualizer()
 
 void MusicApplicationObject::cleanUp()
 {
-    QFile::remove(TEMPPATH);
-    QFile::remove(MUSIC_COLOR_FILE);
-    QFile::remove(MUSIC_IMAGE_FILE);
-    QFile::remove(MUSIC_RECORD_FILE);
-    QFile::remove(MUSIC_RECORD_IN_FILE);
-    QFile::remove(MUSIC_RECORD_OUT_FILE);
-    QFile::remove(MUSIC_NETWORK_TEST_FILE);
-
     ///remove daily pic theme
     MusicUtils::File::removeRecursively(TTK_STRCAT(CACHE_DIR_FULL, MUSIC_DAILY_DIR));
+    ///other remove in ttkdumper
 }

@@ -1,18 +1,14 @@
 #include "musictoolsetswidget.h"
 #include "ui_musictoolsetswidget.h"
-#include "musicaudiorecorderwidget.h"
 #include "musictimerwidget.h"
 #include "musiclocalsongsmanagerwidget.h"
 #include "musictransformwidget.h"
-#include "musicdesktopwallpaperwidget.h"
 #include "musicnetworkconnectiontestwidget.h"
-#include "musicvolumegainwidget.h"
+#include "musicreplaygainwidget.h"
 #include "musicsongdlnatransferwidget.h"
 #include "musicsongringtonemakerwidget.h"
-#include "musicmessagebox.h"
 #include "musicapplication.h"
 #include "musicrightareawidget.h"
-#include "musicmessagebox.h"
 #include "musicspectrumwidget.h"
 #include "musicsinglemanager.h"
 
@@ -70,12 +66,10 @@ void MusicToolSetsWidget::addListWidgetItem()
 
     ToolItems pairs;
     pairs << ToolItem(":/tools/lb_localmanager", tr("localmanager"))
-          << ToolItem(":/tools/lb_recorder", tr("recorder"))
           << ToolItem(":/tools/lb_bell", tr("bell"))
           << ToolItem(":/tools/lb_timer", tr("timer"))
           << ToolItem(":/tools/lb_transform", tr("transform"))
           << ToolItem(":/tools/lb_spectrum", tr("spectrum"))
-          << ToolItem(":/tools/lb_wallpaper", tr("wallpaper"))
           << ToolItem(":/tools/lb_connections" ,tr("connections"))
           << ToolItem(":/tools/lb_gain", tr("gain"))
           << ToolItem(":/tools/lb_dlna", tr("dlna"))
@@ -108,15 +102,10 @@ void MusicToolSetsWidget::itemHasClicked(QListWidgetItem *item)
             }
         case 1:
             {
-                M_SINGLE_MANAGER_WIDGET_CLASS(MusicAudioRecorderWidget);
-                break;
-            }
-        case 2:
-            {
                 MusicSongRingtoneMaker(this).exec();
                 break;
             }
-        case 3:
+        case 2:
             {
                 MusicTimerWidget timer(this);
                 QStringList songlist;
@@ -125,48 +114,37 @@ void MusicToolSetsWidget::itemHasClicked(QListWidgetItem *item)
                 timer.exec();
                 break;
             }
-        case 4:
+        case 3:
             {
                 MusicTransformWidget(this).exec();
                 break;
             }
-        case 5:
+        case 4:
             {
                 M_SINGLE_MANAGER_WIDGET_CLASS(MusicSpectrumWidget);
                 break;
             }
-        case 6:
-            {
-#ifdef Q_OS_WIN
-                M_SINGLE_MANAGER_WIDGET_CLASS(MusicDesktopWallpaperWidget);
-#else
-                MusicMessageBox message;
-                message.setText(tr("Not Supported On Current Plantform!"));
-                message.exec();
-#endif
-                break;
-            }
-        case 7:
+        case 5:
             {
                 M_SINGLE_MANAGER_WIDGET_CLASS(MusicNetworkConnectionTestWidget);
                 break;
             }
-        case 8:
+        case 6:
             {
-                M_SINGLE_MANAGER_WIDGET_CLASS(MusicVolumeGainWidget);
+                M_SINGLE_MANAGER_WIDGET_CLASS(MusicReplayGainWidget);
                 break;
             }
-        case 9:
+        case 7:
             {
                 M_SINGLE_MANAGER_WIDGET_CLASS(MusicSongDlnaTransferWidget);
                 break;
             }
-        case 10:
+        case 8:
             {
                 MusicRightAreaWidget::instance()->musicFunctionClicked(MusicRightAreaWidget::IndentifyWidget);
                 break;
             }
-        case 11:
+        case 9:
             {
                 MusicRightAreaWidget::instance()->musicFunctionClicked(MusicRightAreaWidget::ScreenSaverWidget);
                 break;

@@ -7,7 +7,7 @@
 MusicTransitionAnimationLabel::MusicTransitionAnimationLabel(QWidget *parent)
     : QLabel(parent)
 {
-    MusicTime::InitSRand();
+    MusicTime::initRandom();
     m_type = FadeEffect;
     m_isAnimating = false;
     m_currentValue = 0;
@@ -42,19 +42,18 @@ void MusicTransitionAnimationLabel::stop()
 
 void MusicTransitionAnimationLabel::setPixmap(const QPixmap &pix)
 {
-//    if(m_isAnimating)
-//    {
-//        return;
-//    }
-
+#if TTK_QT_VERSION_CHECK(5,15,0)
+    if(m_noAnimationSet || pixmap(Qt::ReturnByValue).isNull())
+#else
     if(m_noAnimationSet || !pixmap())
+#endif
     {
         m_rendererPixmap = pix;
         QLabel::setPixmap(pix);
         return;
     }
 
-    m_type = TTKStatic_cast(AnimationType, qrand() % 5);
+    m_type = TTKStatic_cast(AnimationType, MusicTime::random(5));
     switch(m_type)
     {
         case FadeEffect: m_animation->setDuration(200); break;
@@ -65,7 +64,11 @@ void MusicTransitionAnimationLabel::setPixmap(const QPixmap &pix)
         default: break;
     }
 
+#if TTK_QT_VERSION_CHECK(5,15,0)
+    m_previousPixmap = pixmap(Qt::ReturnByValue);
+#else
     m_previousPixmap = *pixmap();
+#endif
     m_currentPixmap = pix;
     m_isAnimating = true;
     m_animation->start();

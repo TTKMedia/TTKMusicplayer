@@ -127,11 +127,11 @@ void MusicCommentsItem::createSearchedItem(const MusicResultsItem &comments)
     m_userCommit->setText(comments.m_description);
 
     MusicDownloadSourceThread *thread = new MusicDownloadSourceThread(this);
-    connect(thread, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(iconDataDownloadFinished(QByteArray)));
+    connect(thread, SIGNAL(downLoadRawDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
     thread->startToDownload(comments.m_coverUrl);
 }
 
-void MusicCommentsItem::iconDataDownloadFinished(const QByteArray &data)
+void MusicCommentsItem::downLoadFinished(const QByteArray &data)
 {
     QPixmap pix;
     pix.loadFromData(data);
@@ -378,7 +378,7 @@ void MusicCommentsWidget::deleteCommentsItems()
 void MusicCommentsWidget::createPagingWidget()
 {
     m_pagingWidgetObject = new MusicPagingWidgetObject(this);
-    connect(m_pagingWidgetObject, SIGNAL(mapped(int)), SLOT(buttonClicked(int)));
+    connect(m_pagingWidgetObject, SIGNAL(clicked(int)), SLOT(buttonClicked(int)));
 
     const int total = ceil(m_commentsThread->getPageTotal()*1.0/m_commentsThread->getPageSize());
     QWidget *w = m_pagingWidgetObject->createPagingWidget(m_messageComments, total);

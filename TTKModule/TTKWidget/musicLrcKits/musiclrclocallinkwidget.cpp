@@ -1,7 +1,7 @@
 #include "musiclrclocallinkwidget.h"
 #include "ui_musiclrclocallinkwidget.h"
 #include "musicconnectionpool.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicuiobject.h"
 #include "musicfileutils.h"
 #include "musicdownloadstatusobject.h"
@@ -38,13 +38,13 @@ void MusicLrcLocalLinkTableWidget::createAllItems(const MusicLocalDataItems &ite
     for(int i=0; i<items.count(); ++i)
     {
         QTableWidgetItem *item = new QTableWidgetItem;
-        item->setToolTip( items[i].m_name );
+        item->setToolTip(items[i].m_name);
         item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(0) - 20));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(count + i, 0, item);
 
                           item = new QTableWidgetItem;
-        item->setToolTip( items[i].m_path );
+        item->setToolTip(items[i].m_path);
         item->setText(MusicUtils::Widget::elidedText(font(), item->toolTip(), Qt::ElideRight, headerview->sectionSize(1) - 20));
         item->setTextAlignment(Qt::AlignLeft | Qt::AlignVCenter);
         setItem(count + i, 1, item);
@@ -163,9 +163,7 @@ void MusicLrcLocalLinkWidget::deleteFoundLrc()
     const int row = m_ui->searchedTable->currentRow();
     if(row < 0)
     {
-        MusicMessageBox message;
-        message.setText(tr("please select one item"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -177,9 +175,7 @@ void MusicLrcLocalLinkWidget::confirmButtonClicked()
     const int row = m_ui->searchedTable->currentRow();
     if(row < 0)
     {
-        MusicMessageBox message;
-        message.setText(tr("please select one item"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 

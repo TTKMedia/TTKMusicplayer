@@ -4,7 +4,7 @@
 #include "musicsettingmanager.h"
 #include "musicdownloadrecordconfigmanager.h"
 #include "musicdatatagdownloadthread.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicdownloadqueryfactory.h"
 #include "musicstringutils.h"
 #include "musicwidgetheaders.h"
@@ -140,9 +140,9 @@ MusicDownloadWidget::MusicDownloadWidget(QWidget *parent)
     m_ui->loadingLabel->setType(MusicGifLabelWidget::Gif_Cicle_Blue);
 
     connect(m_ui->pathChangedButton, SIGNAL(clicked()), SLOT(downloadDirSelected()));
-    connect(m_downloadThread, SIGNAL(downLoadDataChanged(QString)), SLOT(queryAllFinished()));
     connect(m_ui->topTitleCloseButton, SIGNAL(clicked()), SLOT(close()));
     connect(m_ui->downloadButton, SIGNAL(clicked()), SLOT(startToDownload()));
+    connect(m_downloadThread, SIGNAL(downLoadDataChanged(QString)), SLOT(queryAllFinished()));
 }
 
 MusicDownloadWidget::~MusicDownloadWidget()
@@ -262,8 +262,7 @@ void MusicDownloadWidget::queryAllFinishedMusic()
     else
     {
         close();
-        MusicMessageBox message(tr("No Resource found!"));
-        message.exec();
+        MusicToastLabel::popup(tr("No Resource found!"));
     }
 }
 
@@ -314,8 +313,7 @@ void MusicDownloadWidget::queryAllFinishedMovie()
     else
     {
         close();
-        MusicMessageBox message(tr("No Resource found!"));
-        message.exec();
+        MusicToastLabel::popup(tr("No Resource found!"));
     }
 }
 
@@ -411,8 +409,7 @@ void MusicDownloadWidget::startToDownload()
     hide(); ///hide download widget
     if(m_ui->viewArea->getCurrentItemRole().isEmpty())
     {
-        MusicMessageBox message(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -469,14 +466,14 @@ void MusicDownloadWidget::startToDownloadMusic(const MusicObject::MusicSongInfor
                 return;
             }
 
-            down.readDownloadData( records );
+            down.readDownloadData(records);
             MusicSong record;
             record.setMusicName(musicSong);
             record.setMusicPath(QFileInfo(downloadName).absoluteFilePath());
             record.setMusicSizeStr(musicAttr.m_size);
             record.setMusicAddTimeStr("-1");
             records << record;
-            down.writeDownloadData( records );
+            down.writeDownloadData(records);
             //
             if(QFile::exists(downloadName))
             {

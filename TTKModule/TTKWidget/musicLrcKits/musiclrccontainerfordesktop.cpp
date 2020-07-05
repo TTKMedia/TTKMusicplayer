@@ -73,7 +73,7 @@ void MusicLrcContainerForDesktop::initCurrentLrc() const
     }
 }
 
-void MusicLrcContainerForDesktop::showPlayStatus(bool status) const
+void MusicLrcContainerForDesktop::setCurrentPlayStatus(bool status) const
 {
     m_toolPlayButton->setStyleSheet(status ? MusicUIObject::MQSSDeskTopPlay : MusicUIObject::MQSSDeskTopPause);
 }
@@ -88,8 +88,8 @@ void MusicLrcContainerForDesktop::updateCurrentLrc(const QString &first, const Q
     if(!m_singleLineType)
     {
         m_reverse = !m_reverse;
-        m_musicLrcContainer[ m_reverse]->reset();
-        m_musicLrcContainer[ m_reverse]->setText(second);
+        m_musicLrcContainer[m_reverse]->reset();
+        m_musicLrcContainer[m_reverse]->setText(second);
         m_musicLrcContainer[!m_reverse]->setText(first);
         m_musicLrcContainer[!m_reverse]->startLrcMask(time);
     }
@@ -455,7 +455,7 @@ void MusicLrcContainerHorizontalDesktop::initCurrentLrc() const
         const int width = m_musicLrcContainer[0]->x();
         if(m_singleLineType)
         {
-            m_musicLrcContainer[0]->setGeometry((m_widgetWidth - width)/2, 20, width, m_geometry.y());
+            m_musicLrcContainer[0]->setGeometry((m_widgetWidth - width) / 2, 20, width, m_geometry.y());
         }
         else
         {
@@ -471,7 +471,7 @@ void MusicLrcContainerHorizontalDesktop::setSingleLineTypeChanged()
     if(m_singleLineType)
     {
         const int width = m_musicLrcContainer[0]->x();
-        m_musicLrcContainer[0]->move((m_widgetWidth - width)/2, 20);
+        m_musicLrcContainer[0]->move((m_widgetWidth - width) / 2, 20);
     }
     else
     {
@@ -484,14 +484,14 @@ void MusicLrcContainerHorizontalDesktop::resizeLrcSizeArea()
     int width = m_musicLrcContainer[0]->x();
     if(m_singleLineType)
     {
-        m_musicLrcContainer[0]->setGeometry((m_widgetWidth - width)/2, 20, width, m_geometry.y());
+        m_musicLrcContainer[0]->setGeometry((m_widgetWidth - width) / 2, 20, width, m_geometry.y());
     }
     else
     {
         m_musicLrcContainer[0]->setGeometry(0, 20, width, m_geometry.y());
         width = m_musicLrcContainer[1]->x();
         int pos = m_geometry.x() - width;
-        if(pos < 0 )
+        if(pos < 0)
         {
             pos = 0;
         }
@@ -534,7 +534,7 @@ void MusicLrcContainerVerticalDesktop::initCurrentLrc() const
         const int height = m_musicLrcContainer[0]->x();
         if(m_singleLineType)
         {
-            m_musicLrcContainer[0]->setGeometry(20, (m_widgetWidth - height)/2, m_geometry.y(), height);
+            m_musicLrcContainer[0]->setGeometry(20, (m_widgetWidth - height) / 2, m_geometry.y(), height);
         }
         else
         {
@@ -550,7 +550,7 @@ void MusicLrcContainerVerticalDesktop::setSingleLineTypeChanged()
     if(m_singleLineType)
     {
         const int height = m_musicLrcContainer[0]->x();
-        m_musicLrcContainer[0]->move(20, (m_widgetWidth - height)/2);
+        m_musicLrcContainer[0]->move(20, (m_widgetWidth - height) / 2);
     }
     else
     {
@@ -563,7 +563,7 @@ void MusicLrcContainerVerticalDesktop::resizeLrcSizeArea()
     int height = m_musicLrcContainer[0]->x();
     if(m_singleLineType)
     {
-        m_musicLrcContainer[0]->setGeometry(20, (m_widgetWidth - height)/2, m_geometry.y(), height);
+        m_musicLrcContainer[0]->setGeometry(20, (m_widgetWidth - height) / 2, m_geometry.y(), height);
     }
     else
     {
@@ -571,7 +571,7 @@ void MusicLrcContainerVerticalDesktop::resizeLrcSizeArea()
 
         height = m_musicLrcContainer[1]->x();
         int pos = m_geometry.x() - height;
-        if(pos < 0 )
+        if(pos < 0)
         {
             pos = 0;
         }

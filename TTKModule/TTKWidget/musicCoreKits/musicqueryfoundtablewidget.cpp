@@ -2,7 +2,7 @@
 #include "musicdatadownloadthread.h"
 #include "musicdownloadwidget.h"
 #include "musicitemdelegate.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicsemaphoreloop.h"
 #include "musicconnectionpool.h"
 #include "musicsettingmanager.h"
@@ -76,15 +76,13 @@ void MusicQueryFoundTableWidget::downloadDataFrom(bool play)
     const TTKIntList &list = getSelectedItems();
     if(list.isEmpty())
     {
-        MusicMessageBox message;
-        message.setText(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
     for(int i=0; i<list.count(); ++i)
     {
-        if(downloadDataFrom(musicSongInfos[ list[i] ], play && (i == 0)))
+        if(downloadDataFrom(musicSongInfos[list[i]], play && (i == 0)))
         {
             continue;
         }
@@ -97,9 +95,7 @@ void MusicQueryFoundTableWidget::downloadBatchData(bool music)
     const TTKIntList &list = getSelectedItems();
     if(list.isEmpty())
     {
-        MusicMessageBox message;
-        message.setText(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -146,7 +142,7 @@ void MusicQueryFoundTableWidget::searchChanged(QAction *action)
     }
 
     const MusicObject::MusicSongInformation &info = musicSongInfos[row];
-    switch( action->data().toInt() )
+    switch(action->data().toInt())
     {
         case 0: addSearchMusicToPlaylist(row, true); break;
         case 1: addSearchMusicToPlaylist(row, false); break;
@@ -322,9 +318,7 @@ void MusicQueryFoundTableWidget::addSearchMusicToPlaylist(int row, bool play)
 {
     if(row < 0)
     {
-        MusicMessageBox message;
-        message.setText(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 

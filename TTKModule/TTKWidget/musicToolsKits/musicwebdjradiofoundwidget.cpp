@@ -58,7 +58,7 @@ void MusicWebDJRadioFoundItemWidget::setMusicResultsItem(const MusicResultsItem 
     m_creatorLabel->setText(MusicUtils::Widget::elidedText(m_creatorLabel->font(), m_creatorLabel->toolTip(), Qt::ElideRight, WIDTH_LABEL_SIZE));
 
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
-    connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
+    connect(download, SIGNAL(downLoadRawDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
     if(!item.m_coverUrl.isEmpty() && item.m_coverUrl != COVER_URL_NULL)
     {
         download->startToDownload(item.m_coverUrl);
@@ -193,7 +193,7 @@ void MusicWebDJRadioFoundWidget::createProgramItem(const MusicResultsItem &item)
         mainlayout->addWidget(containWidget);
 
         m_pagingWidgetObject = new MusicPagingWidgetObject(m_mainWindow);
-        connect(m_pagingWidgetObject, SIGNAL(mapped(int)), SLOT(buttonClicked(int)));
+        connect(m_pagingWidgetObject, SIGNAL(clicked(int)), SLOT(buttonClicked(int)));
 
         const int total = ceil(m_downloadThread->getPageTotal()*1.0/m_downloadThread->getPageSize());
         mainlayout->addWidget(m_pagingWidgetObject->createPagingWidget(m_mainWindow, total));

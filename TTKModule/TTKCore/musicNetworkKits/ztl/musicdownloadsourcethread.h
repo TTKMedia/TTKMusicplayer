@@ -18,6 +18,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program; If not, see <http://www.gnu.org/licenses/>.
  ================================================= */
+
 #include "musicnetworkabstract.h"
 
 /*! @brief The class of source data download thread.
@@ -39,16 +40,6 @@ public:
      * Start to download data.
      */
     void startToDownload(const QString &url);
-
-Q_SIGNALS:
-    /*!
-     * Send download byte data from net.
-     */
-    void downLoadByteDataChanged(const QByteArray &data);
-    /*!
-     * Send download ext data from net.
-     */
-    void downLoadExtDataChanged(const QByteArray &data, const QVariantMap &ext);
 
 public Q_SLOTS:
     /*!

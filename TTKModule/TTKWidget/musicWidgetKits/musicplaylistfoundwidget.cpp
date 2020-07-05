@@ -72,7 +72,7 @@ void MusicPlaylistFoundItemWidget::setMusicResultsItem(const MusicResultsItem &i
     {
         if(count >= 10000)
         {
-            m_topListenButton->setText(tr("%1Thous").arg(count/10000));
+            m_topListenButton->setText(tr("%1Thous").arg(count / 10000));
         }
         else
         {
@@ -85,7 +85,7 @@ void MusicPlaylistFoundItemWidget::setMusicResultsItem(const MusicResultsItem &i
     }
 
     MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
-    connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
+    connect(download, SIGNAL(downLoadRawDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
     if(!item.m_coverUrl.isEmpty() && item.m_coverUrl != COVER_URL_NULL)
     {
         download->startToDownload(item.m_coverUrl);
@@ -230,7 +230,7 @@ void MusicPlaylistFoundWidget::createPlaylistItem(const MusicResultsItem &item)
         mainlayout->addWidget(containWidget);
 
         m_pagingWidgetObject = new MusicPagingWidgetObject(m_mainWindow);
-        connect(m_pagingWidgetObject, SIGNAL(mapped(int)), SLOT(buttonClicked(int)));
+        connect(m_pagingWidgetObject, SIGNAL(clicked(int)), SLOT(buttonClicked(int)));
 
         const int total = ceil(m_downloadThread->getPageTotal()*1.0/m_downloadThread->getPageSize());
         mainlayout->addWidget(m_pagingWidgetObject->createPagingWidget(m_mainWindow, total));

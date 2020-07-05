@@ -1,7 +1,7 @@
 #include "musiclrcerrorwidget.h"
 #include "ui_musiclrcerrorwidget.h"
 #include "musicuiobject.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 
 #include <QButtonGroup>
 
@@ -61,7 +61,7 @@ void MusicLrcErrorWidget::buttonClicked(int index)
     if(index == 3)
     {
         m_ui->textEdit->setEnabled(true);
-        m_ui->textEdit->setText( QString() );
+        m_ui->textEdit->setText(QString());
     }
 }
 
@@ -90,9 +90,7 @@ void MusicLrcErrorWidget::textAreaChanged()
 
 void MusicLrcErrorWidget::confirmButtonClicked()
 {
-    MusicMessageBox message;
-    message.setText(tr("report error finished"));
-    message.exec();
+    MusicToastLabel::popup(tr("report error finished"));
 
     close();
 }

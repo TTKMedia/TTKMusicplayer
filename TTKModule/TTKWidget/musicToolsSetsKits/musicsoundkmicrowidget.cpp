@@ -13,10 +13,10 @@
 #include "musicuiobject.h"
 #include "musictoolsetsuiobject.h"
 #include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicaudiorecorderobject.h"
 #include "musiccodecutils.h"
 #include "musicfileutils.h"
-#include "musictime.h"
 #include "musicsinglemanager.h"
 
 #ifdef Q_CC_GNU
@@ -157,9 +157,7 @@ void MusicSoundKMicroWidget::playFinished()
     m_mediaPlayer->stop();
     if(m_ui->gifLabel->isRunning())
     {
-        MusicMessageBox message;
-        message.setText(tr("Record Finished"));
-        message.exec();
+        MusicToastLabel::popup(tr("Record Finished"));
 
         recordStateChanged(false);
 
@@ -248,7 +246,7 @@ void MusicSoundKMicroWidget::mediaUrlChanged(bool mv, const QString &url, const 
 
         //
         MusicDownloadSourceThread *download = new MusicDownloadSourceThread(this);
-        connect(download, SIGNAL(downLoadByteDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
+        connect(download, SIGNAL(downLoadRawDataChanged(QByteArray)), SLOT(downLoadFinished(QByteArray)));
         download->startToDownload(lrcUrl);
     }
 }
@@ -259,7 +257,7 @@ void MusicSoundKMicroWidget::downLoadFinished(const QByteArray &data)
 
     for(int i=0; i<m_analysis->getLineMax(); ++i)
     {
-        m_musicLrcContainer[i]->setText( QString() );
+        m_musicLrcContainer[i]->setText(QString());
     }
     setItemStyleSheet(0, -3, 90);
     setItemStyleSheet(1, -6, 35);
@@ -298,9 +296,7 @@ void MusicSoundKMicroWidget::recordButtonClicked()
         }
         else
         {
-            MusicMessageBox message;
-            message.setText(tr("Input Error"));
-            message.exec();
+            MusicToastLabel::popup(tr("Input Error"));
         }
     }
 }
@@ -320,13 +316,13 @@ void MusicSoundKMicroWidget::closeEvent(QCloseEvent *event)
 void MusicSoundKMicroWidget::paintEvent(QPaintEvent *event)
 {
     MusicAbstractMoveWidget::paintEvent(event);
-    m_searchWidget->move( geometry().topRight() + QPoint(5, -4) );
+    m_searchWidget->move(geometry().topRight() + QPoint(5, -4));
 }
 
 void MusicSoundKMicroWidget::mouseMoveEvent(QMouseEvent *event)
 {
     MusicAbstractMoveWidget::mouseMoveEvent(event);
-    m_searchWidget->move( geometry().topRight() + QPoint(5, -4) );
+    m_searchWidget->move(geometry().topRight() + QPoint(5, -4));
 }
 
 void MusicSoundKMicroWidget::multiMediaChanged()

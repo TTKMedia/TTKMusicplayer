@@ -67,8 +67,8 @@ void MusicPreviewLabel::setLinearGradient(const MusicPreviewLabelItem &item)
 {
     m_font.setFamily(item.m_family);
     m_font.setPointSize(item.m_size);
-    m_font.setBold( (item.m_type == 1 || item.m_type == 3) );
-    m_font.setItalic( (item.m_type == 2 || item.m_type == 3) );
+    m_font.setBold((item.m_type == 1 || item.m_type == 3));
+    m_font.setItalic((item.m_type == 2 || item.m_type == 3));
 
     setLinearGradient(item.m_frontground, item.m_background);
 }
@@ -97,7 +97,7 @@ void MusicPreviewLabel::paintEvent(QPaintEvent *)
     QPainter painter(this);
 
     const int h = MusicUtils::Widget::fontTextHeight(m_font);
-    const int begin = (rect().height() - h)/2;
+    const int begin = (rect().height() - h) / 2;
     m_linearGradient.setFinalStop(0, h + begin);
     m_maskLinearGradient.setFinalStop(0, h + begin);
 

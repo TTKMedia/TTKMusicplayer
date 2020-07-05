@@ -5,6 +5,7 @@
 #include <QPainter>
 #include <QToolTip>
 #include <QMouseEvent>
+#include <QPainterPath>
 #include <QButtonGroup>
 
 MusicHlPalette::MusicHlPalette(QWidget *parent)
@@ -209,7 +210,7 @@ void MusicHlSaturationPalette::mouseMoveEvent(QMouseEvent *event)
     }
     else
     {
-        const QPointF ptfCenter(m_dblVernierX, rect().bottom()/2.0);
+        const QPointF ptfCenter(m_dblVernierX, rect().bottom() / 2.0);
         QPainterPath path;
         path.addEllipse(ptfCenter, 7, 7);
         if(path.contains(event->pos()))

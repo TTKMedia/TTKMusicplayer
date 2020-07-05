@@ -2,7 +2,7 @@
 #include "ui_musiclrcsearchwidget.h"
 #include "musicuiobject.h"
 #include "musiclrcsearchtablewidget.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 
 MusicLrcSearchWidget::MusicLrcSearchWidget(QWidget *parent)
     : MusicAbstractMoveDialog(parent),
@@ -70,7 +70,7 @@ void MusicLrcSearchWidget::lrcSearchButtonClicked() const
 {
     m_ui->stateLabel->setText(tr("lrc is searching now!"));
     const QString &text = m_ui->songSearchEdit->text().trimmed();
-    m_ui->tableWidget->startSearchQuery( text );
+    m_ui->tableWidget->startSearchQuery(text);
     m_ui->functionTopLabel->setText(tr("&nbsp;find <font color=#158FE1> %1 </font> result").arg(MusicUtils::Widget::elidedText(font(), text, Qt::ElideRight, 245)));
 }
 
@@ -80,9 +80,7 @@ void MusicLrcSearchWidget::lrcSearchDownloadClicked()
     list.removeOne(m_ui->tableWidget->rowCount() - 1);
     if(list.isEmpty())
     {
-        MusicMessageBox message;
-        message.setText(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 

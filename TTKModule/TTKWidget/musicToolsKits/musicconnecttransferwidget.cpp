@@ -3,7 +3,7 @@
 #include "musicuiobject.h"
 #include "musicconnectionpool.h"
 #include "musicsettingmanager.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicdeviceinfoobject.h"
 #include "musicsongssummariziedwidget.h"
 #include "musicconnecttransferthread.h"
@@ -124,9 +124,7 @@ QStringList MusicConnectTransferWidget::getSelectedFiles()
     const TTKIntList list(m_ui->listTableWidget->getSelectedItems());
     if(list.isEmpty())
     {
-        MusicMessageBox message;
-        message.setText(tr("please select one item"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return paths;
     }
 
@@ -155,7 +153,7 @@ void MusicConnectTransferWidget::itemSelectedChanged()
 
     for(int i=0; i<list.count(); ++i)
     {
-        size += m_currentSongs[ list[i] ].getMusicSize();
+        size += m_currentSongs[list[i]].getMusicSize();
     }
 
     double dSize = (size * 100 / MH_MB2B) * 1.0 / 100;

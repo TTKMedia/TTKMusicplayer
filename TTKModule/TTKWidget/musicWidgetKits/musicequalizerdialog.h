@@ -28,9 +28,6 @@ namespace Ui {
 class MusicEqualizerDialog;
 }
 
-class QSlider;
-class QSignalMapper;
-
 /*! @brief The class of the equalizer widget.
  * @author Greedysky <greedysky@163.com>
  */
@@ -80,13 +77,9 @@ public Q_SLOTS:
 
 protected:
     /*!
-     * Init widget and parameters.
+     * Init parameters.
      */
     void initialize();
-    /*!
-     * Init and create slider.
-     */
-    void initSlider(QSlider *slider, int index);
     /*!
      * Enable or disable control state.
      */
@@ -112,7 +105,6 @@ protected:
     bool m_eable;
     bool m_eqChoiceSelected;
     TTKIntList m_equalizeValue;
-    QSignalMapper *m_signalMapper;
 
 };
 

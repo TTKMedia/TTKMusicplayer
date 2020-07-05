@@ -3,7 +3,7 @@
 #include "musiclocalsongsmanagerthread.h"
 #include "musiclocalsongstablewidget.h"
 #include "musicsongssummariziedwidget.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicconnectionpool.h"
 #include "musicsongtag.h"
 #include "musicsinglemanager.h"
@@ -147,11 +147,9 @@ void MusicLocalSongsManagerWidget::auditionButtonClick()
         itemsSelected();
         return;
     }
-    if(m_ui->songlistsTable->rowCount() <= 0 || m_ui->songlistsTable->currentRow() < 0 )
+    if(m_ui->songlistsTable->rowCount() <= 0 || m_ui->songlistsTable->currentRow() < 0)
     {
-        MusicMessageBox message;
-        message.setText(tr("please select one item"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -166,11 +164,9 @@ void MusicLocalSongsManagerWidget::addButtonClick()
         return;
     }
 
-    if(m_ui->songlistsTable->rowCount() <= 0 || m_ui->songlistsTable->currentRow() < 0 )
+    if(m_ui->songlistsTable->rowCount() <= 0 || m_ui->songlistsTable->currentRow() < 0)
     {
-        MusicMessageBox message;
-        message.setText(tr("please select one item"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -278,7 +274,7 @@ void MusicLocalSongsManagerWidget::setShowlistButton()
     loadingLabelState(true);
     m_ui->stackedWidget->setCurrentIndex(LOCAL_MANAGER_INDEX_0);
     controlEnabled(true);
-    addAllItems( m_fileNames = m_ui->songlistsTable->getFiles() );
+    addAllItems(m_fileNames = m_ui->songlistsTable->getFiles());
     loadingLabelState(false);
 }
 
@@ -448,9 +444,7 @@ bool MusicLocalSongsManagerWidget::filterIndexChanged()
 {
     if(m_ui->filterComboBox->currentIndex() < 0)
     {
-        MusicMessageBox message;
-        message.setText(tr("please select one dirver"));
-        message.exec();
+        MusicToastLabel::popup(tr("please select one dirver"));
         return false;
     }
 

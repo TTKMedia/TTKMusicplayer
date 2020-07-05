@@ -3,7 +3,7 @@
 #include "musicdownloadquerybdlearnthread.h"
 #include "musiclocalsongsearchedit.h"
 #include "musicgiflabelwidget.h"
-#include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicuiobject.h"
 #include "musicitemdelegate.h"
 #include "musicdownloadwidget.h"
@@ -47,14 +47,14 @@ void MusicSoundKMicroSearchTableWidget::startSearchQuery(const QString &text)
         MusicDownLoadQueryKWMovieThread *d = new MusicDownLoadQueryKWMovieThread(this);
         d->setQueryExtraMovie(false);
         connect(d, SIGNAL(downLoadDataChanged(QString)), SLOT(createFinishedItem()));
-        setQueryInput( d );
+        setQueryInput(d);
         m_downLoadManager->startToSearch(MusicDownLoadQueryThreadAbstract::MovieQuery, text);
     }
     else
     {
         MusicDownLoadQueryBDLearnThread *d = new MusicDownLoadQueryBDLearnThread(this);
         connect(d, SIGNAL(downLoadDataChanged(QString)), SLOT(createFinishedItem()));
-        setQueryInput( d );
+        setQueryInput(d);
         m_downLoadManager->startToSearch(MusicDownLoadQueryThreadAbstract::MusicQuery, text);
     }
 }
@@ -63,9 +63,7 @@ void MusicSoundKMicroSearchTableWidget::musicDownloadLocal(int row)
 {
     if(row < 0 || (row >= rowCount() - 1))
     {
-        MusicMessageBox message;
-        message.setText(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -167,9 +165,7 @@ void MusicSoundKMicroSearchTableWidget::dataDownloadPlay(int row)
 {
     if(row < 0 || (row >= rowCount() - 1))
     {
-        MusicMessageBox message;
-        message.setText(tr("Please Select One Item First!"));
-        message.exec();
+        MusicToastLabel::popup(tr("Please Select One Item First!"));
         return;
     }
 
@@ -287,7 +283,5 @@ void MusicSoundKMicroSearchWidget::setQueryMovieFlag(int flag)
 void MusicSoundKMicroSearchWidget::setCurrentSongName(const QString &name)
 {
     Q_UNUSED(name);
-    MusicMessageBox message;
-    message.setText(tr("Search Not Supported!"));
-    message.exec();
+    MusicToastLabel::popup(tr("Search Not Supported!"));
 }

@@ -3,16 +3,14 @@
 #include "musicsourceupdatethread.h"
 #include "musicdatadownloadthread.h"
 #include "musicmessagebox.h"
+#include "musictoastlabel.h"
 #include "musicuiobject.h"
 #include "musiccoreutils.h"
 #include "musicurlutils.h"
-#include "musictime.h"
 #include "musicsettingmanager.h"
 #include "musicsourceupdatewidget.h"
-#///QJson import
-#include "qjson/parser.h"
-#///Oss import
-#include "qoss/qossconf.h"
+
+#include "qsync/qsyncutils.h"
 
 #include <QBoxLayout>
 
@@ -137,16 +135,14 @@ void MusicSourceUpdateWidget::upgradeButtonClicked()
 #ifdef Q_OS_WIN
     m_ui->stackedWidget->setCurrentIndex(SOURCE_UPDATE_INDEX_1);
     const QString &localDwonload = "v" + m_newVersionStr + EXE_FILE;
-    MusicDataDownloadThread *download = new MusicDataDownloadThread(QString("%1%2").arg(QOSSConf::generateDataBucketUrl()).arg(localDwonload),
+    MusicDataDownloadThread *download = new MusicDataDownloadThread(QString("%1%2").arg(QSyncUtils::generateDataBucketUrl()).arg(localDwonload),
                                                                     UPDATE_DIR_FULL + localDwonload, MusicObject::DownloadOther, this);
     connect(download, SIGNAL(downloadProgressChanged(float,QString,qint64)), SLOT(downloadProgressChanged(float,QString)));
     connect(download, SIGNAL(downLoadDataChanged(QString)), SLOT(downloadProgressFinished()));
     connect(download, SIGNAL(downloadSpeedLabelChanged(QString,qint64)), SLOT(downloadSpeedLabelChanged(QString,qint64)));
     download->startToDownload();
 #else
-    MusicMessageBox message(this);
-    message.setText(tr("Current Platform Not Supported!"));
-    message.exec();
+    MusicToastLabel::popup(tr("Current Platform Not Supported!"));
 #endif
 }
 
@@ -174,7 +170,7 @@ void MusicSourceUpdateWidget::downLoadFinished(const QVariant &data)
         text.append(tr("Current version is updated!"));
         m_ui->titleLable_F->setAlignment(Qt::AlignCenter);
     }
-    m_ui->titleLable_F->setText( text );
+    m_ui->titleLable_F->setText(text);
 }
 
 void MusicSourceUpdateWidget::downloadSpeedLabelChanged(const QString &speed, qint64 timeLeft)
